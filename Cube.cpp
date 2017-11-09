@@ -1,6 +1,6 @@
 #include "Cube.h"
 
-const GLfloat Cube::kSize = 0.5f;
+const GLfloat Cube::kSize = 0.2f;
 
 const GLfloat Cube::kVertices[] = {
 	-1.0f, -1.0f, -1.0f, // Back face

@@ -14,6 +14,8 @@ public:
 
 	void move(const glm::vec3& movement);
 
+	glm::vec3 getCurrentIndex() const;
+
 private:
 	const Model& mModel;
 

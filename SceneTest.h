@@ -24,10 +24,33 @@ private:
 	Model mModel;
 
 	Texture mTexButtonPlus;
-	Button* mButtonPlus;
-
 	Texture mTexButtonMinus;
-	Button* mButtonMinus;
+	Texture mTexButtonLeft;
+	Texture mTexButtonRight;
+	Texture mTexButtonUp;
+	Texture mTexButtonDown;
+	Texture mTexButtonRotateClockwise;
+	Texture mTexButtonRotateCounterclockwise;
+	Texture mTexButtonUpZ;
+	Texture mTexButtonDownZ;
+
+	Button* mButtonLeft;
+	Button* mButtonRight;
+	Button* mButtonUp;
+	Button* mButtonDown;
+	Button* mButtonRotateClockwise;
+	Button* mButtonRotateCounterclockwise;
+	Button* mButtonUpZ;
+	Button* mButtonDownZ;
+
+	Button* mButtonAlphaPlus;
+	Button* mButtonAlphaMinus;
+	Button* mButtonRedPlus;
+	Button* mButtonRedMinus;
+	Button* mButtonGreenPlus;
+	Button* mButtonGreenMinus;
+	Button* mButtonBluePlus;
+	Button* mButtonBlueMinus;
 
 	Cursor mCursor;
 };

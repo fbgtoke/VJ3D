@@ -28,5 +28,12 @@ void Cursor::move(const glm::vec3& movement) {
 	glm::vec3 dimensions = mModel.getDimensions();
 	mCurrentIndex = glm::mod(mCurrentIndex + dimensions + movement, dimensions);
 
-	setPosition(mCurrentIndex * Cube::getSize());
+	glm::vec3 position;
+	position.x = mCurrentIndex.x * Cube::getSize();
+	position.y = mCurrentIndex.y * Cube::getSize() * (-1.0f);
+	position.z = mCurrentIndex.z * Cube::getSize() * (-1.0f);
+
+	setPosition(position);
 }
+
+glm::vec3 Cursor::getCurrentIndex() const { return mCurrentIndex; }

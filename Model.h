@@ -27,7 +27,9 @@ public:
 	glm::vec3 getPosition() const;
 
 	void setCubePosition(const glm::ivec3& index, const glm::vec3& position);
+
 	void setCubeColor(const glm::ivec3& index, const glm::vec4& color);
+	void setCubeColor(int index, const glm::vec4& color);
 
 	glm::vec4 getCubeColor(const glm::ivec3& index) const;
 
@@ -40,9 +42,13 @@ private:
 	glm::vec3 mPosition;
 	glm::vec3 mRotation;
 
-	unsigned int mWidth, mHeight, mDepth;
-	std::vector<std::vector<std::vector<Cube>>> mCubes;
+	static const int kCubesPerTile;
+	glm::ivec3 mDimensions;
+	std::vector<Cube> mCubes;
 	void moveCubesToRelativePosition();
+
+	int getIndex(int x, int y, int z) const;
+	int getIndex(const glm::ivec3& i) const;
 };
 
 #endif // _MODEL_INCLUDE

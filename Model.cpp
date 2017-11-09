@@ -1,6 +1,8 @@
 #include "Model.h"
 #include "Game.h"
 
+const int Model::kCubesPerTile = 1;
+
 Model::Model(ShaderProgram& program)
 	: mShaderProgram(program) {}
 	
@@ -15,64 +17,32 @@ void Model::init() {
 	setDimensions(glm::ivec3(3, 2, 1));
 }
 
-void Model::update(int deltaTime) {
-	if (Game::instance().getSpecialKeyPressed(GLUT_KEY_UP))
-		move(glm::vec3(0.0f, 1.0f, 0.0f));
-	if (Game::instance().getSpecialKeyPressed(GLUT_KEY_DOWN))
-		move(glm::vec3(0.0f, -1.0f, 0.0f));
-	if (Game::instance().getSpecialKeyPressed(GLUT_KEY_LEFT))
-		move(glm::vec3(-1.0f, 0.0f, 0.0f));
-	if (Game::instance().getSpecialKeyPressed(GLUT_KEY_RIGHT))
-		move(glm::vec3(1.0f, 0.0f, 0.0f));
-
-	if (Game::instance().getKeyPressed('w'))
-		mRotation.x += M_PI / 4.0f;
-	if (Game::instance().getKeyPressed('s'))
-		mRotation.x -= M_PI / 4.0f;
-	if (Game::instance().getKeyPressed('a'))
-		mRotation.y += M_PI / 4.0f;
-	if (Game::instance().getKeyPressed('d'))
-		mRotation.y -= M_PI / 4.0f;
-}
+void Model::update(int deltaTime) {}
 
 void Model::render() {
 	glm::mat4 modelMatrix = getTransform();
 
-	for (int y = 0; y < mHeight; ++y)
-		for (int x = 0; x < mWidth; ++x)
-			for (int z = 0; z < mDepth; ++z)
-				if (mCubes[y][x][z].getColor().w != 0.0f)
-					mCubes[y][x][z].render(modelMatrix);
+	for (int i = 0; i < mDimensions.x * mDimensions.y * mDimensions.z; ++i)
+		if (mCubes[i].getColor().w != 0.0f)
+			mCubes[i].render(modelMatrix);
 }
 
 void Model::setDimensions(const glm::ivec3& dimensions) {
-	mWidth  = dimensions.x;
-	mHeight = dimensions.y;
-	mDepth  = dimensions.z;
+	mDimensions = dimensions * kCubesPerTile;
 
-	mCubes = std::vector<std::vector<std::vector<Cube>>>(
-		mHeight, std::vector<std::vector<Cube>> (
-			mWidth, std::vector<Cube> (
-				mDepth, Cube(mShaderProgram)
-			)
-		)
-	);
-
-	for (int y = 0; y < mHeight; ++y)
-		for (int x = 0; x < mWidth; ++x)
-			for (int z = 0; z < mDepth; ++z)
-				mCubes[y][x][z].init();
+	mCubes = std::vector<Cube> (mDimensions.x * mDimensions.y * mDimensions.z, Cube(mShaderProgram));
+	for (int i = 0; i < mDimensions.x * mDimensions.y * mDimensions.z; ++i) mCubes[i].init();
 
 	moveCubesToRelativePosition();
 }
 
-glm::ivec3 Model::getDimensions() const { return glm::ivec3(mWidth, mHeight, mDepth); }
+glm::ivec3 Model::getDimensions() const { return mDimensions; }
 
 glm::mat4 Model::getTransform() const {
 	glm::vec3 modelOffset = glm::vec3(
-		(mWidth - 1)  * Cube::getSize() * -0.5f,
-		(mHeight - 1) * Cube::getSize() *  0.5f,
-		(mDepth - 1)  * Cube::getSize() *  0.5f
+		(mDimensions.x - 1)  * Cube::getSize() * -0.5f,
+		(mDimensions.y - 1) * Cube::getSize() *  0.5f,
+		(mDimensions.z - 1)  * Cube::getSize() *  0.5f
 	);
 
 	glm::mat4 modelMatrix;
@@ -97,15 +67,19 @@ void Model::rotateZ(float angle) { mRotation.z += angle; }
 glm::vec3 Model::getPosition() const { return mPosition; }
 
 void Model::setCubePosition(const glm::ivec3& index, const glm::vec3& position) {
-	mCubes[index.y][index.x][index.z].setPosition(position);
+	mCubes[getIndex(index)].setPosition(position);
 }
 
 void Model::setCubeColor(const glm::ivec3& index, const glm::vec4& color) {
-	mCubes[index.y][index.x][index.z].setColor(color);
+	setCubeColor(getIndex(index), color);
+}
+
+void Model::setCubeColor(int index, const glm::vec4& color) {
+	mCubes[index].setColor(color);
 }
 
 glm::vec4 Model::getCubeColor(const glm::ivec3& index) const {
-	return mCubes[index.y][index.x][index.z].getColor();
+	return mCubes[getIndex(index)].getColor();
 }
 
 void Model::loadFromFile(const std::string& filename) {
@@ -118,13 +92,9 @@ void Model::loadFromFile(const std::string& filename) {
 		stream >> index.x >> index.y >> index.z;
 		setDimensions(index);
 
-		for (int z = 0; z < mDepth; ++z) {
-			for (int y = 0; y < mHeight; ++y) {
-				for (int x = 0; x < mWidth; ++x) {
-					stream >> color.x >> color.y >> color.z >> color.w;
-					setCubeColor(glm::ivec3(x, y, z), color);
-				}
-			}
+		for (int i = 0; i < mDimensions.x * mDimensions.y * mDimensions.z; ++i) {
+			stream >> color.x >> color.y >> color.z >> color.w;
+			setCubeColor(i, color);
 		}
 
 		stream.close();
@@ -140,11 +110,11 @@ void Model::saveToFile(const std::string& filename) {
 	std::ofstream stream;
 	stream.open(filename);
 	if (stream.is_open()) {
-		stream << mWidth << " " << mHeight << " " << mDepth << std::endl;
+		stream << mDimensions.x << " " << mDimensions.y << " " << mDimensions.z << std::endl;
 
-		for (int z = 0; z < mDepth; ++z) {
-			for (int y = 0; y < mHeight; ++y) {
-				for (int x = 0; x < mWidth; ++x) {
+		for (int z = 0; z < mDimensions.z; ++z) {
+			for (int y = 0; y < mDimensions.y; ++y) {
+				for (int x = 0; x < mDimensions.x; ++x) {
 					index = glm::ivec3(x, y, z);
 					color = getCubeColor(index);
 					stream
@@ -165,9 +135,9 @@ void Model::saveToFile(const std::string& filename) {
 void Model::moveCubesToRelativePosition() {
 	glm::vec3 position;
 
-	for (int y = 0; y < mHeight; ++y) {
-		for (int x = 0; x < mWidth; ++x) {
-			for (int z = 0; z < mDepth; ++z) {
+	for (int y = 0; y < mDimensions.y; ++y) {
+		for (int x = 0; x < mDimensions.x; ++x) {
+			for (int z = 0; z < mDimensions.z; ++z) {
 				position.x = x * Cube::getSize();
 				position.y = y * Cube::getSize() * (-1.0f);
 				position.z = z * Cube::getSize() * (-1.0f);
@@ -177,3 +147,12 @@ void Model::moveCubesToRelativePosition() {
 		}
 	}
 }
+
+int Model::getIndex(int x, int y, int z) const {
+	return
+		y * mDimensions.x * mDimensions.z +
+		x * mDimensions.z +
+		z;
+}
+
+int Model::getIndex(const glm::ivec3& i) const { return getIndex(i.x, i.y, i.z); }
