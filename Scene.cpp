@@ -1,5 +1,6 @@
 #include "Scene.h"
-#include "SceneTest.h"
+#include "SceneMenu.h"
+#include "SceneEditor.h"
 
 #include "Game.h"
 
@@ -9,8 +10,10 @@ Scene::~Scene() {}
 
 Scene* Scene::create(SceneType type) {
 	switch(type) {
-	case SCENE_TEST:
-		return new SceneTest();
+	case SCENE_MENU:
+		return new SceneMenu();
+	case SCENE_EDITOR:
+		return new SceneEditor();
 	default:
 		return nullptr;
 	}

@@ -7,7 +7,7 @@ void Game::init() {
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 
-	scene = Scene::create(Scene::SCENE_TEST);
+	scene = Scene::create(Scene::SCENE_MENU);
 	scene->init();
 
 	bufferedScene = nullptr;

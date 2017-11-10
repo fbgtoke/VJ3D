@@ -37,6 +37,7 @@ Model::~Model() {
 void Model::init() {
 	mPosition = glm::vec3(0.0f, 0.0f, 0.0f);
 	mRotation = glm::vec3(0.0f, 0.0f, 0.0f);
+	mScale = 1.0f;
 
 	initShaders();
 }
@@ -50,8 +51,17 @@ void Model::render() {
 				renderCube(x, y, z);
 }
 
+void Model::setTiles(const glm::ivec3& tiles) {
+	mTiles = tiles;
+	setDimensions(mTiles * kCubesPerTile);
+}
+
+glm::ivec3 Model::getTiles() const {
+	return mTiles;
+}
+
 void Model::setDimensions(const glm::ivec3& dimensions) {
-	mDimensions = dimensions * kCubesPerTile;
+	mDimensions = dimensions;
 	mCubes = (Cube*) malloc(mDimensions.x * mDimensions.y * mDimensions.z * sizeof(Cube));
 }
 
@@ -67,6 +77,7 @@ glm::mat4 Model::getTransform() const {
 	glm::mat4 modelMatrix;
 	modelMatrix = glm::mat4(1.0f);
 	modelMatrix = glm::translate(modelMatrix, mPosition);
+	modelMatrix = glm::scale(modelMatrix, glm::vec3(mScale));
 	modelMatrix = glm::rotate(modelMatrix, mRotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
 	modelMatrix = glm::rotate(modelMatrix, mRotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
 	modelMatrix = glm::rotate(modelMatrix, mRotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
@@ -82,6 +93,8 @@ void Model::move(const glm::vec3& movement) { mPosition += movement; }
 void Model::rotateX(float angle) { mRotation.x += angle; }
 void Model::rotateY(float angle) { mRotation.y += angle; }
 void Model::rotateZ(float angle) { mRotation.z += angle; }
+
+void Model::scale(float factor) { mScale = factor; }
 
 glm::vec3 Model::getPosition() const { return mPosition; }
 
@@ -114,11 +127,11 @@ void Model::loadFromFile(const std::string& filename) {
 	stream.open(filename);
 	if (stream.is_open()) {
 		stream >> index.x >> index.y >> index.z;
-		setDimensions(index);
+		setTiles(index);
 
-		for (int x = 0; x < mDimensions.x; ++x) {
+		for (int z = 0; z < mDimensions.z; ++z) {
 			for (int y = 0; y < mDimensions.y; ++y) {
-				for (int z = 0; z < mDimensions.z; ++z) {
+				for (int x = 0; x < mDimensions.x; ++x) {
 					stream >> color.x >> color.y >> color.z >> color.w;
 						setCubeColor(x, y, z, color);
 				}
@@ -138,7 +151,7 @@ void Model::saveToFile(const std::string& filename) {
 	std::ofstream stream;
 	stream.open(filename);
 	if (stream.is_open()) {
-		stream << mDimensions.x << " " << mDimensions.y << " " << mDimensions.z << std::endl;
+		stream << mTiles.x << " " << mTiles.y << " " << mTiles.z << std::endl;
 
 		for (int z = 0; z < mDimensions.z; ++z) {
 			for (int y = 0; y < mDimensions.y; ++y) {

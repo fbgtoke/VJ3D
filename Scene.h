@@ -13,7 +13,9 @@ public:
 	void render();
 
 	enum SceneType {
-		SCENE_TEST
+		SCENE_TEST,
+		SCENE_MENU,
+		SCENE_EDITOR
 	};
 	static Scene* create(SceneType type);
 

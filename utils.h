@@ -28,7 +28,7 @@
 #include "ShaderProgram.h"
 
 /* Constants */
-static const unsigned int SCREEN_WIDTH  = 854; // 1280; // 1920;
-static const unsigned int SCREEN_HEIGHT = 480; //  720; // 1080;
+static const unsigned int SCREEN_WIDTH  = /*854; // 1280; /*/ 1920;
+static const unsigned int SCREEN_HEIGHT = /*480; //  720; /*/ 1080;
 
 #endif // _UTILS_INCLUDE

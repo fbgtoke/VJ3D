@@ -1,6 +1,7 @@
 #include "ResourceManager.h"
 
 const std::string ResourceManager::kTexturePath = "images/";
+const std::string ResourceManager::kMusicPath = "music/";
 
 ResourceManager::ResourceManager() {}
 
@@ -32,4 +33,12 @@ Texture* ResourceManager::getTexture(const std::string& name) {
 	}
 
 	return texture;
+}
+
+void ResourceManager::setBackgroundMusic(const std::string& name) {
+	if (name == mCurrentBackgroundMusic) return;
+
+	mCurrentBackgroundMusic = name;
+	mBackgroundMusic.openFromFile(kMusicPath + name);
+	mBackgroundMusic.play();
 }

@@ -1,6 +1,6 @@
 #include "Cursor.h"
 
-Cursor::Cursor(const Model& parent, ShaderProgram& program)
+Cursor::Cursor(Model& parent, ShaderProgram& program)
 	: mParentModel(parent), Model(program) {}
 
 Cursor::~Cursor() {}
@@ -48,3 +48,13 @@ void Cursor::move(const glm::vec3& movement) {
 }
 
 glm::vec3 Cursor::getCurrentIndex() const { return mCurrentIndex; }
+
+void Cursor::toggleCube() {
+	glm::vec4 color;
+	color = mParentModel.getCubeColor(mCurrentIndex.x, mCurrentIndex.y, mCurrentIndex.z);
+
+	if (color.w > 0.0f) color.w = 0.0f;
+	else color.w = 1.0f;
+
+	mParentModel.setCubeColor(mCurrentIndex.x, mCurrentIndex.y, mCurrentIndex.z, color);
+}

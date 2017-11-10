@@ -12,6 +12,9 @@ public:
 	virtual void update(int deltaTime);
 	virtual void render();
 
+	void setTiles(const glm::ivec3& tiles);
+	glm::ivec3 getTiles() const;
+
 	void setDimensions(const glm::ivec3& dimensions);
 	glm::ivec3 getDimensions() const;
 
@@ -23,6 +26,8 @@ public:
 	void rotateX(float angle);
 	void rotateY(float angle);
 	void rotateZ(float angle);
+
+	void scale(float factor);
 
 	void setCubeColor(int x, int y, int z, const glm::vec4& color);
 
@@ -41,9 +46,11 @@ public:
 protected:	
 	glm::vec3 mPosition;
 	glm::vec3 mRotation;
+	float mScale;
 
 	static const int kCubesPerTile;
 	glm::ivec3 mDimensions;
+	glm::ivec3 mTiles;
 
 	ShaderProgram& mShaderProgram;
 	GLuint mVao;

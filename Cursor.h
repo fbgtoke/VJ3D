@@ -5,7 +5,7 @@
 
 class Cursor : public Model {
 public:
-	Cursor(const Model& model, ShaderProgram& program);
+	Cursor(Model& model, ShaderProgram& program);
 	~Cursor();
 
 	void init() override;
@@ -17,9 +17,10 @@ public:
 	void move(const glm::vec3& movement) override;
 
 	glm::vec3 getCurrentIndex() const;
+	void toggleCube();
 
 private:
-	const Model& mParentModel;
+	Model& mParentModel;
 
 	glm::vec3 mCurrentIndex;
 };

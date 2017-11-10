@@ -312,32 +312,59 @@ Scene.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Scene.cpp.s
 .PHONY : Scene.cpp.s
 
-SceneTest.o: SceneTest.cpp.o
+SceneEditor.o: SceneEditor.cpp.o
 
-.PHONY : SceneTest.o
+.PHONY : SceneEditor.o
 
 # target to build an object file
-SceneTest.cpp.o:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneTest.cpp.o
-.PHONY : SceneTest.cpp.o
+SceneEditor.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneEditor.cpp.o
+.PHONY : SceneEditor.cpp.o
 
-SceneTest.i: SceneTest.cpp.i
+SceneEditor.i: SceneEditor.cpp.i
 
-.PHONY : SceneTest.i
+.PHONY : SceneEditor.i
 
 # target to preprocess a source file
-SceneTest.cpp.i:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneTest.cpp.i
-.PHONY : SceneTest.cpp.i
+SceneEditor.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneEditor.cpp.i
+.PHONY : SceneEditor.cpp.i
 
-SceneTest.s: SceneTest.cpp.s
+SceneEditor.s: SceneEditor.cpp.s
 
-.PHONY : SceneTest.s
+.PHONY : SceneEditor.s
 
 # target to generate assembly for a file
-SceneTest.cpp.s:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneTest.cpp.s
-.PHONY : SceneTest.cpp.s
+SceneEditor.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneEditor.cpp.s
+.PHONY : SceneEditor.cpp.s
+
+SceneMenu.o: SceneMenu.cpp.o
+
+.PHONY : SceneMenu.o
+
+# target to build an object file
+SceneMenu.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneMenu.cpp.o
+.PHONY : SceneMenu.cpp.o
+
+SceneMenu.i: SceneMenu.cpp.i
+
+.PHONY : SceneMenu.i
+
+# target to preprocess a source file
+SceneMenu.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneMenu.cpp.i
+.PHONY : SceneMenu.cpp.i
+
+SceneMenu.s: SceneMenu.cpp.s
+
+.PHONY : SceneMenu.s
+
+# target to generate assembly for a file
+SceneMenu.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneMenu.cpp.s
+.PHONY : SceneMenu.cpp.s
 
 Shader.o: Shader.cpp.o
 
@@ -504,9 +531,12 @@ help:
 	@echo "... Scene.o"
 	@echo "... Scene.i"
 	@echo "... Scene.s"
-	@echo "... SceneTest.o"
-	@echo "... SceneTest.i"
-	@echo "... SceneTest.s"
+	@echo "... SceneEditor.o"
+	@echo "... SceneEditor.i"
+	@echo "... SceneEditor.s"
+	@echo "... SceneMenu.o"
+	@echo "... SceneMenu.i"
+	@echo "... SceneMenu.s"
 	@echo "... Shader.o"
 	@echo "... Shader.i"
 	@echo "... Shader.s"
