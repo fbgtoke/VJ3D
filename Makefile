@@ -258,6 +258,33 @@ Model.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Model.cpp.s
 .PHONY : Model.cpp.s
 
+ResourceManager.o: ResourceManager.cpp.o
+
+.PHONY : ResourceManager.o
+
+# target to build an object file
+ResourceManager.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ResourceManager.cpp.o
+.PHONY : ResourceManager.cpp.o
+
+ResourceManager.i: ResourceManager.cpp.i
+
+.PHONY : ResourceManager.i
+
+# target to preprocess a source file
+ResourceManager.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ResourceManager.cpp.i
+.PHONY : ResourceManager.cpp.i
+
+ResourceManager.s: ResourceManager.cpp.s
+
+.PHONY : ResourceManager.s
+
+# target to generate assembly for a file
+ResourceManager.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ResourceManager.cpp.s
+.PHONY : ResourceManager.cpp.s
+
 Scene.o: Scene.cpp.o
 
 .PHONY : Scene.o
@@ -471,6 +498,9 @@ help:
 	@echo "... Model.o"
 	@echo "... Model.i"
 	@echo "... Model.s"
+	@echo "... ResourceManager.o"
+	@echo "... ResourceManager.i"
+	@echo "... ResourceManager.s"
 	@echo "... Scene.o"
 	@echo "... Scene.i"
 	@echo "... Scene.s"

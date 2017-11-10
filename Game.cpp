@@ -2,7 +2,6 @@
 #include <GL/glut.h>
 #include "Game.h"
 
-
 void Game::init() {
 	bPlay = true;
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
@@ -128,14 +127,9 @@ void Game::changeScene(Scene::SceneType type) {
 	bufferedScene = Scene::create(type);
 }
 
-Scene* Game::getScene() {
-	return scene;
-}
+Scene* Game::getScene() { return scene; }
+Scene* Game::getBufferedScene() { return bufferedScene; }
 
-Scene* Game::getBufferedScene() {
-	return bufferedScene;
-}
+void Game::stop() { bPlay = false; }
 
-void Game::stop() {
-	bPlay = false;
-}
+ResourceManager* Game::getResource() { return &mResourceManager; }

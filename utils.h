@@ -18,6 +18,7 @@
 /* STD containers */
 #include <vector>
 #include <list>
+#include <map>
 
 /* SFML */
 #include <SFML/Audio.hpp>

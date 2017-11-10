@@ -29,7 +29,7 @@ link_directories(${GLEW_LIBRARY_DIRS})
 link_directories(${SOIL_LIBRARY_DIRS})
 link_directories(${SFML_LIBRARY_DIRS})
 
-add_executable(${appName} AnimKeyframes.h Button.cpp Button.h Cube.cpp Cube.h Cursor.cpp Cursor.h Model.cpp Model.h Sprite.h Sprite.cpp Texture.h Texture.cpp Scene.h Scene.cpp SceneTest.cpp SceneTest.h Shader.h Shader.cpp ShaderProgram.h ShaderProgram.cpp Game.h Game.cpp main.cpp)
+add_executable(${appName} AnimKeyframes.h Button.cpp Button.h Cube.cpp Cube.h Cursor.cpp Cursor.h Model.cpp Model.h ResourceManager.cpp ResourceManager.h Sprite.h Sprite.cpp Texture.h Texture.cpp Scene.h Scene.cpp SceneTest.cpp SceneTest.h Shader.h Shader.cpp ShaderProgram.h ShaderProgram.cpp Game.h Game.cpp main.cpp)
 
 target_link_libraries(${appName} ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES} ${GLEW_LIBRARIES} ${SOIL_LIBRARIES} ${FREETYPE_LIBRARIES} ${SFML_LIBRARIES}) # ${GLM_LIBRARIES}
 

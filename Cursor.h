@@ -1,23 +1,25 @@
 #ifndef _CURSOR_INCLUDE
 #define _CURSOR_INCLUDE
 
-#include "Cube.h"
 #include "Model.h"
 
-class Cursor : public Cube {
+class Cursor : public Model {
 public:
 	Cursor(const Model& model, ShaderProgram& program);
 	~Cursor();
 
 	void init() override;
-	void render();
+	void update(int deltaTime) override;
+	void render() override;
 
-	void move(const glm::vec3& movement);
+	glm::mat4 getTransform() const override;
+
+	void move(const glm::vec3& movement) override;
 
 	glm::vec3 getCurrentIndex() const;
 
 private:
-	const Model& mModel;
+	const Model& mParentModel;
 
 	glm::vec3 mCurrentIndex;
 };

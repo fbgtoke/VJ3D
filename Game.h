@@ -3,6 +3,7 @@
 
 #include "utils.h"
 #include "Scene.h"
+#include "ResourceManager.h"
 
 // Game is a singleton (a class with a single instance) that represents our whole application
 
@@ -55,6 +56,8 @@ public:
 	
 	void stop();
 
+	ResourceManager* getResource();
+
 private:
 	bool bPlay;                       // Continue to play game?
 	Scene* scene;                     // Scene to render
@@ -72,6 +75,8 @@ private:
 	bool mMouseButton;
 	bool mMouseButtonCurrent;
 	bool mMouseButtonPrevious;
+
+	ResourceManager mResourceManager;
 };
 
 

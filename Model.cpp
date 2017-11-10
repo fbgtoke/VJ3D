@@ -1,48 +1,67 @@
 #include "Model.h"
 #include "Game.h"
 
-const int Model::kCubesPerTile = 1;
+const int Model::kCubesPerTile = 16;
 
 Model::Model(ShaderProgram& program)
 	: mShaderProgram(program) {}
 	
 Model::~Model() {
-	mCubes.clear();
+	
+	free(mCubes);	
+//	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//	@@@@@@@@@@@@@@@@@@@@@@@@(*(@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&&&&&&&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&***@@@@@@@@@@@@@@********@@@@@@@@@@******(@@@@@@@@@@@@***&@@@
+//	@@*        @@@@@@@@@@        .@@@@@@@@@,         @@@@@@@@(       @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.   @@@@@@@@@@@@@        @@@@@@@@@@         @@@@@@@@@@   %@@@
+//	@@@@@@@@   @@@@@@@@@    @@@    @@@@@@@@,   @@%   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@   %@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    @@@@@@@@@@@@@@@@@
+//	@@*       ,@@@@@@@@&   @@@@@   @@@@@@@@,   @@%   @@@@@@@@@   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@(  #&   @@@@@@@@@@@@        @@@@@@@@@@      .%@@@@@@@@@@@   %@@@
+//	@@*   @@@@@@@@@@@@@@    @@&    @@@@@@@@,   @@%   @@@@@@@@@   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@   @@,  .@@@@@@@@@@@   %@@@@@@@@@@@@@@@@@@&   @@@@@@@@@@@   %@@@
+//	@@*   @@@@@@@@@@@@@@@.       /@@@@@@@@@,   @@%   @@@@@@@@@,     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.         *@@@@@@@@@@        @@@@@@@@@@@@@@&   @@@@@@@@@@@   %@@@
+//	@@@@@@@@@@@@@@@@@@@@@@@@@&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//	@@@#,,,,,,,,,,,,,,,,************************************////////////%@@@@@@@@@@@@@@@@@@@@@(************,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,................@@@@
+//	@@@@@@@&&%##(//**,,,..................................................,@@@@@@@@@@@@@@@@@                                                   ...,,*//(#%%&@@@@@@@
+//	@@@@@@@@@@@.....................,,,**/((#%%&&&@@@@@@@@@@@@@@@@&&&....../@@%(((#%   *@@@      .%&&@@@@@@@@@@@@@@@@&&%%##(/**,,...                    @@@@@@@@@@@
+//	@@@@@@@@@@@@@@@@&@@@@@@@@@@&%#(**,.......................@#...........@&((((((#%      *@            &@                       ..,/(%&&@@@@@@@@@@@@@@@@@@@@@@@@@@
+//	@@@@@@@@@@@@@@@@@@%,....................,*/(#%&@@@@@@@@@@&&@@@&,.....@((((((((#%        @      .&@@%%&@@@@@@@@@@&%#/*,.                    ,&@@@@@@@@@@@@@@@@@@
+//	@@@@@@@@@@@@@@@@@@@@@@@*.,*/#&@@@@@@/*,.................@(........@(((((((((#%         @         &&                 .,/#&@@@@@@%#*.. *@@@@@@@@@@@@@@@@@@@@@@@
+//	@@@@@@@@@@@@@@@@@@@@@@@@@@@#*,...............,*#%&@@@@@&%(*,%@%....,@(((((((((#%         %,    .@@*.,/%&@@@@@&%(,.               .,#@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%(*...............@....,*.*@(((((((((#%         %, .,.   ,@               ./%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%(**@/.....@(((((((((#%         @      %@.,(%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@/...@((((((((#%        &*   &@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%((((((#%      .@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&((((#%    /@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 }
 
 void Model::init() {
 	mPosition = glm::vec3(0.0f, 0.0f, 0.0f);
 	mRotation = glm::vec3(0.0f, 0.0f, 0.0f);
 
-	setDimensions(glm::ivec3(3, 2, 1));
+	initShaders();
 }
 
 void Model::update(int deltaTime) {}
 
 void Model::render() {
-	glm::mat4 modelMatrix = getTransform();
-
-	for (int i = 0; i < mDimensions.x * mDimensions.y * mDimensions.z; ++i)
-		if (mCubes[i].getColor().w != 0.0f)
-			mCubes[i].render(modelMatrix);
+	for (int x = 0; x < mDimensions.x; ++x)
+		for (int y = 0; y < mDimensions.y; ++y)
+			for (int z = 0; z < mDimensions.z; ++z)
+				renderCube(x, y, z);
 }
 
 void Model::setDimensions(const glm::ivec3& dimensions) {
 	mDimensions = dimensions * kCubesPerTile;
-
-	mCubes = std::vector<Cube> (mDimensions.x * mDimensions.y * mDimensions.z, Cube(mShaderProgram));
-	for (int i = 0; i < mDimensions.x * mDimensions.y * mDimensions.z; ++i) mCubes[i].init();
-
-	moveCubesToRelativePosition();
+	mCubes = (Cube*) malloc(mDimensions.x * mDimensions.y * mDimensions.z * sizeof(Cube));
 }
 
 glm::ivec3 Model::getDimensions() const { return mDimensions; }
 
 glm::mat4 Model::getTransform() const {
 	glm::vec3 modelOffset = glm::vec3(
-		(mDimensions.x - 1)  * Cube::getSize() * -0.5f,
-		(mDimensions.y - 1) * Cube::getSize() *  0.5f,
-		(mDimensions.z - 1)  * Cube::getSize() *  0.5f
+		(mDimensions.x - 1)  * Cube::kSize * -0.5f,
+		(mDimensions.y - 1)  * Cube::kSize *  0.5f,
+		(mDimensions.z - 1)  * Cube::kSize *  0.5f
 	);
 
 	glm::mat4 modelMatrix;
@@ -66,20 +85,25 @@ void Model::rotateZ(float angle) { mRotation.z += angle; }
 
 glm::vec3 Model::getPosition() const { return mPosition; }
 
-void Model::setCubePosition(const glm::ivec3& index, const glm::vec3& position) {
-	mCubes[getIndex(index)].setPosition(position);
+float Model::getRotationX() const { return mRotation.x; }
+float Model::getRotationY() const { return mRotation.y; }
+float Model::getRotationZ() const { return mRotation.z; }
+
+glm::vec3 Model::getCubePosition(int x, int y, int z) const {
+	glm::vec3 position;
+	position.x = x * Cube::kSize;
+	position.y = y * Cube::kSize * (-1.0f);
+	position.z = z * Cube::kSize * (-1.0f);
+	
+	return position;
 }
 
-void Model::setCubeColor(const glm::ivec3& index, const glm::vec4& color) {
-	setCubeColor(getIndex(index), color);
+void Model::setCubeColor(int x, int y, int z, const glm::vec4& color) {
+	mCubes[getIndex(x, y, z)].setColor(color);
 }
 
-void Model::setCubeColor(int index, const glm::vec4& color) {
-	mCubes[index].setColor(color);
-}
-
-glm::vec4 Model::getCubeColor(const glm::ivec3& index) const {
-	return mCubes[getIndex(index)].getColor();
+glm::vec4 Model::getCubeColor(int x, int y, int z) const {
+	return mCubes[getIndex(x, y, z)].getColor();
 }
 
 void Model::loadFromFile(const std::string& filename) {
@@ -92,9 +116,13 @@ void Model::loadFromFile(const std::string& filename) {
 		stream >> index.x >> index.y >> index.z;
 		setDimensions(index);
 
-		for (int i = 0; i < mDimensions.x * mDimensions.y * mDimensions.z; ++i) {
-			stream >> color.x >> color.y >> color.z >> color.w;
-			setCubeColor(i, color);
+		for (int x = 0; x < mDimensions.x; ++x) {
+			for (int y = 0; y < mDimensions.y; ++y) {
+				for (int z = 0; z < mDimensions.z; ++z) {
+					stream >> color.x >> color.y >> color.z >> color.w;
+						setCubeColor(x, y, z, color);
+				}
+			}
 		}
 
 		stream.close();
@@ -116,7 +144,7 @@ void Model::saveToFile(const std::string& filename) {
 			for (int y = 0; y < mDimensions.y; ++y) {
 				for (int x = 0; x < mDimensions.x; ++x) {
 					index = glm::ivec3(x, y, z);
-					color = getCubeColor(index);
+					color = getCubeColor(x, y, z);
 					stream
 						<< color.x << " "
 						<< color.y << " "
@@ -132,27 +160,47 @@ void Model::saveToFile(const std::string& filename) {
 	}
 }
 
-void Model::moveCubesToRelativePosition() {
-	glm::vec3 position;
+void Model::initShaders() {
+	glGenVertexArrays(1, &mVao);
+	glBindVertexArray(mVao);
+	
+	glGenBuffers(1, &mVboPos);
+	glBindBuffer(GL_ARRAY_BUFFER, mVboPos);
+	glBufferData(GL_ARRAY_BUFFER, 36 * 3 * sizeof(GLfloat), &Cube::kVertices[0], GL_STATIC_DRAW);
+	mPosLocation = mShaderProgram.bindVertexAttribute("position", 3, 0, nullptr);
 
-	for (int y = 0; y < mDimensions.y; ++y) {
-		for (int x = 0; x < mDimensions.x; ++x) {
-			for (int z = 0; z < mDimensions.z; ++z) {
-				position.x = x * Cube::getSize();
-				position.y = y * Cube::getSize() * (-1.0f);
-				position.z = z * Cube::getSize() * (-1.0f);
+	glGenBuffers(1, &mVboNorm);
+	glBindBuffer(GL_ARRAY_BUFFER, mVboNorm);
+	glBufferData(GL_ARRAY_BUFFER, 36 * 3 * sizeof(GLfloat), &Cube::kNormals[0], GL_STATIC_DRAW);
+	mNormLocation = mShaderProgram.bindVertexAttribute("normal", 3, 0, nullptr);
+}
 
-				setCubePosition(glm::ivec3(x, y, z), position);
-			}
-		}
-	}
+void Model::renderCube(int x, int y, int z) {
+	glm::vec3 position = getCubePosition(x, y, z);
+	glm::vec4 color = getCubeColor(x, y, z);
+
+	if (color.w < 0.5f) return;
+
+	glm::mat4 parentTransform = getTransform();
+
+	glm::mat4 modelMatrix;
+	modelMatrix = glm::mat4(1.0f);
+	modelMatrix = parentTransform * modelMatrix;
+	modelMatrix = glm::translate(modelMatrix, position);
+	modelMatrix = glm::scale(modelMatrix, glm::vec3(Cube::kSize) * 0.5f);
+	mShaderProgram.setUniformMatrix4f("modelMatrix", modelMatrix);
+	mShaderProgram.setUniform4f("color", color.x, color.y, color.z, color.w);
+
+	glBindVertexArray(mVao);
+	glEnableVertexAttribArray(mPosLocation);
+	glEnableVertexAttribArray(mNormLocation);
+	glDrawArrays(GL_TRIANGLES, 0, 36 * 3);
+	glBindVertexArray(0);
 }
 
 int Model::getIndex(int x, int y, int z) const {
 	return
-		y * mDimensions.x * mDimensions.z +
-		x * mDimensions.z +
+		x * mDimensions.y * mDimensions.z +
+		y * mDimensions.z +
 		z;
 }
-
-int Model::getIndex(const glm::ivec3& i) const { return getIndex(i.x, i.y, i.z); }

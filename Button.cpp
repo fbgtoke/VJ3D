@@ -1,17 +1,21 @@
 #include "Button.h"
 #include "Game.h"
 
-Button::Button(const glm::vec2 &quadSize, const glm::vec2 &sizeInSpritesheet, Texture *spritesheet, ShaderProgram *program)
+Button::Button(
+	const glm::vec2 &quadSize,
+	const glm::vec2 &sizeInSpritesheet,
+	Texture* spritesheet,
+	ShaderProgram* program,
+	const glm::vec2& position,
+	std::function<void()> onClick)
 	: Sprite(quadSize, sizeInSpritesheet, spritesheet, program),
-	mOnClick([](){})
+	mOnClick(onClick)
 {
 	setNumberAnimations(1);
 	setAnimationSpeed(0, 0);
 	addKeyframe(0, glm::vec2(0.0f, 0.0f));
-	setPosition(glm::vec2(0.0f, 0.0f));
+	setPosition(position);
 }
-
-Button::~Button() {}
 
 void Button::update(int deltaTime) {
 	Sprite::update(deltaTime);

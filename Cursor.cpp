@@ -1,37 +1,48 @@
 #include "Cursor.h"
 
-Cursor::Cursor(const Model& model, ShaderProgram& program)
-	: mModel(model), Cube(program) {}
+Cursor::Cursor(const Model& parent, ShaderProgram& program)
+	: mParentModel(parent), Model(program) {}
 
 Cursor::~Cursor() {}
 
 void Cursor::init() {
-	Cube::init();
+	Model::init();
 
-	setColor(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-	mCurrentIndex = glm::vec3(1.0f, 0.0f, 0.0f);
-	setPosition(mCurrentIndex * Cube::getSize());
-
-	mScale *= 1.2f;
+	setDimensions(glm::ivec3(1, 1, 1));
+	setCubeColor(0, 0, 0, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	mCurrentIndex = glm::vec3(0.0f, 0.0f, 0.0f);
+	
+	setPosition(mParentModel.getPosition());
 }
+
+void Cursor::update(int deltaTime) {}
 
 void Cursor::render() {
 	mShaderProgram.setUniformBool("enableLight", false);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glLineWidth(2.0f);
-	Cube::render(mModel.getTransform());
+	Model::render();
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	mShaderProgram.setUniformBool("enableLight", true);	
 }
 
+glm::mat4 Cursor::getTransform() const {
+	glm::mat4 modelTransform;
+	modelTransform = glm::mat4(1.0f);
+	modelTransform = glm::translate(modelTransform, getPosition());
+	modelTransform = mParentModel.getTransform() * modelTransform;
+
+	return modelTransform;
+}
+
 void Cursor::move(const glm::vec3& movement) {
-	glm::vec3 dimensions = mModel.getDimensions();
+	glm::vec3 dimensions = mParentModel.getDimensions();
 	mCurrentIndex = glm::mod(mCurrentIndex + dimensions + movement, dimensions);
 
 	glm::vec3 position;
-	position.x = mCurrentIndex.x * Cube::getSize();
-	position.y = mCurrentIndex.y * Cube::getSize() * (-1.0f);
-	position.z = mCurrentIndex.z * Cube::getSize() * (-1.0f);
+	position.x = mCurrentIndex.x * Cube::kSize;
+	position.y = mCurrentIndex.y * Cube::kSize * (-1.0f);
+	position.z = mCurrentIndex.z * Cube::kSize * (-1.0f);
 
 	setPosition(position);
 }

@@ -14,25 +14,10 @@ public:
 	SceneTest();
 	~SceneTest() final;
 
-	void init() final;
-	void update(int deltaTime) final;
-	void render() final;
-
 private:
 	static const glm::vec3 kLightDirection;
 	static const float kAmbientLight;
 	Model mModel;
-
-	Texture mTexButtonPlus;
-	Texture mTexButtonMinus;
-	Texture mTexButtonLeft;
-	Texture mTexButtonRight;
-	Texture mTexButtonUp;
-	Texture mTexButtonDown;
-	Texture mTexButtonRotateClockwise;
-	Texture mTexButtonRotateCounterclockwise;
-	Texture mTexButtonUpZ;
-	Texture mTexButtonDownZ;
 
 	Button* mButtonLeft;
 	Button* mButtonRight;
@@ -53,6 +38,14 @@ private:
 	Button* mButtonBlueMinus;
 
 	Cursor mCursor;
+
+	void initScene() final;
+	void updateScene(int deltaTime) final;
+	void renderScene() final;
+
+	void initGUI() override;
+	void updateGUI(int deltaTime) override;
+	void renderGUI() override;
 };
 
 #endif // _SCENE_TEST_INCLUDE

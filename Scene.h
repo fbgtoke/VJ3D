@@ -8,9 +8,9 @@ public:
 	Scene();
 	virtual ~Scene();
 
-	virtual void init();
-	virtual void update(int deltaTime);
-	virtual void render();
+	void init();
+	void update(int deltaTime);
+	void render();
 
 	enum SceneType {
 		SCENE_TEST
@@ -23,8 +23,16 @@ protected:
 	float mCurrentTime;
 
 	ShaderProgram mTexProgram, mGuiProgram;
-	glm::mat4 mProjectionMatrix;
-	glm::mat4 mViewMatrix;
+	glm::mat4 mProjectionMatrix, mViewMatrix;
+	glm::mat4 mProjectionMatrixGUI, mViewMatrixGUI;
+
+	virtual void initScene();
+	virtual void updateScene(int deltaTime);
+	virtual void renderScene();
+
+	virtual void initGUI();
+	virtual void updateGUI(int deltaTime);
+	virtual void renderGUI();
 };
 
 #endif // _SCENE_INCLUDE
