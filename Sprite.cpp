@@ -60,33 +60,30 @@ void Sprite::update(int deltaTime)
 	}
 }
 
-void Sprite::render() const
-{
+void Sprite::render() const {
 	glm::mat4 modelview = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.f));
 	shaderProgram->setUniformMatrix4f("modelview", modelview);
 	shaderProgram->setUniform2f("texCoordDispl", texCoordDispl.x, texCoordDispl.y);
-	glEnable(GL_TEXTURE_2D);
+	
 	texture->use();
 	glBindVertexArray(vao);
 	glEnableVertexAttribArray(posLocation);
 	glEnableVertexAttribArray(texCoordLocation);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glBindVertexArray(0);
 	glDisable(GL_TEXTURE_2D);
 }
 
-void Sprite::free()
-{
+void Sprite::free() {
 	glDeleteBuffers(1, &vbo);
 }
 
-void Sprite::setNumberAnimations(int nAnimations)
-{
+void Sprite::setNumberAnimations(int nAnimations) {
 	animations.clear();
 	animations.resize(nAnimations);
 }
 
-void Sprite::setAnimationSpeed(int animId, int keyframesPerSec)
-{
+void Sprite::setAnimationSpeed(int animId, int keyframesPerSec) {
 	if(animId < int(animations.size())) {
 		if (keyframesPerSec != 0)
 			animations[animId].millisecsPerKeyframe = 1000.f / keyframesPerSec;
@@ -95,14 +92,12 @@ void Sprite::setAnimationSpeed(int animId, int keyframesPerSec)
 	}
 }
 
-void Sprite::addKeyframe(int animId, const glm::vec2 &displacement)
-{
+void Sprite::addKeyframe(int animId, const glm::vec2 &displacement) {
 	if(animId < int(animations.size()))
 		animations[animId].keyframeDispl.push_back(displacement);
 }
 
-void Sprite::changeAnimation(int animId)
-{
+void Sprite::changeAnimation(int animId) {
 	if(animId < int(animations.size()))
 	{
 		currentAnimation = animId;

@@ -19,7 +19,7 @@ public:
 	};
 	static Scene* create(SceneType type);
 
-	void initShaders();
+	virtual void initShaders();
 
 protected:
 	float mCurrentTime;

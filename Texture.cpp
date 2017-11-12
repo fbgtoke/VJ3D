@@ -5,8 +5,7 @@
 using namespace std;
 
 
-Texture::Texture()
-{
+Texture::Texture() {
 	wrapS = GL_REPEAT;
 	wrapT = GL_REPEAT;
 	minFilter = GL_LINEAR_MIPMAP_LINEAR;
@@ -14,8 +13,7 @@ Texture::Texture()
 }
 
 
-bool Texture::loadFromFile(const string &filename, PixelFormat format)
-{
+bool Texture::loadFromFile(const string &filename, PixelFormat format) {
 	unsigned char *image = NULL;
 	
 	switch(format)
@@ -45,8 +43,7 @@ bool Texture::loadFromFile(const string &filename, PixelFormat format)
 	return true;
 }
 
-void Texture::loadFromGlyphBuffer(unsigned char *buffer, int width, int height)
-{
+void Texture::loadFromGlyphBuffer(unsigned char *buffer, int width, int height) {
 	glGenTextures(1, &texId);
 	glBindTexture(GL_TEXTURE_2D, texId);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -55,8 +52,7 @@ void Texture::loadFromGlyphBuffer(unsigned char *buffer, int width, int height)
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 }
 
-void Texture::createEmptyTexture(int width, int height)
-{
+void Texture::createEmptyTexture(int width, int height) {
 	glGenTextures(1, &texId);
 	glBindTexture(GL_TEXTURE_2D, texId);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -64,44 +60,29 @@ void Texture::createEmptyTexture(int width, int height)
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 }
 
-void Texture::loadSubtextureFromGlyphBuffer(unsigned char *buffer, int x, int y, int width, int height)
-{
+void Texture::loadSubtextureFromGlyphBuffer(unsigned char *buffer, int x, int y, int width, int height) {
 	glBindTexture(GL_TEXTURE_2D, texId);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, width, height, GL_RED, GL_UNSIGNED_BYTE, buffer);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 }
 
-void Texture::generateMipmap()
-{
+void Texture::generateMipmap() {
 	glBindTexture(GL_TEXTURE_2D, texId);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 }
 
-void Texture::setWrapS(GLint value)
-{
-	wrapS = value;
-}
+void Texture::setWrapS(GLint value) { wrapS = value; }
 
-void Texture::setWrapT(GLint value)
-{
-	wrapT = value;
-}
+void Texture::setWrapT(GLint value) { wrapT = value; }
 
-void Texture::setMinFilter(GLint value)
-{
-	minFilter = value;
-}
+void Texture::setMinFilter(GLint value) { minFilter = value; }
 
-void Texture::setMagFilter(GLint value)
-{
-	magFilter = value;
-}
+void Texture::setMagFilter(GLint value) { magFilter = value; }
 
-void Texture::use() const
-{
+void Texture::use() const {
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, texId);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS);

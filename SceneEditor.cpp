@@ -94,7 +94,6 @@ void SceneEditor::initGUI() {
 
 	mButtons.push_back(new Button(
 		glm::vec2(32, 32),
-		glm::vec2(1.0f, 1.0f),
 		Game::instance().getResource()->getTexture("button_left.png"),
 		&mGuiProgram,
 		glm::vec2(32 * 1, SCREEN_HEIGHT - 32 * 2),
@@ -102,8 +101,7 @@ void SceneEditor::initGUI() {
 	));
 
 	mButtons.push_back(new Button(
-		glm::vec2(32, 32), 
-		glm::vec2(1.0f, 1.0f), 
+		glm::vec2(32, 32),
 		Game::instance().getResource()->getTexture("button_right.png"),
 		&mGuiProgram,
 		glm::vec2(32 * 5, SCREEN_HEIGHT - 32 * 2),
@@ -111,8 +109,7 @@ void SceneEditor::initGUI() {
 	));
 
 	mButtons.push_back(new Button(
-		glm::vec2(32, 32), 
-		glm::vec2(1.0f, 1.0f), 
+		glm::vec2(32, 32),
 		Game::instance().getResource()->getTexture("button_up.png"),
 		&mGuiProgram,
 		glm::vec2(32 * 3, SCREEN_HEIGHT - 32 * 4),
@@ -121,7 +118,6 @@ void SceneEditor::initGUI() {
 
 	mButtons.push_back(new Button(
 		glm::vec2(32, 32),
-		glm::vec2(1.0f, 1.0f),
 		Game::instance().getResource()->getTexture("button_down.png"),
 		&mGuiProgram,
 		glm::vec2(32 * 3, SCREEN_HEIGHT - 32 * 2),
@@ -130,7 +126,6 @@ void SceneEditor::initGUI() {
 
 	mButtons.push_back(new Button(
 		glm::vec2(32, 32),
-		glm::vec2(1.0f, 1.0f),
 		Game::instance().getResource()->getTexture("button_rot_clockwise.png"),
 		&mGuiProgram,
 		glm::vec2(32 * 1, SCREEN_HEIGHT - 32 * 4),
@@ -142,7 +137,6 @@ void SceneEditor::initGUI() {
 
 	mButtons.push_back(new Button(
 		glm::vec2(32, 32),
-		glm::vec2(1.0f, 1.0f),
 		Game::instance().getResource()->getTexture("button_rot_counterclockwise.png"),
 		&mGuiProgram,
 		glm::vec2(32 * 5, SCREEN_HEIGHT - 32 * 4),
@@ -154,7 +148,6 @@ void SceneEditor::initGUI() {
 
 	mButtons.push_back(new Button(
 		glm::vec2(32, 32),
-		glm::vec2(1.0f, 1.0f),
 		Game::instance().getResource()->getTexture("button_up_z.png"),
 		&mGuiProgram,
 		glm::vec2(32 * 1, SCREEN_HEIGHT - 32 * 6),
@@ -163,7 +156,6 @@ void SceneEditor::initGUI() {
 
 	mButtons.push_back(new Button(
 		glm::vec2(32, 32),
-		glm::vec2(1.0f, 1.0f),
 		Game::instance().getResource()->getTexture("button_down_z.png"),
 		&mGuiProgram,
 		glm::vec2(32 * 5, SCREEN_HEIGHT - 32 * 6),
@@ -172,7 +164,6 @@ void SceneEditor::initGUI() {
 
 	mButtons.push_back(new Button(
 		glm::vec2(32, 32),
-		glm::vec2(1.0f, 1.0f),
 		Game::instance().getResource()->getTexture("button_minus.png"),
 		&mGuiProgram,
 		glm::vec2(SCREEN_WIDTH - 32 * 4, SCREEN_HEIGHT - 32 * 8),
@@ -188,7 +179,6 @@ void SceneEditor::initGUI() {
 
 	mButtons.push_back(new Button(
 		glm::vec2(32, 32),
-		glm::vec2(1.0f, 1.0f),
 		Game::instance().getResource()->getTexture("button_plus.png"),
 		&mGuiProgram,
 		glm::vec2(SCREEN_WIDTH - 32 * 2, SCREEN_HEIGHT - 32 * 8),
@@ -204,7 +194,6 @@ void SceneEditor::initGUI() {
 
 	mButtons.push_back(new Button(
 		glm::vec2(32, 32),
-		glm::vec2(1.0f, 1.0f),
 		Game::instance().getResource()->getTexture("button_minus.png"),
 		&mGuiProgram,
 		glm::vec2(SCREEN_WIDTH - 32 * 4, SCREEN_HEIGHT - 32 * 6),
@@ -220,7 +209,6 @@ void SceneEditor::initGUI() {
 
 	mButtons.push_back(new Button(
 		glm::vec2(32, 32),
-		glm::vec2(1.0f, 1.0f),
 		Game::instance().getResource()->getTexture("button_plus.png"),
 		&mGuiProgram,
 		glm::vec2(SCREEN_WIDTH - 32 * 2, SCREEN_HEIGHT - 32 * 6),
@@ -235,8 +223,7 @@ void SceneEditor::initGUI() {
 	));
 
 	mButtons.push_back(new Button(
-		glm::vec2(32, 32), 
-		glm::vec2(1.0f, 1.0f),
+		glm::vec2(32, 32),
 		Game::instance().getResource()->getTexture("button_minus.png"),
 		&mGuiProgram,
 		glm::vec2(SCREEN_WIDTH - 32 * 4, SCREEN_HEIGHT - 32 * 4),
@@ -251,8 +238,7 @@ void SceneEditor::initGUI() {
 	));
 
 	mButtons.push_back(new Button(
-		glm::vec2(32, 32), 
-		glm::vec2(1.0f, 1.0f), 
+		glm::vec2(32, 32),
 		Game::instance().getResource()->getTexture("button_plus.png"), 
 		&mGuiProgram,
 		glm::vec2(SCREEN_WIDTH - 32 * 2, SCREEN_HEIGHT - 32 * 4),
@@ -267,8 +253,7 @@ void SceneEditor::initGUI() {
 	));
 
 	mButtons.push_back(new Button(
-		glm::vec2(64, 32), 
-		glm::vec2(1.0f, 1.0f), 
+		glm::vec2(64, 32),
 		Game::instance().getResource()->getTexture("button_save.png"), 
 		&mGuiProgram,
 		glm::vec2(SCREEN_WIDTH - 32 * 4, SCREEN_HEIGHT - 32 * 2),

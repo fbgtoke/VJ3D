@@ -3,14 +3,22 @@
 
 #include "Scene.h"
 #include "Sprite.h"
+#include "Text.h"
+#include "Button.h"
 
 class SceneMenu : public Scene {
 public:
 	SceneMenu();
 	~SceneMenu() override;
 
+	void initShaders() override;
+
 private:
+	ShaderProgram mTextProgram;
 	Sprite* mBackground;
+	Text text;
+
+	std::list<Button*> mButtons;
 
 	void initScene() override;
 	void updateScene(int deltaTime) override;
@@ -18,7 +26,7 @@ private:
 
 	void initGUI() override;
 	void updateGUI(int deltaTime) override;
-	void renderGUI() override;	
+	void renderGUI() override;
 };
 
 #endif // _SCENE_MENU_INCLUDE

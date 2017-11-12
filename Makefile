@@ -447,6 +447,33 @@ Sprite.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Sprite.cpp.s
 .PHONY : Sprite.cpp.s
 
+Text.o: Text.cpp.o
+
+.PHONY : Text.o
+
+# target to build an object file
+Text.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Text.cpp.o
+.PHONY : Text.cpp.o
+
+Text.i: Text.cpp.i
+
+.PHONY : Text.i
+
+# target to preprocess a source file
+Text.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Text.cpp.i
+.PHONY : Text.cpp.i
+
+Text.s: Text.cpp.s
+
+.PHONY : Text.s
+
+# target to generate assembly for a file
+Text.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Text.cpp.s
+.PHONY : Text.cpp.s
+
 Texture.o: Texture.cpp.o
 
 .PHONY : Texture.o
@@ -473,6 +500,33 @@ Texture.s: Texture.cpp.s
 Texture.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Texture.cpp.s
 .PHONY : Texture.cpp.s
+
+TexturedQuad.o: TexturedQuad.cpp.o
+
+.PHONY : TexturedQuad.o
+
+# target to build an object file
+TexturedQuad.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/TexturedQuad.cpp.o
+.PHONY : TexturedQuad.cpp.o
+
+TexturedQuad.i: TexturedQuad.cpp.i
+
+.PHONY : TexturedQuad.i
+
+# target to preprocess a source file
+TexturedQuad.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/TexturedQuad.cpp.i
+.PHONY : TexturedQuad.cpp.i
+
+TexturedQuad.s: TexturedQuad.cpp.s
+
+.PHONY : TexturedQuad.s
+
+# target to generate assembly for a file
+TexturedQuad.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/TexturedQuad.cpp.s
+.PHONY : TexturedQuad.cpp.s
 
 main.o: main.cpp.o
 
@@ -546,9 +600,15 @@ help:
 	@echo "... Sprite.o"
 	@echo "... Sprite.i"
 	@echo "... Sprite.s"
+	@echo "... Text.o"
+	@echo "... Text.i"
+	@echo "... Text.s"
 	@echo "... Texture.o"
 	@echo "... Texture.i"
 	@echo "... Texture.s"
+	@echo "... TexturedQuad.o"
+	@echo "... TexturedQuad.i"
+	@echo "... TexturedQuad.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
