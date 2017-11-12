@@ -1,40 +1,25 @@
-#include <iostream>
-#include <cmath>
-#include <GL/glew.h>
-#include <GL/gl.h>
-#include <glm/gtc/matrix_transform.hpp>
 #include "Text.h"
-
-
-#define ATLAS_FONT_SIZE 64
-
-
 using namespace std;
-
 
 bool Text::bLibInit = false;
 FT_Library Text::library;
-
 
 Text::Text(ShaderProgram& program)
 	: quad(nullptr), program(program) {}
 
 Text::~Text() {
 	destroy();
-	if(quad != NULL)
-	{
+	if(quad != nullptr) {
 		quad->free();
 		delete quad;
 	}
 }
 
 
-bool Text::init(const char *filename)
-{
+bool Text::init(const char *filename) {
 	FT_Error error;
 	
-	if(!bLibInit)
-	{
+	if(!bLibInit) {
 		error = FT_Init_FreeType(&Text::library);
 		if(error)
 			return false;
@@ -59,36 +44,54 @@ bool Text::init(const char *filename)
 	glm::vec2 texCoords[2] = {glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f)};
 	
 	quad = TexturedQuad::createTexturedQuad(geom, texCoords, program);
+
+	mString = "";
+	mPosition = glm::vec2(0.0f, 0.0f);
+	mSize = fontSize;
+	mColor = glm::vec4(0, 0, 0, 1);
 	
 	return true;
 }
 
 void Text::destroy() { FT_Done_Face(face); }
 
-int Text::getSize() const { return fontSize; }
+void Text::setString(const std::string& str) { mString = str; }
+void Text::setPosition(const glm::vec2& position) { mPosition = position; }
+void Text::setSize(int size) { mSize = size; }
+void Text::setColor(const glm::vec4& color) { mColor = color; }
 
-void Text::render(const string &str, const glm::vec2 &pixel, int size, const glm::vec4 &color) {
+std::string Text::getString() const { return mString; }
+glm::vec2 Text::getPosition() const { return mPosition; }
+int Text::getSize() const { return mSize; }
+glm::vec4 Text::getColor() const { return mColor; }
+
+int Text::getFontSize() const { return fontSize; }
+
+void Text::render() {
 	glm::mat4 projection, modelview;
-	glm::vec2 minTexCoord, maxTexCoord, pos = pixel;
+	glm::vec2 minTexCoord, maxTexCoord;
+	
+	glm::vec3 position = glm::vec3(mPosition, 1.0f);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 
-	program.setUniform4f("color", color.r, color.g, color.b, color.a);
+	program.setUniform4f("color", mColor.r, mColor.g, mColor.b, mColor.a);
 
-	for(unsigned int i=0; i<str.length(); i++) {
+	for(unsigned int i = 0; i < mString.length(); i++) {
 		modelview = glm::mat4(1.0f);
-		modelview = glm::translate(modelview, glm::vec3(pos.x + (float(size) / fontSize) * chars[str[i]-32].bl, pos.y - (float(size) / fontSize) * chars[str[i]-32].bt, 0.f));
-		modelview = glm::scale(modelview, (float(size) / fontSize) * glm::vec3(chars[str[i]-32].sx, chars[str[i]-32].sy, 0.f));
+		modelview = glm::translate(modelview, position);
+		modelview = glm::scale(modelview, (float(mSize) / fontSize) * glm::vec3(chars[mString[i]-32].sx, chars[mString[i]-32].sy, 0.f));
 		program.setUniformMatrix4f("modelview", modelview);
 		
-		minTexCoord = glm::vec2(float(chars[str[i]-32].tx) / textureSize, float(chars[str[i]-32].ty) / textureSize);
-		maxTexCoord = glm::vec2(float(chars[str[i]-32].tx + chars[str[i]-32].sx) / textureSize, float(chars[str[i]-32].ty + chars[str[i]-32].sy) / textureSize);
+		minTexCoord = glm::vec2(float(chars[mString[i]-32].tx) / textureSize, float(chars[mString[i]-32].ty) / textureSize);
+		maxTexCoord = glm::vec2(float(chars[mString[i]-32].tx + chars[mString[i]-32].sx) / textureSize, float(chars[mString[i]-32].ty + chars[mString[i]-32].sy) / textureSize);
 		
 		program.setUniform2f("minTexCoord", minTexCoord.s, minTexCoord.t);
 		program.setUniform2f("maxTexCoord", maxTexCoord.s, maxTexCoord.t);
 		quad->render(textureAtlas);
-		pos.x += (float(size) / fontSize) * chars[str[i]-32].ax;
+
+		position.x += (float(mSize) / fontSize) * chars[mString[i]-32].ax;
 	}
 
 	glDisable(GL_BLEND);

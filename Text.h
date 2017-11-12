@@ -1,19 +1,16 @@
 #ifndef _TEXT_INCLUDE
 #define _TEXT_INCLUDE
 
+#include "utils.h"
 
-#include <ft2build.h>
-#include FT_FREETYPE_H
 #include "Texture.h"
-#include "ShaderProgram.h"
 #include "TexturedQuad.h"
 
-
+#define ATLAS_FONT_SIZE 64
 #define NUM_CHARACTERS (128 - 32)
 
 
-struct CharMetrics
-{
+struct CharMetrics {
 	int tx, ty; 		// Pos x, y inside texture in pixels
 	int sx, sy; 		// Size of char in pixels
 	int ax, ay; 		// Advance for each character in a string sequence
@@ -36,8 +33,18 @@ public:
 	bool init(const char *filename);
 	void destroy();
 
+	void setString(const std::string& str);
+	void setPosition(const glm::vec2& position);
+	void setSize(int size);
+	void setColor(const glm::vec4& color);
+
+	std::string getString() const;
+	glm::vec2 getPosition() const;
 	int getSize() const;
-	void render(const string &str, const glm::vec2 &pixel, int size, const glm::vec4 &color);
+	glm::vec4 getColor() const;
+
+	int getFontSize() const;
+	void render();
 	
 private:
 	bool extractCharSizes(int *maxCharWidth, int *maxCharHeight);
@@ -53,9 +60,12 @@ private:
 
 	static bool bLibInit;
 	static FT_Library library;
+
+	std::string mString;
+	glm::vec2 mPosition;
+	int mSize;
+	glm::vec4 mColor;
 };
 
 
 #endif // _TEXT_INCLUDE
-
-

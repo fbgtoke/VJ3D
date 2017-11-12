@@ -73,6 +73,9 @@ void SceneMenu::initGUI() {
 	mBackground->addKeyframe(0, glm::vec2(0.0f, 0.0f));
 
 	text.init("fonts/font.ttf");
+	text.setString("TEST");
+	text.setPosition(glm::vec2(SCREEN_WIDTH/2 - 64, 0));
+	text.setSize(64);
 
 	mButtons.push_back(new Button(
 		glm::vec2(256, 64),
@@ -96,7 +99,7 @@ void SceneMenu::renderGUI() {
 	mTextProgram.use();
 	mTextProgram.setUniformMatrix4f("PM", mProjectionMatrixGUI);
 	mTextProgram.setUniformMatrix4f("VM", mViewMatrixGUI);
-	text.render("TITLE", glm::vec2(0, 64), 64, glm::vec4(0, 0, 0, 1));
+	text.render();
 
 	Scene::renderGUI();
 	for (Button* button : mButtons)

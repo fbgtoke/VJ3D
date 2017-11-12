@@ -23,6 +23,10 @@
 /* SFML */
 #include <SFML/Audio.hpp>
 
+/* Freetype */
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
 /* Ohter classes */
 #include "Shader.h"
 #include "ShaderProgram.h"
