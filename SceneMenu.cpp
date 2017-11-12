@@ -56,7 +56,11 @@ void SceneMenu::initScene() {
 	Game::instance().getResource()->setBackgroundMusic("menu.ogg");
 }
 
-void SceneMenu::updateScene(int deltaTime) {}
+void SceneMenu::updateScene(int deltaTime) {
+	if (Game::instance().getKeyPressed(27)) // Escape
+		Game::instance().stop();
+}
+
 void SceneMenu::renderScene() {}
 
 void SceneMenu::initGUI() {
@@ -79,10 +83,34 @@ void SceneMenu::initGUI() {
 
 	mButtons.push_back(new Button(
 		glm::vec2(256, 64),
-		Game::instance().getResource()->getTexture("button_large.png"),
+		Game::instance().getResource()->getTexture("button_play.png"),
 		&mGuiProgram,
-		glm::vec2(SCREEN_WIDTH/2 - 128, 128),
+		glm::vec2(SCREEN_WIDTH/2 - 128, 64 * 2),
+		[this](){ std::cout << "Not implemented" << std::endl; }
+	));
+
+	mButtons.push_back(new Button(
+		glm::vec2(256, 64),
+		Game::instance().getResource()->getTexture("button_editor.png"),
+		&mGuiProgram,
+		glm::vec2(SCREEN_WIDTH/2 - 128, 64 * 4),
 		[this](){ Game::instance().changeScene(Scene::SCENE_EDITOR); }
+	));
+
+	mButtons.push_back(new Button(
+		glm::vec2(256, 64),
+		Game::instance().getResource()->getTexture("button_options.png"),
+		&mGuiProgram,
+		glm::vec2(SCREEN_WIDTH/2 - 128, 64 * 6),
+		[this](){ std::cout << "Not implemented" << std::endl; }
+	));
+
+	mButtons.push_back(new Button(
+		glm::vec2(256, 64),
+		Game::instance().getResource()->getTexture("button_credits.png"),
+		&mGuiProgram,
+		glm::vec2(SCREEN_WIDTH/2 - 128, 64 * 8),
+		[this](){ std::cout << "Not implemented" << std::endl; }
 	));
 }
 

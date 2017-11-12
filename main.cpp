@@ -58,6 +58,11 @@ static void mouseCallback(int button, int state, int x, int y)
 		Game::instance().mouseRelease(button);
 }
 
+static void reshapeCallback(int width, int height)
+{
+	Game::instance().resize(width, height);
+}
+
 static void drawCallback()
 {
 	Game::instance().render();
@@ -97,6 +102,7 @@ int main(int argc, char **argv)
 	glutSpecialUpFunc(specialUpCallback);
 	glutMouseFunc(mouseCallback);
 	glutMotionFunc(motionCallback);
+	glutReshapeFunc(reshapeCallback);
 	glutPassiveMotionFunc(motionCallback);
 
 	// GLEW will take care of OpenGL extension functions

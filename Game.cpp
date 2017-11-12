@@ -36,8 +36,6 @@ void Game::render() {
 }
 
 void Game::keyPressed(int key) {
-	if(key == 27) // Escape code
-		bPlay = false;
 	keys[key] = true;
 }
 
@@ -118,6 +116,11 @@ bool Game::getMouseButtonPressed() const {
 
 bool Game::getMouseButtonReleased() const {
 	return mMouseButtonPrevious && !mMouseButtonCurrent;
+}
+
+void Game::resize(int width, int height) {
+	if (width != SCREEN_WIDTH || height != SCREEN_HEIGHT)
+		glutReshapeWindow(SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 void Game::changeScene(Scene::SceneType type) {

@@ -50,6 +50,8 @@ public:
 	bool getMouseButtonPressed() const;
 	bool getMouseButtonReleased() const;
 
+	void resize(int width, int height);
+
 	void changeScene(Scene::SceneType type);
 	Scene* getScene();
 	Scene* getBufferedScene();

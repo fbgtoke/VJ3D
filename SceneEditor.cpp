@@ -75,6 +75,9 @@ void SceneEditor::updateScene(int deltaTime) {
 
 	if (Game::instance().getKeyPressed('+')) mModel.move(glm::vec3(0.0f, 0.0f,  0.2f));
 	if (Game::instance().getKeyPressed('-')) mModel.move(glm::vec3(0.0f, 0.0f, -0.2f));
+
+	if (Game::instance().getKeyPressed(27)) // Escape
+		Game::instance().changeScene(SCENE_MENU);
 }
 
 void SceneEditor::renderScene() {
