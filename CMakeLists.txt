@@ -37,6 +37,8 @@ file(GLOB sources
     "*.cpp"
 )
 
+SET(GCC_COVERAGE_COMPILE_FLAGS "-O0 -G")
+
 add_executable(${appName} ${sources})
 
 target_link_libraries(${appName} ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES} ${GLEW_LIBRARIES} ${SOIL_LIBRARIES} ${FREETYPE_LIBRARIES} ${SFML_LIBRARIES} ${FREETYPE_LIBRARIES}) # ${GLM_LIBRARIES}

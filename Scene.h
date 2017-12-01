@@ -14,8 +14,7 @@ public:
 
 	enum SceneType {
 		SCENE_TEST,
-		SCENE_MENU,
-		SCENE_EDITOR
+		SCENE_PLAY
 	};
 	static Scene* create(SceneType type);
 
@@ -24,7 +23,7 @@ public:
 protected:
 	float mCurrentTime;
 
-	ShaderProgram mTexProgram, mGuiProgram;
+	std::shared_ptr<ShaderProgram> mTexProgram, mGuiProgram;
 	glm::mat4 mProjectionMatrix, mViewMatrix;
 	glm::mat4 mProjectionMatrixGUI, mViewMatrixGUI;
 

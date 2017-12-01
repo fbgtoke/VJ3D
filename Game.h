@@ -58,7 +58,7 @@ public:
 	
 	void stop();
 
-	ResourceManager* getResource();
+	ResourceManager& getResource();
 
 private:
 	bool bPlay;                       // Continue to play game?

@@ -7,7 +7,7 @@ void Game::init() {
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 
-	scene = Scene::create(Scene::SCENE_MENU);
+	scene = Scene::create(Scene::SCENE_TEST);
 	scene->init();
 
 	bufferedScene = nullptr;
@@ -26,6 +26,8 @@ bool Game::update(int deltaTime) {
 
 		bufferedScene = nullptr;
 	}
+
+	mResourceManager.checkUnusedResources();
 
 	return bPlay;
 }
@@ -135,4 +137,4 @@ Scene* Game::getBufferedScene() { return bufferedScene; }
 
 void Game::stop() { bPlay = false; }
 
-ResourceManager* Game::getResource() { return &mResourceManager; }
+ResourceManager& Game::getResource() { return mResourceManager; }

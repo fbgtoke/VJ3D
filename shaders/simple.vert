@@ -1,18 +1,17 @@
 #version 130
 
-uniform mat4 PM, VM;
-uniform mat4 modelMatrix;
-uniform vec4 color;
+uniform mat4 PM, VM, TG;
 
-in vec3 position;
+in vec3 vertex;
 in vec3 normal;
+in vec2 texcoord;
 
-out vec3 fragNormal;
-out vec4 fragColor;
+out vec3 normalFrag;
+out vec2 texcoordFrag;
 
 void main() {
-	fragNormal = (modelMatrix * vec4(normal, 0.0)).xyz;
-	fragColor = color;
-
-	gl_Position = PM * VM * modelMatrix * vec4(position, 1.0);
+	normalFrag = normal;
+	texcoordFrag = texcoord;
+	
+	gl_Position = PM * VM * TG * vec4(vertex, 1.0);
 }

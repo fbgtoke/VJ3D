@@ -150,60 +150,6 @@ Button.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Button.cpp.s
 .PHONY : Button.cpp.s
 
-Cube.o: Cube.cpp.o
-
-.PHONY : Cube.o
-
-# target to build an object file
-Cube.cpp.o:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Cube.cpp.o
-.PHONY : Cube.cpp.o
-
-Cube.i: Cube.cpp.i
-
-.PHONY : Cube.i
-
-# target to preprocess a source file
-Cube.cpp.i:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Cube.cpp.i
-.PHONY : Cube.cpp.i
-
-Cube.s: Cube.cpp.s
-
-.PHONY : Cube.s
-
-# target to generate assembly for a file
-Cube.cpp.s:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Cube.cpp.s
-.PHONY : Cube.cpp.s
-
-Cursor.o: Cursor.cpp.o
-
-.PHONY : Cursor.o
-
-# target to build an object file
-Cursor.cpp.o:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Cursor.cpp.o
-.PHONY : Cursor.cpp.o
-
-Cursor.i: Cursor.cpp.i
-
-.PHONY : Cursor.i
-
-# target to preprocess a source file
-Cursor.cpp.i:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Cursor.cpp.i
-.PHONY : Cursor.cpp.i
-
-Cursor.s: Cursor.cpp.s
-
-.PHONY : Cursor.s
-
-# target to generate assembly for a file
-Cursor.cpp.s:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Cursor.cpp.s
-.PHONY : Cursor.cpp.s
-
 Game.o: Game.cpp.o
 
 .PHONY : Game.o
@@ -231,6 +177,33 @@ Game.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Game.cpp.s
 .PHONY : Game.cpp.s
 
+Mesh.o: Mesh.cpp.o
+
+.PHONY : Mesh.o
+
+# target to build an object file
+Mesh.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Mesh.cpp.o
+.PHONY : Mesh.cpp.o
+
+Mesh.i: Mesh.cpp.i
+
+.PHONY : Mesh.i
+
+# target to preprocess a source file
+Mesh.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Mesh.cpp.i
+.PHONY : Mesh.cpp.i
+
+Mesh.s: Mesh.cpp.s
+
+.PHONY : Mesh.s
+
+# target to generate assembly for a file
+Mesh.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Mesh.cpp.s
+.PHONY : Mesh.cpp.s
+
 Model.o: Model.cpp.o
 
 .PHONY : Model.o
@@ -257,6 +230,33 @@ Model.s: Model.cpp.s
 Model.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Model.cpp.s
 .PHONY : Model.cpp.s
+
+ObjReader.o: ObjReader.cpp.o
+
+.PHONY : ObjReader.o
+
+# target to build an object file
+ObjReader.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObjReader.cpp.o
+.PHONY : ObjReader.cpp.o
+
+ObjReader.i: ObjReader.cpp.i
+
+.PHONY : ObjReader.i
+
+# target to preprocess a source file
+ObjReader.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObjReader.cpp.i
+.PHONY : ObjReader.cpp.i
+
+ObjReader.s: ObjReader.cpp.s
+
+.PHONY : ObjReader.s
+
+# target to generate assembly for a file
+ObjReader.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObjReader.cpp.s
+.PHONY : ObjReader.cpp.s
 
 ResourceManager.o: ResourceManager.cpp.o
 
@@ -312,59 +312,32 @@ Scene.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Scene.cpp.s
 .PHONY : Scene.cpp.s
 
-SceneEditor.o: SceneEditor.cpp.o
+SceneTest.o: SceneTest.cpp.o
 
-.PHONY : SceneEditor.o
-
-# target to build an object file
-SceneEditor.cpp.o:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneEditor.cpp.o
-.PHONY : SceneEditor.cpp.o
-
-SceneEditor.i: SceneEditor.cpp.i
-
-.PHONY : SceneEditor.i
-
-# target to preprocess a source file
-SceneEditor.cpp.i:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneEditor.cpp.i
-.PHONY : SceneEditor.cpp.i
-
-SceneEditor.s: SceneEditor.cpp.s
-
-.PHONY : SceneEditor.s
-
-# target to generate assembly for a file
-SceneEditor.cpp.s:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneEditor.cpp.s
-.PHONY : SceneEditor.cpp.s
-
-SceneMenu.o: SceneMenu.cpp.o
-
-.PHONY : SceneMenu.o
+.PHONY : SceneTest.o
 
 # target to build an object file
-SceneMenu.cpp.o:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneMenu.cpp.o
-.PHONY : SceneMenu.cpp.o
+SceneTest.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneTest.cpp.o
+.PHONY : SceneTest.cpp.o
 
-SceneMenu.i: SceneMenu.cpp.i
+SceneTest.i: SceneTest.cpp.i
 
-.PHONY : SceneMenu.i
+.PHONY : SceneTest.i
 
 # target to preprocess a source file
-SceneMenu.cpp.i:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneMenu.cpp.i
-.PHONY : SceneMenu.cpp.i
+SceneTest.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneTest.cpp.i
+.PHONY : SceneTest.cpp.i
 
-SceneMenu.s: SceneMenu.cpp.s
+SceneTest.s: SceneTest.cpp.s
 
-.PHONY : SceneMenu.s
+.PHONY : SceneTest.s
 
 # target to generate assembly for a file
-SceneMenu.cpp.s:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneMenu.cpp.s
-.PHONY : SceneMenu.cpp.s
+SceneTest.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneTest.cpp.s
+.PHONY : SceneTest.cpp.s
 
 Shader.o: Shader.cpp.o
 
@@ -567,30 +540,27 @@ help:
 	@echo "... Button.o"
 	@echo "... Button.i"
 	@echo "... Button.s"
-	@echo "... Cube.o"
-	@echo "... Cube.i"
-	@echo "... Cube.s"
-	@echo "... Cursor.o"
-	@echo "... Cursor.i"
-	@echo "... Cursor.s"
 	@echo "... Game.o"
 	@echo "... Game.i"
 	@echo "... Game.s"
+	@echo "... Mesh.o"
+	@echo "... Mesh.i"
+	@echo "... Mesh.s"
 	@echo "... Model.o"
 	@echo "... Model.i"
 	@echo "... Model.s"
+	@echo "... ObjReader.o"
+	@echo "... ObjReader.i"
+	@echo "... ObjReader.s"
 	@echo "... ResourceManager.o"
 	@echo "... ResourceManager.i"
 	@echo "... ResourceManager.s"
 	@echo "... Scene.o"
 	@echo "... Scene.i"
 	@echo "... Scene.s"
-	@echo "... SceneEditor.o"
-	@echo "... SceneEditor.i"
-	@echo "... SceneEditor.s"
-	@echo "... SceneMenu.o"
-	@echo "... SceneMenu.i"
-	@echo "... SceneMenu.s"
+	@echo "... SceneTest.o"
+	@echo "... SceneTest.i"
+	@echo "... SceneTest.s"
 	@echo "... Shader.o"
 	@echo "... Shader.i"
 	@echo "... Shader.s"
