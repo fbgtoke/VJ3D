@@ -22,6 +22,15 @@ void ResourceManager::checkUnusedResources() {
 			++it;
 		}
 	}
+
+	for (auto it = mTextures.begin(); it != mTextures.end();) {
+		if (it->second.use_count() == 1) {
+      std::cout << "Erasing texture " + it->first << std::endl;
+			mTextures.erase(it++);
+		} else {
+			++it;
+		}
+	}
 }
 
 std::shared_ptr<Mesh> ResourceManager::mesh(const std::string& name) {
@@ -36,6 +45,13 @@ std::shared_ptr<ShaderProgram> ResourceManager::shader(const std::string& name) 
 		loadShader(name);
 
 	return mShaders[name];
+}
+
+std::shared_ptr<Texture> ResourceManager::texture(const std::string& name) {
+	if (mTextures.count(name) == 0)
+		loadTexture(name);
+
+	return mTextures[name];
 }
 
 void ResourceManager::loadMesh(const std::string& name) {
@@ -88,4 +104,11 @@ void ResourceManager::loadShader(const std::string& name) {
 	fShader.free();
 
 	mShaders[name] = std::shared_ptr<ShaderProgram>(shaderProgram);
+}
+
+void ResourceManager::loadTexture(const std::string& name) {
+  Texture* texture = new Texture();
+  texture->loadFromFile("textures/" + name, TEXTURE_PIXEL_FORMAT_RGBA);
+
+  mTextures[name] = std::shared_ptr<Texture>(texture);
 }
