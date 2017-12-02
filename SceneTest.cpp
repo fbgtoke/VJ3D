@@ -27,7 +27,11 @@ void SceneTest::initScene() {
   up  = glm::vec3( 0, 1,   0);
 
   for (int i = 0; i < 100; ++i) {
-    if (i < 99)
+    if (i == 10)
+      mChunks[i].init(Chunk::TRAIN, i);
+    else if (i == 13 || i == 14)
+      mChunks[i].init(Chunk::ROAD, i);
+    else if (i < 99)
       mChunks[i].init(Chunk::GRASS, i);
     else
       mChunks[i].init(Chunk::GOAL, i);

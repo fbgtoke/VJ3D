@@ -81,6 +81,14 @@ void Chunk::initFloor() {
     mesh = Game::instance().getResource().mesh("cube.obj");
     texture = Game::instance().getResource().texture("cactus.png");
     break;
+  case ROAD:
+    mesh = Game::instance().getResource().mesh("goal.obj");
+    texture = Game::instance().getResource().texture("road.png");
+    break;
+  case TRAIN:
+    mesh = Game::instance().getResource().mesh("goal.obj");
+    texture = Game::instance().getResource().texture("rail.png");
+    break;
   case GOAL:
     mesh = Game::instance().getResource().mesh("goal.obj");
     texture = Game::instance().getResource().texture("goal.png");
