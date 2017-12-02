@@ -22,8 +22,11 @@ public:
 
   size_t numVertices() const;
 
+  void getMinMaxVertices(glm::vec3& min, glm::vec3& max) const;
+
   glm::vec3 center() const;
-  float scale() const;
+  glm::vec3 sizeInTiles() const;
+  glm::vec3 size() const;
 
 protected:
   float* mVertices;

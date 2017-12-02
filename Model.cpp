@@ -8,16 +8,27 @@ Model::Model() :
 Model::~Model() {}
 
 void Model::init() {
-	mPosition = glm::vec3(0.f);
+	mPositionInTiles = glm::vec3(0.f);
+  mCenter = glm::vec3(0.f);
+  mSizeInTiles = glm::vec3(0.f);
+  mRotation = glm::vec3(0.f);
+
 	mShaderProgram = Game::instance().getResource().shader("simple");
 }
+
+void Model::update(int deltaTime) {}
 
 void Model::render() {
   if (mMesh == nullptr) return;
 
 	glm::mat4 modelMatrix(1.f);
-	modelMatrix = glm::translate(modelMatrix, mPosition);
-	modelMatrix = glm::translate(modelMatrix, mMesh->center() * (-1.f));
+	modelMatrix = glm::translate(modelMatrix, mPositionInTiles * TILE_SIZE);
+  modelMatrix = glm::translate(modelMatrix, glm::vec3(TILE_SIZE) * 0.5f);
+  modelMatrix = glm::translate(modelMatrix, mSize * 0.5f);
+  modelMatrix = glm::rotate(modelMatrix, mRotation.z, glm::vec3(0, 0, 1));
+  modelMatrix = glm::rotate(modelMatrix, mRotation.y, glm::vec3(0, 1, 0));
+  modelMatrix = glm::rotate(modelMatrix, mRotation.x, glm::vec3(1, 0, 0));
+	modelMatrix = glm::translate(modelMatrix, mCenter * (-1.f));
 	
 	mShaderProgram->setUniformMatrix4f("TG", modelMatrix);
 	mShaderProgram->setUniform4f("color", 1.f, 1.f, 1.f, 1.f);
@@ -37,11 +48,19 @@ void Model::setTexture(std::shared_ptr<Texture> texture) { mTexture = texture; }
 void Model::setMesh(std::shared_ptr<Mesh> mesh) {
   mMesh = mesh;
   initVAO();
+
+  mCenter = mMesh->center();
+  mSizeInTiles = mMesh->sizeInTiles();
+  mSize = mMesh->size();
 }
 
-void Model::setPosition(const glm::vec3& position) { mPosition = position; }
-glm::vec3 Model::getPosition() const { return mPosition; }
-void Model::move(const glm::vec3& direction) { mPosition += direction; }
+void Model::setPositionInTiles(const glm::vec3& position) { mPositionInTiles = position; }
+void Model::setRotation(const glm::vec3& rotation) { mRotation = rotation; }
+
+void Model::move(const glm::vec3& direction) { mPositionInTiles += direction; }
+
+glm::vec3 Model::getPositionInTiles() const { return mPositionInTiles; }
+glm::vec3 Model::getCenter() const { return mPositionInTiles*TILE_SIZE + mCenter; }
 
 void Model::initVAO() {
   glGenVertexArrays(1, &mVAO);

@@ -35,49 +35,54 @@ size_t Mesh::texcoordsSize() const { return nFloatsTexCoords * sizeof(float); }
 
 size_t Mesh::numVertices() const { return nFloatsVertices/3; }
 
+void Mesh::getMinMaxVertices(glm::vec3& min, glm::vec3& max) const {
+  min.x = max.x = mVertices[0];
+  min.y = max.y = mVertices[1];
+  min.z = max.z = mVertices[2];
+
+  for (unsigned int i = 3; i < nFloatsVertices; i+=3) {
+    if (mVertices[i+0] < min.x)
+      min.x = mVertices[i+0];
+    if (mVertices[i+0] > max.x)
+      max.x = mVertices[i+0];
+    if (mVertices[i+1] < min.y)
+      min.y = mVertices[i+1];
+    if (mVertices[i+1] > max.y)
+      max.y = mVertices[i+1];
+    if (mVertices[i+2] < min.z)
+      min.z = mVertices[i+2];
+    if (mVertices[i+2] > max.z)
+      max.z = mVertices[i+2];
+  }
+}
+
 glm::vec3 Mesh::center() const {
   glm::vec3 center;
 
-  float minx, miny, minz, maxx, maxy, maxz;
-  minx = maxx = mVertices[0];
-  miny = maxy = mVertices[1];
-  minz = maxz = mVertices[2];
+  glm::vec3 min, max;
+  getMinMaxVertices(min, max);
 
-  for (unsigned int i = 3; i < nFloatsVertices; i+=3) {
-    if (mVertices[i+0] < minx)
-      minx = mVertices[i+0];
-    if (mVertices[i+0] > maxx)
-      maxx = mVertices[i+0];
-    if (mVertices[i+1] < miny)
-      miny = mVertices[i+1];
-    if (mVertices[i+1] > maxy)
-      maxy = mVertices[i+1];
-    if (mVertices[i+2] < minz)
-      minz = mVertices[i+2];
-    if (mVertices[i+2] > maxz)
-      maxz = mVertices[i+2];
-  }
+  center.x = (min.x + max.x)/2.f;
+  center.y = (min.y + max.y)/2.f;
+  center.z = (min.z + max.z)/2.f;
 
-  center.x = (minx+maxx)/2.0;
-  center.y = (miny+maxy)/2.0;
-  center.z = (minz+maxz)/2.0;
+  return center;
 }
 
-float Mesh::scale() const {
-  float minx, miny, maxx, maxy;
-  minx = maxx = mVertices[0];
-  miny = maxy = mVertices[1];
+glm::vec3 Mesh::sizeInTiles() const {
+  glm::vec3 s = size();
 
-  for (unsigned int i = 3; i < nFloatsVertices; i+=3) {
-    if (mVertices[i+0] < minx)
-      minx = mVertices[i+0];
-    if (mVertices[i+0] > maxx)
-      maxx = mVertices[i+0];
-    if (mVertices[i+1] < miny)
-      miny = mVertices[i+1];
-    if (mVertices[i+1] > maxy)
-      maxy = mVertices[i+1];
-  }
+  s.x = ceil(s.x/TILE_SIZE);
+  s.y = ceil(s.y/TILE_SIZE);
+  s.z = ceil(s.z/TILE_SIZE);
 
-  return 2.0/(maxy-miny);
+  return s;
+}
+
+glm::vec3 Mesh::size() const {
+  glm::vec3 min, max;
+  getMinMaxVertices(min, max);
+
+  glm::vec3 size = max - min;
+  return size;
 }

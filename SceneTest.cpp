@@ -16,18 +16,19 @@ void SceneTest::initScene() {
 	float zfar  = 10000.f;
 	mProjectionMatrix = glm::perspective(FOV, ar, znear, zfar);
 
-	glm::vec3 OBS = glm::vec3(0.f, 8.f, 32.f);
-	glm::vec3 VRP = glm::vec3(0.f, 0.f, -64.f);
-	glm::vec3 up = glm::vec3(0.f, 1.f, 0.f);
-	mViewMatrix = glm::lookAt(OBS, VRP, up);
+  mPlayer.init();
+  mPlayer.setMesh(Game::instance().getResource().mesh("cowboy.obj"));
+  mPlayer.setTexture(Game::instance().getResource().texture("cowboy.png"));
+  mPlayer.setPositionInTiles(glm::vec3(TILES_PER_CHUNK/2, 0, 0));
 
-	auto texture = Game::instance().getResource().texture("cactus.png");
-	auto mesh = Game::instance().getResource().mesh("cactus.obj");
+  VRP = mPlayer.getCenter();
+  OBS = VRP + glm::vec3(5, 8, 10) * TILE_SIZE;
+  up  = glm::vec3( 0, 1,   0);
 
-	mModel.init();
-	mModel.setTexture(texture);
-	mModel.setMesh(mesh);
-	mModel.setPosition(glm::vec3(0.f, -15.f, -4.f));
+  for (int i = 0; i < 100; ++i) {
+    mChunks[i].init();
+    mChunks[i].setDepth(i);
+  }
 }
 
 void SceneTest::updateScene(int deltaTime) {
@@ -35,6 +36,13 @@ void SceneTest::updateScene(int deltaTime) {
 
   if (Game::instance().getKeyPressed(27)) // Escape
     Game::instance().stop();
+
+  mPlayer.update(deltaTime);
+
+  VRP = mPlayer.getCenter();
+  OBS = VRP + glm::vec3(5, 8, 10) * TILE_SIZE;
+
+  mViewMatrix = glm::lookAt(OBS, VRP, up);
 }
 
 void SceneTest::renderScene() {
@@ -43,5 +51,8 @@ void SceneTest::renderScene() {
 	mTexProgram->setUniform3f("lightDir", kLightDirection.x, kLightDirection.y, kLightDirection.z);
 	mTexProgram->setUniform1f("ambientColor", kAmbientLight);
 
-	mModel.render();
+  mPlayer.render();
+	
+  for (int i = 0; i < 100; ++i)
+    mChunks[i].render();
 }

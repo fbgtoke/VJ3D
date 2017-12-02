@@ -44,11 +44,9 @@ static const glm::vec3 LEFT  = glm::vec3(-1.f, 0.f, 0.f);
 static const glm::vec3 OUT   = glm::vec3(0.f, 0.f, 1.f);
 static const glm::vec3 IN    = glm::vec3(0.f, 0.f, -1.f);
 
-static const float CUBE_SIZE = 0.1f;
-static const unsigned int CUBES_PER_TILE  = 16;
-static const unsigned int TILES_PER_CHUNK = 30;
+static const float TILE_SIZE  = 16;
+static const float TILES_PER_CHUNK = 25;
 
-static const float TILE_SIZE = CUBE_SIZE * CUBES_PER_TILE;
 static const float CHUNK_SIZE = TILE_SIZE * TILES_PER_CHUNK;
 
 /* Useful macros */

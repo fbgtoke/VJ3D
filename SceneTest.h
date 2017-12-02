@@ -2,7 +2,8 @@
 #define SCENE_TEST_INCLUDE
 
 #include "Scene.h"
-#include "Model.h"
+#include "Chunk.h"
+#include "Player.h"
 
 class SceneTest : public Scene {
 public:
@@ -13,11 +14,14 @@ private:
 	static const glm::vec3 kLightDirection;
 	static const float kAmbientLight;
 
+	glm::vec3 OBS, VRP, up;
+
 	void initScene() override;
 	void updateScene(int deltaTime) override;
 	void renderScene() override;
 
-	Model mModel;
+	Player mPlayer;
+	Chunk mChunks[100];
 };
 
 #endif // SCENE_TEST_INCLUDE

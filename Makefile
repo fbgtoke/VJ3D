@@ -150,6 +150,33 @@ Button.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Button.cpp.s
 .PHONY : Button.cpp.s
 
+Chunk.o: Chunk.cpp.o
+
+.PHONY : Chunk.o
+
+# target to build an object file
+Chunk.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Chunk.cpp.o
+.PHONY : Chunk.cpp.o
+
+Chunk.i: Chunk.cpp.i
+
+.PHONY : Chunk.i
+
+# target to preprocess a source file
+Chunk.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Chunk.cpp.i
+.PHONY : Chunk.cpp.i
+
+Chunk.s: Chunk.cpp.s
+
+.PHONY : Chunk.s
+
+# target to generate assembly for a file
+Chunk.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Chunk.cpp.s
+.PHONY : Chunk.cpp.s
+
 Game.o: Game.cpp.o
 
 .PHONY : Game.o
@@ -257,6 +284,33 @@ ObjReader.s: ObjReader.cpp.s
 ObjReader.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObjReader.cpp.s
 .PHONY : ObjReader.cpp.s
+
+Player.o: Player.cpp.o
+
+.PHONY : Player.o
+
+# target to build an object file
+Player.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Player.cpp.o
+.PHONY : Player.cpp.o
+
+Player.i: Player.cpp.i
+
+.PHONY : Player.i
+
+# target to preprocess a source file
+Player.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Player.cpp.i
+.PHONY : Player.cpp.i
+
+Player.s: Player.cpp.s
+
+.PHONY : Player.s
+
+# target to generate assembly for a file
+Player.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Player.cpp.s
+.PHONY : Player.cpp.s
 
 ResourceManager.o: ResourceManager.cpp.o
 
@@ -540,6 +594,9 @@ help:
 	@echo "... Button.o"
 	@echo "... Button.i"
 	@echo "... Button.s"
+	@echo "... Chunk.o"
+	@echo "... Chunk.i"
+	@echo "... Chunk.s"
 	@echo "... Game.o"
 	@echo "... Game.i"
 	@echo "... Game.s"
@@ -552,6 +609,9 @@ help:
 	@echo "... ObjReader.o"
 	@echo "... ObjReader.i"
 	@echo "... ObjReader.s"
+	@echo "... Player.o"
+	@echo "... Player.i"
+	@echo "... Player.s"
 	@echo "... ResourceManager.o"
 	@echo "... ResourceManager.i"
 	@echo "... ResourceManager.s"
