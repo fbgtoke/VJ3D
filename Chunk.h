@@ -9,14 +9,30 @@ public:
 	Chunk();
 	~Chunk();
 
-	void init();
+  enum ChunkType {
+    GRASS,
+    ROAD,
+    TRAIN,
+    WATER,
+    GOAL
+  };
+
+	void init(ChunkType type, unsigned int depth);
 	void update(int deltaTime);
 	void render();
 
   void setDepth(unsigned int depth);
 
+  void setType(ChunkType type);
+  ChunkType getType() const;
+
 private:
 	unsigned int mDepth;
+  ChunkType mType;
+
+  void createFloor();
+  void initFloor();
+  std::list<Model*> mFloor;
 
 	std::list<Model*> mModels;
 };

@@ -3,6 +3,7 @@
 
 const glm::vec3 SceneTest::kLightDirection = glm::normalize(glm::vec3(0.0, -4.0, -1.0));
 const float SceneTest::kAmbientLight = 0.4f;
+const glm::vec3 SceneTest::kObsVector = glm::vec3(5, 8, 10);
 
 SceneTest::SceneTest() {}
 SceneTest::~SceneTest() {}
@@ -22,12 +23,14 @@ void SceneTest::initScene() {
   mPlayer.setPositionInTiles(glm::vec3(TILES_PER_CHUNK/2, 0, 0));
 
   VRP = mPlayer.getCenter();
-  OBS = VRP + glm::vec3(5, 8, 10) * TILE_SIZE;
+  OBS = VRP + kObsVector * TILE_SIZE;
   up  = glm::vec3( 0, 1,   0);
 
   for (int i = 0; i < 100; ++i) {
-    mChunks[i].init();
-    mChunks[i].setDepth(i);
+    if (i < 99)
+      mChunks[i].init(Chunk::GRASS, i);
+    else
+      mChunks[i].init(Chunk::GOAL, i);
   }
 }
 
