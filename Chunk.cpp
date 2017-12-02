@@ -12,30 +12,10 @@ Chunk::~Chunk() {
 }
 
 void Chunk::init(ChunkType type, unsigned int depth) {
+  setDepth(depth);
+
   createFloor();
   setType(type);
-  
-	Model* cactus = new Model();
-  cactus->init();
-  cactus->setMesh(Game::instance().getResource().mesh("cactus.obj"));
-  cactus->setTexture(Game::instance().getResource().texture("cactus.png"));
-  cactus->setPositionInTiles(glm::vec3(0, 0, 0));
-  mModels.push_back(cactus);
-
-  Model* boat = new Model();
-  boat->init();
-  boat->setMesh(Game::instance().getResource().mesh("boat.obj"));
-  boat->setTexture(Game::instance().getResource().texture("boat.png"));
-  boat->setPositionInTiles(glm::vec3(1, 0, 0));
-  mModels.push_back(boat);
-
-  Model* thumbleweed = new Model();
-  thumbleweed->init();
-  thumbleweed->setMesh(Game::instance().getResource().mesh("thumbleweed.obj"));
-  thumbleweed->setTexture(Game::instance().getResource().texture("thumbleweed.png"));
-  thumbleweed->setPositionInTiles(glm::vec3(3, 0, 0));
-  mModels.push_back(thumbleweed);
-  setDepth(depth);
 }
 
 void Chunk::update(int deltaTime) {}
@@ -45,15 +25,9 @@ void Chunk::render() {
 		model->render();
 }
 
-void Chunk::setDepth(unsigned int depth) {
-  mDepth = depth;
+void Chunk::setDepth(unsigned int depth) { mDepth = depth; }
 
-  glm::vec3 position;
-  for (Model* model : mModels) {
-    position = model->getPositionInTiles() + IN * (float)mDepth;
-    model->setPositionInTiles(position);
-  }
-}
+unsigned int Chunk::getDepth() const { return mDepth; }
 
 void Chunk::setType(Chunk::ChunkType type) {
   mType = type;
@@ -62,13 +36,22 @@ void Chunk::setType(Chunk::ChunkType type) {
 
 Chunk::ChunkType Chunk::getType() const { return mType; }
 
+void Chunk::addModel(Model* model) {
+  glm::vec3 position = model->getPositionInTiles();
+  position.z = (float)mDepth * (-1.f);
+
+  model->setPositionInTiles(position);
+  mModels.push_back(model);
+}
+
 void Chunk::createFloor() {
   for (int i = 0; i < TILES_PER_CHUNK; ++i) {
     Model* cube = new Model();
     cube->init();
     cube->setPositionInTiles(glm::vec3(i, -1, 0));
+
+    addModel(cube);
     mFloor.push_back(cube);
-    mModels.push_back(cube);
   }
 }
 

@@ -204,6 +204,33 @@ Game.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Game.cpp.s
 .PHONY : Game.cpp.s
 
+LvlReader.o: LvlReader.cpp.o
+
+.PHONY : LvlReader.o
+
+# target to build an object file
+LvlReader.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/LvlReader.cpp.o
+.PHONY : LvlReader.cpp.o
+
+LvlReader.i: LvlReader.cpp.i
+
+.PHONY : LvlReader.i
+
+# target to preprocess a source file
+LvlReader.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/LvlReader.cpp.i
+.PHONY : LvlReader.cpp.i
+
+LvlReader.s: LvlReader.cpp.s
+
+.PHONY : LvlReader.s
+
+# target to generate assembly for a file
+LvlReader.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/LvlReader.cpp.s
+.PHONY : LvlReader.cpp.s
+
 Mesh.o: Mesh.cpp.o
 
 .PHONY : Mesh.o
@@ -600,6 +627,9 @@ help:
 	@echo "... Game.o"
 	@echo "... Game.i"
 	@echo "... Game.s"
+	@echo "... LvlReader.o"
+	@echo "... LvlReader.i"
+	@echo "... LvlReader.s"
 	@echo "... Mesh.o"
 	@echo "... Mesh.i"
 	@echo "... Mesh.s"

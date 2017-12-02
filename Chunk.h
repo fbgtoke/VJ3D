@@ -22,9 +22,12 @@ public:
 	void render();
 
   void setDepth(unsigned int depth);
+  unsigned int getDepth() const;
 
   void setType(ChunkType type);
   ChunkType getType() const;
+
+  void addModel(Model* model);
 
 private:
 	unsigned int mDepth;

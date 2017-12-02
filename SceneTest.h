@@ -2,6 +2,7 @@
 #define SCENE_TEST_INCLUDE
 
 #include "Scene.h"
+#include "LvlReader.h"
 #include "Chunk.h"
 #include "Player.h"
 
@@ -22,7 +23,7 @@ private:
 	void renderScene() override;
 
 	Player mPlayer;
-	Chunk mChunks[100];
+	std::list<Chunk*> mChunks;
 };
 
 #endif // SCENE_TEST_INCLUDE

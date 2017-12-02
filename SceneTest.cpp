@@ -6,7 +6,14 @@ const float SceneTest::kAmbientLight = 0.4f;
 const glm::vec3 SceneTest::kObsVector = glm::vec3(5, 8, 10);
 
 SceneTest::SceneTest() {}
-SceneTest::~SceneTest() {}
+
+SceneTest::~SceneTest() {
+  for (Chunk* chunk : mChunks)
+    if (chunk != nullptr)
+      delete chunk;
+
+  mChunks.clear();
+}
 
 void SceneTest::initScene() {
 	Scene::initScene();
@@ -26,16 +33,8 @@ void SceneTest::initScene() {
   OBS = VRP + kObsVector * TILE_SIZE;
   up  = glm::vec3( 0, 1,   0);
 
-  for (int i = 0; i < 100; ++i) {
-    if (i == 10)
-      mChunks[i].init(Chunk::TRAIN, i);
-    else if (i == 13 || i == 14)
-      mChunks[i].init(Chunk::ROAD, i);
-    else if (i < 99)
-      mChunks[i].init(Chunk::GRASS, i);
-    else
-      mChunks[i].init(Chunk::GOAL, i);
-  }
+  LvlReader reader;
+  reader.loadFromFile("levels/test.lvl", mChunks);
 }
 
 void SceneTest::updateScene(int deltaTime) {
@@ -60,6 +59,6 @@ void SceneTest::renderScene() {
 
   mPlayer.render();
 	
-  for (int i = 0; i < 100; ++i)
-    mChunks[i].render();
+  for (Chunk* chunk : mChunks)
+    chunk->render();
 }
