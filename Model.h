@@ -19,12 +19,15 @@ public:
 
 	void setPositionInTiles(const glm::vec3& position);
 	void setRotation(const glm::vec3& rotation);
+  void setRotationSpeed(const glm::vec3& speed);
 
 	void move(const glm::vec3& direction);
 
 	glm::vec3 getPositionInTiles() const;
 	glm::vec3 getCenter() const;
 
+	void setScale(float s);
+	float getScale() const;
 
 protected:
 	void initVAO();
@@ -44,6 +47,9 @@ protected:
 	glm::vec3 mSize;
 
 	glm::vec3 mRotation;
+  glm::vec3 mRotationSpeed;
+
+	float mScale;
 };
 
 #endif // _MODEL_INCLUDE

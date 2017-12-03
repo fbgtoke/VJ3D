@@ -12,11 +12,15 @@ void Model::init() {
   mCenter = glm::vec3(0.f);
   mSizeInTiles = glm::vec3(0.f);
   mRotation = glm::vec3(0.f);
+  mRotationSpeed = glm::vec3(0.f);
+  mScale = 1.f;
 
 	mShaderProgram = Game::instance().getResource().shader("simple");
 }
 
-void Model::update(int deltaTime) {}
+void Model::update(int deltaTime) {
+  mRotation += mRotationSpeed * (float)deltaTime;
+}
 
 void Model::render() {
   if (mMesh == nullptr) return;
@@ -28,6 +32,7 @@ void Model::render() {
   modelMatrix = glm::rotate(modelMatrix, mRotation.z, glm::vec3(0, 0, 1));
   modelMatrix = glm::rotate(modelMatrix, mRotation.y, glm::vec3(0, 1, 0));
   modelMatrix = glm::rotate(modelMatrix, mRotation.x, glm::vec3(1, 0, 0));
+  modelMatrix = glm::scale(modelMatrix, glm::vec3(mScale));
 	modelMatrix = glm::translate(modelMatrix, mCenter * (-1.f));
 	
 	mShaderProgram->setUniformMatrix4f("TG", modelMatrix);
@@ -56,11 +61,15 @@ void Model::setMesh(std::shared_ptr<Mesh> mesh) {
 
 void Model::setPositionInTiles(const glm::vec3& position) { mPositionInTiles = position; }
 void Model::setRotation(const glm::vec3& rotation) { mRotation = rotation; }
+void Model::setRotationSpeed(const glm::vec3& speed) { mRotationSpeed = speed; }
 
 void Model::move(const glm::vec3& direction) { mPositionInTiles += direction; }
 
 glm::vec3 Model::getPositionInTiles() const { return mPositionInTiles; }
 glm::vec3 Model::getCenter() const { return mPositionInTiles*TILE_SIZE + mCenter; }
+
+void Model::setScale(float s) { mScale = s; }
+float Model::getScale() const { return mScale; }
 
 void Model::initVAO() {
   glGenVertexArrays(1, &mVAO);

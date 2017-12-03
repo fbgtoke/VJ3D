@@ -393,6 +393,33 @@ Scene.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Scene.cpp.s
 .PHONY : Scene.cpp.s
 
+SceneMenu.o: SceneMenu.cpp.o
+
+.PHONY : SceneMenu.o
+
+# target to build an object file
+SceneMenu.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneMenu.cpp.o
+.PHONY : SceneMenu.cpp.o
+
+SceneMenu.i: SceneMenu.cpp.i
+
+.PHONY : SceneMenu.i
+
+# target to preprocess a source file
+SceneMenu.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneMenu.cpp.i
+.PHONY : SceneMenu.cpp.i
+
+SceneMenu.s: SceneMenu.cpp.s
+
+.PHONY : SceneMenu.s
+
+# target to generate assembly for a file
+SceneMenu.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneMenu.cpp.s
+.PHONY : SceneMenu.cpp.s
+
 SceneTest.o: SceneTest.cpp.o
 
 .PHONY : SceneTest.o
@@ -648,6 +675,9 @@ help:
 	@echo "... Scene.o"
 	@echo "... Scene.i"
 	@echo "... Scene.s"
+	@echo "... SceneMenu.o"
+	@echo "... SceneMenu.i"
+	@echo "... SceneMenu.s"
 	@echo "... SceneTest.o"
 	@echo "... SceneTest.i"
 	@echo "... SceneTest.s"

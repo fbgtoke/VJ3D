@@ -12,11 +12,7 @@ public:
 	~SceneTest() override;
 
 private:
-	static const glm::vec3 kLightDirection;
-	static const float kAmbientLight;
 	static const glm::vec3 kObsVector;
-
-	glm::vec3 OBS, VRP, up;
 
 	void initScene() override;
 	void updateScene(int deltaTime) override;

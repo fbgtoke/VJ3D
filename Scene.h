@@ -14,6 +14,7 @@ public:
 
 	enum SceneType {
 		SCENE_TEST,
+		SCENE_MENU,
 		SCENE_PLAY
 	};
 	static Scene* create(SceneType type);
@@ -26,6 +27,11 @@ protected:
 	std::shared_ptr<ShaderProgram> mTexProgram, mGuiProgram;
 	glm::mat4 mProjectionMatrix, mViewMatrix;
 	glm::mat4 mProjectionMatrixGUI, mViewMatrixGUI;
+
+	glm::vec3 OBS, VRP;
+
+	static const glm::vec3 kLightDirection;
+	static const float kAmbientLight;
 
 	virtual void initScene();
 	virtual void updateScene(int deltaTime);

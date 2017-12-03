@@ -1,8 +1,6 @@
 #include "SceneTest.h"
 #include "Game.h"
 
-const glm::vec3 SceneTest::kLightDirection = glm::normalize(glm::vec3(0.0, -4.0, -1.0));
-const float SceneTest::kAmbientLight = 0.4f;
 const glm::vec3 SceneTest::kObsVector = glm::vec3(5, 8, 10);
 
 SceneTest::SceneTest() {}
@@ -31,7 +29,6 @@ void SceneTest::initScene() {
 
   VRP = mPlayer.getCenter();
   OBS = VRP + kObsVector * TILE_SIZE;
-  up  = glm::vec3( 0, 1,   0);
 
   LvlReader reader;
   reader.loadFromFile("levels/test.lvl", mChunks);
@@ -41,21 +38,18 @@ void SceneTest::updateScene(int deltaTime) {
   Scene::updateScene(deltaTime);
 
   if (Game::instance().getKeyPressed(27)) // Escape
-    Game::instance().stop();
+    Game::instance().changeScene(Scene::SCENE_MENU);
 
   mPlayer.update(deltaTime);
 
   VRP = mPlayer.getCenter();
   OBS = VRP + glm::vec3(5, 8, 10) * TILE_SIZE;
 
-  mViewMatrix = glm::lookAt(OBS, VRP, up);
+  mViewMatrix = glm::lookAt(OBS, VRP, UP);
 }
 
 void SceneTest::renderScene() {
 	Scene::renderScene();
-
-	mTexProgram->setUniform3f("lightDir", kLightDirection.x, kLightDirection.y, kLightDirection.z);
-	mTexProgram->setUniform1f("ambientColor", kAmbientLight);
 
   mPlayer.render();
 	
