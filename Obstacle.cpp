@@ -1,6 +1,6 @@
 #include "Obstacle.h"
 #include "ObstacleTree.h"
-#include "ObstacleCar.h"
+#include "ObstacleCarSpawner.h"
 
 Obstacle::Obstacle(ObstacleType type)
   : mType(type) {}
@@ -45,7 +45,7 @@ Obstacle* Obstacle::readCar(std::istringstream& sstream) {
   float period, spd;
   sstream >> period >> spd;
 
-  ObstacleCar* obstacle = new ObstacleCar();
+  ObstacleCarSpawner* obstacle = new ObstacleCarSpawner();
   obstacle->init(period, spd);
   return obstacle;
 }

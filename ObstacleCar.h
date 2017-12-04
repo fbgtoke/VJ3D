@@ -8,7 +8,7 @@ public:
   ObstacleCar();
   ~ObstacleCar() override;
 
-  void init(float period, float spd);
+  void init(float spd);
 };
 
 #endif // _OBSTACLE_CAR_INCLUDE

@@ -6,7 +6,7 @@ ObstacleCar::ObstacleCar()
 
 ObstacleCar::~ObstacleCar() {}
 
-void ObstacleCar::init(float period, float spd) {
+void ObstacleCar::init(float spd) {
   Obstacle::init();
   
   setMesh(Game::instance().getResource().mesh("carriage.obj"));
