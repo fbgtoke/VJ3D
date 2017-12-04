@@ -8,9 +8,9 @@ Model::Model() :
 Model::~Model() {}
 
 void Model::init() {
-	mPositionInTiles = glm::vec3(0.f);
+	mPosition = glm::vec3(0.f);
+  mVelocity = glm::vec3(0.f);
   mCenter = glm::vec3(0.f);
-  mSizeInTiles = glm::vec3(0.f);
   mRotation = glm::vec3(0.f);
   mRotationSpeed = glm::vec3(0.f);
   mScale = 1.f;
@@ -19,6 +19,7 @@ void Model::init() {
 }
 
 void Model::update(int deltaTime) {
+  move(mVelocity * (float)deltaTime);
   mRotation += mRotationSpeed * (float)deltaTime;
 }
 
@@ -26,7 +27,7 @@ void Model::render() {
   if (mMesh == nullptr) return;
 
 	glm::mat4 modelMatrix(1.f);
-	modelMatrix = glm::translate(modelMatrix, mPositionInTiles * TILE_SIZE);
+	modelMatrix = glm::translate(modelMatrix, mPosition);
   modelMatrix = glm::translate(modelMatrix, glm::vec3(TILE_SIZE) * 0.5f);
   modelMatrix = glm::translate(modelMatrix, mSize * 0.5f);
   modelMatrix = glm::rotate(modelMatrix, mRotation.z, glm::vec3(0, 0, 1));
@@ -55,18 +56,23 @@ void Model::setMesh(std::shared_ptr<Mesh> mesh) {
   initVAO();
 
   mCenter = mMesh->center();
-  mSizeInTiles = mMesh->sizeInTiles();
   mSize = mMesh->size();
 }
 
-void Model::setPositionInTiles(const glm::vec3& position) { mPositionInTiles = position; }
+void Model::setPosition(const glm::vec3& position) { mPosition = position; }
+void Model::setPositionInTiles(const glm::vec3& position) { mPosition = position * TILE_SIZE; }
+void Model::setVelocity(const glm::vec3& velocity) { mVelocity = velocity; }
 void Model::setRotation(const glm::vec3& rotation) { mRotation = rotation; }
 void Model::setRotationSpeed(const glm::vec3& speed) { mRotationSpeed = speed; }
 
-void Model::move(const glm::vec3& direction) { mPositionInTiles += direction; }
+void Model::move(const glm::vec3& direction) { mPosition += direction; }
+void Model::moveInTiles(const glm::vec3& direction) { mPosition += direction * TILE_SIZE; }
 
-glm::vec3 Model::getPositionInTiles() const { return mPositionInTiles; }
-glm::vec3 Model::getCenter() const { return mPositionInTiles*TILE_SIZE + mCenter; }
+glm::vec3 Model::getPosition() const { return mPosition; }
+glm::vec3 Model::getPositionInTiles() const { return mPosition * TILE_SIZE; }
+glm::vec3 Model::getCenter() const { return mPosition + mCenter; }
+
+glm::vec3 Model::getVelocity() const { return mVelocity; }
 
 void Model::setScale(float s) { mScale = s; }
 float Model::getScale() const { return mScale; }

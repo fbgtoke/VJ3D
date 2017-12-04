@@ -41,6 +41,8 @@ void SceneTest::updateScene(int deltaTime) {
     Game::instance().changeScene(Scene::SCENE_MENU);
 
   mPlayer.update(deltaTime);
+  for (Chunk* chunk : mChunks)
+    chunk->update(deltaTime);
 
   VRP = mPlayer.getCenter();
   OBS = VRP + glm::vec3(5, 8, 10) * TILE_SIZE;

@@ -312,6 +312,87 @@ ObjReader.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObjReader.cpp.s
 .PHONY : ObjReader.cpp.s
 
+Obstacle.o: Obstacle.cpp.o
+
+.PHONY : Obstacle.o
+
+# target to build an object file
+Obstacle.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Obstacle.cpp.o
+.PHONY : Obstacle.cpp.o
+
+Obstacle.i: Obstacle.cpp.i
+
+.PHONY : Obstacle.i
+
+# target to preprocess a source file
+Obstacle.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Obstacle.cpp.i
+.PHONY : Obstacle.cpp.i
+
+Obstacle.s: Obstacle.cpp.s
+
+.PHONY : Obstacle.s
+
+# target to generate assembly for a file
+Obstacle.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Obstacle.cpp.s
+.PHONY : Obstacle.cpp.s
+
+ObstacleCar.o: ObstacleCar.cpp.o
+
+.PHONY : ObstacleCar.o
+
+# target to build an object file
+ObstacleCar.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleCar.cpp.o
+.PHONY : ObstacleCar.cpp.o
+
+ObstacleCar.i: ObstacleCar.cpp.i
+
+.PHONY : ObstacleCar.i
+
+# target to preprocess a source file
+ObstacleCar.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleCar.cpp.i
+.PHONY : ObstacleCar.cpp.i
+
+ObstacleCar.s: ObstacleCar.cpp.s
+
+.PHONY : ObstacleCar.s
+
+# target to generate assembly for a file
+ObstacleCar.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleCar.cpp.s
+.PHONY : ObstacleCar.cpp.s
+
+ObstacleTree.o: ObstacleTree.cpp.o
+
+.PHONY : ObstacleTree.o
+
+# target to build an object file
+ObstacleTree.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleTree.cpp.o
+.PHONY : ObstacleTree.cpp.o
+
+ObstacleTree.i: ObstacleTree.cpp.i
+
+.PHONY : ObstacleTree.i
+
+# target to preprocess a source file
+ObstacleTree.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleTree.cpp.i
+.PHONY : ObstacleTree.cpp.i
+
+ObstacleTree.s: ObstacleTree.cpp.s
+
+.PHONY : ObstacleTree.s
+
+# target to generate assembly for a file
+ObstacleTree.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleTree.cpp.s
+.PHONY : ObstacleTree.cpp.s
+
 Player.o: Player.cpp.o
 
 .PHONY : Player.o
@@ -666,6 +747,15 @@ help:
 	@echo "... ObjReader.o"
 	@echo "... ObjReader.i"
 	@echo "... ObjReader.s"
+	@echo "... Obstacle.o"
+	@echo "... Obstacle.i"
+	@echo "... Obstacle.s"
+	@echo "... ObstacleCar.o"
+	@echo "... ObstacleCar.i"
+	@echo "... ObstacleCar.s"
+	@echo "... ObstacleTree.o"
+	@echo "... ObstacleTree.i"
+	@echo "... ObstacleTree.s"
 	@echo "... Player.o"
 	@echo "... Player.i"
 	@echo "... Player.s"

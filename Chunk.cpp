@@ -4,11 +4,17 @@
 Chunk::Chunk() {}
 
 Chunk::~Chunk() {
-	for (Model* model : mModels)
+	for (Model* model : mFloor)
 		if (model != nullptr)
 			delete model;
 
-	mModels.clear();
+	mFloor.clear();
+
+  for (Obstacle* obstacle : mObstacles)
+    if (obstacle != nullptr)
+      delete obstacle;
+
+  mObstacles.clear();
 }
 
 void Chunk::init(ChunkType type, unsigned int depth) {
@@ -18,11 +24,14 @@ void Chunk::init(ChunkType type, unsigned int depth) {
   setType(type);
 }
 
-void Chunk::update(int deltaTime) {}
+void Chunk::update(int deltaTime) {
+  for (Obstacle* obstacle : mObstacles)
+    obstacle->update(deltaTime);
+}
 
 void Chunk::render() {
-	for (Model* model : mModels)
-		model->render();
+	for (Model* model : mFloor) model->render();
+  for (Obstacle* obstacle : mObstacles) obstacle->render();
 }
 
 void Chunk::setDepth(unsigned int depth) { mDepth = depth; }
@@ -36,21 +45,20 @@ void Chunk::setType(Chunk::ChunkType type) {
 
 Chunk::ChunkType Chunk::getType() const { return mType; }
 
-void Chunk::addModel(Model* model) {
-  glm::vec3 position = model->getPositionInTiles();
+void Chunk::addObstacle(Obstacle* obstacle) {
+  glm::vec3 position = obstacle->getPositionInTiles();
   position.z = (float)mDepth * (-1.f);
 
-  model->setPositionInTiles(position);
-  mModels.push_back(model);
+  obstacle->setPositionInTiles(position);
+  mObstacles.push_back(obstacle);
 }
 
 void Chunk::createFloor() {
   for (int i = 0; i < TILES_PER_CHUNK; ++i) {
     Model* cube = new Model();
     cube->init();
-    cube->setPositionInTiles(glm::vec3(i, -1, 0));
+    cube->setPositionInTiles(glm::vec3(i, -1, (int)mDepth * -1));
 
-    addModel(cube);
     mFloor.push_back(cube);
   }
 }

@@ -41,16 +41,14 @@ void LvlReader::readObject(const std::string& line, std::list<Chunk*>& chunks) {
   unsigned int depth = chunk->getDepth();
 
   std::string command;
-  std::string model_name;
-  unsigned int position;
 
   std::istringstream sstream(line);
-  sstream >> command >> model_name >> position;
+  sstream >> command;
 
-  Model* model = new Model();
-  model->init();
-  model->setMesh(Game::instance().getResource().mesh(model_name + ".obj"));
-  model->setTexture(Game::instance().getResource().texture(model_name + ".png"));
-  model->setPositionInTiles(glm::vec3((float)position, 0.f, (float)depth));
-  chunk->addModel(model);
+  Obstacle* obstacle = Obstacle::createFromStream(sstream);
+
+  if (obstacle != nullptr)
+    chunk->addObstacle(obstacle);
+  else
+    std::cout << "Could not load obstacle from command: " << line << std::endl;
 }

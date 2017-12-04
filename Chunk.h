@@ -3,6 +3,7 @@
 
 #include "utils.h"
 #include "Model.h"
+#include "Obstacle.h"
 
 class Chunk {
 public:
@@ -27,7 +28,7 @@ public:
   void setType(ChunkType type);
   ChunkType getType() const;
 
-  void addModel(Model* model);
+  void addObstacle(Obstacle* obstacle);
 
 private:
 	unsigned int mDepth;
@@ -37,7 +38,7 @@ private:
   void initFloor();
   std::list<Model*> mFloor;
 
-	std::list<Model*> mModels;
+	std::list<Obstacle*> mObstacles;
 };
 
 #endif // _CHUNK_INCLUDE

@@ -2,15 +2,16 @@ chunk 0 0
 chunk 0 1
 chunk 0 2
 chunk 0 3
-object cactus 0
-object cactus 1
-object cactus 3
-object cactus 4
-object cactus 5
-object cactus 6
+object 0 0
+object 0 1
+object 0 3
+object 0 4
+object 0 5
+object 0 6
 chunk 1 4
 chunk 0 5
 chunk 0 6
+object 1 5 0.05
 chunk 0 7
 chunk 2 8
 chunk 2 9
