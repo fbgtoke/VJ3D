@@ -64,12 +64,12 @@ void Player::updateMoving(int deltaTime) {
 }
 
 void Player::updateIdle(int deltaTime) {
-  if (Game::instance().getKeyPressed('a'))
+  if (Game::instance().getKeyPressed('a') && getPositionInTiles().x > 0)
     moveTowards(LEFT);
-  else if (Game::instance().getKeyPressed('d'))
+  else if (Game::instance().getKeyPressed('d') && getPositionInTiles().x < TILES_PER_CHUNK - 1)
     moveTowards(RIGHT);
   else if (Game::instance().getKeyPressed('w'))
     moveTowards(IN);
-  else if (Game::instance().getKeyPressed('s'))
+  else if (Game::instance().getKeyPressed('s') && getPositionInTiles().z < 0)
     moveTowards(OUT);
 }
