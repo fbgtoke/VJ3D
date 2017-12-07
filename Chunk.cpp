@@ -47,17 +47,26 @@ Chunk::ChunkType Chunk::getType() const { return mType; }
 
 void Chunk::addObstacle(Obstacle* obstacle) {
   glm::vec3 position = obstacle->getPositionInTiles();
-  position.z = (float)mDepth * (-1.f);
+  position.z = ((float)mDepth) * (-1.f);
 
   obstacle->setPositionInTiles(position);
   mObstacles.push_back(obstacle);
 }
 
 void Chunk::createFloor() {
+  glm::vec3 position;
+  position.y = -1.f;
+  position.z = ((float)mDepth) * (-1.f);
+
+  std::shared_ptr<Mesh> mesh = Game::instance().getResource().mesh("cube.obj");
+
   for (int i = 0; i < TILES_PER_CHUNK; ++i) {
     Model* cube = new Model();
     cube->init();
-    cube->setPositionInTiles(glm::vec3(i, -1, (int)mDepth * -1));
+    cube->setMesh(mesh);
+
+    position.x = (float)i;
+    cube->setPositionInTiles(position);
 
     mFloor.push_back(cube);
   }

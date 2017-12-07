@@ -20,7 +20,7 @@ public:
   void setPosition(const glm::vec3& position);
   void setPositionInTiles(const glm::vec3& position);
 
-  void setVelocity(const glm::vec3& velocity);
+  virtual void setVelocity(const glm::vec3& velocity);
 
   void setRotation(const glm::vec3& rotation);
   void setRotationSpeed(const glm::vec3& speed);
@@ -34,8 +34,11 @@ public:
 
   glm::vec3 getVelocity() const;
 
-  void setScale(float s);
-  float getScale() const;
+  void setScale(const glm::vec3& s);
+  glm::vec3 getScale() const;
+
+  glm::vec3 getSize() const;
+  glm::vec3 getSizeInTiles() const;
 
 protected:
   void initVAO();
@@ -57,7 +60,7 @@ protected:
   glm::vec3 mRotation;
   glm::vec3 mRotationSpeed;
 
-  float mScale;
+  glm::vec3 mScale;
 };
 
 #endif // _MODEL_INCLUDE

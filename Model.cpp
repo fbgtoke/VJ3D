@@ -13,7 +13,7 @@ void Model::init() {
   mCenter = glm::vec3(0.f);
   mRotation = glm::vec3(0.f);
   mRotationSpeed = glm::vec3(0.f);
-  mScale = 1.f;
+  mScale = glm::vec3(1.f);
 
 	mShaderProgram = Game::instance().getResource().shader("simple");
 }
@@ -28,12 +28,10 @@ void Model::render() {
 
 	glm::mat4 modelMatrix(1.f);
 	modelMatrix = glm::translate(modelMatrix, mPosition);
-  modelMatrix = glm::translate(modelMatrix, glm::vec3(TILE_SIZE) * 0.5f);
-  modelMatrix = glm::translate(modelMatrix, mSize * 0.5f);
+  modelMatrix = glm::scale(modelMatrix, mScale);
   modelMatrix = glm::rotate(modelMatrix, mRotation.z, glm::vec3(0, 0, 1));
   modelMatrix = glm::rotate(modelMatrix, mRotation.y, glm::vec3(0, 1, 0));
   modelMatrix = glm::rotate(modelMatrix, mRotation.x, glm::vec3(1, 0, 0));
-  modelMatrix = glm::scale(modelMatrix, glm::vec3(mScale));
 	modelMatrix = glm::translate(modelMatrix, mCenter * (-1.f));
 	
 	mShaderProgram->setUniformMatrix4f("TG", modelMatrix);
@@ -60,7 +58,12 @@ void Model::setMesh(std::shared_ptr<Mesh> mesh) {
 }
 
 void Model::setPosition(const glm::vec3& position) { mPosition = position; }
-void Model::setPositionInTiles(const glm::vec3& position) { mPosition = position * TILE_SIZE; }
+void Model::setPositionInTiles(const glm::vec3& position) {
+  mPosition.x = (getSizeInTiles().x * 0.5f + position.x) * TILE_SIZE;
+  mPosition.y = getSize().y * 0.5f + position.y * TILE_SIZE;
+  mPosition.z = (getSizeInTiles().z * 0.5f + position.z) * TILE_SIZE;
+}
+
 void Model::setVelocity(const glm::vec3& velocity) { mVelocity = velocity; }
 void Model::setRotation(const glm::vec3& rotation) { mRotation = rotation; }
 void Model::setRotationSpeed(const glm::vec3& speed) { mRotationSpeed = speed; }
@@ -69,13 +72,28 @@ void Model::move(const glm::vec3& direction) { mPosition += direction; }
 void Model::moveInTiles(const glm::vec3& direction) { mPosition += direction * TILE_SIZE; }
 
 glm::vec3 Model::getPosition() const { return mPosition; }
-glm::vec3 Model::getPositionInTiles() const { return mPosition * TILE_SIZE; }
+glm::vec3 Model::getPositionInTiles() const {
+  glm::vec3 position;
+  return floor((mPosition - glm::vec3(TILE_SIZE) * 0.5f)/TILE_SIZE);
+  return floor(mPosition/TILE_SIZE);
+}
+
 glm::vec3 Model::getCenter() const { return mPosition + mCenter; }
 
 glm::vec3 Model::getVelocity() const { return mVelocity; }
 
-void Model::setScale(float s) { mScale = s; }
-float Model::getScale() const { return mScale; }
+void Model::setScale(const glm::vec3& s) { mScale = s; }
+glm::vec3 Model::getScale() const { return mScale; }
+
+glm::vec3 Model::getSize() const { return mSize; }
+
+glm::vec3 Model::getSizeInTiles() const {
+  glm::vec3 size;
+  size.x = ceil(mSize.x / TILE_SIZE);
+  size.y = ceil(mSize.y / TILE_SIZE);
+  size.z = ceil(mSize.z / TILE_SIZE);
+  return size;
+}
 
 void Model::initVAO() {
   glGenVertexArrays(1, &mVAO);

@@ -9,6 +9,8 @@ public:
   ~ObstacleCar() override;
 
   void init(float spd);
+
+  void setVelocity(const glm::vec3& velocity) override;
 };
 
 #endif // _OBSTACLE_CAR_INCLUDE

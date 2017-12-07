@@ -42,10 +42,10 @@ Obstacle* Obstacle::readTree(std::istringstream& sstream) {
 }
 
 Obstacle* Obstacle::readCar(std::istringstream& sstream) {
-  float period, spd;
-  sstream >> period >> spd;
+  float period, spd, var;
+  sstream >> period >> spd >> var;
 
   ObstacleCarSpawner* obstacle = new ObstacleCarSpawner();
-  obstacle->init(period, spd);
+  obstacle->init(period, spd, var);
   return obstacle;
 }

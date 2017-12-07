@@ -11,7 +11,16 @@ void ObstacleCar::init(float spd) {
   
   setMesh(Game::instance().getResource().mesh("carriage.obj"));
   setTexture(Game::instance().getResource().texture("carriage.png"));
-  setRotation(glm::vec3(0.f, (float)M_PI/2.f * -1.f, 0.f));
 
   setVelocity(RIGHT * spd);
+}
+
+void ObstacleCar::setVelocity(const glm::vec3& velocity) {
+  Obstacle::setVelocity(velocity);
+
+  float flip = 1.f;
+  if (getVelocity().x >= 0)
+    flip = -1.f;
+
+  mScale.x *= flip;
 }

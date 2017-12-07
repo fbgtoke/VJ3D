@@ -9,7 +9,7 @@ public:
   ObstacleCarSpawner();
   ~ObstacleCarSpawner() override;
 
-  void init(float period, float spd);
+  void init(float period, float spd, float var);
   void update(int deltaTime) override;
   void render() override;
 
@@ -19,6 +19,7 @@ private:
 
   float mPeriod;
   float mSpeed;
+  float mVariance;
 
   float mCurrentPeriod;
 

@@ -11,6 +11,9 @@ public:
 	void init() override;
 	void update(int deltaTime) override;
 	void render() override;
+
+private:
+  std::shared_ptr<Mesh> mFrames[2];
 };
 
 #endif // _PLAYER_INCLUDE

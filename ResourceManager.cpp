@@ -7,7 +7,7 @@ ResourceManager::~ResourceManager() {}
 void ResourceManager::checkUnusedResources() {
 	for (auto it = mMeshes.begin(); it != mMeshes.end();) {
 		if (it->second.use_count() == 1) {
-      std::cout << "Erasing mesh " + it->first << std::endl;
+      //std::cout << "Erasing mesh " + it->first << std::endl;
 			mMeshes.erase(it++);
 		} else {
 			++it;
@@ -16,7 +16,7 @@ void ResourceManager::checkUnusedResources() {
 
 	for (auto it = mShaders.begin(); it != mShaders.end();) {
 		if (it->second.use_count() == 1) {
-      std::cout << "Erasing shader " + it->first << std::endl;
+      //std::cout << "Erasing shader " + it->first << std::endl;
 			mShaders.erase(it++);
 		} else {
 			++it;
@@ -25,7 +25,7 @@ void ResourceManager::checkUnusedResources() {
 
 	for (auto it = mTextures.begin(); it != mTextures.end();) {
 		if (it->second.use_count() == 1) {
-      std::cout << "Erasing texture " + it->first << std::endl;
+      //std::cout << "Erasing texture " + it->first << std::endl;
 			mTextures.erase(it++);
 		} else {
 			++it;

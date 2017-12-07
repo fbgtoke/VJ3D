@@ -1,7 +1,8 @@
 #include "ObstacleCarSpawner.h"
+#include "Game.h"
 
-const float ObstacleCarSpawner::kSpawnCoordinate = 3 * TILE_SIZE * (-1.f);
-const float ObstacleCarSpawner::kDespawnCoordinate = CHUNK_SIZE + 3 * TILE_SIZE;
+const float ObstacleCarSpawner::kSpawnCoordinate = 3 * (-1.f);
+const float ObstacleCarSpawner::kDespawnCoordinate = TILES_PER_CHUNK + 3;
 
 ObstacleCarSpawner::ObstacleCarSpawner()
   : Obstacle(Obstacle::CAR) {}
@@ -14,26 +15,34 @@ ObstacleCarSpawner::~ObstacleCarSpawner() {
   mCars.clear();
 }
 
-void ObstacleCarSpawner::init(float period, float spd) {
+void ObstacleCarSpawner::init(float period, float spd, float var) {
+  Obstacle::init();
+
   mPeriod = period;
   mSpeed = spd;
+  mVariance = var;
 
-  mCurrentPeriod = 0.f;
+  mCurrentPeriod = mPeriod + randomFloat(0.f, mVariance);
+
+  setMesh(Game::instance().getResource().mesh("goal.obj"));
+  setTexture(Game::instance().getResource().texture("goal.png"));
+
+  setPositionInTiles(glm::vec3(0));
 }
 
 void ObstacleCarSpawner::update(int deltaTime) {
   Obstacle::update(deltaTime);
 
-  mCurrentPeriod += (float) deltaTime;
-  if (mCurrentPeriod >= mPeriod) {
-    mCurrentPeriod -= mPeriod;
+  mCurrentPeriod -= (float) deltaTime;
+  if (mCurrentPeriod <= 0) {
+    mCurrentPeriod += mPeriod + randomFloat(0.f, mVariance);
     addCar();
   }
 
   auto it = mCars.begin();
   while (it != mCars.end()) {
     ObstacleCar* car = (*it);
-    if (car->getPosition().x <= kDespawnCoordinate) {
+    if (car->getPositionInTiles().x <= kDespawnCoordinate) {
       car->update(deltaTime);
       ++it;
     } else {
@@ -50,11 +59,11 @@ void ObstacleCarSpawner::render() {
 }
 
 void ObstacleCarSpawner::addCar() {
-  glm::vec3 spawn_position = mPosition;
+  glm::vec3 spawn_position = getPositionInTiles();
   spawn_position.x = kSpawnCoordinate;
 
   ObstacleCar* car = new ObstacleCar();
   car->init(mSpeed);
-  car->setPosition(spawn_position);
+  car->setPositionInTiles(spawn_position);
   mCars.push_back(car);
 }

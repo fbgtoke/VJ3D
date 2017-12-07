@@ -23,9 +23,7 @@ void SceneTest::initScene() {
 	mProjectionMatrix = glm::perspective(FOV, ar, znear, zfar);
 
   mPlayer.init();
-  mPlayer.setMesh(Game::instance().getResource().mesh("cowboy.obj"));
-  mPlayer.setTexture(Game::instance().getResource().texture("cowboy.png"));
-  mPlayer.setPositionInTiles(glm::vec3(TILES_PER_CHUNK/2, 0, 0));
+  mPlayer.setPositionInTiles(glm::vec3(0));
 
   VRP = mPlayer.getCenter();
   OBS = VRP + kObsVector * TILE_SIZE;
@@ -44,8 +42,9 @@ void SceneTest::updateScene(int deltaTime) {
   for (Chunk* chunk : mChunks)
     chunk->update(deltaTime);
 
-  VRP = mPlayer.getCenter();
-  OBS = VRP + glm::vec3(5, 8, 10) * TILE_SIZE;
+  VRP.x = mPlayer.getCenter().x;
+  VRP.z = mPlayer.getCenter().z;
+  OBS = VRP + kObsVector * TILE_SIZE;
 
   mViewMatrix = glm::lookAt(OBS, VRP, UP);
 }
