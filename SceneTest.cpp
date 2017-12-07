@@ -42,6 +42,13 @@ void SceneTest::updateScene(int deltaTime) {
   for (Chunk* chunk : mChunks)
     chunk->update(deltaTime);
 
+  const Model* collided;
+  for (Chunk* chunk : mChunks) {
+    collided = chunk->checkCollisions(mPlayer);
+    if (collided != nullptr)
+      std::cout << "Collision at " << mCurrentTime << std::endl;
+  }
+
   VRP.x = mPlayer.getCenter().x;
   VRP.z = mPlayer.getCenter().z;
   OBS = VRP + kObsVector * TILE_SIZE;

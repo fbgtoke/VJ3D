@@ -13,6 +13,8 @@ public:
   void update(int deltaTime) override;
   void render() override;
 
+  bool collides(const Model& m) const override;
+
 private:
   static const float kSpawnCoordinate;
   static const float kDespawnCoordinate;

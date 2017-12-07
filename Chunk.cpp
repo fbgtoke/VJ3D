@@ -53,6 +53,14 @@ void Chunk::addObstacle(Obstacle* obstacle) {
   mObstacles.push_back(obstacle);
 }
 
+const Model* Chunk::checkCollisions(const Player& player) const {
+  for (Obstacle* obstacle : mObstacles)
+    if (obstacle->collides(player))
+      return obstacle;
+
+  return nullptr;
+}
+
 void Chunk::createFloor() {
   glm::vec3 position;
   position.y = -1.f;

@@ -40,6 +40,8 @@ public:
   glm::vec3 getSize() const;
   glm::vec3 getSizeInTiles() const;
 
+  virtual bool collides(const Model& m) const;
+
 protected:
   void initVAO();
   GLuint mVAO;

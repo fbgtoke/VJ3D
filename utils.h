@@ -45,7 +45,7 @@ static const glm::vec3 OUT   = glm::vec3(0.f, 0.f, 1.f);
 static const glm::vec3 IN    = glm::vec3(0.f, 0.f, -1.f);
 
 static const float TILE_SIZE  = 16;
-static const float TILES_PER_CHUNK = 25;
+static const float TILES_PER_CHUNK = 30;
 
 static const float CHUNK_SIZE = TILE_SIZE * TILES_PER_CHUNK;
 

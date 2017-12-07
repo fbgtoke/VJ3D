@@ -1,8 +1,8 @@
 #include "ObstacleCarSpawner.h"
 #include "Game.h"
 
-const float ObstacleCarSpawner::kSpawnCoordinate = 3 * (-1.f);
-const float ObstacleCarSpawner::kDespawnCoordinate = TILES_PER_CHUNK + 3;
+const float ObstacleCarSpawner::kSpawnCoordinate = 5 * (-1.f);
+const float ObstacleCarSpawner::kDespawnCoordinate = TILES_PER_CHUNK + 5;
 
 ObstacleCarSpawner::ObstacleCarSpawner()
   : Obstacle(Obstacle::CAR) {}
@@ -52,10 +52,18 @@ void ObstacleCarSpawner::update(int deltaTime) {
 }
 
 void ObstacleCarSpawner::render() {
-  Obstacle::render();
+  //Obstacle::render();
 
   for (ObstacleCar* car : mCars)
     car->render();
+}
+
+bool ObstacleCarSpawner::collides(const Model& m) const {
+  for (ObstacleCar* car : mCars)
+    if (car->collides(m))
+      return true;
+
+  return false;
 }
 
 void ObstacleCarSpawner::addCar() {

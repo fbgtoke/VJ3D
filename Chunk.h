@@ -4,6 +4,7 @@
 #include "utils.h"
 #include "Model.h"
 #include "Obstacle.h"
+#include "Player.h"
 
 class Chunk {
 public:
@@ -29,6 +30,8 @@ public:
   ChunkType getType() const;
 
   void addObstacle(Obstacle* obstacle);
+
+  const Model* checkCollisions(const Player& player) const;
 
 private:
 	unsigned int mDepth;
