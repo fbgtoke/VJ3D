@@ -1,6 +1,11 @@
 #include "Player.h"
 #include "Game.h"
 
+const float Player::kTol = 0.95f;
+const float Player::kDiminish = 1.f/2.f;
+const float Player::kJumpHeight = 0.25f * TILE_SIZE;
+const float Player::kHorSpeed = 0.025f;
+
 Player::Player() {}
 Player::~Player() {}
 
@@ -12,36 +17,59 @@ void Player::init() {
 
   setMesh(mFrames[0]);
   setTexture(Game::instance().getResource().texture("cowboy.png"));
+
+  mTargetPosition = glm::vec3(0.f);
+  mStartPosition = glm::vec3(0.f);
+  mMovingTowardsTarget = false;
 }
 
 void Player::update(int deltaTime) {
   Model::update(deltaTime);
 
-  static int frame = 0;
-  static int count = 0;
+  if (mMovingTowardsTarget)
+    updateMoving(deltaTime);
+  else
+    updateIdle(deltaTime);
+}
 
-  if (count >= 10) {
-    setMesh(mFrames[frame]);
-    frame = not(frame);
-    count = 0;
-  }
-  count++;
+void Player::moveTowards(const glm::vec3& direction) {
+  mTargetPosition = mPosition + direction * TILE_SIZE;
+  mStartPosition = mPosition;
+  mMovingTowardsTarget = true;
+  setMesh(mFrames[1]);
+}
 
-  if (Game::instance().getKeyPressed('a')) {
-    moveInTiles(LEFT);
-    setRotation(UP * (float)M_PI/2.f * 3.f);
-  } else if (Game::instance().getKeyPressed('d')) {
-    moveInTiles(RIGHT);
-    setRotation(UP * (float)M_PI/2.f * 1.f);
-  } else if (Game::instance().getKeyPressed('w')) {
-    moveInTiles(IN);
-    setRotation(UP * (float)M_PI/2.f * 2.f);
-  } else if (Game::instance().getKeyPressed('s')) {
-    moveInTiles(OUT);
-    setRotation(UP * (float)M_PI/2.f * 0.f);
+void Player::updateMoving(int deltaTime) {
+  glm::vec3 current = glm::vec3(mPosition.x, 0.f, mPosition.z);
+  glm::vec3 target  = glm::vec3(mTargetPosition.x, 0.f, mTargetPosition.z);
+  glm::vec3 middle  = (mTargetPosition + mStartPosition) * 0.5f;
+  glm::vec3 direction = glm::normalize(target - current);
+
+  float distance = glm::distance(current, target);
+  float maxDistance = glm::distance(middle, target);
+  float curDistance = glm::distance(middle, current);
+
+  float angle = atan2(-direction.z, direction.x) + (float)M_PI/2.f;
+  setRotation(UP * angle);
+
+  if (distance < kTol) {
+    mPosition = mTargetPosition;
+    mVelocity = glm::vec3(0.f);
+    mMovingTowardsTarget = false;
+    setMesh(mFrames[0]);
+  } else {
+    mVelocity = direction * kHorSpeed * distance * kDiminish;
+    mPosition.y = (maxDistance - curDistance) * kJumpHeight + mStartPosition.y;
   }
 }
 
-void Player::render() {
-  Model::render();
+void Player::updateIdle(int deltaTime) {
+  if (Game::instance().getKeyPressed('a'))
+    moveTowards(LEFT);
+  else if (Game::instance().getKeyPressed('d'))
+    moveTowards(RIGHT);
+  else if (Game::instance().getKeyPressed('w'))
+    moveTowards(IN);
+  else if (Game::instance().getKeyPressed('s'))
+    moveTowards(OUT);
 }
