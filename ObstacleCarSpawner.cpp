@@ -39,10 +39,15 @@ void ObstacleCarSpawner::update(int deltaTime) {
     addCar();
   }
 
+  bool outOfBounds;
   auto it = mCars.begin();
   while (it != mCars.end()) {
     ObstacleCar* car = (*it);
-    if (car->getPositionInTiles().x <= kDespawnCoordinate) {
+    outOfBounds = 
+      (car->getVelocity().x > 0.f && car->getPositionInTiles().x > kDespawnCoordinate) ||
+      (car->getVelocity().x < 0.f && car->getPositionInTiles().x < kSpawnCoordinate);
+
+    if (!outOfBounds) {
       car->update(deltaTime);
       ++it;
     } else {
@@ -68,7 +73,11 @@ bool ObstacleCarSpawner::collides(const Model& m) const {
 
 void ObstacleCarSpawner::addCar() {
   glm::vec3 spawn_position = getPositionInTiles();
-  spawn_position.x = kSpawnCoordinate;
+
+  if (mSpeed > 0.f)
+    spawn_position.x = kSpawnCoordinate;
+  else
+    spawn_position.x = kDespawnCoordinate;
 
   ObstacleCar* car = new ObstacleCar();
   car->init(mSpeed);
