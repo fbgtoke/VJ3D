@@ -74,8 +74,7 @@ void Model::moveInTiles(const glm::vec3& direction) { mPosition += direction * T
 glm::vec3 Model::getPosition() const { return mPosition; }
 glm::vec3 Model::getPositionInTiles() const {
   glm::vec3 position;
-  return floor((mPosition - glm::vec3(TILE_SIZE) * 0.5f)/TILE_SIZE);
-  return floor(mPosition/TILE_SIZE);
+  return floor((mPosition - getSizeInTiles() * 0.5f)/TILE_SIZE);
 }
 
 glm::vec3 Model::getCenter() const { return mPosition + mCenter; }

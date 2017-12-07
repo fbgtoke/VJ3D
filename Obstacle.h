@@ -23,6 +23,7 @@ public:
 private:
   static Obstacle* readTree(std::istringstream& sstream);
   static Obstacle* readCar(std::istringstream& sstream);
+  static Obstacle* readLillypad(std::istringstream& sstream);
 
   const ObstacleType mType;
 };

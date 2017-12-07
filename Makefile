@@ -393,6 +393,33 @@ ObstacleCarSpawner.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleCarSpawner.cpp.s
 .PHONY : ObstacleCarSpawner.cpp.s
 
+ObstacleLillypad.o: ObstacleLillypad.cpp.o
+
+.PHONY : ObstacleLillypad.o
+
+# target to build an object file
+ObstacleLillypad.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleLillypad.cpp.o
+.PHONY : ObstacleLillypad.cpp.o
+
+ObstacleLillypad.i: ObstacleLillypad.cpp.i
+
+.PHONY : ObstacleLillypad.i
+
+# target to preprocess a source file
+ObstacleLillypad.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleLillypad.cpp.i
+.PHONY : ObstacleLillypad.cpp.i
+
+ObstacleLillypad.s: ObstacleLillypad.cpp.s
+
+.PHONY : ObstacleLillypad.s
+
+# target to generate assembly for a file
+ObstacleLillypad.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleLillypad.cpp.s
+.PHONY : ObstacleLillypad.cpp.s
+
 ObstacleTree.o: ObstacleTree.cpp.o
 
 .PHONY : ObstacleTree.o
@@ -783,6 +810,9 @@ help:
 	@echo "... ObstacleCarSpawner.o"
 	@echo "... ObstacleCarSpawner.i"
 	@echo "... ObstacleCarSpawner.s"
+	@echo "... ObstacleLillypad.o"
+	@echo "... ObstacleLillypad.i"
+	@echo "... ObstacleLillypad.s"
 	@echo "... ObstacleTree.o"
 	@echo "... ObstacleTree.i"
 	@echo "... ObstacleTree.s"

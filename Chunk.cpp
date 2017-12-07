@@ -81,25 +81,19 @@ void Chunk::createFloor() {
 }
 
 void Chunk::initFloor() {
+  std::string textureName;
   std::shared_ptr<Texture> texture;
 
   switch(mType) {
-  case GRASS:
-    texture = Game::instance().getResource().texture("chunk_grass.png");
-    break;
-  case ROAD:
-    texture = Game::instance().getResource().texture("chunk_road.png");
-    break;
-  case TRAIN:
-    texture = Game::instance().getResource().texture("chunk_rail.png");
-    break;
-  case GOAL:
-    texture = Game::instance().getResource().texture("chunk_goal.png");
-    break;
-  default:
-    texture = Game::instance().getResource().texture("chunk_blank.png");
-    break;
+  case GRASS: textureName = "chunk_grass.png"; break;
+  case ROAD:  textureName = "chunk_road.png";  break;
+  case TRAIN: textureName = "chunk_rail.png";  break;
+  case WATER: textureName = "chunk_water.png"; break;
+  case GOAL:  textureName = "chunk_goal.png";  break;
+  default:    textureName = "chunk_blank.png"; break;
   }
+
+  texture = Game::instance().getResource().texture(textureName);
 
   for (Model* model : mFloor)
     model->setTexture(texture);

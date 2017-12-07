@@ -9,7 +9,13 @@ ObstacleCar::~ObstacleCar() {}
 void ObstacleCar::init(float spd) {
   Obstacle::init();
   
-  setMesh(Game::instance().getResource().mesh("carriage.obj"));
+  if (rand()%2) {
+    setMesh(Game::instance().getResource().mesh("carriage.obj"));
+  } else {
+    setMesh(Game::instance().getResource().mesh("horse.obj"));
+    setRotation(UP * (float)M_PI/2.f);
+  }
+
   setTexture(Game::instance().getResource().texture("palette.png"));
 
   setVelocity(RIGHT * spd);
