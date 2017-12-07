@@ -81,34 +81,26 @@ void Chunk::createFloor() {
 }
 
 void Chunk::initFloor() {
-  std::shared_ptr<Mesh> mesh;
   std::shared_ptr<Texture> texture;
 
   switch(mType) {
   case GRASS:
-    mesh = Game::instance().getResource().mesh("cube.obj");
-    texture = Game::instance().getResource().texture("cactus.png");
+    texture = Game::instance().getResource().texture("chunk_grass.png");
     break;
   case ROAD:
-    mesh = Game::instance().getResource().mesh("goal.obj");
-    texture = Game::instance().getResource().texture("road.png");
+    texture = Game::instance().getResource().texture("chunk_road.png");
     break;
   case TRAIN:
-    mesh = Game::instance().getResource().mesh("goal.obj");
-    texture = Game::instance().getResource().texture("rail.png");
+    texture = Game::instance().getResource().texture("chunk_rail.png");
     break;
   case GOAL:
-    mesh = Game::instance().getResource().mesh("goal.obj");
-    texture = Game::instance().getResource().texture("goal.png");
+    texture = Game::instance().getResource().texture("chunk_goal.png");
     break;
   default:
-    mesh = Game::instance().getResource().mesh("cube.obj");
-    texture = Game::instance().getResource().texture("cactus.png");
+    texture = Game::instance().getResource().texture("chunk_blank.png");
     break;
   }
 
-  for (Model* model : mFloor) {
-    model->setMesh(mesh);
+  for (Model* model : mFloor)
     model->setTexture(texture);
-  }
 }

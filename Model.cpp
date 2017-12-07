@@ -108,6 +108,14 @@ bool Model::collides(const Model& m) const {
     maxcoords1.z > mincoords2.z && mincoords1.z < maxcoords2.z;
 }
 
+Model* Model::create(const std::string& mesh, const std::string& texture) {
+  Model* model = new Model();
+  model->init();
+  model->setMesh(Game::instance().getResource().mesh(mesh));
+  model->setTexture(Game::instance().getResource().texture(texture));
+  return model;
+}
+
 void Model::initVAO() {
   glGenVertexArrays(1, &mVAO);
   glBindVertexArray(mVAO);

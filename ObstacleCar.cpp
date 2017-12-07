@@ -10,7 +10,7 @@ void ObstacleCar::init(float spd) {
   Obstacle::init();
   
   setMesh(Game::instance().getResource().mesh("carriage.obj"));
-  setTexture(Game::instance().getResource().texture("carriage.png"));
+  setTexture(Game::instance().getResource().texture("palette.png"));
 
   setVelocity(RIGHT * spd);
 }

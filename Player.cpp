@@ -14,9 +14,9 @@ void Player::init() {
 
   mFrames[0] = Game::instance().getResource().mesh("cowboy.obj");
   mFrames[1] = Game::instance().getResource().mesh("animationcowboy.obj");
-
   setMesh(mFrames[0]);
-  setTexture(Game::instance().getResource().texture("cowboy.png"));
+  
+  setTexture(Game::instance().getResource().texture("palette.png"));
 
   mTargetPosition = glm::vec3(0.f);
   mStartPosition = glm::vec3(0.f);

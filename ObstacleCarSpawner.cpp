@@ -21,12 +21,9 @@ void ObstacleCarSpawner::init(float period, float spd, float var) {
   mPeriod = period;
   mSpeed = spd;
   mVariance = var;
-
   mCurrentPeriod = mPeriod + randomFloat(0.f, mVariance);
 
-  setMesh(Game::instance().getResource().mesh("goal.obj"));
-  setTexture(Game::instance().getResource().texture("goal.png"));
-
+  setMesh(Game::instance().getResource().mesh("cube.obj"));
   setPositionInTiles(glm::vec3(0));
 }
 

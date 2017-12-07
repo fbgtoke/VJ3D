@@ -42,6 +42,8 @@ public:
 
   virtual bool collides(const Model& m) const;
 
+  static Model* create(const std::string& mesh, const std::string& texture);
+
 protected:
   void initVAO();
   GLuint mVAO;

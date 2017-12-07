@@ -21,7 +21,7 @@ private:
     EXIT,
     NUM_OPTIONS
   };
-  Model mOptions[NUM_OPTIONS];
+  std::vector<Model*> mOptions;
   MenuOption mCurrentOption;
 
   void prevOption();
