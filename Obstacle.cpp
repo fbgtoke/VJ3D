@@ -10,14 +10,6 @@ Obstacle::~Obstacle() {}
 
 Obstacle::ObstacleType Obstacle::getType() const { return mType; }
 
-Obstacle* Obstacle::create(ObstacleType type) {
-  switch (type) {
-    case TREE: return new ObstacleTree();
-    case CAR: return new ObstacleCar();
-    default: return nullptr;
-  }
-}
-
 Obstacle* Obstacle::createFromStream(std::istringstream& sstream) {
   Obstacle* obstacle;
 

@@ -15,7 +15,6 @@ public:
   Obstacle(ObstacleType type);
   virtual ~Obstacle();
 
-  static Obstacle* create(ObstacleType type);
   static Obstacle* createFromStream(std::istringstream& sstream);
 
   ObstacleType getType() const;
