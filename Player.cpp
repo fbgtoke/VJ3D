@@ -63,8 +63,6 @@ void Player::moveTowards(const glm::vec3& direction) {
   mStartPosition = mPosition;
   mMovingTowardsTarget = true;
   setMesh(mFrames[1]);
-
-  //explode();
 }
 
 void Player::updateMoving(int deltaTime) {
@@ -100,23 +98,32 @@ void Player::updateIdle(int deltaTime) {
     moveTowards(IN);
   else if (Game::instance().getKeyPressed('s') && getPositionInTiles().z < 0)
     moveTowards(OUT);
+  else if (Game::instance().getKeyPressed('e'))
+    explode();
 }
 
 void Player::explode() {
-  for (int i = 0; i < 80; ++i) {
+  for (int i = 0; i < 250; ++i) {
     Particle* particle = new Particle();
-    particle->init(2000);
+    particle->init(750 + rand()%200);
     particle->setMesh(Game::instance().getResource().mesh("cube.obj"));
 
-    particle->setTexture(Game::instance().getResource().texture("chunk_grass.png"));
-    particle->setPosition(getCenter());
+    int texture = rand()%3;
+    if (texture == 0)
+      particle->setTexture(Game::instance().getResource().texture("chunk_blank.png"));
+    else if (texture == 1)
+      particle->setTexture(Game::instance().getResource().texture("chunk_grass.png"));
+    else
+      particle->setTexture(Game::instance().getResource().texture("chunk_water.png"));
+
+    particle->setPosition(getCenter() + DOWN * TILE_SIZE);
     particle->setScale(glm::vec3(0.125f));
 
     glm::vec3 direction;
     direction.x = randomFloat(-1.f, 1.f);
     direction.y = randomFloat( 0.f, 1.f);
     direction.z = randomFloat(-1.f, 1.f);
-    particle->setVelocity(glm::normalize(direction) * 0.025f);
+    particle->setVelocity(glm::normalize(direction) * 0.075f);
 
     mParticles.push_back(particle);
   }
