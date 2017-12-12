@@ -8,17 +8,38 @@ ObstacleCar::~ObstacleCar() {}
 
 void ObstacleCar::init(float spd) {
   Obstacle::init();
-  
-  if (rand()%2) {
-    setMesh(Game::instance().getResource().mesh("carriage.obj"));
-  } else {
-    setMesh(Game::instance().getResource().mesh("horse.obj"));
-    setRotation(UP * (float)M_PI/2.f);
-  }
 
   setTexture(Game::instance().getResource().texture("palette.png"));
 
   setVelocity(RIGHT * spd);
+
+  mAnimation.setNumberOfAnimations(2);
+
+  mAnimation.addFrame(0, Game::instance().getResource().mesh("carriage1.obj"));
+  mAnimation.addFrame(0, Game::instance().getResource().mesh("animationcarriage1.obj"));
+  mAnimation.addFrame(0, Game::instance().getResource().mesh("carriage2.obj"));
+  mAnimation.addFrame(0, Game::instance().getResource().mesh("animationcarriage2.obj"));
+
+  mAnimation.addFrame(1, Game::instance().getResource().mesh("horse.obj"));
+  mAnimation.addFrame(1, Game::instance().getResource().mesh("animationhorse1.obj"));
+  mAnimation.addFrame(1, Game::instance().getResource().mesh("horse.obj"));
+  mAnimation.addFrame(1, Game::instance().getResource().mesh("animationhorse2.obj"));
+
+  unsigned int frame = rand()%2;
+
+  mAnimation.changeAnimation(frame);
+  mAnimation.setTimePerFrame(200);
+
+  setMesh(mAnimation.getCurrentFrame());
+  if (frame == 1)
+    setRotation(UP * (float)M_PI/2.f);
+}
+
+void ObstacleCar::update(int deltaTime) {
+  Obstacle::update(deltaTime);
+  mAnimation.update(deltaTime);
+
+  setMesh(mAnimation.getCurrentFrame());
 }
 
 void ObstacleCar::setVelocity(const glm::vec3& velocity) {
