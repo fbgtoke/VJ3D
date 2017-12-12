@@ -123,6 +123,33 @@ CrossyRoad/fast:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/build
 .PHONY : CrossyRoad/fast
 
+Animation3D.o: Animation3D.cpp.o
+
+.PHONY : Animation3D.o
+
+# target to build an object file
+Animation3D.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Animation3D.cpp.o
+.PHONY : Animation3D.cpp.o
+
+Animation3D.i: Animation3D.cpp.i
+
+.PHONY : Animation3D.i
+
+# target to preprocess a source file
+Animation3D.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Animation3D.cpp.i
+.PHONY : Animation3D.cpp.i
+
+Animation3D.s: Animation3D.cpp.s
+
+.PHONY : Animation3D.s
+
+# target to generate assembly for a file
+Animation3D.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Animation3D.cpp.s
+.PHONY : Animation3D.cpp.s
+
 Button.o: Button.cpp.o
 
 .PHONY : Button.o
@@ -780,6 +807,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... CrossyRoad"
+	@echo "... Animation3D.o"
+	@echo "... Animation3D.i"
+	@echo "... Animation3D.s"
 	@echo "... Button.o"
 	@echo "... Button.i"
 	@echo "... Button.s"
