@@ -11,21 +11,19 @@ public:
 	ResourceManager();
 	~ResourceManager();
 
-	void checkUnusedResources();
-
-	std::shared_ptr<Mesh> mesh(const std::string& name);
-	std::shared_ptr<ShaderProgram> shader(const std::string& name);
-	std::shared_ptr<Texture> texture(const std::string& name);
+	Mesh* mesh(const std::string& name);
+	ShaderProgram* shader(const std::string& name);
+	Texture* texture(const std::string& name);
 
 private:
   void loadMesh(const std::string& name);
-	std::map<std::string, std::shared_ptr<Mesh>> mMeshes;
+	std::map<std::string, Mesh*> mMeshes;
 
   void loadShader(const std::string& name);
-  std::map<std::string, std::shared_ptr<ShaderProgram>> mShaders;
+  std::map<std::string, ShaderProgram*> mShaders;
 
   void loadTexture(const std::string& name);
-  std::map<std::string, std::shared_ptr<Texture>> mTextures;
+  std::map<std::string, Texture*> mTextures;
 };
 
 #endif // _RESOURCE_MANAGER_INCLUDE

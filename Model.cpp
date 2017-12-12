@@ -41,18 +41,16 @@ void Model::render() {
     mTexture->use();
 
   glEnable(GL_TEXTURE_2D);
-	glBindVertexArray(mVAO);
+	glBindVertexArray(mMesh->getVAO());
 	glDrawArrays(GL_TRIANGLES, 0, mMesh->numVertices());
 	glBindVertexArray(0);
 	glDisable(GL_TEXTURE_2D);
 }
 
-void Model::setTexture(std::shared_ptr<Texture> texture) { mTexture = texture; }
+void Model::setTexture(Texture* texture) { mTexture = texture; }
 
-void Model::setMesh(std::shared_ptr<Mesh> mesh) {
+void Model::setMesh(Mesh* mesh) {
   mMesh = mesh;
-  initVAO();
-
   mCenter = mMesh->center();
   mSize = mMesh->size();
 }
@@ -113,29 +111,4 @@ Model* Model::create(const std::string& mesh, const std::string& texture) {
   model->setMesh(Game::instance().getResource().mesh(mesh));
   model->setTexture(Game::instance().getResource().texture(texture));
   return model;
-}
-
-void Model::initVAO() {
-  glGenVertexArrays(1, &mVAO);
-  glBindVertexArray(mVAO);
-
-  glGenBuffers(1, &mVBO_vertices);
-  glBindBuffer(GL_ARRAY_BUFFER, mVBO_vertices);
-  glBufferData(GL_ARRAY_BUFFER, mMesh->verticesSize(), mMesh->vertices(), GL_STATIC_DRAW);
-  mLoc_vertices = mShaderProgram->bindVertexAttribute("vertex", 3, 0, 0);
-  glEnableVertexAttribArray(mLoc_vertices);
-
-  glGenBuffers(1, &mVBO_normals);
-  glBindBuffer(GL_ARRAY_BUFFER, mVBO_normals);
-  glBufferData(GL_ARRAY_BUFFER, mMesh->normalsSize(), mMesh->normals(), GL_STATIC_DRAW);
-  mLoc_normals = mShaderProgram->bindVertexAttribute("normal", 3, 0, 0);
-  glEnableVertexAttribArray(mLoc_normals);
-
-  glGenBuffers(1, &mVBO_texcoord);
-  glBindBuffer(GL_ARRAY_BUFFER, mVBO_texcoord);
-  glBufferData(GL_ARRAY_BUFFER, mMesh->texcoordsSize(), mMesh->texcoords(), GL_STATIC_DRAW);
-  mLoc_texcoord = mShaderProgram->bindVertexAttribute("texcoord", 2, 0, 0);
-  glEnableVertexAttribArray(mLoc_texcoord);
-
-  glBindVertexArray(0);
 }

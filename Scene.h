@@ -24,7 +24,7 @@ public:
 protected:
 	float mCurrentTime;
 
-	std::shared_ptr<ShaderProgram> mTexProgram, mGuiProgram;
+	ShaderProgram *mTexProgram, *mGuiProgram;
 	glm::mat4 mProjectionMatrix, mViewMatrix;
 	glm::mat4 mProjectionMatrixGUI, mViewMatrixGUI;
 

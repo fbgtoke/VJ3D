@@ -2,11 +2,15 @@
 #define _MESH_INCLUDE
 
 #include "utils.h"
+#include "ShaderProgram.h"
 
 class Mesh {
 public:
 	Mesh();
 	~Mesh();
+
+  void initVAO(ShaderProgram* shaderProgram);
+  GLuint getVAO() const;
 
   void setVertices(float* vertices, size_t nelem);
   void setNormals(float* normals, size_t nelem);
@@ -29,6 +33,10 @@ public:
   glm::vec3 size() const;
 
 protected:
+  GLuint mVAO;
+  GLuint mVBO_vertices, mVBO_normals, mVBO_texcoord;
+  GLuint mLoc_vertices, mLoc_normals, mLoc_texcoord;
+
   float* mVertices;
   float* mNormals;
   float* mTexCoords;

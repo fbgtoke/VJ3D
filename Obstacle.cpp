@@ -6,8 +6,6 @@
 Obstacle::Obstacle(ObstacleType type)
   : mType(type) {}
 
-Obstacle::~Obstacle() {}
-
 Obstacle::ObstacleType Obstacle::getType() const { return mType; }
 
 Obstacle* Obstacle::createFromStream(std::istringstream& sstream) {

@@ -27,8 +27,6 @@ bool Game::update(int deltaTime) {
 		bufferedScene = nullptr;
 	}
 
-	mResourceManager.checkUnusedResources();
-
 	return bPlay;
 }
 

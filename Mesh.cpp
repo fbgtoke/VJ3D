@@ -8,7 +8,40 @@ Mesh::~Mesh() {
   if (mVertices != nullptr) free(mVertices);
   if (mNormals != nullptr) free(mNormals);
   if (mTexCoords != nullptr) free(mTexCoords);
+
+  glDeleteBuffers(1, &mVBO_vertices);
+  glDeleteBuffers(1, &mVBO_normals);
+  glDeleteBuffers(1, &mVBO_texcoord);
+
+  glDeleteVertexArrays(1, &mVAO);
 }
+
+void Mesh::initVAO(ShaderProgram* shaderProgram) {
+  glGenVertexArrays(1, &mVAO);
+  glBindVertexArray(mVAO);
+
+  glGenBuffers(1, &mVBO_vertices);
+  glBindBuffer(GL_ARRAY_BUFFER, mVBO_vertices);
+  glBufferData(GL_ARRAY_BUFFER, nFloatsVertices * sizeof(float), mVertices, GL_STATIC_DRAW);
+  mLoc_vertices = shaderProgram->bindVertexAttribute("vertex", 3, 0, 0);
+  glEnableVertexAttribArray(mLoc_vertices);
+
+  glGenBuffers(1, &mVBO_normals);
+  glBindBuffer(GL_ARRAY_BUFFER, mVBO_normals);
+  glBufferData(GL_ARRAY_BUFFER, nFloatsNormals * sizeof(float), mNormals, GL_STATIC_DRAW);
+  mLoc_normals = shaderProgram->bindVertexAttribute("normal", 3, 0, 0);
+  glEnableVertexAttribArray(mLoc_normals);
+
+  glGenBuffers(1, &mVBO_texcoord);
+  glBindBuffer(GL_ARRAY_BUFFER, mVBO_texcoord);
+  glBufferData(GL_ARRAY_BUFFER, nFloatsTexCoords * sizeof(float), mTexCoords, GL_STATIC_DRAW);
+  mLoc_texcoord = shaderProgram->bindVertexAttribute("texcoord", 2, 0, 0);
+  glEnableVertexAttribArray(mLoc_texcoord);
+
+  glBindVertexArray(0);
+}
+
+GLuint Mesh::getVAO() const { return mVAO; }
 
 void Mesh::setVertices(float* vertices, size_t nelem) {
   mVertices = vertices;

@@ -2,6 +2,7 @@
 #define _PLAYER_INCLUDE
 
 #include "Model.h"
+#include "Particle.h"
 
 class Player : public Model {
 public:
@@ -10,6 +11,9 @@ public:
 
 	void init() override;
 	void update(int deltaTime) override;
+  void render() override;
+
+  void explode();
 
 private:
   static const float kTol;
@@ -25,7 +29,9 @@ private:
   void updateMoving(int deltaTime);
   void updateIdle(int deltaTime);
 
-  std::shared_ptr<Mesh> mFrames[2];
+  Mesh* mFrames[2];
+
+  std::list<Particle*> mParticles;
 };
 
 #endif // _PLAYER_INCLUDE

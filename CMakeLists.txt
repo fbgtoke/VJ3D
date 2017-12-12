@@ -37,7 +37,7 @@ file(GLOB sources
     "*.cpp"
 )
 
-SET(GCC_COVERAGE_COMPILE_FLAGS "-O0 -G")
+SET(GCC_COVERAGE_COMPILE_FLAGS "-O0 -g")
 
 add_executable(${appName} ${sources})
 

@@ -1,10 +1,6 @@
 #include "LvlReader.h"
 #include "Game.h"
 
-LvlReader::LvlReader() {}
-
-LvlReader::~LvlReader() {}
-
 void LvlReader::loadFromFile(const std::string& filename, std::list<Chunk*>& chunks) {
   std::ifstream stream(filename);
   if (!stream.is_open()) {

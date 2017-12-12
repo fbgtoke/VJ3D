@@ -474,6 +474,33 @@ ObstacleTree.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleTree.cpp.s
 .PHONY : ObstacleTree.cpp.s
 
+Particle.o: Particle.cpp.o
+
+.PHONY : Particle.o
+
+# target to build an object file
+Particle.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Particle.cpp.o
+.PHONY : Particle.cpp.o
+
+Particle.i: Particle.cpp.i
+
+.PHONY : Particle.i
+
+# target to preprocess a source file
+Particle.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Particle.cpp.i
+.PHONY : Particle.cpp.i
+
+Particle.s: Particle.cpp.s
+
+.PHONY : Particle.s
+
+# target to generate assembly for a file
+Particle.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Particle.cpp.s
+.PHONY : Particle.cpp.s
+
 Player.o: Player.cpp.o
 
 .PHONY : Player.o
@@ -846,6 +873,9 @@ help:
 	@echo "... ObstacleTree.o"
 	@echo "... ObstacleTree.i"
 	@echo "... ObstacleTree.s"
+	@echo "... Particle.o"
+	@echo "... Particle.i"
+	@echo "... Particle.s"
 	@echo "... Player.o"
 	@echo "... Player.i"
 	@echo "... Player.s"

@@ -14,8 +14,8 @@ public:
   virtual void update(int deltaTime);
   virtual void render();
 
-  void setTexture(std::shared_ptr<Texture> texture);
-  void setMesh(std::shared_ptr<Mesh> mesh);
+  void setTexture(Texture* texture);
+  void setMesh(Mesh* mesh);
 
   void setPosition(const glm::vec3& position);
   void setPositionInTiles(const glm::vec3& position);
@@ -45,15 +45,10 @@ public:
   static Model* create(const std::string& mesh, const std::string& texture);
 
 protected:
-  void initVAO();
-  GLuint mVAO;
-  GLuint mVBO_vertices, mVBO_normals, mVBO_texcoord;
-  GLuint mLoc_vertices, mLoc_normals, mLoc_texcoord;
+  ShaderProgram* mShaderProgram;
 
-  std::shared_ptr<ShaderProgram> mShaderProgram;
-
-  std::shared_ptr<Texture> mTexture;
-  std::shared_ptr<Mesh> mMesh;
+  Texture* mTexture;
+  Mesh* mMesh;
 
   glm::vec3 mPosition;
   glm::vec3 mVelocity;

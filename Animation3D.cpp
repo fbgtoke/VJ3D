@@ -28,7 +28,7 @@ void Animation3D::setNumberOfAnimations(unsigned int number) {
   mAnimations.resize(number);
 }
 
-void Animation3D::addFrame(unsigned int animationId, std::shared_ptr<Mesh> frame) {
+void Animation3D::addFrame(unsigned int animationId, Mesh* frame) {
   mAnimations[animationId].push_back(frame);
 }
 
@@ -59,6 +59,6 @@ void Animation3D::nextFrame() {
   mTimeCurFrame = 0;
 }
 
-std::shared_ptr<Mesh> Animation3D::getCurrentFrame() {
+Mesh* Animation3D::getCurrentFrame() {
   return mAnimations[mCurrentAnimation][mCurrentFrame];
 }

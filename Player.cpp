@@ -7,7 +7,12 @@ const float Player::kJumpHeight = 0.25f * TILE_SIZE;
 const float Player::kHorSpeed = 0.025f;
 
 Player::Player() {}
-Player::~Player() {}
+
+Player::~Player() {
+  for (auto it = mParticles.begin(); it != mParticles.end(); ++it)
+    delete (*it);
+  mParticles.clear();
+}
 
 void Player::init() {
   Model::init();
@@ -30,6 +35,27 @@ void Player::update(int deltaTime) {
     updateMoving(deltaTime);
   else
     updateIdle(deltaTime);
+
+  auto it = mParticles.begin();
+  while (it != mParticles.end()) {
+    Particle* particle = (*it);
+    particle->update(deltaTime);
+
+    if (!particle->isAlive()) {
+      delete particle;
+      mParticles.erase(it++);
+    } else {
+      it++;
+    }
+  }
+}
+
+void Player::render() {
+  Model::render();
+
+  for (Particle* particle : mParticles)
+    if (particle->isAlive())
+      particle->render();
 }
 
 void Player::moveTowards(const glm::vec3& direction) {
@@ -37,6 +63,8 @@ void Player::moveTowards(const glm::vec3& direction) {
   mStartPosition = mPosition;
   mMovingTowardsTarget = true;
   setMesh(mFrames[1]);
+
+  //explode();
 }
 
 void Player::updateMoving(int deltaTime) {
@@ -72,4 +100,24 @@ void Player::updateIdle(int deltaTime) {
     moveTowards(IN);
   else if (Game::instance().getKeyPressed('s') && getPositionInTiles().z < 0)
     moveTowards(OUT);
+}
+
+void Player::explode() {
+  for (int i = 0; i < 80; ++i) {
+    Particle* particle = new Particle();
+    particle->init(2000);
+    particle->setMesh(Game::instance().getResource().mesh("cube.obj"));
+
+    particle->setTexture(Game::instance().getResource().texture("chunk_grass.png"));
+    particle->setPosition(getCenter());
+    particle->setScale(glm::vec3(0.125f));
+
+    glm::vec3 direction;
+    direction.x = randomFloat(-1.f, 1.f);
+    direction.y = randomFloat( 0.f, 1.f);
+    direction.z = randomFloat(-1.f, 1.f);
+    particle->setVelocity(glm::normalize(direction) * 0.025f);
+
+    mParticles.push_back(particle);
+  }
 }

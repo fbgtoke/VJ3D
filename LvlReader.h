@@ -7,14 +7,11 @@
 
 class LvlReader {
 public:
-  LvlReader();
-  ~LvlReader();
-
-  void loadFromFile(const std::string& filename, std::list<Chunk*>& chunks);
+  static void loadFromFile(const std::string& filename, std::list<Chunk*>& chunks);
 
 private:
-  void readChunk(const std::string& line, std::list<Chunk*>& chunks);
-  void readObject(const std::string& line, std::list<Chunk*>& chunks);
+  static void readChunk(const std::string& line, std::list<Chunk*>& chunks);
+  static void readObject(const std::string& line, std::list<Chunk*>& chunks);
 
   Obstacle* readTree(std::istringstream& sstream);
   Obstacle* readCar(std::istringstream& sstream);

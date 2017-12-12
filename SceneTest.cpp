@@ -6,10 +6,8 @@ const glm::vec3 SceneTest::kObsVector = glm::vec3(5, 8, 10);
 SceneTest::SceneTest() {}
 
 SceneTest::~SceneTest() {
-  for (Chunk* chunk : mChunks)
-    if (chunk != nullptr)
-      delete chunk;
-
+  for (auto it = mChunks.begin(); it != mChunks.end(); ++it)
+    delete (*it);
   mChunks.clear();
 }
 
@@ -28,8 +26,7 @@ void SceneTest::initScene() {
   VRP = mPlayer.getCenter();
   OBS = VRP + kObsVector * TILE_SIZE;
 
-  LvlReader reader;
-  reader.loadFromFile("levels/test.lvl", mChunks);
+  LvlReader::loadFromFile("levels/test.lvl", mChunks);
 }
 
 void SceneTest::updateScene(int deltaTime) {

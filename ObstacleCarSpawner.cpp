@@ -8,10 +8,8 @@ ObstacleCarSpawner::ObstacleCarSpawner()
   : Obstacle(Obstacle::CAR) {}
 
 ObstacleCarSpawner::~ObstacleCarSpawner() {
-  for (ObstacleCar* car : mCars)
-    if (car != nullptr)
-      delete car;
-
+  for (auto it = mCars.begin(); it != mCars.end(); ++it)
+    delete (*it);
   mCars.clear();
 }
 
@@ -48,6 +46,7 @@ void ObstacleCarSpawner::update(int deltaTime) {
       car->update(deltaTime);
       ++it;
     } else {
+      delete car;
       mCars.erase(it++);
     }
   }    

@@ -12,7 +12,7 @@ public:
   void update(unsigned int deltaTime);
 
   void setNumberOfAnimations(unsigned int number);
-  void addFrame(unsigned int animationId, std::shared_ptr<Mesh> frame);
+  void addFrame(unsigned int animationId, Mesh* frame);
 
   void changeAnimation(unsigned int animationId);
 
@@ -26,10 +26,10 @@ public:
 
   void nextFrame();
 
-  std::shared_ptr<Mesh> getCurrentFrame();
+  Mesh* getCurrentFrame();
 
 private:
-  typedef std::vector<std::shared_ptr<Mesh>> Animation;
+  typedef std::vector<Mesh*> Animation;
   std::vector<Animation> mAnimations;
 
   int mCurrentAnimation;

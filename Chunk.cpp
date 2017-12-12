@@ -4,16 +4,12 @@
 Chunk::Chunk() {}
 
 Chunk::~Chunk() {
-	for (Model* model : mFloor)
-		if (model != nullptr)
-			delete model;
-
+  for (auto it = mFloor.begin(); it != mFloor.end(); ++it)
+    delete (*it);
 	mFloor.clear();
 
-  for (Obstacle* obstacle : mObstacles)
-    if (obstacle != nullptr)
-      delete obstacle;
-
+  for (auto it = mObstacles.begin(); it != mObstacles.end(); ++it)
+    delete (*it);
   mObstacles.clear();
 }
 
@@ -66,7 +62,7 @@ void Chunk::createFloor() {
   position.y = -1.f;
   position.z = ((float)mDepth) * (-1.f);
 
-  std::shared_ptr<Mesh> mesh = Game::instance().getResource().mesh("cube.obj");
+  Mesh* mesh = Game::instance().getResource().mesh("cube.obj");
 
   for (int i = 0; i < TILES_PER_CHUNK; ++i) {
     Model* cube = new Model();
@@ -82,7 +78,6 @@ void Chunk::createFloor() {
 
 void Chunk::initFloor() {
   std::string textureName;
-  std::shared_ptr<Texture> texture;
 
   switch(mType) {
   case GRASS: textureName = "chunk_grass.png"; break;
@@ -93,7 +88,7 @@ void Chunk::initFloor() {
   default:    textureName = "chunk_blank.png"; break;
   }
 
-  texture = Game::instance().getResource().texture(textureName);
+  Texture* texture = Game::instance().getResource().texture(textureName);
 
   for (Model* model : mFloor)
     model->setTexture(texture);

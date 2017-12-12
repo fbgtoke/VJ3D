@@ -13,7 +13,6 @@ public:
   };
 
   Obstacle(ObstacleType type);
-  virtual ~Obstacle();
 
   static Obstacle* createFromStream(std::istringstream& sstream);
 
