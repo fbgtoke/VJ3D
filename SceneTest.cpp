@@ -62,7 +62,11 @@ void SceneTest::updatePlayer(int deltaTime) {
   if (mPlayer.isIdle())
     checkPlayerChunk();
 
-  checkPlayerCollisions();
+  if (mPlayer.isAlive())
+    checkPlayerCollisions();
+
+  if (mPlayer.isDead())
+    Game::instance().changeScene(Scene::SCENE_DEAD);
 }
 
 void SceneTest::checkPlayerChunk() {
@@ -82,7 +86,7 @@ void SceneTest::checkPlayerChunk() {
 
     if (chunkType == Chunk::WATER && chunkDepth == playerDepth) {
       if (!chunk->hasObstacleAtPosition(Obstacle::LILLYPAD, playerOffset))
-        Game::instance().changeScene(Scene::SCENE_DEAD);
+        mPlayer.explode();
     }
   }
 }
@@ -99,7 +103,6 @@ void SceneTest::checkPlayerCollisions() {
       case Obstacle::TREE:
       case Obstacle::CAR:
         mPlayer.explode();
-        Game::instance().changeScene(Scene::SCENE_DEAD);
         break;
       case Obstacle::BONUS:
         std::cout << "Bonus get" << std::endl;

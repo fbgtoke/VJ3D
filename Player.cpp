@@ -25,46 +25,48 @@ void Player::init() {
 
   mTargetPosition = glm::vec3(0.f);
   mStartPosition = glm::vec3(0.f);
-  mMovingTowardsTarget = false;
+
+  mState = Player::Idle;
 }
 
 void Player::update(int deltaTime) {
   Model::update(deltaTime);
 
-  if (mMovingTowardsTarget)
-    updateMoving(deltaTime);
-  else
-    updateIdle(deltaTime);
-
-  auto it = mParticles.begin();
-  while (it != mParticles.end()) {
-    Particle* particle = (*it);
-    particle->update(deltaTime);
-
-    if (!particle->isAlive()) {
-      delete particle;
-      mParticles.erase(it++);
-    } else {
-      it++;
-    }
+  switch (mState) {
+  case Player::Idle: updateIdle(deltaTime); break;
+  case Player::Moving: updateMoving(deltaTime); break;
+  case Player::Exploding: updateExploding(deltaTime); break;
+  case Player::Dead: updateDead(deltaTime); break;
   }
 }
 
 void Player::render() {
-  Model::render();
-
-  for (Particle* particle : mParticles)
-    if (particle->isAlive())
-      particle->render();
+  switch (mState) {
+  case Player::Idle: renderIdle(); break;
+  case Player::Moving: renderMoving(); break;
+  case Player::Exploding: renderExploding(); break;
+  case Player::Dead: renderDead(); break;
+  }
 }
 
 void Player::moveTowards(const glm::vec3& direction) {
   mTargetPosition = mPosition + direction * TILE_SIZE;
   mStartPosition = mPosition;
-  mMovingTowardsTarget = true;
-  setMesh(mFrames[1]);
+  
+  changeState(Player::Moving);
+}
 
-  Game::instance().getScene()->playSoundEffect("piu.ogg");
+void Player::updateIdle(int deltaTime) {
+  if (Game::instance().getKeyPressed('a') && getPositionInTiles().x > 0)
+    moveTowards(LEFT);
+  else if (Game::instance().getKeyPressed('d') && getPositionInTiles().x < TILES_PER_CHUNK - 1)
+    moveTowards(RIGHT);
+  else if (Game::instance().getKeyPressed('w'))
+    moveTowards(IN);
+  else if (Game::instance().getKeyPressed('s') && getPositionInTiles().z < 0)
+    moveTowards(OUT);
+  else if (Game::instance().getKeyPressed('e'))
+    explode();
 }
 
 void Player::updateMoving(int deltaTime) {
@@ -82,32 +84,53 @@ void Player::updateMoving(int deltaTime) {
 
   if (distance < kTol) {
     mPosition = mTargetPosition;
-    mVelocity = glm::vec3(0.f);
-    mMovingTowardsTarget = false;
-    setMesh(mFrames[0]);
+    changeState(Player::Idle);    
   } else {
     mVelocity = direction * kHorSpeed * distance * kDiminish;
     mPosition.y = (maxDistance - curDistance) * kJumpHeight + mStartPosition.y;
   }
 }
 
-void Player::updateIdle(int deltaTime) {
-  if (Game::instance().getKeyPressed('a') && getPositionInTiles().x > 0)
-    moveTowards(LEFT);
-  else if (Game::instance().getKeyPressed('d') && getPositionInTiles().x < TILES_PER_CHUNK - 1)
-    moveTowards(RIGHT);
-  else if (Game::instance().getKeyPressed('w'))
-    moveTowards(IN);
-  else if (Game::instance().getKeyPressed('s') && getPositionInTiles().z < 0)
-    moveTowards(OUT);
-  else if (Game::instance().getKeyPressed('e'))
-    explode();
+void Player::updateExploding(int deltaTime) {
+  auto it = mParticles.begin();
+  while (it != mParticles.end()) {
+    Particle* particle = (*it);
+    particle->update(deltaTime);
+
+    if (!particle->isAlive()) {
+      delete particle;
+      mParticles.erase(it++);
+    } else {
+      it++;
+    }
+  }
+
+  if (mParticles.empty())
+    changeState(Player::Dead);
 }
 
-void Player::explode() {
+void Player::updateDead(int deltaTime) {}
+
+void Player::renderIdle() {
+  Model::render();
+}
+
+void Player::renderMoving() {
+  Model::render();
+}
+
+void Player::renderExploding() {
+  for (Particle* particle : mParticles)
+    if (particle->isAlive())
+      particle->render();
+}
+
+void Player::renderDead() {}
+
+void Player::initExplosion() {
   for (int i = 0; i < 250; ++i) {
     Particle* particle = new Particle();
-    particle->init(750 + rand()%200);
+    particle->init(1750 + rand()%200);
     particle->setMesh(Game::instance().getResource().mesh("cube.obj"));
 
     int texture = rand()%3;
@@ -125,10 +148,38 @@ void Player::explode() {
     direction.x = randomFloat(-1.f, 1.f);
     direction.y = randomFloat( 0.f, 1.f);
     direction.z = randomFloat(-1.f, 1.f);
-    particle->setVelocity(glm::normalize(direction) * 0.075f);
+    particle->setVelocity(glm::normalize(direction) * 0.025f);
 
     mParticles.push_back(particle);
   }
 }
 
-bool Player::isIdle() const { return !mMovingTowardsTarget; }
+void Player::changeState(Player::State state) {
+  if (state == mState) return;
+  mState = state;
+
+  switch (state) {
+  case Player::Idle:
+    setVelocity(glm::vec3(0.f));
+    setMesh(mFrames[0]);
+    break;
+  case Player::Moving:
+    setMesh(mFrames[1]);
+    Game::instance().getScene()->playSoundEffect("piu.ogg");
+    break;
+  case Player::Exploding:
+    setVelocity(glm::vec3(0.f));
+    Game::instance().getScene()->playSoundEffect("death.ogg");
+    initExplosion();
+    break;
+  case Player::Dead:
+    break;
+  }
+}
+
+void Player::explode() { changeState(Player::Exploding); }
+bool Player::isIdle() const { return mState == Player::Idle; }
+bool Player::isDead() const { return mState == Player::Dead; }
+bool Player::isAlive() const {
+  return mState == Player::Idle || mState == Player::Moving;
+}
