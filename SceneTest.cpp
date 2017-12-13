@@ -2,7 +2,7 @@
 #include "Game.h"
 
 const glm::vec3 SceneTest::kObsVector = glm::vec3(3, 10, 10);
-const float SceneTest::kCameraVel = -0.025f;
+const float SceneTest::kCameraVel = -0.015f;
 
 SceneTest::SceneTest() {}
 
