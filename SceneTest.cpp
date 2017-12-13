@@ -40,19 +40,6 @@ void SceneTest::updateScene(int deltaTime) {
   for (Chunk* chunk : mChunks)
     chunk->update(deltaTime);
 
-  const Obstacle* collided;
-  for (Chunk* chunk : mChunks) {
-    collided = chunk->checkCollisions(mPlayer);
-    if (collided != nullptr) {
-      std::cout << "Collision at " << mCurrentTime << std::endl;
-
-      if (collided->getType() != Obstacle::LILLYPAD) {
-        mPlayer.explode();
-        Game::instance().changeScene(Scene::SCENE_DEAD);
-      }
-    }
-  }
-
   VRP.x = mPlayer.getCenter().x;
   VRP.z = mPlayer.getCenter().z;
   OBS = VRP + kObsVector * TILE_SIZE;
@@ -71,6 +58,14 @@ void SceneTest::renderScene() {
 
 void SceneTest::updatePlayer(int deltaTime) {
   mPlayer.update(deltaTime);
+  
+  if (mPlayer.isIdle())
+    checkPlayerChunk();
+
+  checkPlayerCollisions();
+}
+
+void SceneTest::checkPlayerChunk() {
   int playerDepth = mPlayer.getPositionInTiles().z * (-1);
   int playerOffset = mPlayer.getPositionInTiles().x;
   
@@ -88,6 +83,24 @@ void SceneTest::updatePlayer(int deltaTime) {
     if (chunkType == Chunk::WATER && chunkDepth == playerDepth) {
       if (!chunk->hasObstacleAtPosition(Obstacle::LILLYPAD, playerOffset))
         Game::instance().changeScene(Scene::SCENE_DEAD);
+    }
+  }
+}
+
+void SceneTest::checkPlayerCollisions() {
+  const Obstacle* collided;
+  for (Chunk* chunk : mChunks) {
+    collided = chunk->checkCollisions(mPlayer);
+    if (collided != nullptr) {
+      switch (collided->getType()) {
+      case Obstacle::LILLYPAD:
+        std::cout << "Standing on lillypad" << std::endl;
+        break;
+      case Obstacle::TREE:
+      case Obstacle::CAR:
+        mPlayer.explode();
+        Game::instance().changeScene(Scene::SCENE_DEAD);
+      }
     }
   }
 }

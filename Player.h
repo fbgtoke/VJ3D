@@ -15,6 +15,8 @@ public:
 
   void explode();
 
+  bool isIdle() const;
+
 private:
   static const float kTol;
   static const float kDiminish;

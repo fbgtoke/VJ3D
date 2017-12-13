@@ -19,9 +19,11 @@ private:
 	void updateScene(int deltaTime) override;
 	void renderScene() override;
 
+  Player mPlayer;
   void updatePlayer(int deltaTime);
+  void checkPlayerChunk();
+  void checkPlayerCollisions();
 
-	Player mPlayer;
 	std::list<Chunk*> mChunks;
 };
 

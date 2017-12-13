@@ -128,3 +128,5 @@ void Player::explode() {
     mParticles.push_back(particle);
   }
 }
+
+bool Player::isIdle() const { return !mMovingTowardsTarget; }
