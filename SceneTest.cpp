@@ -27,6 +27,9 @@ void SceneTest::initScene() {
   OBS = VRP + kObsVector * TILE_SIZE;
 
   LvlReader::loadFromFile("levels/test.lvl", mChunks);
+
+  mScore.setPosition(glm::vec3(10.f, 10.f, -10.f));
+  mScore.setString("HELLO");
 }
 
 void SceneTest::updateScene(int deltaTime) {
@@ -62,4 +65,6 @@ void SceneTest::renderScene() {
 	
   for (Chunk* chunk : mChunks)
     chunk->render();
+
+  mScore.render();
 }

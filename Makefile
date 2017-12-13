@@ -744,6 +744,33 @@ Text.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Text.cpp.s
 .PHONY : Text.cpp.s
 
+Text3D.o: Text3D.cpp.o
+
+.PHONY : Text3D.o
+
+# target to build an object file
+Text3D.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Text3D.cpp.o
+.PHONY : Text3D.cpp.o
+
+Text3D.i: Text3D.cpp.i
+
+.PHONY : Text3D.i
+
+# target to preprocess a source file
+Text3D.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Text3D.cpp.i
+.PHONY : Text3D.cpp.i
+
+Text3D.s: Text3D.cpp.s
+
+.PHONY : Text3D.s
+
+# target to generate assembly for a file
+Text3D.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Text3D.cpp.s
+.PHONY : Text3D.cpp.s
+
 Texture.o: Texture.cpp.o
 
 .PHONY : Texture.o
@@ -903,6 +930,9 @@ help:
 	@echo "... Text.o"
 	@echo "... Text.i"
 	@echo "... Text.s"
+	@echo "... Text3D.o"
+	@echo "... Text3D.i"
+	@echo "... Text3D.s"
 	@echo "... Texture.o"
 	@echo "... Texture.i"
 	@echo "... Texture.s"
