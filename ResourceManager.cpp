@@ -24,6 +24,13 @@ ResourceManager::~ResourceManager() {
     mTextures.erase(it++);
   }
   mTextures.clear();
+
+  for (auto it = mMusics.begin(); it != mMusics.end();) {
+    //std::cout << "Erasing texture " + it->first << std::endl;
+    delete it->second;
+    mMusics.erase(it++);
+  }
+  mMusics.clear();
 }
 
 Mesh* ResourceManager::mesh(const std::string& name) {
@@ -45,6 +52,13 @@ Texture* ResourceManager::texture(const std::string& name) {
 		loadTexture(name);
 
 	return mTextures[name];
+}
+
+sf::Music* ResourceManager::music(const std::string& name) {
+  if (mMusics.count(name) == 0)
+    loadMusic(name);
+
+  return mMusics[name];
 }
 
 void ResourceManager::loadMesh(const std::string& name) {
@@ -105,4 +119,11 @@ void ResourceManager::loadTexture(const std::string& name) {
   texture->loadFromFile("textures/" + name, TEXTURE_PIXEL_FORMAT_RGBA);
 
   mTextures[name] = texture;
+}
+
+void ResourceManager::loadMusic(const std::string& name) {
+  sf::Music* music = new sf::Music();
+  music->openFromFile("music/" + name);
+
+  mMusics[name] = music;
 }

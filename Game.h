@@ -60,6 +60,8 @@ public:
 
 	ResourceManager& getResource();
 
+	void setBackgroundMusic(const std::string& name, float volume = 50.f);
+
 private:
 	bool bPlay;                       // Continue to play game?
 	Scene* scene;                     // Scene to render
@@ -79,6 +81,7 @@ private:
 	bool mMouseButtonPrevious;
 
 	ResourceManager mResourceManager;
+	sf::Music* mBackgroundMusic;
 };
 
 
