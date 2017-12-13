@@ -366,6 +366,33 @@ Obstacle.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Obstacle.cpp.s
 .PHONY : Obstacle.cpp.s
 
+ObstacleBonus.o: ObstacleBonus.cpp.o
+
+.PHONY : ObstacleBonus.o
+
+# target to build an object file
+ObstacleBonus.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleBonus.cpp.o
+.PHONY : ObstacleBonus.cpp.o
+
+ObstacleBonus.i: ObstacleBonus.cpp.i
+
+.PHONY : ObstacleBonus.i
+
+# target to preprocess a source file
+ObstacleBonus.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleBonus.cpp.i
+.PHONY : ObstacleBonus.cpp.i
+
+ObstacleBonus.s: ObstacleBonus.cpp.s
+
+.PHONY : ObstacleBonus.s
+
+# target to generate assembly for a file
+ObstacleBonus.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleBonus.cpp.s
+.PHONY : ObstacleBonus.cpp.s
+
 ObstacleCar.o: ObstacleCar.cpp.o
 
 .PHONY : ObstacleCar.o
@@ -942,6 +969,9 @@ help:
 	@echo "... Obstacle.o"
 	@echo "... Obstacle.i"
 	@echo "... Obstacle.s"
+	@echo "... ObstacleBonus.o"
+	@echo "... ObstacleBonus.i"
+	@echo "... ObstacleBonus.s"
 	@echo "... ObstacleCar.o"
 	@echo "... ObstacleCar.i"
 	@echo "... ObstacleCar.s"

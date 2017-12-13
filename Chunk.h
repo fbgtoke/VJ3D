@@ -34,6 +34,8 @@ public:
   const Obstacle* checkCollisions(const Player& player) const;
   bool hasObstacleAtPosition(Obstacle::ObstacleType type, unsigned int position) const;
 
+  void removeObstacle(const Obstacle* obstacle);
+
 private:
 	unsigned int mDepth;
   ChunkType mType;

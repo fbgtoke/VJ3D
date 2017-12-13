@@ -66,6 +66,19 @@ bool Chunk::hasObstacleAtPosition(Obstacle::ObstacleType type, unsigned int posi
   return false;
 }
 
+void Chunk::removeObstacle(const Obstacle* obstacle) {
+  auto it = mObstacles.begin();
+
+  while (it != mObstacles.end()) {
+    if (obstacle == (*it)) {
+      delete obstacle;
+      mObstacles.erase(it++);
+    } else {
+      it++;
+    }
+  }
+}
+
 void Chunk::createFloor() {
   glm::vec3 position;
   position.y = -1.f;

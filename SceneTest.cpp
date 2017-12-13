@@ -100,6 +100,13 @@ void SceneTest::checkPlayerCollisions() {
       case Obstacle::CAR:
         mPlayer.explode();
         Game::instance().changeScene(Scene::SCENE_DEAD);
+        break;
+      case Obstacle::BONUS:
+        std::cout << "Bonus get" << std::endl;
+        chunk->removeObstacle(collided);
+        break;
+      default:
+        break;
       }
     }
   }

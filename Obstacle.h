@@ -9,6 +9,7 @@ public:
     TREE = 0,
     CAR,
     LILLYPAD,
+    BONUS,
     NUM_TYPES
   };
 
@@ -22,6 +23,7 @@ private:
   static Obstacle* readTree(std::istringstream& sstream);
   static Obstacle* readCar(std::istringstream& sstream);
   static Obstacle* readLillypad(std::istringstream& sstream);
+  static Obstacle* readBonus(std::istringstream& sstream);
 
   const ObstacleType mType;
 };

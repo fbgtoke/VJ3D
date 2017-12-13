@@ -2,6 +2,7 @@
 #include "ObstacleTree.h"
 #include "ObstacleCarSpawner.h"
 #include "ObstacleLillypad.h"
+#include "ObstacleBonus.h"
 
 Obstacle::Obstacle(ObstacleType type)
   : mType(type) {}
@@ -18,6 +19,7 @@ Obstacle* Obstacle::createFromStream(std::istringstream& sstream) {
     case TREE:     obstacle = readTree(sstream); break;
     case CAR:      obstacle = readCar(sstream); break;
     case LILLYPAD: obstacle = readLillypad(sstream); break;
+    case BONUS:    obstacle = readBonus(sstream); break;
     default:       obstacle = nullptr;
   }
 
@@ -47,6 +49,15 @@ Obstacle* Obstacle::readLillypad(std::istringstream& sstream) {
   sstream >> position;
 
   ObstacleLillypad* obstacle = new ObstacleLillypad();
+  obstacle->init(position);
+  return obstacle;
+}
+
+Obstacle* Obstacle::readBonus(std::istringstream& sstream) {
+  unsigned int position;
+  sstream >> position;
+
+  ObstacleBonus* obstacle = new ObstacleBonus();
   obstacle->init(position);
   return obstacle;
 }
