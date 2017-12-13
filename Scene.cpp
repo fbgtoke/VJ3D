@@ -11,7 +11,11 @@ const float Scene::kAmbientLight = 0.4f;
 
 Scene::Scene() {}
 
-Scene::~Scene() {}
+Scene::~Scene() {
+  for (auto it = mSoundEffects.begin(); it != mSoundEffects.end(); ++it)
+    delete (*it);
+  mSoundEffects.clear();
+}
 
 Scene* Scene::create(SceneType type) {
   switch(type) {
@@ -36,6 +40,8 @@ void Scene::update(int deltaTime) {
 
   updateScene(deltaTime);
   updateGUI(deltaTime);
+
+  checkSoundEffects();
 }
 
 void Scene::render() {
@@ -76,4 +82,30 @@ void Scene::renderGUI() {
   mGuiProgram->setUniformMatrix4f("VM", mViewMatrixGUI);
   mGuiProgram->setUniform2f("texCoordDispl", 0.f, 0.f);
   mGuiProgram->setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
+}
+
+void Scene::playSoundEffect(const std::string& name) {
+  const sf::SoundBuffer* buffer = Game::instance().getResource().soundBuffer(name);
+
+  if (buffer != nullptr) {
+    sf::Sound* sound = new sf::Sound(*buffer);
+    sound->play();
+    mSoundEffects.push_back(sound);
+  }
+}
+
+void Scene::checkSoundEffects() {
+  auto it = mSoundEffects.begin();
+  sf::Sound* sound = nullptr;
+
+  while (it != mSoundEffects.end()) {
+    sound = (*it);
+
+    if (sound->getStatus() != sf::Sound::Playing) {
+      delete sound;
+      mSoundEffects.erase(it++);
+    } else {
+      it++;
+    }
+  }
 }

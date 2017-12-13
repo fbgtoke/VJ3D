@@ -23,6 +23,8 @@ public:
 
 	virtual void initShaders();
 
+	void playSoundEffect(const std::string& name);
+
 protected:
 	float mCurrentTime;
 
@@ -42,6 +44,9 @@ protected:
 	virtual void initGUI();
 	virtual void updateGUI(int deltaTime);
 	virtual void renderGUI();
+
+	void checkSoundEffects();
+	std::list<sf::Sound*> mSoundEffects;
 };
 
 #endif // _SCENE_INCLUDE

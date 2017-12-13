@@ -63,6 +63,8 @@ void Player::moveTowards(const glm::vec3& direction) {
   mStartPosition = mPosition;
   mMovingTowardsTarget = true;
   setMesh(mFrames[1]);
+
+  Game::instance().getScene()->playSoundEffect("piu.ogg");
 }
 
 void Player::updateMoving(int deltaTime) {

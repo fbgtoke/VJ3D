@@ -15,7 +15,9 @@ public:
 	Mesh* mesh(const std::string& name);
 	ShaderProgram* shader(const std::string& name);
 	Texture* texture(const std::string& name);
+
   sf::Music* music(const std::string& name);
+  sf::SoundBuffer* soundBuffer(const std::string& name);
 
 private:
   void loadMesh(const std::string& name);
@@ -29,6 +31,9 @@ private:
 
   void loadMusic(const std::string& name);
   std::map<std::string, sf::Music*> mMusics;
+
+  void loadSoundBuffer(const std::string& name);
+  std::map<std::string, sf::SoundBuffer*> mSoundBuffers;
 };
 
 #endif // _RESOURCE_MANAGER_INCLUDE

@@ -31,6 +31,13 @@ ResourceManager::~ResourceManager() {
     mMusics.erase(it++);
   }
   mMusics.clear();
+
+  for (auto it = mSoundBuffers.begin(); it != mSoundBuffers.end();) {
+    //std::cout << "Erasing texture " + it->first << std::endl;
+    delete it->second;
+    mSoundBuffers.erase(it++);
+  }
+  mSoundBuffers.clear();
 }
 
 Mesh* ResourceManager::mesh(const std::string& name) {
@@ -59,6 +66,13 @@ sf::Music* ResourceManager::music(const std::string& name) {
     loadMusic(name);
 
   return mMusics[name];
+}
+
+sf::SoundBuffer* ResourceManager::soundBuffer(const std::string& name) {
+  if (mSoundBuffers.count(name) == 0)
+    loadSoundBuffer(name);
+
+  return mSoundBuffers[name];
 }
 
 void ResourceManager::loadMesh(const std::string& name) {
@@ -126,4 +140,11 @@ void ResourceManager::loadMusic(const std::string& name) {
   music->openFromFile("music/" + name);
 
   mMusics[name] = music;
+}
+
+void ResourceManager::loadSoundBuffer(const std::string& name) {
+  sf::SoundBuffer* buffer = new sf::SoundBuffer();
+  buffer->loadFromFile("sounds/" + name);
+
+  mSoundBuffers[name] = buffer;
 }
