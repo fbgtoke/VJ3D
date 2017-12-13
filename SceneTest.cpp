@@ -44,6 +44,10 @@ void SceneTest::updateScene(int deltaTime) {
     if (chunk->getType() == Chunk::GOAL && chunk->getDepth() == depth) {
       Game::instance().changeScene(Scene::SCENE_WIN);
     }
+
+    if (chunk->getType() == Chunk::WATER && chunk->getDepth() == depth) {
+      Game::instance().changeScene(Scene::SCENE_DEAD);
+    }
   }
 
   const Model* collided;
