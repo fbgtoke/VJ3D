@@ -1,7 +1,7 @@
 #include "SceneTest.h"
 #include "Game.h"
 
-const glm::vec3 SceneTest::kObsVector = glm::vec3(3, 8, 10);
+const glm::vec3 SceneTest::kObsVector = glm::vec3(3, 10, 10);
 const float SceneTest::kCameraVel = -0.025f;
 
 SceneTest::SceneTest() {}
@@ -37,16 +37,11 @@ void SceneTest::updateScene(int deltaTime) {
   if (Game::instance().getKeyPressed(27)) // Escape
     Game::instance().changeScene(Scene::SCENE_MENU);
 
+  updateCamera(deltaTime);
   updatePlayer(deltaTime);
 
   for (Chunk* chunk : mChunks)
     chunk->update(deltaTime);
-
-  VRP.x = mPlayer.getCenter().x;
-  VRP.z += mCameraVel * (float)deltaTime;
-  OBS = VRP + kObsVector * TILE_SIZE;
-
-  mViewMatrix = glm::lookAt(OBS, VRP, UP);
 }
 
 void SceneTest::renderScene() {
@@ -56,6 +51,15 @@ void SceneTest::renderScene() {
 	
   for (Chunk* chunk : mChunks)
     chunk->render();
+}
+
+void SceneTest::updateCamera(int deltaTime) {
+  VRP.x = mPlayer.getCenter().x;
+  VRP.y = 0.f;
+  VRP.z += mCameraVel * (float)deltaTime;
+  OBS = VRP + kObsVector * TILE_SIZE;
+
+  mViewMatrix = glm::lookAt(OBS, VRP, UP);
 }
 
 void SceneTest::updatePlayer(int deltaTime) {
@@ -90,7 +94,7 @@ void SceneTest::checkPlayerChunk() {
 
     if (chunkType == Chunk::WATER && chunkDepth == playerDepth) {
       if (!chunk->hasObstacleAtPosition(Obstacle::LILLYPAD, playerOffset))
-        mPlayer.explode();
+        killPlayer();
     }
   }
 }
@@ -106,7 +110,7 @@ void SceneTest::checkPlayerCollisions() {
         break;
       case Obstacle::TREE:
       case Obstacle::CAR:
-        mPlayer.explode();
+        killPlayer();
         break;
       case Obstacle::BONUS:
         std::cout << "Bonus get" << std::endl;
@@ -120,13 +124,15 @@ void SceneTest::checkPlayerCollisions() {
 }
 
 void SceneTest::checkPlayerOutOfCamera() {
-  float playerDepth = mPlayer.getCenter().z;
-  float cameraDepth = VRP.z;
+  glm::vec4 homoPosition(mPlayer.getCenter(), 1.0f);
+  glm::vec4 projectedPosition =
+    glm::vec4(mProjectionMatrix * mViewMatrix * homoPosition);
 
-  const float margin = 8 * TILE_SIZE;
+  if (projectedPosition.y/projectedPosition.w < -1.0f)
+    killPlayer();
+}
 
-  if (playerDepth > cameraDepth + margin) {
-    mPlayer.explode();
-    mCameraVel = 0.f;
-  }
+void SceneTest::killPlayer() {
+  mPlayer.explode();
+  mCameraVel = 0.f;
 }

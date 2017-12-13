@@ -26,6 +26,7 @@ private:
 
   enum State {
     Idle,
+    OnLog,
     Moving,
     Exploding,
     Dead
@@ -38,14 +39,11 @@ private:
   void moveTowards(const glm::vec3& direction);
 
   void updateIdle(int deltaTime);
+  void updateOnLog(int deltaTime);
   void updateMoving(int deltaTime);
   void updateExploding(int deltaTime);
-  void updateDead(int deltaTime);
 
-  void renderIdle();
-  void renderMoving();
   void renderExploding();
-  void renderDead();
 
   void initExplosion();
 

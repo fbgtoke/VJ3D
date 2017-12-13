@@ -31,6 +31,7 @@ public:
   glm::vec3 getPosition() const;
   glm::vec3 getPositionInTiles() const;
   glm::vec3 getCenter() const;
+  glm::mat4 getTransform() const;
 
   glm::vec3 getVelocity() const;
 

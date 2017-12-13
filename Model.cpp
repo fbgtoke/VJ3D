@@ -26,13 +26,7 @@ void Model::update(int deltaTime) {
 void Model::render() {
   if (mMesh == nullptr) return;
 
-	glm::mat4 modelMatrix(1.f);
-	modelMatrix = glm::translate(modelMatrix, mPosition);
-  modelMatrix = glm::scale(modelMatrix, mScale);
-  modelMatrix = glm::rotate(modelMatrix, mRotation.z, glm::vec3(0, 0, 1));
-  modelMatrix = glm::rotate(modelMatrix, mRotation.y, glm::vec3(0, 1, 0));
-  modelMatrix = glm::rotate(modelMatrix, mRotation.x, glm::vec3(1, 0, 0));
-	modelMatrix = glm::translate(modelMatrix, mCenter * (-1.f));
+	glm::mat4 modelMatrix = getTransform();
 	
 	mShaderProgram->setUniformMatrix4f("TG", modelMatrix);
 	mShaderProgram->setUniform4f("color", 1.f, 1.f, 1.f, 1.f);
@@ -76,6 +70,18 @@ glm::vec3 Model::getPositionInTiles() const {
 }
 
 glm::vec3 Model::getCenter() const { return mPosition + mCenter; }
+
+glm::mat4 Model::getTransform() const {
+  glm::mat4 modelMatrix(1.f);
+  modelMatrix = glm::translate(modelMatrix, mPosition);
+  modelMatrix = glm::scale(modelMatrix, mScale);
+  modelMatrix = glm::rotate(modelMatrix, mRotation.z, glm::vec3(0, 0, 1));
+  modelMatrix = glm::rotate(modelMatrix, mRotation.y, glm::vec3(0, 1, 0));
+  modelMatrix = glm::rotate(modelMatrix, mRotation.x, glm::vec3(1, 0, 0));
+  modelMatrix = glm::translate(modelMatrix, mCenter * (-1.f));
+
+  return modelMatrix;
+}
 
 glm::vec3 Model::getVelocity() const { return mVelocity; }
 

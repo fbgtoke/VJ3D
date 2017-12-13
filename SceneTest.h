@@ -17,6 +17,7 @@ private:
   static const float kCameraVel;
 
   float mCameraVel;
+  void updateCamera(int deltaTime);
 
 	void initScene() override;
 	void updateScene(int deltaTime) override;
@@ -27,6 +28,7 @@ private:
   void checkPlayerChunk();
   void checkPlayerCollisions();
   void checkPlayerOutOfCamera();
+  void killPlayer();
 
 	std::list<Chunk*> mChunks;
 };

@@ -28,5 +28,7 @@ object 2 8
 chunk 3 12
 object 2 0
 chunk 0 13
+object 4 800 0.05 2000
 chunk 0 14
+object 4 800 -0.05 2000
 chunk 4 15

@@ -30,22 +30,22 @@ void Player::init() {
 }
 
 void Player::update(int deltaTime) {
-  Model::update(deltaTime);
-
   switch (mState) {
   case Player::Idle: updateIdle(deltaTime); break;
+  case Player::OnLog: updateOnLog(deltaTime); break;
   case Player::Moving: updateMoving(deltaTime); break;
   case Player::Exploding: updateExploding(deltaTime); break;
-  case Player::Dead: updateDead(deltaTime); break;
+  case Player::Dead: break;
   }
 }
 
 void Player::render() {
   switch (mState) {
-  case Player::Idle: renderIdle(); break;
-  case Player::Moving: renderMoving(); break;
+  case Player::Idle: Model::render(); break;
+  case Player::OnLog: Model::render(); break;
+  case Player::Moving: Model::render(); break;
   case Player::Exploding: renderExploding(); break;
-  case Player::Dead: renderDead(); break;
+  case Player::Dead: break;
   }
 }
 
@@ -57,6 +57,8 @@ void Player::moveTowards(const glm::vec3& direction) {
 }
 
 void Player::updateIdle(int deltaTime) {
+  Model::update(deltaTime);
+
   if (Game::instance().getKeyPressed('a') && getPositionInTiles().x > 0)
     moveTowards(LEFT);
   else if (Game::instance().getKeyPressed('d') && getPositionInTiles().x < TILES_PER_CHUNK - 1)
@@ -65,11 +67,20 @@ void Player::updateIdle(int deltaTime) {
     moveTowards(IN);
   else if (Game::instance().getKeyPressed('s') && getPositionInTiles().z < 0)
     moveTowards(OUT);
-  else if (Game::instance().getKeyPressed('e'))
-    explode();
+}
+
+void Player::updateOnLog(int deltaTime) {
+  Model::update(deltaTime);
+
+  if (Game::instance().getKeyPressed('w'))
+    moveTowards(IN);
+  else if (Game::instance().getKeyPressed('s') && getPositionInTiles().z < 0)
+    moveTowards(OUT);
 }
 
 void Player::updateMoving(int deltaTime) {
+  Model::update(deltaTime);
+
   glm::vec3 current = glm::vec3(mPosition.x, 0.f, mPosition.z);
   glm::vec3 target  = glm::vec3(mTargetPosition.x, 0.f, mTargetPosition.z);
   glm::vec3 middle  = (mTargetPosition + mStartPosition) * 0.5f;
@@ -109,23 +120,11 @@ void Player::updateExploding(int deltaTime) {
     changeState(Player::Dead);
 }
 
-void Player::updateDead(int deltaTime) {}
-
-void Player::renderIdle() {
-  Model::render();
-}
-
-void Player::renderMoving() {
-  Model::render();
-}
-
 void Player::renderExploding() {
   for (Particle* particle : mParticles)
     if (particle->isAlive())
       particle->render();
 }
-
-void Player::renderDead() {}
 
 void Player::initExplosion() {
   for (int i = 0; i < 250; ++i) {

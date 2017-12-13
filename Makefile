@@ -474,6 +474,60 @@ ObstacleLillypad.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleLillypad.cpp.s
 .PHONY : ObstacleLillypad.cpp.s
 
+ObstacleLog.o: ObstacleLog.cpp.o
+
+.PHONY : ObstacleLog.o
+
+# target to build an object file
+ObstacleLog.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleLog.cpp.o
+.PHONY : ObstacleLog.cpp.o
+
+ObstacleLog.i: ObstacleLog.cpp.i
+
+.PHONY : ObstacleLog.i
+
+# target to preprocess a source file
+ObstacleLog.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleLog.cpp.i
+.PHONY : ObstacleLog.cpp.i
+
+ObstacleLog.s: ObstacleLog.cpp.s
+
+.PHONY : ObstacleLog.s
+
+# target to generate assembly for a file
+ObstacleLog.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleLog.cpp.s
+.PHONY : ObstacleLog.cpp.s
+
+ObstacleLogSpawner.o: ObstacleLogSpawner.cpp.o
+
+.PHONY : ObstacleLogSpawner.o
+
+# target to build an object file
+ObstacleLogSpawner.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleLogSpawner.cpp.o
+.PHONY : ObstacleLogSpawner.cpp.o
+
+ObstacleLogSpawner.i: ObstacleLogSpawner.cpp.i
+
+.PHONY : ObstacleLogSpawner.i
+
+# target to preprocess a source file
+ObstacleLogSpawner.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleLogSpawner.cpp.i
+.PHONY : ObstacleLogSpawner.cpp.i
+
+ObstacleLogSpawner.s: ObstacleLogSpawner.cpp.s
+
+.PHONY : ObstacleLogSpawner.s
+
+# target to generate assembly for a file
+ObstacleLogSpawner.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleLogSpawner.cpp.s
+.PHONY : ObstacleLogSpawner.cpp.s
+
 ObstacleTree.o: ObstacleTree.cpp.o
 
 .PHONY : ObstacleTree.o
@@ -981,6 +1035,12 @@ help:
 	@echo "... ObstacleLillypad.o"
 	@echo "... ObstacleLillypad.i"
 	@echo "... ObstacleLillypad.s"
+	@echo "... ObstacleLog.o"
+	@echo "... ObstacleLog.i"
+	@echo "... ObstacleLog.s"
+	@echo "... ObstacleLogSpawner.o"
+	@echo "... ObstacleLogSpawner.i"
+	@echo "... ObstacleLogSpawner.s"
 	@echo "... ObstacleTree.o"
 	@echo "... ObstacleTree.i"
 	@echo "... ObstacleTree.s"

@@ -1,0 +1,41 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/CrossyRoad.dir/Animation3D.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/Button.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/Chunk.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/Game.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/LvlReader.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/Mesh.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/Model.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/ObjReader.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/Obstacle.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/ObstacleBonus.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/ObstacleCar.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/ObstacleCarSpawner.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/ObstacleLillypad.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/ObstacleLog.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/ObstacleLogSpawner.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/ObstacleTree.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/Particle.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/Player.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/ResourceManager.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/Scene.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/SceneDead.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/SceneMenu.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/SceneTest.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/SceneWin.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/Shader.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/ShaderProgram.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/Sprite.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/Text.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/Text3D.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/Texture.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/TexturedQuad.cpp.o"
+  "CMakeFiles/CrossyRoad.dir/main.cpp.o"
+  "CrossyRoad.pdb"
+  "CrossyRoad"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/CrossyRoad.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

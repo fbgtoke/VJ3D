@@ -3,6 +3,7 @@
 #include "ObstacleCarSpawner.h"
 #include "ObstacleLillypad.h"
 #include "ObstacleBonus.h"
+#include "ObstacleLogSpawner.h"
 
 Obstacle::Obstacle(ObstacleType type)
   : mType(type) {}
@@ -20,6 +21,7 @@ Obstacle* Obstacle::createFromStream(std::istringstream& sstream) {
     case CAR:      obstacle = readCar(sstream); break;
     case LILLYPAD: obstacle = readLillypad(sstream); break;
     case BONUS:    obstacle = readBonus(sstream); break;
+    case LOG:      obstacle = readLog(sstream); break;
     default:       obstacle = nullptr;
   }
 
@@ -59,5 +61,14 @@ Obstacle* Obstacle::readBonus(std::istringstream& sstream) {
 
   ObstacleBonus* obstacle = new ObstacleBonus();
   obstacle->init(position);
+  return obstacle;
+}
+
+Obstacle* Obstacle::readLog(std::istringstream& sstream) {
+  float period, spd, var;
+  sstream >> period >> spd >> var;
+
+  ObstacleLogSpawner* obstacle = new ObstacleLogSpawner();
+  obstacle->init(period, spd, var);
   return obstacle;
 }

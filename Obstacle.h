@@ -10,6 +10,7 @@ public:
     CAR,
     LILLYPAD,
     BONUS,
+    LOG,
     NUM_TYPES
   };
 
@@ -24,6 +25,7 @@ private:
   static Obstacle* readCar(std::istringstream& sstream);
   static Obstacle* readLillypad(std::istringstream& sstream);
   static Obstacle* readBonus(std::istringstream& sstream);
+  static Obstacle* readLog(std::istringstream& sstream);
 
   const ObstacleType mType;
 };
