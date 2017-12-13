@@ -23,8 +23,10 @@ void Text3D::render() {
     if (c >= 'A' && c <= 'Z')
       c += 32;
 
-    model.setMesh(mCharacters[c]);
-    model.render();
+    if (mCharacters.count(c) != 0) {
+      model.setMesh(mCharacters[c]);
+      model.render();
+    }
     model.move(RIGHT * model.getSize().x);
   }
 }

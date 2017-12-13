@@ -27,9 +27,6 @@ void SceneTest::initScene() {
   OBS = VRP + kObsVector * TILE_SIZE;
 
   LvlReader::loadFromFile("levels/test.lvl", mChunks);
-
-  mScore.setPosition(glm::vec3(10.f, 10.f, -10.f));
-  mScore.setString("HELLO");
 }
 
 void SceneTest::updateScene(int deltaTime) {
@@ -39,8 +36,15 @@ void SceneTest::updateScene(int deltaTime) {
     Game::instance().changeScene(Scene::SCENE_MENU);
 
   mPlayer.update(deltaTime);
-  for (Chunk* chunk : mChunks)
+  int depth = mPlayer.getPositionInTiles().z * (-1);
+
+  for (Chunk* chunk : mChunks) {
     chunk->update(deltaTime);
+
+    if (chunk->getType() == Chunk::GOAL && chunk->getDepth() == depth) {
+      Game::instance().changeScene(Scene::SCENE_WIN);
+    }
+  }
 
   const Model* collided;
   for (Chunk* chunk : mChunks) {
@@ -48,6 +52,7 @@ void SceneTest::updateScene(int deltaTime) {
     if (collided != nullptr) {
       std::cout << "Collision at " << mCurrentTime << std::endl;
       mPlayer.explode();
+      Game::instance().changeScene(Scene::SCENE_DEAD);
     }
   }
 
@@ -65,6 +70,4 @@ void SceneTest::renderScene() {
 	
   for (Chunk* chunk : mChunks)
     chunk->render();
-
-  mScore.render();
 }

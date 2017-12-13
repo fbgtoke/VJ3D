@@ -5,7 +5,6 @@
 #include "LvlReader.h"
 #include "Chunk.h"
 #include "Player.h"
-#include "Text3D.h"
 
 class SceneTest : public Scene {
 public:
@@ -21,8 +20,6 @@ private:
 
 	Player mPlayer;
 	std::list<Chunk*> mChunks;
-
-  Text3D mScore;
 };
 
 #endif // SCENE_TEST_INCLUDE

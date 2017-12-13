@@ -15,7 +15,9 @@ public:
 	enum SceneType {
 		SCENE_TEST,
 		SCENE_MENU,
-		SCENE_PLAY
+		SCENE_PLAY,
+		SCENE_WIN,
+		SCENE_DEAD
 	};
 	static Scene* create(SceneType type);
 

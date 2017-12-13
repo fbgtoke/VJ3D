@@ -1,6 +1,8 @@
 #include "Scene.h"
 #include "SceneMenu.h"
 #include "SceneTest.h"
+#include "SceneWin.h"
+#include "SceneDead.h"
 
 #include "Game.h"
 
@@ -14,6 +16,8 @@ Scene::~Scene() {}
 Scene* Scene::create(SceneType type) {
   switch(type) {
   case SCENE_MENU: return new SceneMenu();
+  case SCENE_WIN:  return new SceneWin();
+  case SCENE_DEAD: return new SceneDead();
   default:
     return new SceneTest();
   }

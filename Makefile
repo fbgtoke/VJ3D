@@ -582,6 +582,33 @@ Scene.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Scene.cpp.s
 .PHONY : Scene.cpp.s
 
+SceneDead.o: SceneDead.cpp.o
+
+.PHONY : SceneDead.o
+
+# target to build an object file
+SceneDead.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneDead.cpp.o
+.PHONY : SceneDead.cpp.o
+
+SceneDead.i: SceneDead.cpp.i
+
+.PHONY : SceneDead.i
+
+# target to preprocess a source file
+SceneDead.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneDead.cpp.i
+.PHONY : SceneDead.cpp.i
+
+SceneDead.s: SceneDead.cpp.s
+
+.PHONY : SceneDead.s
+
+# target to generate assembly for a file
+SceneDead.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneDead.cpp.s
+.PHONY : SceneDead.cpp.s
+
 SceneMenu.o: SceneMenu.cpp.o
 
 .PHONY : SceneMenu.o
@@ -635,6 +662,33 @@ SceneTest.s: SceneTest.cpp.s
 SceneTest.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneTest.cpp.s
 .PHONY : SceneTest.cpp.s
+
+SceneWin.o: SceneWin.cpp.o
+
+.PHONY : SceneWin.o
+
+# target to build an object file
+SceneWin.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneWin.cpp.o
+.PHONY : SceneWin.cpp.o
+
+SceneWin.i: SceneWin.cpp.i
+
+.PHONY : SceneWin.i
+
+# target to preprocess a source file
+SceneWin.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneWin.cpp.i
+.PHONY : SceneWin.cpp.i
+
+SceneWin.s: SceneWin.cpp.s
+
+.PHONY : SceneWin.s
+
+# target to generate assembly for a file
+SceneWin.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneWin.cpp.s
+.PHONY : SceneWin.cpp.s
 
 Shader.o: Shader.cpp.o
 
@@ -912,12 +966,18 @@ help:
 	@echo "... Scene.o"
 	@echo "... Scene.i"
 	@echo "... Scene.s"
+	@echo "... SceneDead.o"
+	@echo "... SceneDead.i"
+	@echo "... SceneDead.s"
 	@echo "... SceneMenu.o"
 	@echo "... SceneMenu.i"
 	@echo "... SceneMenu.s"
 	@echo "... SceneTest.o"
 	@echo "... SceneTest.i"
 	@echo "... SceneTest.s"
+	@echo "... SceneWin.o"
+	@echo "... SceneWin.i"
+	@echo "... SceneWin.s"
 	@echo "... Shader.o"
 	@echo "... Shader.i"
 	@echo "... Shader.s"
