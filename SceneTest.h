@@ -14,6 +14,9 @@ public:
 
 private:
 	static const glm::vec3 kObsVector;
+  static const float kCameraVel;
+
+  float mCameraVel;
 
 	void initScene() override;
 	void updateScene(int deltaTime) override;
@@ -23,6 +26,7 @@ private:
   void updatePlayer(int deltaTime);
   void checkPlayerChunk();
   void checkPlayerCollisions();
+  void checkPlayerOutOfCamera();
 
 	std::list<Chunk*> mChunks;
 };

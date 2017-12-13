@@ -1,7 +1,8 @@
 #include "SceneTest.h"
 #include "Game.h"
 
-const glm::vec3 SceneTest::kObsVector = glm::vec3(5, 8, 10);
+const glm::vec3 SceneTest::kObsVector = glm::vec3(3, 8, 10);
+const float SceneTest::kCameraVel = -0.025f;
 
 SceneTest::SceneTest() {}
 
@@ -21,8 +22,9 @@ void SceneTest::initScene() {
 	mProjectionMatrix = glm::perspective(FOV, ar, znear, zfar);
 
   mPlayer.init();
-  mPlayer.setPositionInTiles(glm::vec3(0));
+  mPlayer.setPositionInTiles(glm::vec3(TILES_PER_CHUNK/2, 0, 0));
 
+  mCameraVel = kCameraVel;
   VRP = mPlayer.getCenter();
   OBS = VRP + kObsVector * TILE_SIZE;
 
@@ -41,7 +43,7 @@ void SceneTest::updateScene(int deltaTime) {
     chunk->update(deltaTime);
 
   VRP.x = mPlayer.getCenter().x;
-  VRP.z = mPlayer.getCenter().z;
+  VRP.z += mCameraVel * (float)deltaTime;
   OBS = VRP + kObsVector * TILE_SIZE;
 
   mViewMatrix = glm::lookAt(OBS, VRP, UP);
@@ -62,8 +64,10 @@ void SceneTest::updatePlayer(int deltaTime) {
   if (mPlayer.isIdle())
     checkPlayerChunk();
 
-  if (mPlayer.isAlive())
+  if (mPlayer.isAlive()) {
     checkPlayerCollisions();
+    checkPlayerOutOfCamera();
+  }
 
   if (mPlayer.isDead())
     Game::instance().changeScene(Scene::SCENE_DEAD);
@@ -112,5 +116,17 @@ void SceneTest::checkPlayerCollisions() {
         break;
       }
     }
+  }
+}
+
+void SceneTest::checkPlayerOutOfCamera() {
+  float playerDepth = mPlayer.getCenter().z;
+  float cameraDepth = VRP.z;
+
+  const float margin = 8 * TILE_SIZE;
+
+  if (playerDepth > cameraDepth + margin) {
+    mPlayer.explode();
+    mCameraVel = 0.f;
   }
 }
