@@ -4,6 +4,7 @@
 #include "Scene.h"
 #include "LvlReader.h"
 #include "Chunk.h"
+#include "Obstacle.h"
 #include "Player.h"
 
 class SceneTest : public Scene {
@@ -17,6 +18,8 @@ private:
 	void initScene() override;
 	void updateScene(int deltaTime) override;
 	void renderScene() override;
+
+  void updatePlayer(int deltaTime);
 
 	Player mPlayer;
 	std::list<Chunk*> mChunks;

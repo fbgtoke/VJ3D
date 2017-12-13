@@ -31,7 +31,8 @@ public:
 
   void addObstacle(Obstacle* obstacle);
 
-  const Model* checkCollisions(const Player& player) const;
+  const Obstacle* checkCollisions(const Player& player) const;
+  bool hasObstacleAtPosition(Obstacle::ObstacleType type, unsigned int position) const;
 
 private:
 	unsigned int mDepth;

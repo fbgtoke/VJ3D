@@ -49,12 +49,21 @@ void Chunk::addObstacle(Obstacle* obstacle) {
   mObstacles.push_back(obstacle);
 }
 
-const Model* Chunk::checkCollisions(const Player& player) const {
+const Obstacle* Chunk::checkCollisions(const Player& player) const {
   for (Obstacle* obstacle : mObstacles)
     if (obstacle->collides(player))
       return obstacle;
 
   return nullptr;
+}
+
+bool Chunk::hasObstacleAtPosition(Obstacle::ObstacleType type, unsigned int position) const {
+  for (Obstacle* obstacle : mObstacles)
+    if (obstacle->getType() == type)
+      if (obstacle->getPositionInTiles().x == position)
+        return true;
+
+  return false;
 }
 
 void Chunk::createFloor() {

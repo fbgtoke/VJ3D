@@ -35,28 +35,21 @@ void SceneTest::updateScene(int deltaTime) {
   if (Game::instance().getKeyPressed(27)) // Escape
     Game::instance().changeScene(Scene::SCENE_MENU);
 
-  mPlayer.update(deltaTime);
-  int depth = mPlayer.getPositionInTiles().z * (-1);
+  updatePlayer(deltaTime);
 
-  for (Chunk* chunk : mChunks) {
+  for (Chunk* chunk : mChunks)
     chunk->update(deltaTime);
 
-    if (chunk->getType() == Chunk::GOAL && chunk->getDepth() == depth) {
-      Game::instance().changeScene(Scene::SCENE_WIN);
-    }
-
-    if (chunk->getType() == Chunk::WATER && chunk->getDepth() == depth) {
-      Game::instance().changeScene(Scene::SCENE_DEAD);
-    }
-  }
-
-  const Model* collided;
+  const Obstacle* collided;
   for (Chunk* chunk : mChunks) {
     collided = chunk->checkCollisions(mPlayer);
     if (collided != nullptr) {
       std::cout << "Collision at " << mCurrentTime << std::endl;
-      mPlayer.explode();
-      Game::instance().changeScene(Scene::SCENE_DEAD);
+
+      if (collided->getType() != Obstacle::LILLYPAD) {
+        mPlayer.explode();
+        Game::instance().changeScene(Scene::SCENE_DEAD);
+      }
     }
   }
 
@@ -74,4 +67,27 @@ void SceneTest::renderScene() {
 	
   for (Chunk* chunk : mChunks)
     chunk->render();
+}
+
+void SceneTest::updatePlayer(int deltaTime) {
+  mPlayer.update(deltaTime);
+  int playerDepth = mPlayer.getPositionInTiles().z * (-1);
+  int playerOffset = mPlayer.getPositionInTiles().x;
+  
+  Chunk::ChunkType chunkType;
+  int chunkDepth;
+
+  for (Chunk* chunk : mChunks) {
+    chunkType = chunk->getType();
+    chunkDepth = chunk->getDepth();
+
+    if (chunkType == Chunk::GOAL && chunkDepth == playerDepth) {
+      Game::instance().changeScene(Scene::SCENE_WIN);
+    }
+
+    if (chunkType == Chunk::WATER && chunkDepth == playerDepth) {
+      if (!chunk->hasObstacleAtPosition(Obstacle::LILLYPAD, playerOffset))
+        Game::instance().changeScene(Scene::SCENE_DEAD);
+    }
+  }
 }
