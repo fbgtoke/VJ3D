@@ -7,9 +7,8 @@ const float SceneTest::kCameraVel = -0.015f;
 SceneTest::SceneTest() {}
 
 SceneTest::~SceneTest() {
-  for (auto it = mChunks.begin(); it != mChunks.end(); ++it)
-    delete (*it);
-  mChunks.clear();
+  if (mLevel != nullptr)
+    delete mLevel;
 }
 
 void SceneTest::initScene() {
@@ -21,14 +20,11 @@ void SceneTest::initScene() {
 	float zfar  = 10000.f;
 	mProjectionMatrix = glm::perspective(FOV, ar, znear, zfar);
 
-  mPlayer.init();
-  mPlayer.setPositionInTiles(glm::vec3(TILES_PER_CHUNK/2, 0, 0));
+  mLevel = LevelGenerator::generate("levels/level1");
 
   mCameraVel = kCameraVel;
-  VRP = mPlayer.getCenter();
+  VRP = mLevel->getPlayer()->getCenter();
   OBS = VRP + kObsVector * TILE_SIZE;
-
-  LvlReader::loadFromFile("levels/test.lvl", mChunks);
 }
 
 void SceneTest::updateScene(int deltaTime) {
@@ -38,23 +34,19 @@ void SceneTest::updateScene(int deltaTime) {
     Game::instance().changeScene(Scene::SCENE_MENU);
 
   updateCamera(deltaTime);
-  updatePlayer(deltaTime);
+  mLevel->update(deltaTime);
 
-  for (Chunk* chunk : mChunks)
-    chunk->update(deltaTime);
+  checkPlayerDead();
 }
 
 void SceneTest::renderScene() {
 	Scene::renderScene();
 
-  mPlayer.render();
-	
-  for (Chunk* chunk : mChunks)
-    chunk->render();
+  mLevel->render();
 }
 
 void SceneTest::updateCamera(int deltaTime) {
-  VRP.x = mPlayer.getCenter().x;
+  VRP.x = mLevel->getPlayer()->getCenter().x;
   VRP.y = 0.f;
   VRP.z += mCameraVel * (float)deltaTime;
   OBS = VRP + kObsVector * TILE_SIZE;
@@ -62,6 +54,17 @@ void SceneTest::updateCamera(int deltaTime) {
   mViewMatrix = glm::lookAt(OBS, VRP, UP);
 }
 
+void SceneTest::checkPlayerDead() {
+  Player* player = mLevel->getPlayer();
+  if (player == nullptr) return;
+
+  if (player->isExploding())
+    mCameraVel = 0.f;
+  if (player->isDead())
+    Game::instance().changeScene(Scene::SCENE_DEAD);
+}
+
+/*
 void SceneTest::updatePlayer(int deltaTime) {
   mPlayer.update(deltaTime);
   
@@ -131,8 +134,4 @@ void SceneTest::checkPlayerOutOfCamera() {
   if (projectedPosition.y/projectedPosition.w < -1.0f)
     killPlayer();
 }
-
-void SceneTest::killPlayer() {
-  mPlayer.explode();
-  mCameraVel = 0.f;
-}
+*/

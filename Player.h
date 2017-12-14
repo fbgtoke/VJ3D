@@ -2,6 +2,7 @@
 #define _PLAYER_INCLUDE
 
 #include "Model.h"
+#include "Obstacle.h"
 #include "Particle.h"
 
 class Player : public Model {
@@ -15,8 +16,13 @@ public:
 
   void explode();
   bool isIdle() const;
+  bool isExploding() const;
   bool isDead() const;
   bool isAlive() const;
+
+  void moveTowards(const glm::vec3& direction);
+
+  void checkCollision(const Obstacle* obstacle);
 
 private:
   static const float kTol;
@@ -36,7 +42,6 @@ private:
 
   glm::vec3 mTargetPosition;
   glm::vec3 mStartPosition;
-  void moveTowards(const glm::vec3& direction);
 
   void updateIdle(int deltaTime);
   void updateOnLog(int deltaTime);

@@ -16,7 +16,13 @@ Mesh::~Mesh() {
   glDeleteVertexArrays(1, &mVAO);
 }
 
-void Mesh::initVAO(ShaderProgram* shaderProgram) {
+void Mesh::useShader(ShaderProgram* shaderProgram) {
+  glDeleteBuffers(1, &mVBO_vertices);
+  glDeleteBuffers(1, &mVBO_normals);
+  glDeleteBuffers(1, &mVBO_texcoord);
+
+  glDeleteVertexArrays(1, &mVAO);
+  
   glGenVertexArrays(1, &mVAO);
   glBindVertexArray(mVAO);
 

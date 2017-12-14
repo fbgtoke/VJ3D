@@ -1,74 +1,48 @@
 #include "Obstacle.h"
-#include "ObstacleTree.h"
-#include "ObstacleCarSpawner.h"
-#include "ObstacleLillypad.h"
-#include "ObstacleBonus.h"
-#include "ObstacleLogSpawner.h"
+#include "ObstacleSpawner.h"
+#include "Game.h"
 
-Obstacle::Obstacle(ObstacleType type)
+Obstacle::Obstacle(Obstacle::Type type)
   : mType(type) {}
 
-Obstacle::ObstacleType Obstacle::getType() const { return mType; }
+Obstacle::Obstacle::Type Obstacle::getType() const { return mType; }
 
-Obstacle* Obstacle::createFromStream(std::istringstream& sstream) {
-  Obstacle* obstacle;
+void Obstacle::init() {
+  Model::init();
 
-  unsigned int type;
-  sstream >> type;
-
-  switch (static_cast<ObstacleType>(type)) {
-    case TREE:     obstacle = readTree(sstream); break;
-    case CAR:      obstacle = readCar(sstream); break;
-    case LILLYPAD: obstacle = readLillypad(sstream); break;
-    case BONUS:    obstacle = readBonus(sstream); break;
-    case LOG:      obstacle = readLog(sstream); break;
-    default:       obstacle = nullptr;
+  switch (mType) {
+  case Obstacle::Cactus:
+    setMesh(Game::instance().getResource().mesh("cactus.obj"));
+    break;
+  case Obstacle::Stump:
+    setMesh(Game::instance().getResource().mesh("stump.obj"));
+    break;
+  case Obstacle::Stone:
+    setMesh(Game::instance().getResource().mesh("stone.obj"));
+    break;
+  case Obstacle::Bonus:
+    setMesh(Game::instance().getResource().mesh("bonus1.obj"));
+    break;
+  case Obstacle::Carriage:
+    setMesh(Game::instance().getResource().mesh("carriage1.obj"));
+    break;
+  case Obstacle::Horse:
+    setMesh(Game::instance().getResource().mesh("horse.obj"));
+    break;
+  case Obstacle::Boat:
+    setMesh(Game::instance().getResource().mesh("boat.obj"));
+    break;
+  default:
+    setMesh(Game::instance().getResource().mesh("cube.obj"));
+    break;
   }
 
-  return obstacle;
+  setTexture(Game::instance().getResource().texture("palette.png"));
 }
 
-Obstacle* Obstacle::readTree(std::istringstream& sstream) {
-  unsigned int position;
-  sstream >> position;
+void Obstacle::update(int deltaTime) {
+  Model::update(deltaTime);
 
-  ObstacleTree* obstacle = new ObstacleTree();
-  obstacle->init(position);
-  return obstacle;
-}
-
-Obstacle* Obstacle::readCar(std::istringstream& sstream) {
-  float period, spd, var;
-  sstream >> period >> spd >> var;
-
-  ObstacleCarSpawner* obstacle = new ObstacleCarSpawner();
-  obstacle->init(period, spd, var);
-  return obstacle;
-}
-
-Obstacle* Obstacle::readLillypad(std::istringstream& sstream) {
-  unsigned int position;
-  sstream >> position;
-
-  ObstacleLillypad* obstacle = new ObstacleLillypad();
-  obstacle->init(position);
-  return obstacle;
-}
-
-Obstacle* Obstacle::readBonus(std::istringstream& sstream) {
-  unsigned int position;
-  sstream >> position;
-
-  ObstacleBonus* obstacle = new ObstacleBonus();
-  obstacle->init(position);
-  return obstacle;
-}
-
-Obstacle* Obstacle::readLog(std::istringstream& sstream) {
-  float period, spd, var;
-  sstream >> period >> spd >> var;
-
-  ObstacleLogSpawner* obstacle = new ObstacleLogSpawner();
-  obstacle->init(period, spd, var);
-  return obstacle;
+  if (mVelocity.x >= 0.f)
+    mScale.x = -1.f;
 }

@@ -6,6 +6,7 @@
 #include "ShaderProgram.h"
 #include "ObjReader.h"
 #include "Texture.h"
+#include "Level.h"
 
 class ResourceManager {
 public:

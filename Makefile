@@ -177,32 +177,32 @@ Button.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Button.cpp.s
 .PHONY : Button.cpp.s
 
-Chunk.o: Chunk.cpp.o
+CsvReader.o: CsvReader.cpp.o
 
-.PHONY : Chunk.o
+.PHONY : CsvReader.o
 
 # target to build an object file
-Chunk.cpp.o:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Chunk.cpp.o
-.PHONY : Chunk.cpp.o
+CsvReader.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/CsvReader.cpp.o
+.PHONY : CsvReader.cpp.o
 
-Chunk.i: Chunk.cpp.i
+CsvReader.i: CsvReader.cpp.i
 
-.PHONY : Chunk.i
+.PHONY : CsvReader.i
 
 # target to preprocess a source file
-Chunk.cpp.i:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Chunk.cpp.i
-.PHONY : Chunk.cpp.i
+CsvReader.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/CsvReader.cpp.i
+.PHONY : CsvReader.cpp.i
 
-Chunk.s: Chunk.cpp.s
+CsvReader.s: CsvReader.cpp.s
 
-.PHONY : Chunk.s
+.PHONY : CsvReader.s
 
 # target to generate assembly for a file
-Chunk.cpp.s:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Chunk.cpp.s
-.PHONY : Chunk.cpp.s
+CsvReader.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/CsvReader.cpp.s
+.PHONY : CsvReader.cpp.s
 
 Game.o: Game.cpp.o
 
@@ -231,32 +231,59 @@ Game.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Game.cpp.s
 .PHONY : Game.cpp.s
 
-LvlReader.o: LvlReader.cpp.o
+Level.o: Level.cpp.o
 
-.PHONY : LvlReader.o
+.PHONY : Level.o
 
 # target to build an object file
-LvlReader.cpp.o:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/LvlReader.cpp.o
-.PHONY : LvlReader.cpp.o
+Level.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Level.cpp.o
+.PHONY : Level.cpp.o
 
-LvlReader.i: LvlReader.cpp.i
+Level.i: Level.cpp.i
 
-.PHONY : LvlReader.i
+.PHONY : Level.i
 
 # target to preprocess a source file
-LvlReader.cpp.i:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/LvlReader.cpp.i
-.PHONY : LvlReader.cpp.i
+Level.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Level.cpp.i
+.PHONY : Level.cpp.i
 
-LvlReader.s: LvlReader.cpp.s
+Level.s: Level.cpp.s
 
-.PHONY : LvlReader.s
+.PHONY : Level.s
 
 # target to generate assembly for a file
-LvlReader.cpp.s:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/LvlReader.cpp.s
-.PHONY : LvlReader.cpp.s
+Level.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Level.cpp.s
+.PHONY : Level.cpp.s
+
+LevelGenerator.o: LevelGenerator.cpp.o
+
+.PHONY : LevelGenerator.o
+
+# target to build an object file
+LevelGenerator.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/LevelGenerator.cpp.o
+.PHONY : LevelGenerator.cpp.o
+
+LevelGenerator.i: LevelGenerator.cpp.i
+
+.PHONY : LevelGenerator.i
+
+# target to preprocess a source file
+LevelGenerator.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/LevelGenerator.cpp.i
+.PHONY : LevelGenerator.cpp.i
+
+LevelGenerator.s: LevelGenerator.cpp.s
+
+.PHONY : LevelGenerator.s
+
+# target to generate assembly for a file
+LevelGenerator.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/LevelGenerator.cpp.s
+.PHONY : LevelGenerator.cpp.s
 
 Mesh.o: Mesh.cpp.o
 
@@ -366,194 +393,32 @@ Obstacle.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Obstacle.cpp.s
 .PHONY : Obstacle.cpp.s
 
-ObstacleBonus.o: ObstacleBonus.cpp.o
+ObstacleSpawner.o: ObstacleSpawner.cpp.o
 
-.PHONY : ObstacleBonus.o
-
-# target to build an object file
-ObstacleBonus.cpp.o:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleBonus.cpp.o
-.PHONY : ObstacleBonus.cpp.o
-
-ObstacleBonus.i: ObstacleBonus.cpp.i
-
-.PHONY : ObstacleBonus.i
-
-# target to preprocess a source file
-ObstacleBonus.cpp.i:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleBonus.cpp.i
-.PHONY : ObstacleBonus.cpp.i
-
-ObstacleBonus.s: ObstacleBonus.cpp.s
-
-.PHONY : ObstacleBonus.s
-
-# target to generate assembly for a file
-ObstacleBonus.cpp.s:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleBonus.cpp.s
-.PHONY : ObstacleBonus.cpp.s
-
-ObstacleCar.o: ObstacleCar.cpp.o
-
-.PHONY : ObstacleCar.o
+.PHONY : ObstacleSpawner.o
 
 # target to build an object file
-ObstacleCar.cpp.o:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleCar.cpp.o
-.PHONY : ObstacleCar.cpp.o
+ObstacleSpawner.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleSpawner.cpp.o
+.PHONY : ObstacleSpawner.cpp.o
 
-ObstacleCar.i: ObstacleCar.cpp.i
+ObstacleSpawner.i: ObstacleSpawner.cpp.i
 
-.PHONY : ObstacleCar.i
-
-# target to preprocess a source file
-ObstacleCar.cpp.i:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleCar.cpp.i
-.PHONY : ObstacleCar.cpp.i
-
-ObstacleCar.s: ObstacleCar.cpp.s
-
-.PHONY : ObstacleCar.s
-
-# target to generate assembly for a file
-ObstacleCar.cpp.s:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleCar.cpp.s
-.PHONY : ObstacleCar.cpp.s
-
-ObstacleCarSpawner.o: ObstacleCarSpawner.cpp.o
-
-.PHONY : ObstacleCarSpawner.o
-
-# target to build an object file
-ObstacleCarSpawner.cpp.o:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleCarSpawner.cpp.o
-.PHONY : ObstacleCarSpawner.cpp.o
-
-ObstacleCarSpawner.i: ObstacleCarSpawner.cpp.i
-
-.PHONY : ObstacleCarSpawner.i
+.PHONY : ObstacleSpawner.i
 
 # target to preprocess a source file
-ObstacleCarSpawner.cpp.i:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleCarSpawner.cpp.i
-.PHONY : ObstacleCarSpawner.cpp.i
+ObstacleSpawner.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleSpawner.cpp.i
+.PHONY : ObstacleSpawner.cpp.i
 
-ObstacleCarSpawner.s: ObstacleCarSpawner.cpp.s
+ObstacleSpawner.s: ObstacleSpawner.cpp.s
 
-.PHONY : ObstacleCarSpawner.s
-
-# target to generate assembly for a file
-ObstacleCarSpawner.cpp.s:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleCarSpawner.cpp.s
-.PHONY : ObstacleCarSpawner.cpp.s
-
-ObstacleLillypad.o: ObstacleLillypad.cpp.o
-
-.PHONY : ObstacleLillypad.o
-
-# target to build an object file
-ObstacleLillypad.cpp.o:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleLillypad.cpp.o
-.PHONY : ObstacleLillypad.cpp.o
-
-ObstacleLillypad.i: ObstacleLillypad.cpp.i
-
-.PHONY : ObstacleLillypad.i
-
-# target to preprocess a source file
-ObstacleLillypad.cpp.i:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleLillypad.cpp.i
-.PHONY : ObstacleLillypad.cpp.i
-
-ObstacleLillypad.s: ObstacleLillypad.cpp.s
-
-.PHONY : ObstacleLillypad.s
+.PHONY : ObstacleSpawner.s
 
 # target to generate assembly for a file
-ObstacleLillypad.cpp.s:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleLillypad.cpp.s
-.PHONY : ObstacleLillypad.cpp.s
-
-ObstacleLog.o: ObstacleLog.cpp.o
-
-.PHONY : ObstacleLog.o
-
-# target to build an object file
-ObstacleLog.cpp.o:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleLog.cpp.o
-.PHONY : ObstacleLog.cpp.o
-
-ObstacleLog.i: ObstacleLog.cpp.i
-
-.PHONY : ObstacleLog.i
-
-# target to preprocess a source file
-ObstacleLog.cpp.i:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleLog.cpp.i
-.PHONY : ObstacleLog.cpp.i
-
-ObstacleLog.s: ObstacleLog.cpp.s
-
-.PHONY : ObstacleLog.s
-
-# target to generate assembly for a file
-ObstacleLog.cpp.s:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleLog.cpp.s
-.PHONY : ObstacleLog.cpp.s
-
-ObstacleLogSpawner.o: ObstacleLogSpawner.cpp.o
-
-.PHONY : ObstacleLogSpawner.o
-
-# target to build an object file
-ObstacleLogSpawner.cpp.o:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleLogSpawner.cpp.o
-.PHONY : ObstacleLogSpawner.cpp.o
-
-ObstacleLogSpawner.i: ObstacleLogSpawner.cpp.i
-
-.PHONY : ObstacleLogSpawner.i
-
-# target to preprocess a source file
-ObstacleLogSpawner.cpp.i:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleLogSpawner.cpp.i
-.PHONY : ObstacleLogSpawner.cpp.i
-
-ObstacleLogSpawner.s: ObstacleLogSpawner.cpp.s
-
-.PHONY : ObstacleLogSpawner.s
-
-# target to generate assembly for a file
-ObstacleLogSpawner.cpp.s:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleLogSpawner.cpp.s
-.PHONY : ObstacleLogSpawner.cpp.s
-
-ObstacleTree.o: ObstacleTree.cpp.o
-
-.PHONY : ObstacleTree.o
-
-# target to build an object file
-ObstacleTree.cpp.o:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleTree.cpp.o
-.PHONY : ObstacleTree.cpp.o
-
-ObstacleTree.i: ObstacleTree.cpp.i
-
-.PHONY : ObstacleTree.i
-
-# target to preprocess a source file
-ObstacleTree.cpp.i:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleTree.cpp.i
-.PHONY : ObstacleTree.cpp.i
-
-ObstacleTree.s: ObstacleTree.cpp.s
-
-.PHONY : ObstacleTree.s
-
-# target to generate assembly for a file
-ObstacleTree.cpp.s:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleTree.cpp.s
-.PHONY : ObstacleTree.cpp.s
+ObstacleSpawner.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ObstacleSpawner.cpp.s
+.PHONY : ObstacleSpawner.cpp.s
 
 Particle.o: Particle.cpp.o
 
@@ -960,6 +825,60 @@ TexturedQuad.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/TexturedQuad.cpp.s
 .PHONY : TexturedQuad.cpp.s
 
+Tile.o: Tile.cpp.o
+
+.PHONY : Tile.o
+
+# target to build an object file
+Tile.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Tile.cpp.o
+.PHONY : Tile.cpp.o
+
+Tile.i: Tile.cpp.i
+
+.PHONY : Tile.i
+
+# target to preprocess a source file
+Tile.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Tile.cpp.i
+.PHONY : Tile.cpp.i
+
+Tile.s: Tile.cpp.s
+
+.PHONY : Tile.s
+
+# target to generate assembly for a file
+Tile.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Tile.cpp.s
+.PHONY : Tile.cpp.s
+
+Tilemap.o: Tilemap.cpp.o
+
+.PHONY : Tilemap.o
+
+# target to build an object file
+Tilemap.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Tilemap.cpp.o
+.PHONY : Tilemap.cpp.o
+
+Tilemap.i: Tilemap.cpp.i
+
+.PHONY : Tilemap.i
+
+# target to preprocess a source file
+Tilemap.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Tilemap.cpp.i
+.PHONY : Tilemap.cpp.i
+
+Tilemap.s: Tilemap.cpp.s
+
+.PHONY : Tilemap.s
+
+# target to generate assembly for a file
+Tilemap.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Tilemap.cpp.s
+.PHONY : Tilemap.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -1002,15 +921,18 @@ help:
 	@echo "... Button.o"
 	@echo "... Button.i"
 	@echo "... Button.s"
-	@echo "... Chunk.o"
-	@echo "... Chunk.i"
-	@echo "... Chunk.s"
+	@echo "... CsvReader.o"
+	@echo "... CsvReader.i"
+	@echo "... CsvReader.s"
 	@echo "... Game.o"
 	@echo "... Game.i"
 	@echo "... Game.s"
-	@echo "... LvlReader.o"
-	@echo "... LvlReader.i"
-	@echo "... LvlReader.s"
+	@echo "... Level.o"
+	@echo "... Level.i"
+	@echo "... Level.s"
+	@echo "... LevelGenerator.o"
+	@echo "... LevelGenerator.i"
+	@echo "... LevelGenerator.s"
 	@echo "... Mesh.o"
 	@echo "... Mesh.i"
 	@echo "... Mesh.s"
@@ -1023,27 +945,9 @@ help:
 	@echo "... Obstacle.o"
 	@echo "... Obstacle.i"
 	@echo "... Obstacle.s"
-	@echo "... ObstacleBonus.o"
-	@echo "... ObstacleBonus.i"
-	@echo "... ObstacleBonus.s"
-	@echo "... ObstacleCar.o"
-	@echo "... ObstacleCar.i"
-	@echo "... ObstacleCar.s"
-	@echo "... ObstacleCarSpawner.o"
-	@echo "... ObstacleCarSpawner.i"
-	@echo "... ObstacleCarSpawner.s"
-	@echo "... ObstacleLillypad.o"
-	@echo "... ObstacleLillypad.i"
-	@echo "... ObstacleLillypad.s"
-	@echo "... ObstacleLog.o"
-	@echo "... ObstacleLog.i"
-	@echo "... ObstacleLog.s"
-	@echo "... ObstacleLogSpawner.o"
-	@echo "... ObstacleLogSpawner.i"
-	@echo "... ObstacleLogSpawner.s"
-	@echo "... ObstacleTree.o"
-	@echo "... ObstacleTree.i"
-	@echo "... ObstacleTree.s"
+	@echo "... ObstacleSpawner.o"
+	@echo "... ObstacleSpawner.i"
+	@echo "... ObstacleSpawner.s"
 	@echo "... Particle.o"
 	@echo "... Particle.i"
 	@echo "... Particle.s"
@@ -1089,6 +993,12 @@ help:
 	@echo "... TexturedQuad.o"
 	@echo "... TexturedQuad.i"
 	@echo "... TexturedQuad.s"
+	@echo "... Tile.o"
+	@echo "... Tile.i"
+	@echo "... Tile.s"
+	@echo "... Tilemap.o"
+	@echo "... Tilemap.i"
+	@echo "... Tilemap.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

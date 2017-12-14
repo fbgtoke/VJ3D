@@ -2,10 +2,9 @@
 #define SCENE_TEST_INCLUDE
 
 #include "Scene.h"
-#include "LvlReader.h"
-#include "Chunk.h"
-#include "Obstacle.h"
-#include "Player.h"
+#include "Tilemap.h"
+#include "Level.h"
+#include "LevelGenerator.h"
 
 class SceneTest : public Scene {
 public:
@@ -23,14 +22,14 @@ private:
 	void updateScene(int deltaTime) override;
 	void renderScene() override;
 
-  Player mPlayer;
-  void updatePlayer(int deltaTime);
-  void checkPlayerChunk();
-  void checkPlayerCollisions();
-  void checkPlayerOutOfCamera();
-  void killPlayer();
+  void checkPlayerDead();
 
-	std::list<Chunk*> mChunks;
+  //void updatePlayer(int deltaTime);
+  //void checkPlayerChunk();
+  //void checkPlayerCollisions();
+  //void checkPlayerOutOfCamera();
+
+  Level* mLevel;
 };
 
 #endif // SCENE_TEST_INCLUDE

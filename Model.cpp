@@ -15,7 +15,7 @@ void Model::init() {
   mRotationSpeed = glm::vec3(0.f);
   mScale = glm::vec3(1.f);
 
-	mShaderProgram = Game::instance().getResource().shader("simple");
+	setShader(Game::instance().getResource().shader("simple"));
 }
 
 void Model::update(int deltaTime) {
@@ -26,10 +26,23 @@ void Model::update(int deltaTime) {
 void Model::render() {
   if (mMesh == nullptr) return;
 
-	glm::mat4 modelMatrix = getTransform();
+  Scene* scene = Game::instance().getScene();
+
+  glm::vec3 lightDirection = scene->getLightDirection();
+  float ambientLight = scene->getAmbientLight();
+
+  glm::mat4 PM = scene->getProjectionMatrix();
+  glm::mat4 VM = scene->getViewMatrix();
+	glm::mat4 TG = getTransform();
 	
-	mShaderProgram->setUniformMatrix4f("TG", modelMatrix);
+  mShaderProgram->use();
+  mShaderProgram->setUniform3f("lightDir", lightDirection.x, lightDirection.y, lightDirection.z);
+  mShaderProgram->setUniform1f("ambientColor", ambientLight);
+  mShaderProgram->setUniformMatrix4f("PM", PM);
+  mShaderProgram->setUniformMatrix4f("VM", VM);
+	mShaderProgram->setUniformMatrix4f("TG", TG);
 	mShaderProgram->setUniform4f("color", 1.f, 1.f, 1.f, 1.f);
+  mMesh->useShader(mShaderProgram);
 
   if (mTexture != nullptr)
     mTexture->use();
@@ -48,6 +61,8 @@ void Model::setMesh(Mesh* mesh) {
   mCenter = mMesh->center();
   mSize = mMesh->size();
 }
+
+void Model::setShader(ShaderProgram* shaderProgram) { mShaderProgram = shaderProgram; }
 
 void Model::setPosition(const glm::vec3& position) { mPosition = position; }
 void Model::setPositionInTiles(const glm::vec3& position) {

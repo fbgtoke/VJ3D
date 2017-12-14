@@ -49,6 +49,12 @@ void Scene::render() {
   renderGUI();
 }
 
+glm::vec3 Scene::getLightDirection() { return kLightDirection; }
+float Scene::getAmbientLight() { return kAmbientLight; }
+
+glm::mat4 Scene::getProjectionMatrix() const { return mProjectionMatrix; }
+glm::mat4 Scene::getViewMatrix() const { return mViewMatrix; }
+
 void Scene::initShaders() {
   mTexProgram = Game::instance().getResource().shader("simple");
   mGuiProgram = Game::instance().getResource().shader("texture");
@@ -61,13 +67,7 @@ void Scene::initScene() {
 
 void Scene::updateScene(int deltaTime) {}
 
-void Scene::renderScene() {
-  mTexProgram->use();
-  mTexProgram->setUniformMatrix4f("PM", mProjectionMatrix);
-  mTexProgram->setUniformMatrix4f("VM", mViewMatrix);
-  mTexProgram->setUniform3f("lightDir", kLightDirection.x, kLightDirection.y, kLightDirection.z);
-  mTexProgram->setUniform1f("ambientColor", kAmbientLight);
-}
+void Scene::renderScene() {}
 
 void Scene::initGUI() {
   mProjectionMatrixGUI = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);

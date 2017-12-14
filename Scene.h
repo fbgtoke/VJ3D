@@ -12,6 +12,12 @@ public:
 	void update(int deltaTime);
 	void render();
 
+	static glm::vec3 getLightDirection();
+	static float getAmbientLight();
+
+	glm::mat4 getProjectionMatrix() const;
+	glm::mat4 getViewMatrix() const;
+
 	enum SceneType {
 		SCENE_TEST,
 		SCENE_MENU,

@@ -31,7 +31,7 @@ void Player::init() {
 
 void Player::update(int deltaTime) {
   switch (mState) {
-  case Player::Idle: updateIdle(deltaTime); break;
+  case Player::Idle: Model::update(deltaTime); break;
   case Player::OnLog: updateOnLog(deltaTime); break;
   case Player::Moving: updateMoving(deltaTime); break;
   case Player::Exploding: updateExploding(deltaTime); break;
@@ -54,19 +54,6 @@ void Player::moveTowards(const glm::vec3& direction) {
   mStartPosition = mPosition;
   
   changeState(Player::Moving);
-}
-
-void Player::updateIdle(int deltaTime) {
-  Model::update(deltaTime);
-
-  if (Game::instance().getKeyPressed('a') && getPositionInTiles().x > 0)
-    moveTowards(LEFT);
-  else if (Game::instance().getKeyPressed('d') && getPositionInTiles().x < TILES_PER_CHUNK - 1)
-    moveTowards(RIGHT);
-  else if (Game::instance().getKeyPressed('w'))
-    moveTowards(IN);
-  else if (Game::instance().getKeyPressed('s') && getPositionInTiles().z < 0)
-    moveTowards(OUT);
 }
 
 void Player::updateOnLog(int deltaTime) {
@@ -178,7 +165,23 @@ void Player::changeState(Player::State state) {
 
 void Player::explode() { changeState(Player::Exploding); }
 bool Player::isIdle() const { return mState == Player::Idle; }
+bool Player::isExploding() const { return mState == Player::Exploding; }
 bool Player::isDead() const { return mState == Player::Dead; }
 bool Player::isAlive() const {
   return mState == Player::Idle || mState == Player::Moving;
+}
+
+void Player::checkCollision(const Obstacle* obstacle) {
+  if (obstacle == nullptr) return;
+
+  switch(obstacle->getType()) {
+  case Obstacle::Cactus:
+  case Obstacle::Stump:
+  case Obstacle::Carriage:
+  case Obstacle::Horse:
+    explode();
+    break;
+  default:
+    break;
+  }
 }

@@ -5,29 +5,25 @@
 
 class Obstacle : public Model {
 public:
-  enum ObstacleType {
-    TREE = 0,
-    CAR,
-    LILLYPAD,
-    BONUS,
-    LOG,
-    NUM_TYPES
+  enum Type {
+    Cactus = 0,
+    Stump,
+    Stone,
+    Bonus,
+    Carriage,
+    Horse,
+    Boat,
+    Spawner
   };
 
-  Obstacle(ObstacleType type);
+  Obstacle(Obstacle::Type type);
+  void init() override;
+  void update(int deltaTime) override;
 
-  static Obstacle* createFromStream(std::istringstream& sstream);
-
-  ObstacleType getType() const;
+  virtual Obstacle::Type getType() const;
 
 private:
-  static Obstacle* readTree(std::istringstream& sstream);
-  static Obstacle* readCar(std::istringstream& sstream);
-  static Obstacle* readLillypad(std::istringstream& sstream);
-  static Obstacle* readBonus(std::istringstream& sstream);
-  static Obstacle* readLog(std::istringstream& sstream);
-
-  const ObstacleType mType;
+  const Obstacle::Type mType;
 };
 
 #endif // _OBSTACLE_INCLUDE

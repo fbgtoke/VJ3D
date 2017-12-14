@@ -16,6 +16,7 @@ public:
 
   void setTexture(Texture* texture);
   void setMesh(Mesh* mesh);
+  void setShader(ShaderProgram* shaderProgram);
 
   void setPosition(const glm::vec3& position);
   void setPositionInTiles(const glm::vec3& position);

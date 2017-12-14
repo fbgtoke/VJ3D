@@ -9,7 +9,9 @@ public:
 	Mesh();
 	~Mesh();
 
-  void initVAO(ShaderProgram* shaderProgram);
+  void useShader(ShaderProgram* shaderProgram);
+
+  //void initVAO();
   GLuint getVAO() const;
 
   void setVertices(float* vertices, size_t nelem);

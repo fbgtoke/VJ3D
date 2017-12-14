@@ -38,7 +38,7 @@ void SceneMenu::initScene() {
   mOptions.push_back(Model::create("exit.obj", "palette.png"));
   mOptions[3]->setPosition(glm::vec3(0, -48.f, 0));
 
-  Game::instance().setBackgroundMusic("menu.ogg");
+  Game::instance().setBackgroundMusic("menu.ogg", 0.f);
 }
 
 void SceneMenu::updateScene(int deltaTime) {
