@@ -13,6 +13,8 @@ public:
   void render();
 
   void resize(const glm::ivec2& size);
+  unsigned int getHeight() const;
+  unsigned int getWidth() const;
 
   void setTile(const glm::ivec2& position, Tile::Type type);
   Tile::Type getTile(const glm::ivec2& position) const;
@@ -25,6 +27,8 @@ private:
   typedef std::vector<Tile> TileRow;
   typedef std::vector<TileRow> TileArray;
   TileArray mTiles;
+
+  void renderBorders();
 };
 
 #endif // _TILEMAP_INCLUDE

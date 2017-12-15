@@ -1,9 +1,9 @@
 #ifndef _OBSTACLE_INCLUDE
 #define _OBSTACLE_INCLUDE
 
-#include "Model.h"
+#include "ModelAnimated.h"
 
-class Obstacle : public Model {
+class Obstacle : public ModelAnimated {
 public:
   enum Type {
     Cactus = 0,

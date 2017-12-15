@@ -10,6 +10,8 @@ void Tilemap::render() {
       mTiles[i][j].render();
     }
   }
+
+  renderBorders();
 }
 
 void Tilemap::resize(const glm::ivec2& size) {
@@ -23,6 +25,9 @@ void Tilemap::resize(const glm::ivec2& size) {
     }
   }
 }
+
+unsigned int Tilemap::getHeight() const { return mTiles.size(); }
+unsigned int Tilemap::getWidth() const { return mTiles[0].size(); }
 
 void Tilemap::setTile(const glm::ivec2& position, Tile::Type type) {
   if (!outOfBounds(position))
@@ -53,6 +58,35 @@ void Tilemap::loadFromFile(const std::string& filename) {
       int value = reader.getCell(i, j);
       Tile::Type type = static_cast<Tile::Type>(value);
       mTiles[size.y - 1 - i][j].setType(type); 
+    }
+  }
+}
+
+void Tilemap::renderBorders() {
+  Tile tile;
+  tile.init();
+  tile.setDark(true);
+
+  /* Sides */
+  for (int i = 0; i < mTiles.size(); ++i) {
+    tile.setType(mTiles[i][0].getType());
+
+    for (int j = 0; j < 10; ++j) {
+      tile.setPositionInTiles(glm::vec3(0 - j, -1, -i));
+      tile.render();
+
+      tile.setPositionInTiles(glm::vec3(mTiles[i].size() + j, -1, -i));
+      tile.render();
+    }
+  }
+
+  /* Bottom */
+  for (int i = 1; i < 10; ++i) {
+    for (int j = 0; j < mTiles[0].size() + 20; ++j) {
+      tile.setType(Tile::Grass);
+
+      tile.setPositionInTiles(glm::vec3(j - 10, -1, i));
+      tile.render();
     }
   }
 }

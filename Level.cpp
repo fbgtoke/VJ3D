@@ -58,6 +58,13 @@ void Level::addObstacle(Obstacle* obstacle) {
     mObstacles.push_back(obstacle);
 }
 
+bool Level::obstacleAtTile(Obstacle::Type type, const glm::vec3& tile) {
+  for (Obstacle* obstacle : mObstacles)
+    if (obstacle->getPositionInTiles() == tile)
+      return true;
+  return false;
+}
+
 Tilemap* Level::getTilemap() { return mTilemap; }
 Player* Level::getPlayer() { return mPlayer; }
 
@@ -96,7 +103,8 @@ void Level::playerCheckTile() {
 
   switch (type) {
   case Tile::Water:
-    mPlayer->explode();
+    if (!obstacleAtTile(Obstacle::Stone, position))
+      mPlayer->explode();
     break;
   case Tile::Goal:
     Game::instance().changeScene(Scene::SCENE_WIN);

@@ -10,8 +10,8 @@ public:
   static Level* generate(const std::string& name);
 
 private:
-  static const float kPeriodSlow;
-  static const float kPeriodFast;
+  static const int kPeriodSlow;
+  static const int kPeriodFast;
 
   static const float kVelSlow;
   static const float kVelFast;
@@ -20,7 +20,8 @@ private:
   static void generatePlayer(const std::string& name, Level* level);
   static void generateObstacles(const std::string& name, Level* level);
 
-  static Obstacle* generateObstacle(const glm::vec3& position, int value);
+  static Obstacle* generateObstacle(Level* level, const glm::vec3& position, int value);
+  static Obstacle* generateSpawner(Level* level, int value);
 };
 
 #endif // _LEVEL_GENERATOR_INCLUDE

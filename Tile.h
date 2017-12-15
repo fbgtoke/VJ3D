@@ -25,10 +25,13 @@ public:
   void setType(Tile::Type type);
   Tile::Type getType() const;
 
+  void setDark(bool dark);
+
   static glm::vec2 type2texturecoord(Tile::Type type);
 
 private:
   Tile::Type mType;
+  bool mDark;
 };
 
 #endif // _TILE_INCLUDE

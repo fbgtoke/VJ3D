@@ -339,6 +339,33 @@ Model.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Model.cpp.s
 .PHONY : Model.cpp.s
 
+ModelAnimated.o: ModelAnimated.cpp.o
+
+.PHONY : ModelAnimated.o
+
+# target to build an object file
+ModelAnimated.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ModelAnimated.cpp.o
+.PHONY : ModelAnimated.cpp.o
+
+ModelAnimated.i: ModelAnimated.cpp.i
+
+.PHONY : ModelAnimated.i
+
+# target to preprocess a source file
+ModelAnimated.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ModelAnimated.cpp.i
+.PHONY : ModelAnimated.cpp.i
+
+ModelAnimated.s: ModelAnimated.cpp.s
+
+.PHONY : ModelAnimated.s
+
+# target to generate assembly for a file
+ModelAnimated.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ModelAnimated.cpp.s
+.PHONY : ModelAnimated.cpp.s
+
 ObjReader.o: ObjReader.cpp.o
 
 .PHONY : ObjReader.o
@@ -939,6 +966,9 @@ help:
 	@echo "... Model.o"
 	@echo "... Model.i"
 	@echo "... Model.s"
+	@echo "... ModelAnimated.o"
+	@echo "... ModelAnimated.i"
+	@echo "... ModelAnimated.s"
 	@echo "... ObjReader.o"
 	@echo "... ObjReader.i"
 	@echo "... ObjReader.s"

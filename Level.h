@@ -19,6 +19,7 @@ public:
   void setPlayer(Player* player);
 
   void addObstacle(Obstacle* obstacle);
+  bool obstacleAtTile(Obstacle::Type type, const glm::vec3& tile);
 
   Tilemap* getTilemap();
   Player* getPlayer();

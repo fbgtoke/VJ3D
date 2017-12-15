@@ -8,40 +8,73 @@ Obstacle::Obstacle(Obstacle::Type type)
 Obstacle::Obstacle::Type Obstacle::getType() const { return mType; }
 
 void Obstacle::init() {
-  Model::init();
+  ModelAnimated::init();
 
   switch (mType) {
   case Obstacle::Cactus:
-    setMesh(Game::instance().getResource().mesh("cactus.obj"));
+    mAnimation.setNumberOfAnimations(1);
+    mAnimation.addFrame(0, Game::instance().getResource().mesh("cactus.obj"));
+    mAnimation.setTimePerFrame(0);
+    mAnimation.changeAnimation(0);
     break;
   case Obstacle::Stump:
-    setMesh(Game::instance().getResource().mesh("stump.obj"));
+    mAnimation.setNumberOfAnimations(1);
+    mAnimation.addFrame(0, Game::instance().getResource().mesh("stump.obj"));
+    mAnimation.setTimePerFrame(0);
+    mAnimation.changeAnimation(0);
     break;
   case Obstacle::Stone:
-    setMesh(Game::instance().getResource().mesh("stone.obj"));
+    mAnimation.setNumberOfAnimations(1);
+    mAnimation.addFrame(0, Game::instance().getResource().mesh("stone.obj"));
+    mAnimation.setTimePerFrame(0);
+    mAnimation.changeAnimation(0);
     break;
   case Obstacle::Bonus:
-    setMesh(Game::instance().getResource().mesh("bonus1.obj"));
+    mAnimation.setNumberOfAnimations(1);
+    mAnimation.addFrame(0, Game::instance().getResource().mesh("bonus1.obj"));
+    mAnimation.setTimePerFrame(0);
+    mAnimation.changeAnimation(0);
+    setRotationSpeed(glm::vec3(0.f, 0.001f, 0.f));
     break;
   case Obstacle::Carriage:
-    setMesh(Game::instance().getResource().mesh("carriage1.obj"));
+    mAnimation.setNumberOfAnimations(1);
+    mAnimation.addFrame(0, Game::instance().getResource().mesh("carriage1.obj"));
+    mAnimation.addFrame(0, Game::instance().getResource().mesh("animationcarriage1.obj"));
+    mAnimation.addFrame(0, Game::instance().getResource().mesh("carriage2.obj"));
+    mAnimation.addFrame(0, Game::instance().getResource().mesh("animationcarriage2.obj"));
+    mAnimation.setTimePerFrame(100);
+    mAnimation.changeAnimation(0);
     break;
   case Obstacle::Horse:
-    setMesh(Game::instance().getResource().mesh("horse.obj"));
+    mAnimation.setNumberOfAnimations(1);
+    mAnimation.addFrame(0, Game::instance().getResource().mesh("horse.obj"));
+    mAnimation.addFrame(0, Game::instance().getResource().mesh("animationhorse1.obj"));
+    mAnimation.addFrame(0, Game::instance().getResource().mesh("horse.obj"));
+    mAnimation.addFrame(0, Game::instance().getResource().mesh("animationhorse2.obj"));
+    mAnimation.setTimePerFrame(100);
+    mAnimation.changeAnimation(0);
+    setRotation(glm::vec3(0.f, (float)M_PI/2.f, 0.f));
     break;
   case Obstacle::Boat:
-    setMesh(Game::instance().getResource().mesh("boat.obj"));
+    mAnimation.setNumberOfAnimations(1);
+    mAnimation.addFrame(0, Game::instance().getResource().mesh("boat.obj"));
+    mAnimation.setTimePerFrame(0);
+    mAnimation.changeAnimation(0);
     break;
   default:
-    setMesh(Game::instance().getResource().mesh("cube.obj"));
+    mAnimation.setNumberOfAnimations(1);
+    mAnimation.addFrame(0, Game::instance().getResource().mesh("cube.obj"));
+    mAnimation.setTimePerFrame(0);
+    mAnimation.changeAnimation(0);
     break;
   }
 
+  setMesh(mAnimation.getCurrentFrame());
   setTexture(Game::instance().getResource().texture("palette.png"));
 }
 
 void Obstacle::update(int deltaTime) {
-  Model::update(deltaTime);
+  ModelAnimated::update(deltaTime);
 
   if (mVelocity.x >= 0.f)
     mScale.x = -1.f;

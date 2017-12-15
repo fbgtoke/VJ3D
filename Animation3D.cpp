@@ -9,6 +9,8 @@ Animation3D::Animation3D() {
 
   mTimePerFrame = 100;
   mTimeCurFrame = 0;
+
+  mAnimations = std::vector<Animation>(0);
 }
 
 Animation3D::~Animation3D() {
@@ -16,7 +18,7 @@ Animation3D::~Animation3D() {
 }
 
 void Animation3D::update(unsigned int deltaTime) {
-  if (!mPlaying) return;
+  if (!mPlaying || mCurrentAnimation == -1 || mCurrentFrame == -1) return;
 
   mTimeCurFrame += deltaTime;
   if (mTimeCurFrame >= mTimePerFrame)
@@ -24,8 +26,10 @@ void Animation3D::update(unsigned int deltaTime) {
 }
 
 void Animation3D::setNumberOfAnimations(unsigned int number) {
-  mAnimations.clear();
-  mAnimations.resize(number);
+  if (mAnimations.size() != 0)
+    mAnimations.clear();
+
+  mAnimations = std::vector<Animation> (number);
 }
 
 void Animation3D::addFrame(unsigned int animationId, Mesh* frame) {
@@ -60,5 +64,7 @@ void Animation3D::nextFrame() {
 }
 
 Mesh* Animation3D::getCurrentFrame() {
-  return mAnimations[mCurrentAnimation][mCurrentFrame];
+  if (mCurrentAnimation != -1 && mCurrentFrame != -1)
+    return mAnimations[mCurrentAnimation][mCurrentFrame];
+  return nullptr;
 }

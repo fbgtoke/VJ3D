@@ -2,10 +2,10 @@
 #include "Game.h"
 
 Tile::Tile()
-  : mType(Tile::None) {}
+  : mType(Tile::None), mDark(false) {}
 
 Tile::Tile(Tile::Type type)
-  : mType(type) {}
+  : mType(type), mDark(false) {}
 
 Tile::~Tile() {}
 
@@ -21,11 +21,19 @@ void Tile::render() {
   glm::vec2 texcoord = type2texturecoord(mType);
   mShaderProgram->setUniform2f("texoffset", texcoord.x, texcoord.y);
 
+  if (mDark)
+    mShaderProgram->setUniform1f("ambient", -0.5f);
+  else
+    mShaderProgram->setUniform1f("ambient", 0.7f);
+
+
   Model::render();
 }
 
 void Tile::setType(Tile::Type type) { mType = type; }
 Tile::Type Tile::getType() const { return mType; }
+
+void Tile::setDark(bool dark) { mDark = dark; }
 
 glm::vec2 Tile::type2texturecoord(Tile::Type type) {
   glm::vec2 texcoord(0.f);

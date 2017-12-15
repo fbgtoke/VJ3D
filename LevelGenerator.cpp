@@ -1,17 +1,17 @@
 #include "LevelGenerator.h"
 
-const float LevelGenerator::kPeriodSlow = 2500;
-const float LevelGenerator::kPeriodFast = 1200;
+const int LevelGenerator::kPeriodSlow = 4000;
+const int LevelGenerator::kPeriodFast = 2500;
 
-const float LevelGenerator::kVelSlow = 0.05f;
-const float LevelGenerator::kVelFast = 0.15f;
+const float LevelGenerator::kVelSlow = 0.03f;
+const float LevelGenerator::kVelFast = 0.07f;
 
 Level* LevelGenerator::generate(const std::string& name) {
   Level* level = new Level();
 
-  generateTilemap(name, level);
-  generatePlayer(name, level);
-  generateObstacles(name, level);
+  LevelGenerator::generateTilemap(name, level);
+  LevelGenerator::generatePlayer(name, level);
+  LevelGenerator::generateObstacles(name, level);
 
   return level;
 }
@@ -43,108 +43,161 @@ void LevelGenerator::generateObstacles(const std::string& name, Level* level) {
       int value = reader.getCell(i, j);
 
       if (value != -1) {
-        Obstacle* obstacle = generateObstacle(position, value);
+        Obstacle* obstacle = LevelGenerator::generateObstacle(level, position, value);
         if (obstacle != nullptr) level->addObstacle(obstacle);
       }
     }
   }
 }
 
-Obstacle* LevelGenerator::generateObstacle(const glm::vec3& position, int value) {
+Obstacle* LevelGenerator::generateObstacle(Level* level, const glm::vec3& position, int value) {
   Obstacle* obstacle;
-  ObstacleSpawner* spawner;
 
   switch (value) {
   case 0:
     obstacle = new Obstacle(Obstacle::Cactus);
+    obstacle->init();
     break;
   case 1:
     obstacle = new Obstacle(Obstacle::Stump);
+    obstacle->init();
     break;
   case 2:
     obstacle = new Obstacle(Obstacle::Stone);
+    obstacle->init();
     break;
   case 3:
     obstacle = new Obstacle(Obstacle::Bonus);
+    obstacle->init();
     break;
   case 4:
-    obstacle = new ObstacleSpawner();
-    spawner->setSpawnType(Obstacle::Carriage);
-    spawner->setSpawnPeriod(kPeriodSlow);
-    spawner->setSpawnVel(-kVelSlow);
-    break;
   case 5:
-    obstacle = spawner = new ObstacleSpawner();
-    spawner->setSpawnType(Obstacle::Carriage);
-    spawner->setSpawnPeriod(kPeriodFast);
-    spawner->setSpawnVel(-kVelFast);
-    break;
   case 6:
-    obstacle = spawner = new ObstacleSpawner();
-    spawner->setSpawnType(Obstacle::Carriage);
-    spawner->setSpawnPeriod(kPeriodSlow);
-    spawner->setSpawnVel(kVelSlow);
-    break;
   case 7:
-    obstacle = spawner = new ObstacleSpawner();
-    spawner->setSpawnType(Obstacle::Carriage);
-    spawner->setSpawnPeriod(kPeriodFast);
-    spawner->setSpawnVel(kVelFast);
-    break;
   case 8:
-    obstacle = spawner = new ObstacleSpawner();
-    spawner->setSpawnType(Obstacle::Horse);
-    spawner->setSpawnPeriod(kPeriodSlow);
-    spawner->setSpawnVel(-kVelSlow);
-    break;
   case 9:
-    obstacle = spawner = new ObstacleSpawner();
-    spawner->setSpawnType(Obstacle::Horse);
-    spawner->setSpawnPeriod(kPeriodFast);
-    spawner->setSpawnVel(-kVelFast);
-    break;
   case 10:
-    obstacle = spawner = new ObstacleSpawner();
-    spawner->setSpawnType(Obstacle::Horse);
-    spawner->setSpawnPeriod(kPeriodSlow);
-    spawner->setSpawnVel(kVelSlow);
-    break;
   case 11:
-    obstacle = spawner = new ObstacleSpawner();
-    spawner->setSpawnType(Obstacle::Horse);
-    spawner->setSpawnPeriod(kPeriodFast);
-    spawner->setSpawnVel(kVelFast);
-    break;
   case 12:
-    obstacle = spawner = new ObstacleSpawner();
-    spawner->setSpawnType(Obstacle::Boat);
-    spawner->setSpawnPeriod(kPeriodSlow);
-    spawner->setSpawnVel(-kVelSlow);
-    break;
   case 13:
-    obstacle = spawner = new ObstacleSpawner();
-    spawner->setSpawnType(Obstacle::Boat);
-    spawner->setSpawnPeriod(kPeriodFast);
-    spawner->setSpawnVel(-kVelFast);
-    break;
   case 14:
-    obstacle = spawner = new ObstacleSpawner();
-    spawner->setSpawnType(Obstacle::Boat);
-    spawner->setSpawnPeriod(kPeriodSlow);
-    spawner->setSpawnVel(kVelSlow);
-    break;
   case 15:
-    obstacle = spawner = new ObstacleSpawner();
-    spawner->setSpawnType(Obstacle::Boat);
-    spawner->setSpawnPeriod(kPeriodFast);
-    spawner->setSpawnVel(kVelFast);
+    obstacle = LevelGenerator::generateSpawner(level, value);
     break;
   default:
     obstacle = nullptr;
+    break;
   }
 
-  obstacle->init();
   obstacle->setPositionInTiles(position);
 
   return obstacle;
+}
+
+Obstacle* LevelGenerator::generateSpawner(Level* level, int value) {
+  ObstacleSpawner* spawner;
+
+  switch (value) {
+  case 4:
+    spawner = new ObstacleSpawner();
+    spawner->init();
+    spawner->setSpawnType(Obstacle::Carriage);
+    spawner->setSpawnPeriod(kPeriodSlow);
+    spawner->setSpawnVel(-kVelSlow);
+    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    break;
+  case 5:
+    spawner = new ObstacleSpawner();
+    spawner->init();
+    spawner->setSpawnType(Obstacle::Carriage);
+    spawner->setSpawnPeriod(kPeriodFast);
+    spawner->setSpawnVel(-kVelFast);
+    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    break;
+  case 6:
+    spawner = new ObstacleSpawner();
+    spawner->init();
+    spawner->setSpawnType(Obstacle::Carriage);
+    spawner->setSpawnPeriod(kPeriodSlow);
+    spawner->setSpawnVel(kVelSlow);
+    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    break;
+  case 7:
+    spawner = new ObstacleSpawner();
+    spawner->init();
+    spawner->setSpawnType(Obstacle::Carriage);
+    spawner->setSpawnPeriod(kPeriodFast);
+    spawner->setSpawnVel(kVelFast);
+    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    break;
+  case 8:
+    spawner = new ObstacleSpawner();
+    spawner->init();
+    spawner->setSpawnType(Obstacle::Horse);
+    spawner->setSpawnPeriod(kPeriodSlow);
+    spawner->setSpawnVel(-kVelSlow);
+    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    break;
+  case 9:
+    spawner = new ObstacleSpawner();
+    spawner->init();
+    spawner->setSpawnType(Obstacle::Horse);
+    spawner->setSpawnPeriod(kPeriodFast);
+    spawner->setSpawnVel(-kVelFast);
+    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    break;
+  case 10:
+    spawner = new ObstacleSpawner();
+    spawner->init();
+    spawner->setSpawnType(Obstacle::Horse);
+    spawner->setSpawnPeriod(kPeriodSlow);
+    spawner->setSpawnVel(kVelSlow);
+    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    break;
+  case 11:
+    spawner = new ObstacleSpawner();
+    spawner->init();
+    spawner->setSpawnType(Obstacle::Horse);
+    spawner->setSpawnPeriod(kPeriodFast);
+    spawner->setSpawnVel(kVelFast);
+    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    break;
+  case 12:
+    spawner = new ObstacleSpawner();
+    spawner->init();
+    spawner->setSpawnType(Obstacle::Boat);
+    spawner->setSpawnPeriod(kPeriodSlow);
+    spawner->setSpawnVel(-kVelSlow);
+    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    break;
+  case 13:
+    spawner = new ObstacleSpawner();
+    spawner->init();
+    spawner->setSpawnType(Obstacle::Boat);
+    spawner->setSpawnPeriod(kPeriodFast);
+    spawner->setSpawnVel(-kVelFast);
+    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    break;
+  case 14:
+    spawner = new ObstacleSpawner();
+    spawner->init();
+    spawner->setSpawnType(Obstacle::Boat);
+    spawner->setSpawnPeriod(kPeriodSlow);
+    spawner->setSpawnVel(kVelSlow);
+    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    break;
+  case 15:
+    spawner = new ObstacleSpawner();
+    spawner->init();
+    spawner->setSpawnType(Obstacle::Boat);
+    spawner->setSpawnPeriod(kPeriodFast);
+    spawner->setSpawnVel(kVelFast);
+    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    break;
+  default:
+    spawner = nullptr;
+    break;
+  }
+
+  return spawner;
 }

@@ -29,6 +29,7 @@ void CsvReader::loadFromFile(const std::string& filename, char separator) {
     }
     mValues.push_back(row);
   }
+  stream.close();
 }
 
 int CsvReader::getNumberOfRows() const {

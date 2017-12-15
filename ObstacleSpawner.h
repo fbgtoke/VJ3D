@@ -17,19 +17,20 @@ public:
   Obstacle::Type getType() const override;
 
   void setSpawnType(Obstacle::Type type);
-  void setSpawnPeriod(float period);
+  void setSpawnPeriod(int period);
   void setSpawnVel(float vel);
+  void setNumberOfTiles(unsigned int num);
 
 private:
-  static const float kSpawnCoordinate;
-  static const float kDespawnCoordinate;
-  static bool outOfBounds(Obstacle* obstacle);
+  static const float kBoundsMargin;
+  bool outOfBounds(Obstacle* obstacle);
 
   Obstacle::Type mSpawnType;
   float mSpawnVel;
-  float mSpawnPeriod;
+  int mSpawnPeriod;
+  unsigned int mNumberOfTiles;
 
-  float mCurrentCycle;
+  int mCurrentCycle;
 
   void spawnObstacle();
   std::list<Obstacle*> mSpawned;

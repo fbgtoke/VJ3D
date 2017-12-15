@@ -1,8 +1,8 @@
 #include "SceneTest.h"
 #include "Game.h"
 
-const glm::vec3 SceneTest::kObsVector = glm::vec3(3, 10, 10);
-const float SceneTest::kCameraVel = -0.015f;
+const glm::vec3 SceneTest::kObsVector = glm::vec3(1, 5, 4);
+const float SceneTest::kCameraVel = -0.025f;
 
 SceneTest::SceneTest() {}
 
@@ -14,11 +14,13 @@ SceneTest::~SceneTest() {
 void SceneTest::initScene() {
 	Scene::initScene();
 
-	float FOV = (float)M_PI/3.f;
-	float ar = (float)SCREEN_WIDTH/(float)SCREEN_HEIGHT;
+	float left = 6 * TILE_SIZE * (-1.f);
+	float right = 6 * TILE_SIZE;
+  float bottom = 2 * TILE_SIZE * (-1.f);
+  float top = (float)SCREEN_HEIGHT/(float)SCREEN_WIDTH * (right - left) + bottom;
 	float znear = 0.1f;
 	float zfar  = 10000.f;
-	mProjectionMatrix = glm::perspective(FOV, ar, znear, zfar);
+  mProjectionMatrix = glm::ortho(left, right, bottom, top, znear, zfar);
 
   mLevel = LevelGenerator::generate("levels/level1");
 
