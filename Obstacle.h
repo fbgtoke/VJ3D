@@ -19,11 +19,14 @@ public:
   Obstacle(Obstacle::Type type);
   void init() override;
   void update(int deltaTime) override;
+  void render() override;
 
   virtual Obstacle::Type getType() const;
 
 private:
   const Obstacle::Type mType;
+
+  void renderShadow();
 };
 
 #endif // _OBSTACLE_INCLUDE

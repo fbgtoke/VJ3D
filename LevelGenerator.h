@@ -3,6 +3,7 @@
 
 #include "Level.h"
 #include "Obstacle.h"
+#include "ObstacleBonus.h"
 #include "ObstacleSpawner.h"
 
 class LevelGenerator {

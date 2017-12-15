@@ -67,7 +67,7 @@ Obstacle* LevelGenerator::generateObstacle(Level* level, const glm::vec3& positi
     obstacle->init();
     break;
   case 3:
-    obstacle = new Obstacle(Obstacle::Bonus);
+    obstacle = new ObstacleBonus();
     obstacle->init();
     break;
   case 4:

@@ -38,6 +38,7 @@ void SceneTest::updateScene(int deltaTime) {
   updateCamera(deltaTime);
   mLevel->update(deltaTime);
 
+  checkPlayerOutOfCamera();
   checkPlayerDead();
 }
 
@@ -64,6 +65,15 @@ void SceneTest::checkPlayerDead() {
     mCameraVel = 0.f;
   if (player->isDead())
     Game::instance().changeScene(Scene::SCENE_DEAD);
+}
+
+void SceneTest::checkPlayerOutOfCamera() {
+  glm::vec4 homoPosition(mLevel->getPlayer()->getCenter(), 1.0f);
+  glm::vec4 projectedPosition =
+    glm::vec4(mProjectionMatrix * mViewMatrix * homoPosition);
+
+  if (projectedPosition.y/projectedPosition.w < -1.0f)
+    mLevel->getPlayer()->explode();
 }
 
 /*
@@ -126,14 +136,5 @@ void SceneTest::checkPlayerCollisions() {
       }
     }
   }
-}
-
-void SceneTest::checkPlayerOutOfCamera() {
-  glm::vec4 homoPosition(mPlayer.getCenter(), 1.0f);
-  glm::vec4 projectedPosition =
-    glm::vec4(mProjectionMatrix * mViewMatrix * homoPosition);
-
-  if (projectedPosition.y/projectedPosition.w < -1.0f)
-    killPlayer();
 }
 */

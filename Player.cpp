@@ -114,9 +114,9 @@ void Player::renderExploding() {
 }
 
 void Player::initExplosion() {
-  for (int i = 0; i < 250; ++i) {
+  for (int i = 0; i < 500; ++i) {
     Particle* particle = new Particle();
-    particle->init(1750 + rand()%200);
+    particle->init(15000 + rand()%200);
     particle->setMesh(Game::instance().getResource().mesh("cube.obj"));
 
     int texture = rand()%3;
@@ -128,13 +128,13 @@ void Player::initExplosion() {
       particle->setTexture(Game::instance().getResource().texture("chunk_water.png"));
 
     particle->setPosition(getCenter() + DOWN * TILE_SIZE);
-    particle->setScale(glm::vec3(0.125f));
+    particle->setScale(glm::vec3(0.07f));
 
     glm::vec3 direction;
-    direction.x = randomFloat(-1.f, 1.f);
-    direction.y = randomFloat( 0.f, 1.f);
-    direction.z = randomFloat(-1.f, 1.f);
-    particle->setVelocity(glm::normalize(direction) * 0.025f);
+    direction.x = randomFloat(-.2f, .2f);
+    direction.y = randomFloat( 0.f, 1.5f);
+    direction.z = randomFloat(-.2f, .2f);
+    particle->setVelocity(glm::normalize(direction) * 0.05f);
 
     mParticles.push_back(particle);
   }

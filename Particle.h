@@ -11,6 +11,9 @@ public:
   bool isAlive() const;
 
 private:
+  static const float kGravity;
+  static const float kFriction;
+  static const float kMaxVelocity;
   int mAliveTime;
 };
 

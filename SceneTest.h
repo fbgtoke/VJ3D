@@ -22,12 +22,12 @@ private:
 	void updateScene(int deltaTime) override;
 	void renderScene() override;
 
+  void checkPlayerOutOfCamera();
   void checkPlayerDead();
 
   //void updatePlayer(int deltaTime);
   //void checkPlayerChunk();
   //void checkPlayerCollisions();
-  //void checkPlayerOutOfCamera();
 
   Level* mLevel;
 };

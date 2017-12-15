@@ -103,13 +103,19 @@ glm::vec3 Model::getVelocity() const { return mVelocity; }
 void Model::setScale(const glm::vec3& s) { mScale = s; }
 glm::vec3 Model::getScale() const { return mScale; }
 
-glm::vec3 Model::getSize() const { return mSize; }
+glm::vec3 Model::getSize() const {
+  glm::vec3 size;
+  size.x = cos(mRotation.y) * mSize.z + cos((float)M_PI/2.f * mRotation.y) * mSize.x;
+  size.y = mSize.y;
+  size.z = sin(mRotation.y) * mSize.z + sin((float)M_PI/2.f * mRotation.y) * mSize.x;
+  return mSize;
+}
 
 glm::vec3 Model::getSizeInTiles() const {
-  glm::vec3 size;
-  size.x = ceil(mSize.x / TILE_SIZE);
-  size.y = ceil(mSize.y / TILE_SIZE);
-  size.z = ceil(mSize.z / TILE_SIZE);
+  glm::vec3 size = getSize();
+  size.x = ceil(size.x / TILE_SIZE);
+  size.y = ceil(size.y / TILE_SIZE);
+  size.z = ceil(size.z / TILE_SIZE);
   return size;
 }
 
