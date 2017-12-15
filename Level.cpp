@@ -71,9 +71,15 @@ Player* Level::getPlayer() { return mPlayer; }
 void Level::playerUpdate(int deltaTime) {
   if (mPlayer == nullptr) return;
 
-  mPlayer->update(deltaTime);
   playerInput();
-  playerCheckTile();
+  mPlayer->update(deltaTime);
+
+  glm::vec3 position = mPlayer->getPositionInTiles();
+  Tile::Type tile = mTilemap->getTile(glm::ivec2(position.x, position.z * (-1.f)));
+  mPlayer->checkTile(tile);
+
+  if (mPlayer->getState() == Player::Drowning && obstacleAtTile(Obstacle::Stone, position))
+    mPlayer->changeState(Player::Idle);
 }
 
 void Level::playerInput() {
@@ -93,25 +99,6 @@ void Level::playerInput() {
     mPlayer->moveTowards(IN);
   else if (Game::instance().getKeyPressed('s') && !mTilemap->outOfBounds(out))
     mPlayer->moveTowards(OUT);
-}
-
-void Level::playerCheckTile() {
-  if (!mPlayer->isIdle()) return;
-
-  glm::vec3 position = mPlayer->getPositionInTiles();
-  Tile::Type type = mTilemap->getTile(glm::ivec2(position.x, position.z * (-1.f)));
-
-  switch (type) {
-  case Tile::Water:
-    if (!obstacleAtTile(Obstacle::Stone, position))
-      mPlayer->explode();
-    break;
-  case Tile::Goal:
-    Game::instance().changeScene(Scene::SCENE_WIN);
-    break;
-  default:
-    break;
-  }
 }
 
 void Level::updateObstacles(int deltaTime) {

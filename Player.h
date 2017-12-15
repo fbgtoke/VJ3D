@@ -1,11 +1,12 @@
 #ifndef _PLAYER_INCLUDE
 #define _PLAYER_INCLUDE
 
-#include "Model.h"
+#include "ModelAnimated.h"
 #include "Obstacle.h"
+#include "Tile.h"
 #include "Particle.h"
 
-class Player : public Model {
+class Player : public ModelAnimated {
 public:
 	Player();
 	~Player() override;
@@ -13,6 +14,17 @@ public:
 	void init() override;
 	void update(int deltaTime) override;
   void render() override;
+
+  enum State {
+    Idle,
+    OnLog,
+    Moving,
+    Exploding,
+    Drowning,
+    Dead
+  };
+  void changeState(Player::State state);
+  Player::State getState() const;
 
   void explode();
   bool isIdle() const;
@@ -23,6 +35,7 @@ public:
   void moveTowards(const glm::vec3& direction);
 
   void checkCollision(const Obstacle* obstacle);
+  void checkTile(Tile::Type type);
 
 private:
   static const float kTol;
@@ -30,31 +43,23 @@ private:
   static const float kJumpHeight;
   static const float kHorSpeed;
 
-  enum State {
-    Idle,
-    OnLog,
-    Moving,
-    Exploding,
-    Dead
-  };
   Player::State mState;
-  void changeState(Player::State state);
 
   glm::vec3 mTargetPosition;
   glm::vec3 mStartPosition;
 
   void updateIdle(int deltaTime);
-  void updateOnLog(int deltaTime);
   void updateMoving(int deltaTime);
   void updateExploding(int deltaTime);
 
-  void renderExploding();
+  void renderParticles();
 
   void initExplosion();
 
-  Mesh* mFrames[2];
-
   std::list<Particle*> mParticles;
+
+  static const int kMaxDrowningTime;
+  int mDrowningTime;
 };
 
 #endif // _PLAYER_INCLUDE

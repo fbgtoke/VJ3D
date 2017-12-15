@@ -6,6 +6,8 @@ const float Player::kDiminish = 1.f/2.f;
 const float Player::kJumpHeight = 0.25f * TILE_SIZE;
 const float Player::kHorSpeed = 0.025f;
 
+const int Player::kMaxDrowningTime = 1000;
+
 Player::Player() {}
 
 Player::~Player() {
@@ -15,11 +17,17 @@ Player::~Player() {
 }
 
 void Player::init() {
-  Model::init();
+  ModelAnimated::init();
 
-  mFrames[0] = Game::instance().getResource().mesh("cowboy.obj");
-  mFrames[1] = Game::instance().getResource().mesh("animationcowboy.obj");
-  setMesh(mFrames[0]);
+  mAnimation.setNumberOfAnimations(4);
+  mAnimation.addFrame(0, Game::instance().getResource().mesh("cowboy.obj"));
+  mAnimation.addFrame(1, Game::instance().getResource().mesh("animationcowboy.obj"));
+  mAnimation.addFrame(2, Game::instance().getResource().mesh("drowningcowboy1.obj"));
+  mAnimation.addFrame(2, Game::instance().getResource().mesh("drowningcowboy2.obj"));
+  mAnimation.addFrame(3, nullptr);
+  mAnimation.setTimePerFrame(200);
+  mAnimation.changeAnimation(0);
+  setMesh(mAnimation.getCurrentFrame());
   
   setTexture(Game::instance().getResource().texture("palette.png"));
 
@@ -27,26 +35,34 @@ void Player::init() {
   mStartPosition = glm::vec3(0.f);
 
   mState = Player::Idle;
+
+  mDrowningTime = 0;
 }
 
 void Player::update(int deltaTime) {
-  switch (mState) {
-  case Player::Idle: Model::update(deltaTime); break;
-  case Player::OnLog: updateOnLog(deltaTime); break;
-  case Player::Moving: updateMoving(deltaTime); break;
-  case Player::Exploding: updateExploding(deltaTime); break;
-  case Player::Dead: break;
+  ModelAnimated::update(deltaTime);
+
+  if (mState == Player::Moving)
+    updateMoving(deltaTime);
+
+  if (mState == Player::Drowning) {
+    mRotation.y = 0.f;
+    mPosition.y = TILE_SIZE * 0.5f;
+    mDrowningTime += deltaTime;
+
+    if (mDrowningTime > kMaxDrowningTime)
+      explode();
   }
+    
+  if (mState == Player::Exploding)
+    updateExploding(deltaTime);
 }
 
 void Player::render() {
-  switch (mState) {
-  case Player::Idle: Model::render(); break;
-  case Player::OnLog: Model::render(); break;
-  case Player::Moving: Model::render(); break;
-  case Player::Exploding: renderExploding(); break;
-  case Player::Dead: break;
-  }
+  ModelAnimated::render();
+
+  if (mState == Player::Exploding)
+    renderParticles();
 }
 
 void Player::moveTowards(const glm::vec3& direction) {
@@ -56,18 +72,7 @@ void Player::moveTowards(const glm::vec3& direction) {
   changeState(Player::Moving);
 }
 
-void Player::updateOnLog(int deltaTime) {
-  Model::update(deltaTime);
-
-  if (Game::instance().getKeyPressed('w'))
-    moveTowards(IN);
-  else if (Game::instance().getKeyPressed('s') && getPositionInTiles().z < 0)
-    moveTowards(OUT);
-}
-
 void Player::updateMoving(int deltaTime) {
-  Model::update(deltaTime);
-
   glm::vec3 current = glm::vec3(mPosition.x, 0.f, mPosition.z);
   glm::vec3 target  = glm::vec3(mTargetPosition.x, 0.f, mTargetPosition.z);
   glm::vec3 middle  = (mTargetPosition + mStartPosition) * 0.5f;
@@ -107,7 +112,7 @@ void Player::updateExploding(int deltaTime) {
     changeState(Player::Dead);
 }
 
-void Player::renderExploding() {
+void Player::renderParticles() {
   for (Particle* particle : mParticles)
     if (particle->isAlive())
       particle->render();
@@ -147,21 +152,28 @@ void Player::changeState(Player::State state) {
   switch (state) {
   case Player::Idle:
     setVelocity(glm::vec3(0.f));
-    setMesh(mFrames[0]);
+    mAnimation.changeAnimation(0);
     break;
   case Player::Moving:
-    setMesh(mFrames[1]);
+    mAnimation.changeAnimation(1);
     Game::instance().getScene()->playSoundEffect("piu.ogg");
+    break;
+  case Player::Drowning:
+    mAnimation.changeAnimation(2);
     break;
   case Player::Exploding:
     setVelocity(glm::vec3(0.f));
+    mAnimation.changeAnimation(3);
     Game::instance().getScene()->playSoundEffect("death.ogg");
     initExplosion();
     break;
   case Player::Dead:
+    mAnimation.changeAnimation(3);
     break;
   }
 }
+
+Player::State Player::getState() const { return mState; }
 
 void Player::explode() { changeState(Player::Exploding); }
 bool Player::isIdle() const { return mState == Player::Idle; }
@@ -180,6 +192,21 @@ void Player::checkCollision(const Obstacle* obstacle) {
   case Obstacle::Carriage:
   case Obstacle::Horse:
     explode();
+    break;
+  default:
+    break;
+  }
+}
+
+void Player::checkTile(Tile::Type type) {
+  if (mState != Player::Idle) return;
+
+  switch (type) {
+  case Tile::Water:
+      changeState(Player::Drowning);
+    break;
+  case Tile::Goal:
+    Game::instance().changeScene(Scene::SCENE_WIN);
     break;
   default:
     break;
