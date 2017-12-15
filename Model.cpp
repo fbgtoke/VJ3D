@@ -139,3 +139,5 @@ Model* Model::create(const std::string& mesh, const std::string& texture) {
   model->setTexture(Game::instance().getResource().texture(texture));
   return model;
 }
+
+Mesh* Model::getMesh() { return mMesh; }

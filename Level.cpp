@@ -84,21 +84,33 @@ void Level::playerUpdate(int deltaTime) {
 
 void Level::playerInput() {
   if (!mPlayer->isIdle()) return;
+  
+  glm::vec3 direction(0.f);
+  if (Game::instance().getKeyPressed('a'))
+    direction = LEFT;
+  else if (Game::instance().getKeyPressed('d'))
+    direction = RIGHT;
+  else if (Game::instance().getKeyPressed('w'))
+    direction = IN;
+  else if (Game::instance().getKeyPressed('s'))
+    direction = OUT;
 
-  glm::vec3 position = mPlayer->getPositionInTiles();
-  glm::ivec2 left  = player2tilemap(position + LEFT);
-  glm::ivec2 right = player2tilemap(position + RIGHT);
-  glm::ivec2 in    = player2tilemap(position + IN);
-  glm::ivec2 out   = player2tilemap(position + OUT);
+  glm::vec3 targetTile = mPlayer->getPositionInTiles() + direction;
+  glm::vec3 targetPosition = mPlayer->getPosition() + direction * TILE_SIZE;
+  targetPosition.y = mPlayer->getSize().y * 0.5f;
 
-  if (Game::instance().getKeyPressed('a') && !mTilemap->outOfBounds(left))
-    mPlayer->moveTowards(LEFT);
-  else if (Game::instance().getKeyPressed('d') && !mTilemap->outOfBounds(right))
-    mPlayer->moveTowards(RIGHT);
-  else if (Game::instance().getKeyPressed('w') && !mTilemap->outOfBounds(in))
-    mPlayer->moveTowards(IN);
-  else if (Game::instance().getKeyPressed('s') && !mTilemap->outOfBounds(out))
-    mPlayer->moveTowards(OUT);
+  bool jumping = (direction != glm::vec3(0.f));
+  bool outOfBounds = mTilemap->outOfBounds(player2tilemap(targetTile));
+
+  if (jumping && !outOfBounds) {
+    glm::vec3 min, max;
+    if (obstacleAtTile(Obstacle::Stone, targetTile)) {
+      Game::instance().getResource().mesh("stone.obj")->getMinMaxVertices(min, max);
+      targetPosition.y += max.y;
+    }
+
+    mPlayer->moveTowards(targetPosition);
+  }
 }
 
 void Level::updateObstacles(int deltaTime) {

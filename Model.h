@@ -46,6 +46,8 @@ public:
 
   static Model* create(const std::string& mesh, const std::string& texture);
 
+  Mesh* getMesh();
+
 protected:
   ShaderProgram* mShaderProgram;
 

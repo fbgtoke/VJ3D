@@ -48,18 +48,19 @@ private:
   glm::vec3 mTargetPosition;
   glm::vec3 mStartPosition;
 
-  void updateIdle(int deltaTime);
-  void updateMoving(int deltaTime);
-  void updateExploding(int deltaTime);
+  static const int kMaxDrowningTime;
+  int mDrowningTime;
 
+  glm::vec3 mParabola;
+
+  void updateMoving(int deltaTime);
+
+  void updateParticles(int deltaTime);
   void renderParticles();
 
   void initExplosion();
 
   std::list<Particle*> mParticles;
-
-  static const int kMaxDrowningTime;
-  int mDrowningTime;
 };
 
 #endif // _PLAYER_INCLUDE

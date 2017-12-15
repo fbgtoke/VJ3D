@@ -1,10 +1,10 @@
 #include "Player.h"
 #include "Game.h"
 
-const float Player::kTol = 0.95f;
+const float Player::kTol = 1.1f;
 const float Player::kDiminish = 1.f/2.f;
-const float Player::kJumpHeight = 0.25f * TILE_SIZE;
-const float Player::kHorSpeed = 0.025f;
+const float Player::kJumpHeight = 0.5f * TILE_SIZE;
+const float Player::kHorSpeed = 0.075f;
 
 const int Player::kMaxDrowningTime = 1000;
 
@@ -37,6 +37,8 @@ void Player::init() {
   mState = Player::Idle;
 
   mDrowningTime = 0;
+
+  mParabola = glm::vec3(0.f);
 }
 
 void Player::update(int deltaTime) {
@@ -55,7 +57,7 @@ void Player::update(int deltaTime) {
   }
     
   if (mState == Player::Exploding)
-    updateExploding(deltaTime);
+    updateParticles(deltaTime);
 }
 
 void Player::render() {
@@ -65,36 +67,63 @@ void Player::render() {
     renderParticles();
 }
 
-void Player::moveTowards(const glm::vec3& direction) {
-  mTargetPosition = mPosition + direction * TILE_SIZE;
+void Player::moveTowards(const glm::vec3& position) {
+  mTargetPosition = position;
   mStartPosition = mPosition;
+
+  glm::vec2 start(mStartPosition.x, mStartPosition.z);
+  glm::vec2 target(mTargetPosition.x, mTargetPosition.z);
+  float distance = glm::distance(start, target);
+
+  glm::mat3 A;
+  A[0][0] = 0.f;
+  A[1][0] = 0.f;
+  A[2][0] = 1.f;
   
+  A[0][1] = distance * distance;
+  A[1][1] = distance;
+  A[2][1] = 1.f;
+  
+  A[0][2] = (distance * 0.5f) * (distance * 0.5f);
+  A[1][2] = distance * 0.5f;
+  A[2][2] = 1.f;
+  
+  glm::vec3 B;
+  B[0] = mStartPosition.y;
+  B[1] = mTargetPosition.y;
+  B[2] = mStartPosition.y + kJumpHeight;
+
+  mParabola = glm::inverse(A) * B;
+
   changeState(Player::Moving);
 }
 
 void Player::updateMoving(int deltaTime) {
-  glm::vec3 current = glm::vec3(mPosition.x, 0.f, mPosition.z);
-  glm::vec3 target  = glm::vec3(mTargetPosition.x, 0.f, mTargetPosition.z);
-  glm::vec3 middle  = (mTargetPosition + mStartPosition) * 0.5f;
-  glm::vec3 direction = glm::normalize(target - current);
+  glm::vec2 direction;
+  direction.x = mTargetPosition.x - mStartPosition.x;
+  direction.y = mTargetPosition.z - mStartPosition.z;
+  glm::normalize(direction);
 
-  float distance = glm::distance(current, target);
-  float maxDistance = glm::distance(middle, target);
-  float curDistance = glm::distance(middle, current);
+  glm::vec2 start(mPosition.x, mPosition.z);
+  glm::vec2 target(mTargetPosition.x, mTargetPosition.z);
+  float distance = glm::distance(start, target);
 
-  float angle = atan2(-direction.z, direction.x) + (float)M_PI/2.f;
+  mVelocity = glm::normalize(glm::vec3(direction.x, 0.f, direction.y)) * kHorSpeed;
+  mPosition.y =
+    mParabola[0] * (distance * distance) +
+    mParabola[1] * (distance) +
+    mParabola[2];
+
+  float angle = atan2(-direction.y, direction.x) + (float)M_PI/2.f;
   setRotation(UP * angle);
 
   if (distance < kTol) {
     mPosition = mTargetPosition;
     changeState(Player::Idle);    
-  } else {
-    mVelocity = direction * kHorSpeed * distance * kDiminish;
-    mPosition.y = (maxDistance - curDistance) * kJumpHeight + mStartPosition.y;
   }
 }
 
-void Player::updateExploding(int deltaTime) {
+void Player::updateParticles(int deltaTime) {
   auto it = mParticles.begin();
   while (it != mParticles.end()) {
     Particle* particle = (*it);
@@ -126,11 +155,11 @@ void Player::initExplosion() {
 
     int texture = rand()%3;
     if (texture == 0)
-      particle->setTexture(Game::instance().getResource().texture("chunk_blank.png"));
+      particle->setTexture(Game::instance().getResource().texture("palette.png"));
     else if (texture == 1)
-      particle->setTexture(Game::instance().getResource().texture("chunk_grass.png"));
+      particle->setTexture(Game::instance().getResource().texture("palette.png"));
     else
-      particle->setTexture(Game::instance().getResource().texture("chunk_water.png"));
+      particle->setTexture(Game::instance().getResource().texture("palette.png"));
 
     particle->setPosition(getCenter() + DOWN * TILE_SIZE);
     particle->setScale(glm::vec3(0.07f));
