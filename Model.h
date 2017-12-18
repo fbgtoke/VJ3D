@@ -42,11 +42,18 @@ public:
   glm::vec3 getSize() const;
   glm::vec3 getSizeInTiles() const;
 
-  virtual bool collides(const Model& m) const;
+  virtual bool collides(const Model* m) const;
+  virtual void onCollision(Model* m);
 
   static Model* create(const std::string& mesh, const std::string& texture);
 
   Mesh* getMesh();
+
+  void destroy();
+  bool hasBeenDestroyed() const;
+  virtual void onDestroy();
+
+  virtual bool checkCollisions() const;
 
 protected:
   ShaderProgram* mShaderProgram;
@@ -64,6 +71,8 @@ protected:
   glm::vec3 mRotationSpeed;
 
   glm::vec3 mScale;
+
+  bool mDestroyed;
 };
 
 #endif // _MODEL_INCLUDE

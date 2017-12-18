@@ -2,6 +2,7 @@
 #define _SCENE_INCLUDE
 
 #include "utils.h"
+#include "Model.h"
 
 class Scene {
 public:
@@ -21,6 +22,7 @@ public:
 	enum SceneType {
 		SCENE_TEST,
 		SCENE_MENU,
+		SCENE_LEVEL_SELECT,
 		SCENE_PLAY,
 		SCENE_WIN,
 		SCENE_DEAD
@@ -30,6 +32,17 @@ public:
 	virtual void initShaders();
 
 	void playSoundEffect(const std::string& name);
+
+	enum ModelFlags : unsigned char {
+		RenderNone  = 0x01,
+		RenderFirst = 0x02,
+		RenderLast  = 0x04,
+		UpdateNone  = 0x08,
+		UpdateFirst = 0x0A,
+		UpdateLast  = 0x0C
+	};
+	void addModel(Model* model, unsigned char render = RenderLast | UpdateLast);
+  void removeModel(Model* model);
 
 protected:
 	float mCurrentTime;
@@ -53,6 +66,10 @@ protected:
 
 	void checkSoundEffects();
 	std::list<sf::Sound*> mSoundEffects;
+
+	std::set<Model*> mModels;
+	std::list<Model*> mUpdateList;
+	std::list<Model*> mRenderList;
 };
 
 #endif // _SCENE_INCLUDE

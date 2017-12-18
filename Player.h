@@ -5,6 +5,7 @@
 #include "Obstacle.h"
 #include "Tile.h"
 #include "Particle.h"
+#include "Shadow.h"
 
 class Player : public ModelAnimated {
 public:
@@ -13,11 +14,10 @@ public:
 
 	void init() override;
 	void update(int deltaTime) override;
-  void render() override;
 
   enum State {
     Idle,
-    OnLog,
+    onBoat,
     Moving,
     Exploding,
     Drowning,
@@ -32,26 +32,27 @@ public:
   bool isDead() const;
   bool isAlive() const;
 
-  void moveTowards(const glm::vec3& direction);
+  void moveTowards(const glm::vec3& position);
 
-  void checkCollision(const Obstacle* obstacle);
-  void checkTile(Tile::Type type);
+  void onCollision(Model* model) override;
+  bool checkCollisions() const override;
 
 private:
   static const float kTol;
-  static const float kDiminish;
-  static const float kJumpHeight;
+  static const float kJumpSpeed;
   static const float kHorSpeed;
+  static const float kGravity;
 
   Player::State mState;
 
   glm::vec3 mTargetPosition;
-  glm::vec3 mStartPosition;
 
   static const int kMaxDrowningTime;
-  int mDrowningTime;
-
-  glm::vec3 mParabola;
+  static const int kMaxExplodingTime;
+  bool mTimerActivated;
+  int mTimer;
+  void setTimer(int time);
+  bool timerExpired() const;
 
   void updateMoving(int deltaTime);
 
@@ -60,7 +61,7 @@ private:
 
   void initExplosion();
 
-  std::list<Particle*> mParticles;
+  Shadow* mShadow;
 };
 
 #endif // _PLAYER_INCLUDE

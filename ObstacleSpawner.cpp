@@ -1,15 +1,12 @@
 #include "ObstacleSpawner.h"
+#include "Game.h"
 
 const float ObstacleSpawner::kBoundsMargin = 5;
 
 ObstacleSpawner::ObstacleSpawner()
   : Obstacle(Obstacle::Spawner) {}
 
-ObstacleSpawner::~ObstacleSpawner() {
-  for (Obstacle* obstacle : mSpawned)
-    delete obstacle;
-  mSpawned.clear();
-}
+ObstacleSpawner::~ObstacleSpawner() {}
 
 void ObstacleSpawner::init() {
   Obstacle::init();
@@ -35,30 +32,17 @@ void ObstacleSpawner::update(int deltaTime) {
     Obstacle* obstacle = (*it);
 
     if (!outOfBounds(obstacle)) {
-      obstacle->update(deltaTime);
       ++it;
     } else {
-      delete obstacle;
+      obstacle->destroy();
       mSpawned.erase(it++);
     }
   }
 }
 
-void ObstacleSpawner::render() {
-  //Obstacle::render();
+void ObstacleSpawner::render() {}
 
-  for (Obstacle* obstacle : mSpawned)
-    obstacle->render();
-}
-
-bool ObstacleSpawner::collides(const Model& m) const {
-  for (Obstacle* obstacle : mSpawned)
-    if (obstacle->collides(m))
-      return true;
-  return false;
-}
-
-Obstacle::Type ObstacleSpawner::getType() const { return mSpawnType; }
+bool ObstacleSpawner::collides(const Model* m) const { return false; }
 
 void ObstacleSpawner::setSpawnType(Obstacle::Type type) { mSpawnType = type; }
 void ObstacleSpawner::setSpawnPeriod(int period) {
@@ -68,6 +52,15 @@ void ObstacleSpawner::setSpawnPeriod(int period) {
 
 void ObstacleSpawner::setSpawnVel(float vel) { mSpawnVel = vel; }
 void ObstacleSpawner::setNumberOfTiles(unsigned int num) { mNumberOfTiles = num; }
+
+Obstacle::Type ObstacleSpawner::getSpawnType() const { return mSpawnType; }
+
+Obstacle* ObstacleSpawner::getObstacleAtTile(const glm::vec3& tile) {
+  for (Obstacle* obstacle : mSpawned)
+    if (obstacle->getPositionInTiles() == tile)
+      return obstacle;
+  return nullptr;
+}
 
 bool ObstacleSpawner::outOfBounds(Obstacle* obstacle) {
   glm::vec3 pos = obstacle->getPositionInTiles();
@@ -91,4 +84,5 @@ void ObstacleSpawner::spawnObstacle() {
   obstacle->setPositionInTiles(spawnPosition);
   obstacle->setVelocity(glm::vec3(mSpawnVel, 0.f, 0.f));
   mSpawned.push_back(obstacle);
+  Game::instance().getScene()->addModel(obstacle);
 }

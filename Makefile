@@ -609,6 +609,33 @@ SceneDead.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneDead.cpp.s
 .PHONY : SceneDead.cpp.s
 
+SceneLevelSelect.o: SceneLevelSelect.cpp.o
+
+.PHONY : SceneLevelSelect.o
+
+# target to build an object file
+SceneLevelSelect.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneLevelSelect.cpp.o
+.PHONY : SceneLevelSelect.cpp.o
+
+SceneLevelSelect.i: SceneLevelSelect.cpp.i
+
+.PHONY : SceneLevelSelect.i
+
+# target to preprocess a source file
+SceneLevelSelect.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneLevelSelect.cpp.i
+.PHONY : SceneLevelSelect.cpp.i
+
+SceneLevelSelect.s: SceneLevelSelect.cpp.s
+
+.PHONY : SceneLevelSelect.s
+
+# target to generate assembly for a file
+SceneLevelSelect.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/SceneLevelSelect.cpp.s
+.PHONY : SceneLevelSelect.cpp.s
+
 SceneMenu.o: SceneMenu.cpp.o
 
 .PHONY : SceneMenu.o
@@ -743,6 +770,33 @@ ShaderProgram.s: ShaderProgram.cpp.s
 ShaderProgram.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ShaderProgram.cpp.s
 .PHONY : ShaderProgram.cpp.s
+
+Shadow.o: Shadow.cpp.o
+
+.PHONY : Shadow.o
+
+# target to build an object file
+Shadow.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Shadow.cpp.o
+.PHONY : Shadow.cpp.o
+
+Shadow.i: Shadow.cpp.i
+
+.PHONY : Shadow.i
+
+# target to preprocess a source file
+Shadow.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Shadow.cpp.i
+.PHONY : Shadow.cpp.i
+
+Shadow.s: Shadow.cpp.s
+
+.PHONY : Shadow.s
+
+# target to generate assembly for a file
+Shadow.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Shadow.cpp.s
+.PHONY : Shadow.cpp.s
 
 Sprite.o: Sprite.cpp.o
 
@@ -1023,6 +1077,9 @@ help:
 	@echo "... SceneDead.o"
 	@echo "... SceneDead.i"
 	@echo "... SceneDead.s"
+	@echo "... SceneLevelSelect.o"
+	@echo "... SceneLevelSelect.i"
+	@echo "... SceneLevelSelect.s"
 	@echo "... SceneMenu.o"
 	@echo "... SceneMenu.i"
 	@echo "... SceneMenu.s"
@@ -1038,6 +1095,9 @@ help:
 	@echo "... ShaderProgram.o"
 	@echo "... ShaderProgram.i"
 	@echo "... ShaderProgram.s"
+	@echo "... Shadow.o"
+	@echo "... Shadow.i"
+	@echo "... Shadow.s"
 	@echo "... Sprite.o"
 	@echo "... Sprite.i"
 	@echo "... Sprite.s"

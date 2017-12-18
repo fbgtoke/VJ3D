@@ -3,7 +3,12 @@
 #include "Game.h"
 
 Obstacle::Obstacle(Obstacle::Type type)
-  : mType(type) {}
+  : mType(type), mShadow(nullptr) {}
+
+Obstacle::~Obstacle() {
+  if (mShadow != nullptr)
+    mShadow->unbind();
+}
 
 Obstacle::Obstacle::Type Obstacle::getType() const { return mType; }
 
@@ -64,6 +69,12 @@ void Obstacle::init() {
 
   setMesh(mAnimation.getCurrentFrame());
   setTexture(Game::instance().getResource().texture("palette.png"));
+
+  if (mType != Obstacle::Boat && mType != Obstacle::Stone && mType != Obstacle::Spawner) {
+    mShadow = new Shadow(this);
+    mShadow->init();
+    Game::instance().getScene()->addModel(mShadow);
+  }
 }
 
 void Obstacle::update(int deltaTime) {
@@ -71,39 +82,4 @@ void Obstacle::update(int deltaTime) {
 
   if (mVelocity.x >= 0.f)
     mScale.x = -1.f;
-}
-
-void Obstacle::render() {
-  ModelAnimated::render();
-
-  if (mType != Obstacle::Stone && mType != Obstacle::Boat)
-    renderShadow();
-}
-
-void Obstacle::renderShadow() {
-  Model shadow;
-  shadow.init();
-  shadow.setMesh(Game::instance().getResource().mesh("plane.obj"));
-  shadow.setTexture(Game::instance().getResource().texture("shadow.png"));
-
-  glm::vec3 position = getPosition();
-  position.y = 0.001f;
-  position.x += TILE_SIZE * 0.125f;
-  shadow.setPosition(position);
-
-  const float base = getCenter().y - getSize().y * 0.5f;
-  const float max_height = TILE_SIZE * 2.f;
-  const float min_scale = std::max(0.f, 1.f - base / max_height);
-  glm::vec3 scale;
-  scale.x = min_scale * (getSizeInTiles().x + getSizeInTiles().y) * 0.75f;
-  scale.y = 1.f;
-  scale.z = min_scale * getSizeInTiles().z * 1.5f;
-  shadow.setScale(scale);
-
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  glDepthMask(false);
-  shadow.render();
-  glDepthMask(true);
-  glDisable(GL_BLEND);
 }

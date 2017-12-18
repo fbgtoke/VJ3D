@@ -15,6 +15,7 @@
 #include <sstream>
 #include <cmath>
 #include <functional>
+#include <dirent.h>
 
 /* STD containers */
 #include <vector>

@@ -25,10 +25,6 @@ private:
   void checkPlayerOutOfCamera();
   void checkPlayerDead();
 
-  //void updatePlayer(int deltaTime);
-  //void checkPlayerChunk();
-  //void checkPlayerCollisions();
-
   Level* mLevel;
 };
 

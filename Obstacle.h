@@ -2,6 +2,7 @@
 #define _OBSTACLE_INCLUDE
 
 #include "ModelAnimated.h"
+#include "Shadow.h"
 
 class Obstacle : public ModelAnimated {
 public:
@@ -17,16 +18,16 @@ public:
   };
 
   Obstacle(Obstacle::Type type);
+  ~Obstacle() override;
+
   void init() override;
   void update(int deltaTime) override;
-  void render() override;
 
   virtual Obstacle::Type getType() const;
 
 private:
   const Obstacle::Type mType;
-
-  void renderShadow();
+  Shadow* mShadow;
 };
 
 #endif // _OBSTACLE_INCLUDE

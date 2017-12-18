@@ -29,6 +29,8 @@ public:
 
   static glm::vec2 type2texturecoord(Tile::Type type);
 
+  bool collides(const Model* m) const override;
+
 private:
   Tile::Type mType;
   bool mDark;

@@ -13,13 +13,16 @@ public:
   void update(int deltaTime) override;
   void render() override;
 
-  bool collides(const Model& m) const override;
-  Obstacle::Type getType() const override;
+  bool collides(const Model* m) const override;
 
   void setSpawnType(Obstacle::Type type);
   void setSpawnPeriod(int period);
   void setSpawnVel(float vel);
   void setNumberOfTiles(unsigned int num);
+
+  Obstacle::Type getSpawnType() const;
+
+  Obstacle* getObstacleAtTile(const glm::vec3& tile);
 
 private:
   static const float kBoundsMargin;

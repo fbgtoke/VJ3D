@@ -2,7 +2,7 @@
 #include "Game.h"
 
 const glm::vec3 SceneTest::kObsVector = glm::vec3(1, 5, 4);
-const float SceneTest::kCameraVel = -0.025f;
+const float SceneTest::kCameraVel = -0.0125f;
 
 SceneTest::SceneTest() {}
 
@@ -22,7 +22,7 @@ void SceneTest::initScene() {
 	float zfar  = 10000.f;
   mProjectionMatrix = glm::ortho(left, right, bottom, top, znear, zfar);
 
-  mLevel = LevelGenerator::generate("levels/level1");
+  mLevel = LevelGenerator::generate("levels/level1/level1");
 
   mCameraVel = kCameraVel;
   VRP = mLevel->getPlayer()->getCenter();
@@ -75,66 +75,3 @@ void SceneTest::checkPlayerOutOfCamera() {
   if (projectedPosition.y/projectedPosition.w < -1.0f)
     mLevel->getPlayer()->explode();
 }
-
-/*
-void SceneTest::updatePlayer(int deltaTime) {
-  mPlayer.update(deltaTime);
-  
-  if (mPlayer.isIdle())
-    checkPlayerChunk();
-
-  if (mPlayer.isAlive()) {
-    checkPlayerCollisions();
-    checkPlayerOutOfCamera();
-  }
-
-  if (mPlayer.isDead())
-    Game::instance().changeScene(Scene::SCENE_DEAD);
-}
-
-void SceneTest::checkPlayerChunk() {
-  int playerDepth = mPlayer.getPositionInTiles().z * (-1);
-  int playerOffset = mPlayer.getPositionInTiles().x;
-  
-  Chunk::ChunkType chunkType;
-  int chunkDepth;
-
-  for (Chunk* chunk : mChunks) {
-    chunkType = chunk->getType();
-    chunkDepth = chunk->getDepth();
-
-    if (chunkType == Chunk::GOAL && chunkDepth == playerDepth) {
-      Game::instance().changeScene(Scene::SCENE_WIN);
-    }
-
-    if (chunkType == Chunk::WATER && chunkDepth == playerDepth) {
-      if (!chunk->hasObstacleAtPosition(Obstacle::LILLYPAD, playerOffset))
-        killPlayer();
-    }
-  }
-}
-
-void SceneTest::checkPlayerCollisions() {
-  const Obstacle* collided;
-  for (Chunk* chunk : mChunks) {
-    collided = chunk->checkCollisions(mPlayer);
-    if (collided != nullptr) {
-      switch (collided->getType()) {
-      case Obstacle::LILLYPAD:
-        std::cout << "Standing on lillypad" << std::endl;
-        break;
-      case Obstacle::TREE:
-      case Obstacle::CAR:
-        killPlayer();
-        break;
-      case Obstacle::BONUS:
-        std::cout << "Bonus get" << std::endl;
-        chunk->removeObstacle(collided);
-        break;
-      default:
-        break;
-      }
-    }
-  }
-}
-*/

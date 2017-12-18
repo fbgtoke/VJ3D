@@ -42,3 +42,18 @@ glm::vec2 Tile::type2texturecoord(Tile::Type type) {
 
   return texcoord;
 }
+
+bool Tile::collides(const Model* m) const {
+  if (m == nullptr) return false;
+  
+  glm::vec3 mincoords1, mincoords2, maxcoords1, maxcoords2;
+  mincoords1 = getPosition() - getSize() * 0.125f;
+  mincoords2 = m->getPosition() - m->getSize() * 0.125f;
+  maxcoords1 = mincoords1 + getSize() * 0.125f;
+  maxcoords2 = mincoords2 + m->getSize() * 0.125f;
+
+  return
+    maxcoords1.x > mincoords2.x && mincoords1.x < maxcoords2.x &&
+    maxcoords1.y > mincoords2.y && mincoords1.y < maxcoords2.y &&
+    maxcoords1.z > mincoords2.z && mincoords1.z < maxcoords2.z;
+}

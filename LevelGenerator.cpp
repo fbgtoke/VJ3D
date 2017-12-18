@@ -1,7 +1,7 @@
 #include "LevelGenerator.h"
 
-const int LevelGenerator::kPeriodSlow = 4000;
-const int LevelGenerator::kPeriodFast = 2500;
+const int LevelGenerator::kPeriodSlow = 3000;
+const int LevelGenerator::kPeriodFast = 2000;
 
 const float LevelGenerator::kVelSlow = 0.03f;
 const float LevelGenerator::kVelFast = 0.07f;

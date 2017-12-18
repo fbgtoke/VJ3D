@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include "SceneMenu.h"
+#include "SceneLevelSelect.h"
 #include "SceneTest.h"
 #include "SceneWin.h"
 #include "SceneDead.h"
@@ -15,11 +16,18 @@ Scene::~Scene() {
   for (auto it = mSoundEffects.begin(); it != mSoundEffects.end(); ++it)
     delete (*it);
   mSoundEffects.clear();
+
+  for (auto it = mModels.begin(); it != mModels.end(); ++it) {
+    (*it)->destroy();
+    delete (*it);
+  }
+  mModels.clear();
 }
 
 Scene* Scene::create(SceneType type) {
   switch(type) {
   case SCENE_MENU: return new SceneMenu();
+  case SCENE_LEVEL_SELECT: return new SceneLevelSelect();
   case SCENE_WIN:  return new SceneWin();
   case SCENE_DEAD: return new SceneDead();
   default:
@@ -65,9 +73,32 @@ void Scene::initScene() {
   mViewMatrix = glm::mat4(1.0f);
 }
 
-void Scene::updateScene(int deltaTime) {}
+void Scene::updateScene(int deltaTime) {
+  auto it = mUpdateList.begin();
+  while (it != mUpdateList.end()) {
+    Model* model = (*it);
 
-void Scene::renderScene() {}
+    if (model->hasBeenDestroyed()) {
+      it++;
+      removeModel(model);
+    } else {
+      model->update(deltaTime);
+
+      if (model->checkCollisions()) {
+        for (Model* model2 : mModels) {
+          if (model != model2 && model->collides(model2))
+            model->onCollision(model2);
+        }
+      }
+      it++;
+    }
+  }
+}
+
+void Scene::renderScene() {
+  for (Model* model : mRenderList)
+    model->render();
+}
 
 void Scene::initGUI() {
   mProjectionMatrixGUI = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
@@ -107,5 +138,39 @@ void Scene::checkSoundEffects() {
     } else {
       it++;
     }
+  }
+}
+
+void Scene::addModel(Model* model, unsigned char flags) {
+  if (model == nullptr) return;
+
+  mModels.insert(model);
+
+  if (flags & Scene::UpdateFirst)
+    mUpdateList.push_front(model);
+  else if (flags & Scene::UpdateLast)
+    mUpdateList.push_back(model);
+
+  if (flags & Scene::RenderFirst)
+    mRenderList.push_front(model);
+  else if (flags & Scene::RenderLast)
+    mRenderList.push_back(model);
+}
+
+void Scene::removeModel(Model* model) {
+  if (model != nullptr) {
+    mModels.erase(model);
+
+    auto it = mUpdateList.begin();
+    while (it != mUpdateList.end() && (*it) != model) ++it;
+    if ((*it) == model) 
+      mUpdateList.erase(it);
+
+    auto it2 = mRenderList.begin();
+    while (it2 != mRenderList.end() && (*it2) != model) ++it2;
+    if ((*it2) == model)
+      mRenderList.erase(it2);
+
+    delete model;
   }
 }

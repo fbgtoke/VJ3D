@@ -6,6 +6,7 @@
 #include "Model.h"
 #include "Player.h"
 #include "Obstacle.h"
+#include "ObstacleSpawner.h"
 
 class Level {
 public:
@@ -19,24 +20,16 @@ public:
   void setPlayer(Player* player);
 
   void addObstacle(Obstacle* obstacle);
-  bool obstacleAtTile(Obstacle::Type type, const glm::vec3& tile);
 
   Tilemap* getTilemap();
   Player* getPlayer();
 
 private:
   Tilemap* mTilemap;
-  std::list<Model*> mModels;
-
   glm::ivec2 player2tilemap(const glm::vec3& position);
 
   Player* mPlayer;
-  void playerUpdate(int deltaTime);
-  void playerInput();
-  void playerCheckTile();
-
   std::list<Obstacle*> mObstacles;
-  void updateObstacles(int deltaTime);
 };
 
 #endif // _LEVEL_INCLUDE

@@ -10,8 +10,7 @@ public:
   Tilemap();
   ~Tilemap();
 
-  void render();
-
+  void clear();
   void resize(const glm::ivec2& size);
   unsigned int getHeight() const;
   unsigned int getWidth() const;
@@ -24,11 +23,17 @@ public:
   void loadFromFile(const std::string& filename);
 
 private:
-  typedef std::vector<Tile> TileRow;
+  static const int kBorderSize;
+
+  typedef std::vector<Tile*> TileRow;
   typedef std::vector<TileRow> TileArray;
   TileArray mTiles;
 
-  void renderBorders();
+  void initMargins();
+  void clearMargins();
+  TileArray mMarginLeft;
+  TileArray mMarginRight;
+  TileArray mMarginBottom;
 };
 
 #endif // _TILEMAP_INCLUDE

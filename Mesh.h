@@ -35,6 +35,7 @@ public:
   glm::vec3 size() const;
 
 protected:
+  ShaderProgram* mShader;
   GLuint mVAO;
   GLuint mVBO_vertices, mVBO_normals, mVBO_texcoord;
   GLuint mLoc_vertices, mLoc_normals, mLoc_texcoord;
@@ -46,6 +47,8 @@ protected:
   size_t nFloatsVertices;
   size_t nFloatsNormals;
   size_t nFloatsTexCoords;
+
+  glm::vec3 min, max;
 };
 
 #endif // _MESH_INCLUDE

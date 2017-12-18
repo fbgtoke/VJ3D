@@ -2,26 +2,34 @@
 
 Mesh::Mesh() :
   nFloatsVertices(0), nFloatsNormals(0), nFloatsTexCoords(0),
-  mVertices(nullptr), mNormals(nullptr), mTexCoords(nullptr) {}
+  mVertices(nullptr), mNormals(nullptr), mTexCoords(nullptr),
+  mShader(nullptr) {}
 
 Mesh::~Mesh() {
   if (mVertices != nullptr) free(mVertices);
   if (mNormals != nullptr) free(mNormals);
   if (mTexCoords != nullptr) free(mTexCoords);
 
-  glDeleteBuffers(1, &mVBO_vertices);
-  glDeleteBuffers(1, &mVBO_normals);
-  glDeleteBuffers(1, &mVBO_texcoord);
+  if (mShader != nullptr) {
+    glDeleteBuffers(1, &mVBO_vertices);
+    glDeleteBuffers(1, &mVBO_normals);
+    glDeleteBuffers(1, &mVBO_texcoord);
 
-  glDeleteVertexArrays(1, &mVAO);
+    glDeleteVertexArrays(1, &mVAO);
+  }
 }
 
 void Mesh::useShader(ShaderProgram* shaderProgram) {
-  glDeleteBuffers(1, &mVBO_vertices);
-  glDeleteBuffers(1, &mVBO_normals);
-  glDeleteBuffers(1, &mVBO_texcoord);
+  if (shaderProgram == nullptr) return;
 
-  glDeleteVertexArrays(1, &mVAO);
+  if (mShader != nullptr) {
+    glDeleteBuffers(1, &mVBO_vertices);
+    glDeleteBuffers(1, &mVBO_normals);
+    glDeleteBuffers(1, &mVBO_texcoord);
+
+    glDeleteVertexArrays(1, &mVAO);
+  }
+  mShader = shaderProgram;
   
   glGenVertexArrays(1, &mVAO);
   glBindVertexArray(mVAO);
@@ -52,6 +60,8 @@ GLuint Mesh::getVAO() const { return mVAO; }
 void Mesh::setVertices(float* vertices, size_t nelem) {
   mVertices = vertices;
   nFloatsVertices = nelem;
+
+  getMinMaxVertices(min, max);
 }
 
 void Mesh::setNormals(float* normals, size_t nelem) {
@@ -98,9 +108,6 @@ void Mesh::getMinMaxVertices(glm::vec3& min, glm::vec3& max) const {
 glm::vec3 Mesh::center() const {
   glm::vec3 center;
 
-  glm::vec3 min, max;
-  getMinMaxVertices(min, max);
-
   center.x = (min.x + max.x)/2.f;
   center.y = (min.y + max.y)/2.f;
   center.z = (min.z + max.z)/2.f;
@@ -119,9 +126,6 @@ glm::vec3 Mesh::sizeInTiles() const {
 }
 
 glm::vec3 Mesh::size() const {
-  glm::vec3 min, max;
-  getMinMaxVertices(min, max);
-
   glm::vec3 size = max - min;
   return size;
 }

@@ -96,7 +96,7 @@ void SceneMenu::nextOption() {
 void SceneMenu::selectOption() {
   switch (mCurrentOption) {
   case NEW_GAME:
-    Game::instance().changeScene(Scene::SCENE_TEST);
+    Game::instance().changeScene(Scene::SCENE_LEVEL_SELECT);
     break;
   case EXIT:
     Game::instance().stop();
