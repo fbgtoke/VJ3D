@@ -11,8 +11,9 @@ int drowningTime 1000
 int explodingTime 2000
 
 ##### Obstacles #####
-int PeriodSlow 3000
-int PeriodFast 2000
+int PeriodSlow 1500
+int PeriodFast 1000
+int PeriodVariability 1500
 float VelSlow 0.020
 float VelFast 0.040
 
@@ -21,7 +22,7 @@ float RotationSpeed 0.001
 float BobSpeed 0.003
 
 ##### Spawner margin #####
-float BoundsMargin 5
+float BoundsMargin 15
 
 ##### Level Select #####
 int LevelsPerRow 5

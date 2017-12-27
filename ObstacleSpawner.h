@@ -26,6 +26,7 @@ public:
 
 private:
   float kBoundsMargin;
+  int kPeriodVariability;
   bool outOfBounds(Obstacle* obstacle);
 
   Obstacle::Type mSpawnType;

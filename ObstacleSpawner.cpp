@@ -10,6 +10,7 @@ void ObstacleSpawner::init() {
   Obstacle::init();
 
   kBoundsMargin = Game::instance().getResource().Float("BoundsMargin");
+  kPeriodVariability = Game::instance().getResource().Int("PeriodVariability");
 
   mSpawnType = Obstacle::Carriage;
   mSpawnPeriod = 0;
@@ -21,10 +22,10 @@ void ObstacleSpawner::init() {
 void ObstacleSpawner::update(int deltaTime) {
   Obstacle::update(deltaTime);
 
-  mCurrentCycle += deltaTime;
-  if (mSpawnPeriod > 0 && mCurrentCycle >= mSpawnPeriod) {
+  mCurrentCycle -= deltaTime;
+  if (mSpawnPeriod > 0 && mCurrentCycle <= 0) {
     spawnObstacle();
-    mCurrentCycle -= mSpawnPeriod;
+    mCurrentCycle = mSpawnPeriod + randomInt(0, kPeriodVariability);
   }
 
   auto it = mSpawned.begin();
@@ -47,7 +48,7 @@ bool ObstacleSpawner::collides(const Model* m) const { return false; }
 void ObstacleSpawner::setSpawnType(Obstacle::Type type) { mSpawnType = type; }
 void ObstacleSpawner::setSpawnPeriod(int period) {
   mSpawnPeriod = period;
-  mCurrentCycle = 0;
+  mCurrentCycle = mSpawnPeriod + randomInt(0, kPeriodVariability);
 }
 
 void ObstacleSpawner::setSpawnVel(float vel) { mSpawnVel = vel; }

@@ -54,4 +54,7 @@ static const float CHUNK_SIZE = TILE_SIZE * TILES_PER_CHUNK;
 #define randomFloat(min, max) \
 	(min + static_cast <float> (rand())/(static_cast <float> (RAND_MAX/(max-min))))
 
+#define randomInt(min, max) \
+  (min + static_cast <int> (rand())/(static_cast <int> (RAND_MAX/(max-min))))
+
 #endif // _UTILS_INCLUDE
