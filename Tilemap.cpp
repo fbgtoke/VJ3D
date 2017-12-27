@@ -1,9 +1,9 @@
 #include "Tilemap.h"
 #include "Game.h"
 
-const int Tilemap::kBorderSize = 10;
-
-Tilemap::Tilemap() {}
+Tilemap::Tilemap() {
+  kBorderSize = Game::instance().getResource().Int("BorderSize");
+}
 
 Tilemap::~Tilemap() {}
 

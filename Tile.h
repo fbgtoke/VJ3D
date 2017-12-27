@@ -29,7 +29,7 @@ public:
 
   static glm::vec2 type2texturecoord(Tile::Type type);
 
-  bool collides(const Model* m) const override;
+  void getBoundingBox(glm::vec3& mincoords, glm::vec3& maxcoords) const override;
 
 private:
   Tile::Type mType;

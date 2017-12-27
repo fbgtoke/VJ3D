@@ -7,6 +7,8 @@ void Game::init() {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 
+	mResourceManager.loadConstants();
+
 	scene = Scene::create(Scene::SCENE_MENU);
 	scene->init();
 

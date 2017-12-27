@@ -1,10 +1,5 @@
 #include "LevelGenerator.h"
-
-const int LevelGenerator::kPeriodSlow = 3000;
-const int LevelGenerator::kPeriodFast = 2000;
-
-const float LevelGenerator::kVelSlow = 0.03f;
-const float LevelGenerator::kVelFast = 0.07f;
+#include "Game.h"
 
 Level* LevelGenerator::generate(const std::string& name) {
   Level* level = new Level();
@@ -96,6 +91,11 @@ Obstacle* LevelGenerator::generateObstacle(Level* level, const glm::vec3& positi
 
 Obstacle* LevelGenerator::generateSpawner(Level* level, int value) {
   ObstacleSpawner* spawner;
+
+  const int kPeriodSlow = Game::instance().getResource().Int("PeriodSlow");
+  const int kPeriodFast = Game::instance().getResource().Int("PeriodFast");
+  const float kVelSlow = Game::instance().getResource().Float("VelSlow");
+  const float kVelFast = Game::instance().getResource().Float("VelFast");
 
   switch (value) {
   case 4:

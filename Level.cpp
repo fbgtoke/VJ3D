@@ -22,15 +22,60 @@ void Level::update(int deltaTime) {
   else if (Game::instance().getKeyPressed('s'))
     direction = OUT;
 
-  glm::vec3 targetTile = mPlayer->getPositionInTiles() + direction;
-  glm::vec3 targetPosition = mPlayer->getPosition() + direction * TILE_SIZE;
-  targetPosition.y = mPlayer->getSize().y * 0.5f;
+  /* Check for boat */
+  glm::vec3 adjacent[3][3];
+  mPlayer->getAdjacentTiles(adjacent);
+  Obstacle* boat = nullptr;
+  if (direction == IN) {
+    boat = getObstacleAtTile(adjacent[0][0]);
+    if (boat == nullptr || boat->getType() != Obstacle::Boat)
+      boat = getObstacleAtTile(adjacent[0][1]);
+    if (boat == nullptr || boat->getType() != Obstacle::Boat)
+      boat = getObstacleAtTile(adjacent[0][2]);
+  } else if (direction == OUT) {
+    boat = getObstacleAtTile(adjacent[2][0]);
+    if (boat == nullptr || boat->getType() != Obstacle::Boat)
+      boat = getObstacleAtTile(adjacent[2][1]);
+    if (boat == nullptr || boat->getType() != Obstacle::Boat)
+      boat = getObstacleAtTile(adjacent[2][2]);
+  }
 
+  /* Check for stone */
+  Obstacle* stone = nullptr;
+  if (direction == IN)
+    stone = getObstacleAtTile(adjacent[0][1]);
+  else if (direction == OUT)
+    stone = getObstacleAtTile(adjacent[0][2]);
+
+  glm::vec3 targetTile = mPlayer->getPositionInTiles() + direction;
   bool jumping = (direction != glm::vec3(0.f));
   bool outOfBounds = mTilemap->outOfBounds(player2tilemap(targetTile));
 
-  if (jumping && !outOfBounds)
-    mPlayer->moveTowards(targetPosition);
+  glm::vec3 targetPosition;
+  if (jumping && !outOfBounds) {
+    if (boat != nullptr && boat->getType() == Obstacle::Boat)  {
+      mPlayer->moveTowardsBoat(boat);
+    } else if (stone != nullptr && stone->getType() == Obstacle::Stone) {
+      targetPosition = stone->getTopCenter();
+      targetPosition.y += mPlayer->getSize().y * 0.5f;
+      mPlayer->moveTowards(targetPosition);
+    } else {
+      targetPosition = mPlayer->getPosition() + direction * TILE_SIZE;
+      targetPosition.y = mPlayer->getSize().y * 0.5f;
+      mPlayer->moveTowards(targetPosition);
+    }
+  }
+
+  /* Check standing tile */
+  if (mPlayer->getState() == Player::Idle) {
+    glm::vec3 standingTile = mPlayer->getPositionInTiles();
+    Tile::Type tile = mTilemap->getTile(player2tilemap(standingTile));
+
+    stone = getObstacleAtTile(standingTile);
+
+    if (tile == Tile::Water && !obstacleOfTypeAtTile(Obstacle::Stone, standingTile))
+      mPlayer->changeState(Player::Drowning);
+  }
 }
 
 void Level::render() {}
@@ -58,6 +103,27 @@ void Level::addObstacle(Obstacle* obstacle) {
     mObstacles.push_back(obstacle);
     Game::instance().getScene()->addModel(obstacle);
   }
+}
+
+Obstacle* Level::getObstacleAtTile(const glm::vec3& tile) {
+  for (Obstacle* obstacle : mObstacles) {
+    if (obstacle->getType() != Obstacle::Spawner) {
+      if (obstacle->getPositionInTiles() == tile)
+        return obstacle;
+    } else {
+      ObstacleSpawner* spawner = dynamic_cast<ObstacleSpawner*> (obstacle);
+      Obstacle* spawned = spawner->getObstacleAtTile(tile);
+      if (spawned != nullptr)
+        return spawned;
+    }
+  }
+
+  return nullptr;
+}
+
+bool Level::obstacleOfTypeAtTile(Obstacle::Type type, const glm::vec3& tile) {
+  Obstacle* obstacle = getObstacleAtTile(tile);
+  return obstacle != nullptr && obstacle->getType() == type;
 }
 
 Tilemap* Level::getTilemap() { return mTilemap; }

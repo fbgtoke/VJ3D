@@ -32,6 +32,7 @@ public:
   glm::vec3 getPosition() const;
   glm::vec3 getPositionInTiles() const;
   glm::vec3 getCenter() const;
+  glm::vec3 getTopCenter() const;
   glm::mat4 getTransform() const;
 
   glm::vec3 getVelocity() const;
@@ -44,6 +45,8 @@ public:
 
   virtual bool collides(const Model* m) const;
   virtual void onCollision(Model* m);
+
+  virtual void getBoundingBox(glm::vec3& mincoords, glm::vec3& maxcoords) const;
 
   static Model* create(const std::string& mesh, const std::string& texture);
 

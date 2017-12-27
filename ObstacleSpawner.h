@@ -25,7 +25,7 @@ public:
   Obstacle* getObstacleAtTile(const glm::vec3& tile);
 
 private:
-  static const float kBoundsMargin;
+  float kBoundsMargin;
   bool outOfBounds(Obstacle* obstacle);
 
   Obstacle::Type mSpawnType;

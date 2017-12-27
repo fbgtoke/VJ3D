@@ -88,6 +88,8 @@ glm::vec3 Model::getPositionInTiles() const {
 
 glm::vec3 Model::getCenter() const { return mPosition + mCenter; }
 
+glm::vec3 Model::getTopCenter() const { return getCenter() + getSize().y * 0.5f; }
+
 glm::mat4 Model::getTransform() const {
   glm::mat4 modelMatrix(1.f);
   modelMatrix = glm::translate(modelMatrix, mPosition);
@@ -125,10 +127,8 @@ bool Model::collides(const Model* m) const {
   if (m == nullptr) return false;
   
   glm::vec3 mincoords1, mincoords2, maxcoords1, maxcoords2;
-  mincoords1 = getPosition() - getSize() * 0.5f;
-  mincoords2 = m->getPosition() - m->getSize() * 0.5f;
-  maxcoords1 = mincoords1 + getSize() * 0.5f;
-  maxcoords2 = mincoords2 + m->getSize() * 0.5f;
+  getBoundingBox(mincoords1, maxcoords1);
+  m->getBoundingBox(mincoords2, maxcoords2);
 
   return
     maxcoords1.x > mincoords2.x && mincoords1.x < maxcoords2.x &&
@@ -137,6 +137,11 @@ bool Model::collides(const Model* m) const {
 }
 
 void Model::onCollision(Model* m) {}
+
+void Model::getBoundingBox(glm::vec3& mincoords, glm::vec3& maxcoords) const {
+  mincoords = getPosition() - getSize() * 0.5f;
+  maxcoords = getPosition() + getSize() * 0.5f;
+}
 
 Model* Model::create(const std::string& mesh, const std::string& texture) {
   Model* model = new Model();

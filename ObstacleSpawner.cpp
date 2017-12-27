@@ -1,8 +1,6 @@
 #include "ObstacleSpawner.h"
 #include "Game.h"
 
-const float ObstacleSpawner::kBoundsMargin = 5;
-
 ObstacleSpawner::ObstacleSpawner()
   : Obstacle(Obstacle::Spawner) {}
 
@@ -10,6 +8,8 @@ ObstacleSpawner::~ObstacleSpawner() {}
 
 void ObstacleSpawner::init() {
   Obstacle::init();
+
+  kBoundsMargin = Game::instance().getResource().Float("BoundsMargin");
 
   mSpawnType = Obstacle::Carriage;
   mSpawnPeriod = 0;

@@ -13,8 +13,8 @@ public:
   bool checkCollisions() const override;
 
 private:
-  static const float kGravity;
-  static const float kFriction;
+  float kGravity;
+  float kFriction;
   int mAliveTime;
 };
 

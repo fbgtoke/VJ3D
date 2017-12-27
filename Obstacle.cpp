@@ -83,3 +83,17 @@ void Obstacle::update(int deltaTime) {
   if (mVelocity.x >= 0.f)
     mScale.x = -1.f;
 }
+
+void Obstacle::getBoundingBox(glm::vec3& mincoords, glm::vec3& maxcoords) const {
+  //if (mType != Obstacle::Boat) {
+    ModelAnimated::getBoundingBox(mincoords, maxcoords);
+  /*} else {
+    mincoords.x = getPosition().x - getSize().x * 0.75f;
+    mincoords.y = getPosition().y - getSize().y * 0.75f;
+    mincoords.z = getPosition().z - getSize().z * 0.75f;
+
+    maxcoords.x = getPosition().x + getSize().x * 0.75f;
+    maxcoords.y = getPosition().y;
+    maxcoords.z = getPosition().z + getSize().z * 0.75f;
+  }*/
+}

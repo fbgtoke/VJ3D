@@ -1,14 +1,15 @@
 #include "SceneLevelSelect.h"
 #include "Game.h"
 
-const int SceneLevelSelect::kLevelsPerRow = 5;
-
 SceneLevelSelect::SceneLevelSelect() {}
 
 SceneLevelSelect::~SceneLevelSelect() {}
 
 void SceneLevelSelect::initScene() {
   Scene::initScene();
+
+  kLevelsPerRow = Game::instance().getResource().Int("LevelsPerRow");
+  kOptionSize = Game::instance().getResource().Float("OptionSize");
 
   float left = 0.f;
   float right = SCREEN_WIDTH * 0.125f;
@@ -32,6 +33,8 @@ void SceneLevelSelect::initScene() {
   mFrame->setRotation(glm::vec3((float)M_PI * 0.5f, 0.f, 0.f));
   mFrame->setScale(glm::vec3(1.25f));
   addModel(mFrame);
+
+  mCurrentSelected = 0;
 }
 
 void SceneLevelSelect::updateScene(int deltaTime) {
@@ -44,12 +47,12 @@ void SceneLevelSelect::updateScene(int deltaTime) {
 
   if (Game::instance().getKeyPressed('w'))
     Game::instance().changeScene(Scene::SCENE_TEST);
-  else if (Game::instance().getKeyPressed('s'))
-    Game::instance().changeScene(Scene::SCENE_TEST);
   else if (Game::instance().getKeyPressed('a'))
-    Game::instance().changeScene(Scene::SCENE_TEST);
+    prevIndex();
   else if (Game::instance().getKeyPressed('d'))
-    Game::instance().changeScene(Scene::SCENE_TEST);
+    nextIndex();
+
+  mFrame->setPosition(index2position(mCurrentSelected));
 }
 
 void SceneLevelSelect::renderScene() {
@@ -76,11 +79,33 @@ void SceneLevelSelect::addLevel(const std::string& name) {
   model->setTexture(Game::instance().getResource().texture("error.png"));
   model->setRotation(glm::vec3((float)M_PI * 0.5f, 0.f, 0.f));
 
-  const float column = (float)(mLevels.size()%kLevelsPerRow);
-  const float row = (float)(mLevels.size()/kLevelsPerRow);
+  glm::vec3 position = index2position(mLevels.size());
+  model->setPosition(position);
 
-  const float column_margin = (1.5f * model->getSize().x);
-  const float row_margin = (1.5f * model->getSize().x) * (-1.f);
+  addModel(model);
+  mLevels.push_back(model);
+}
+
+void SceneLevelSelect::nextIndex() {
+  if (mCurrentSelected >= mLevels.size() - 1)
+    mCurrentSelected = 0;
+  else
+    mCurrentSelected += 1;
+}
+
+void SceneLevelSelect::prevIndex() {
+  if (mCurrentSelected == 0)
+    mCurrentSelected = mLevels.size() - 1;
+  else
+    mCurrentSelected -= 1;
+}
+
+glm::vec3 SceneLevelSelect::index2position(unsigned int index) const {
+  const float column = (float)(index%kLevelsPerRow);
+  const float row = (float)(index/kLevelsPerRow);
+
+  const float column_margin = (1.5f * kOptionSize);
+  const float row_margin = (1.5f * kOptionSize) * (-1.f);
 
   const float column_offet = column_margin * 1.5f;
   const float row_offset = row_margin * 2.5f * (-1.f);
@@ -89,8 +114,6 @@ void SceneLevelSelect::addLevel(const std::string& name) {
   position.x = column * column_margin + column_offet;
   position.y = row * row_margin + row_offset;
   position.z = 0.f;
-  model->setPosition(position);
 
-  addModel(model);
-  mLevels.push_back(model);
+  return position;
 }

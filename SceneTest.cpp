@@ -1,9 +1,6 @@
 #include "SceneTest.h"
 #include "Game.h"
 
-const glm::vec3 SceneTest::kObsVector = glm::vec3(1, 5, 4);
-const float SceneTest::kCameraVel = -0.0125f;
-
 SceneTest::SceneTest() {}
 
 SceneTest::~SceneTest() {
@@ -13,6 +10,11 @@ SceneTest::~SceneTest() {
 
 void SceneTest::initScene() {
 	Scene::initScene();
+
+  kObsVector.x = Game::instance().getResource().Float("ObsVector_x");
+  kObsVector.y = Game::instance().getResource().Float("ObsVector_y");
+  kObsVector.z = Game::instance().getResource().Float("ObsVector_z");
+  kCameraVel = Game::instance().getResource().Float("CameraVel");
 
 	float left = 6 * TILE_SIZE * (-1.f);
 	float right = 6 * TILE_SIZE;

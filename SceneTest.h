@@ -12,8 +12,8 @@ public:
 	~SceneTest() override;
 
 private:
-	static const glm::vec3 kObsVector;
-  static const float kCameraVel;
+	glm::vec3 kObsVector;
+  float kCameraVel;
 
   float mCameraVel;
   void updateCamera(int deltaTime);

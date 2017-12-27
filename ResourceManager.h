@@ -20,6 +20,10 @@ public:
   sf::Music* music(const std::string& name);
   sf::SoundBuffer* soundBuffer(const std::string& name);
 
+  void loadConstants();
+  int Int(const std::string& name);
+  float Float(const std::string& name);
+
 private:
   void loadMesh(const std::string& name);
 	std::map<std::string, Mesh*> mMeshes;
@@ -35,6 +39,9 @@ private:
 
   void loadSoundBuffer(const std::string& name);
   std::map<std::string, sf::SoundBuffer*> mSoundBuffers;
+
+  std::map<std::string, int> mConstantsInt;
+  std::map<std::string, float> mConstantsFloat;
 };
 
 #endif // _RESOURCE_MANAGER_INCLUDE

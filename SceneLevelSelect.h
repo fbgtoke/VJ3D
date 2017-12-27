@@ -14,12 +14,20 @@ private:
   void updateScene(int deltaTime) override;
   void renderScene() override;
 
-  static const int kLevelsPerRow;
-  std::vector<Model*> mLevels;
   void initLevelList();
   void addLevel(const std::string& name);
 
   Model* mFrame;
+  unsigned int mCurrentSelected;
+
+  int kLevelsPerRow;
+  float kOptionSize;
+  std::vector<Model*> mLevels;
+
+  void nextIndex();
+  void prevIndex();
+  glm::vec3 index2position(unsigned int index) const;
+
 };
 
 #endif // SCENE_LEVEL_SELECT_INCLUDE

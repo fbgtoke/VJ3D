@@ -1,14 +1,6 @@
 #include "Player.h"
 #include "Game.h"
 
-const float Player::kTol = 1.1f;
-const float Player::kJumpSpeed = 0.2f;
-const float Player::kHorSpeed = 0.015f;
-const float Player::kGravity = 0.004f;
-
-const int Player::kMaxDrowningTime = 1000;
-const int Player::kMaxExplodingTime = 2000;
-
 Player::Player() :
   mShadow(nullptr) {}
 
@@ -19,6 +11,12 @@ Player::~Player() {
 
 void Player::init() {
   ModelAnimated::init();
+
+  kTol = Game::instance().getResource().Float("distanceTolerance");
+  kJumpSpeed = Game::instance().getResource().Float("jumpSpeed");
+  kHorSpeed = Game::instance().getResource().Float("horizontalSpeed");
+  kMaxDrowningTime = Game::instance().getResource().Int("drowningTime");
+  kMaxExplodingTime = Game::instance().getResource().Int("explodingTime");
 
   mAnimation.setNumberOfAnimations(4);
   mAnimation.addFrame(0, Game::instance().getResource().mesh("cowboy.obj"));
@@ -51,6 +49,12 @@ void Player::update(int deltaTime) {
   if (mState == Player::Moving)
     updateMoving(deltaTime);
 
+  if (mState == Player::towardsBoat) {
+    mTargetPosition = mTargetBoat->getTopCenter();
+    mTargetPosition.y += getSize().y * 0.5f;
+    updateMoving(deltaTime);
+  }
+
   if (mState == Player::Drowning) {
     mRotation.y = 0.f;
     mPosition.y = TILE_SIZE * 0.5f;
@@ -65,34 +69,35 @@ void Player::update(int deltaTime) {
 
 void Player::moveTowards(const glm::vec3& position) {
   mTargetPosition = position;
-  mTargetPosition.y = 0.f;
-
-  mVelocity.y = kJumpSpeed;
-
+  
   changeState(Player::Moving);
 }
 
+void Player::moveTowardsBoat(Obstacle* boat) {
+  mTargetBoat = boat;
+  changeState(Player::towardsBoat);
+}
+
 void Player::updateMoving(int deltaTime) {
-  glm::vec3 direction;
-  direction.x = mTargetPosition.x - mPosition.x;
-  direction.y = 0.f;
-  direction.z = mTargetPosition.z - mPosition.z;
+  glm::vec3 direction = mTargetPosition - mPosition;
   glm::normalize(direction);
 
-  mVelocity.x = direction.x * kHorSpeed;
-  mVelocity.y = mVelocity.y - kGravity * deltaTime;
-  mVelocity.z = direction.z * kHorSpeed;
+  if (mState == Player::Moving)
+    mVelocity = direction * kHorSpeed;
+  else if (mState == Player::towardsBoat)
+    mVelocity = direction * abs(mTargetBoat->getVelocity().x);
   
   float angle = atan2(-direction.z, direction.x) + (float)M_PI/2.f;
   setRotation(UP * angle);
 
-  glm::vec3 current(mPosition.x, 0.f, mPosition.z);
-  float distance = glm::distance(current, mTargetPosition);
-  if (distance < kTol) {
+  float distance = glm::distance(mPosition, mTargetPosition);
+  if (mState == Player::Moving && distance < kTol) {
     mPosition = mTargetPosition;
     mVelocity = glm::vec3(0.f);
-    changeState(Player::Idle);    
-  }
+
+    changeState(Player::Idle);
+  } else if (mState == Player::towardsBoat && distance < mTargetBoat->getSize().x * 0.5f)
+    changeState(Player::onBoat);
 }
 
 void Player::initExplosion() {
@@ -132,12 +137,16 @@ void Player::changeState(Player::State state) {
     mAnimation.changeAnimation(0);
     break;
   case Player::Moving:
+  case Player::towardsBoat:
     mAnimation.changeAnimation(1);
-    Game::instance().getScene()->playSoundEffect("piu.ogg");
+    //Game::instance().getScene()->playSoundEffect("piu.ogg");
     break;
   case Player::onBoat:
+    mPosition = mTargetBoat->getTopCenter();
+    mVelocity.x = mTargetBoat->getVelocity().x;
     mVelocity.y = 0.f;
     mVelocity.z = 0.f;
+    mRotation.y = (float)M_PI;
     mAnimation.changeAnimation(0);
     break;
   case Player::Drowning:
@@ -149,7 +158,7 @@ void Player::changeState(Player::State state) {
     setTimer(kMaxExplodingTime);
     setVelocity(glm::vec3(0.f));
     mAnimation.changeAnimation(3);
-    Game::instance().getScene()->playSoundEffect("death.ogg");
+    //Game::instance().getScene()->playSoundEffect("death.ogg");
     mShadow->unbind();
     initExplosion();
     break;
@@ -183,12 +192,19 @@ void Player::onCollision(Model* model) {
         explode();
       break;
     case Obstacle::Stone:
-      obstacle->getMesh()->getMinMaxVertices(min, max);
-      mPosition.y += max.y;
-      changeState(Player::Idle);
+      //obstacle->getMesh()->getMinMaxVertices(min, max);
+      //mPosition.y += max.y;
+      //changeState(Player::Idle);
       break;
     case Obstacle::Boat:
-      if (isAlive()) {
+      if (mState != Player::Drowning) {
+        obstacle->getMesh()->getMinMaxVertices(min, max);
+        mPosition.y += max.y;
+      } else {
+        explode();
+      }
+      break;
+      /*if (isAlive()) {
         obstacle->getMesh()->getMinMaxVertices(min, max);
         mPosition.x = obstacle->getCenter().x;
         mPosition.y += max.y;
@@ -197,8 +213,8 @@ void Player::onCollision(Model* model) {
         changeState(Player::onBoat);
       } else if (mState == Player::Drowning) {
         explode();
-      }
-      break;
+      }*/
+      //break;
     case Obstacle::Bonus:
       std::cout << "GOT" << std::endl;
       obstacle->destroy();
@@ -215,8 +231,8 @@ void Player::onCollision(Model* model) {
 
     switch (tile->getType()) {
     case Tile::Water:
-      if (mState == Player::Idle)
-        changeState(Player::Drowning);
+      //if (mState == Player::Idle)
+      //  changeState(Player::Drowning);
       break;
     case Tile::Goal:
       Game::instance().changeScene(Scene::SCENE_WIN);
@@ -227,6 +243,23 @@ void Player::onCollision(Model* model) {
       break;
     }
   }
+}
+
+void Player::getAdjacentTiles(glm::vec3 v[3][3]) const {
+  glm::vec3 position = getPositionInTiles();
+  position.y = 0.f;
+
+  v[0][0] = position + LEFT + IN;
+  v[0][1] = position + IN;
+  v[0][2] = position + RIGHT + IN;
+
+  v[1][0] = position + LEFT;
+  v[1][1] = position;
+  v[1][2] = position + RIGHT;
+  
+  v[2][0] = position + LEFT + OUT;
+  v[2][1] = position + OUT;
+  v[2][2] = position + RIGHT + OUT;
 }
 
 bool Player::checkCollisions() const { return true; }

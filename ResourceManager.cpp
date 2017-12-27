@@ -1,4 +1,5 @@
 #include "ResourceManager.h"
+#include "Game.h"
 
 ResourceManager::ResourceManager() {}
 
@@ -75,6 +76,26 @@ sf::SoundBuffer* ResourceManager::soundBuffer(const std::string& name) {
   return mSoundBuffers[name];
 }
 
+int ResourceManager::Int(const std::string& name) {
+  if (mConstantsInt.count(name) == 0) {
+    std::cout << "Tried to load undefined constant: " << name << std::endl;
+    Game::instance().stop();
+    return 0.f;
+  }
+
+  return mConstantsInt[name];
+}
+
+float ResourceManager::Float(const std::string& name) {
+  if (mConstantsFloat.count(name) == 0) {
+    std::cout << "Tried to load undefined constant: " << name << std::endl;
+    Game::instance().stop();
+    return 0.f;
+  }
+
+  return mConstantsFloat[name];
+}
+
 void ResourceManager::loadMesh(const std::string& name) {
   Mesh* mesh = new Mesh();
 
@@ -147,4 +168,31 @@ void ResourceManager::loadSoundBuffer(const std::string& name) {
   buffer->loadFromFile("sounds/" + name);
 
   mSoundBuffers[name] = buffer;
+}
+
+void ResourceManager::loadConstants() {
+  std::ifstream stream("constants.txt");
+  if (!stream.is_open()) {
+    std::cout << "Could not open constants file. Exiting game" << std::endl;
+    Game::instance().stop();
+    return;
+  }
+
+  std::string line;
+  while (getline(stream,line)) {
+    std::istringstream sstream(line);
+    std::string command, label;
+
+    if (line.find("int ") != std::string::npos) {
+      int value;
+      sstream >> command >> label >> value;
+      mConstantsInt[label] = value;
+      std::cout << "Read int " << label << " " << value << std::endl;
+    } else if (line.find("float ") != std::string::npos) {
+      float value;
+      sstream >> command >> label >> value;
+      mConstantsFloat[label] = value;
+      std::cout << "Read float " << label << " " << value << std::endl;   
+    }
+  }
 }

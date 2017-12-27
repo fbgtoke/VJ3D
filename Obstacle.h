@@ -25,6 +25,8 @@ public:
 
   virtual Obstacle::Type getType() const;
 
+  void getBoundingBox(glm::vec3& mincoords, glm::vec3& maxcoords) const override;
+
 private:
   const Obstacle::Type mType;
   Shadow* mShadow;

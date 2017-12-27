@@ -23,7 +23,7 @@ public:
   void loadFromFile(const std::string& filename);
 
 private:
-  static const int kBorderSize;
+  int kBorderSize;
 
   typedef std::vector<Tile*> TileRow;
   typedef std::vector<TileRow> TileArray;

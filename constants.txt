@@ -1,0 +1,41 @@
+##### Player #####
+// Min distance to clamp player position
+float distanceTolerance 1.1
+// Initial jump speed
+float jumpSpeed 0.2
+// Modulo of movement velocity
+float horizontalSpeed 0.015
+// Drowning time until player explodes
+int drowningTime 1000
+// Time between player explodes and "You died" appears
+int explodingTime 2000
+
+##### Obstacles #####
+int PeriodSlow 3000
+int PeriodFast 2000
+float VelSlow 0.020
+float VelFast 0.040
+
+##### Bonus pickup #####
+float RotationSpeed 0.001
+float BobSpeed 0.003
+
+##### Spawner margin #####
+float BoundsMargin 5
+
+##### Level Select #####
+int LevelsPerRow 5
+float OptionSize 16
+
+##### Playing Camera #####
+float ObsVector_x 1
+float ObsVector_y 5
+float ObsVector_z 4
+float CameraVel -0.0125
+
+##### Tilemap #####
+int BorderSize 10
+
+##### Particles #####
+float ParticleGravity -0.025
+float ParticleFriction 0.8

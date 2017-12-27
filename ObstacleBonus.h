@@ -11,8 +11,8 @@ public:
   void update(int deltaTime) override;
 
 private:
-  static const float kRotationSpeed;
-  static const float kBobSpeed;
+  float kRotationSpeed;
+  float kBobSpeed;
 
   int mCurrentCycle;
 };

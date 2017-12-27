@@ -1,10 +1,11 @@
 #include "Particle.h"
-
-const float Particle::kGravity = -0.025f;
-const float Particle::kFriction = 0.8f;
+#include "Game.h"
 
 void Particle::init(int aliveTime) {
   Model::init();
+
+  kGravity = Game::instance().getResource().Float("ParticleGravity");
+  kFriction = Game::instance().getResource().Float("ParticleFriction");
 
   mAliveTime = aliveTime;
 }

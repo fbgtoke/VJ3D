@@ -19,6 +19,7 @@ public:
     Idle,
     onBoat,
     Moving,
+    towardsBoat,
     Exploding,
     Drowning,
     Dead
@@ -33,22 +34,25 @@ public:
   bool isAlive() const;
 
   void moveTowards(const glm::vec3& position);
+  void moveTowardsBoat(Obstacle* boat);
 
   void onCollision(Model* model) override;
   bool checkCollisions() const override;
 
+  void getAdjacentTiles(glm::vec3 v[3][3]) const;
+
 private:
-  static const float kTol;
-  static const float kJumpSpeed;
-  static const float kHorSpeed;
-  static const float kGravity;
+  float kTol;
+  float kJumpSpeed;
+  float kHorSpeed;
 
   Player::State mState;
 
   glm::vec3 mTargetPosition;
+  Obstacle* mTargetBoat;
 
-  static const int kMaxDrowningTime;
-  static const int kMaxExplodingTime;
+  int kMaxDrowningTime;
+  int kMaxExplodingTime;
   bool mTimerActivated;
   int mTimer;
   void setTimer(int time);
