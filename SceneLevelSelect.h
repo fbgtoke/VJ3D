@@ -22,7 +22,11 @@ private:
 
   int kLevelsPerRow;
   float kOptionSize;
-  std::vector<Model*> mLevels;
+  typedef struct {
+    std::string name;
+    Model* model;
+  } LevelInfo;
+  std::vector<LevelInfo> mLevels;
 
   void nextIndex();
   void prevIndex();

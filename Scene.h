@@ -13,6 +13,8 @@ public:
 	void update(int deltaTime);
 	void render();
 
+	virtual void receiveString(const std::string& tag, const std::string str);
+
 	static glm::vec3 getLightDirection();
 	static float getAmbientLight();
 

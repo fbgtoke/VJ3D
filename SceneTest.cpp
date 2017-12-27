@@ -1,15 +1,27 @@
 #include "SceneTest.h"
 #include "Game.h"
 
-SceneTest::SceneTest() {}
+SceneTest::SceneTest()
+  : mLevelName("") {}
 
 SceneTest::~SceneTest() {
   if (mLevel != nullptr)
     delete mLevel;
 }
 
+void SceneTest::receiveString(const std::string& tag, const std::string str) {
+  if (tag == "level-name")
+    mLevelName = str;
+}
+
 void SceneTest::initScene() {
 	Scene::initScene();
+
+  if (mLevelName == "") {
+    std::cout << "No level selected!" << std::endl;
+    Game::instance().changeScene(Scene::SCENE_MENU);
+    return;
+  }
 
   kObsVector.x = Game::instance().getResource().Float("ObsVector_x");
   kObsVector.y = Game::instance().getResource().Float("ObsVector_y");
@@ -24,7 +36,7 @@ void SceneTest::initScene() {
 	float zfar  = 10000.f;
   mProjectionMatrix = glm::ortho(left, right, bottom, top, znear, zfar);
 
-  mLevel = LevelGenerator::generate("levels/level1/level1");
+  mLevel = LevelGenerator::generate("levels/" + mLevelName + "/");
 
   mCameraVel = kCameraVel;
   VRP = mLevel->getPlayer()->getCenter();

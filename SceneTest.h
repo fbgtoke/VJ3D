@@ -11,6 +11,8 @@ public:
 	SceneTest();
 	~SceneTest() override;
 
+  void receiveString(const std::string& tag, const std::string str) override;
+
 private:
 	glm::vec3 kObsVector;
   float kCameraVel;
@@ -26,6 +28,7 @@ private:
   void checkPlayerDead();
 
   Level* mLevel;
+  std::string mLevelName;
 };
 
 #endif // SCENE_TEST_INCLUDE

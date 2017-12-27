@@ -13,7 +13,7 @@ Level* LevelGenerator::generate(const std::string& name) {
 
 void LevelGenerator::generateTilemap(const std::string& name, Level* level) {
   Tilemap* tilemap = new Tilemap();
-  tilemap->loadFromFile(name + "_tilemap.csv");
+  tilemap->loadFromFile(name + "tilemap.csv");
   level->setTilemap(tilemap);
 }
 
@@ -26,7 +26,7 @@ void LevelGenerator::generatePlayer(const std::string& name, Level* level) {
 
 void LevelGenerator::generateObstacles(const std::string& name, Level* level) {
   CsvReader reader;
-  reader.loadFromFile(name + "_obstacles.csv");
+  reader.loadFromFile(name + "obstacles.csv");
 
   for (int i = 0; i < reader.getNumberOfRows(); ++i) {
     for (int j = 0; j < reader.getNumberOfColumns(); ++j) {

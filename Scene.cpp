@@ -57,6 +57,8 @@ void Scene::render() {
   renderGUI();
 }
 
+void Scene::receiveString(const std::string& tag, const std::string str) {}
+
 glm::vec3 Scene::getLightDirection() { return kLightDirection; }
 float Scene::getAmbientLight() { return kAmbientLight; }
 

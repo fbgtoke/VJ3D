@@ -15,7 +15,7 @@ public:
 
 	Mesh* mesh(const std::string& name);
 	ShaderProgram* shader(const std::string& name);
-	Texture* texture(const std::string& name);
+	Texture* texture(const std::string& name, bool fullPath = false);
 
   sf::Music* music(const std::string& name);
   sf::SoundBuffer* soundBuffer(const std::string& name);
@@ -31,7 +31,7 @@ private:
   void loadShader(const std::string& name);
   std::map<std::string, ShaderProgram*> mShaders;
 
-  void loadTexture(const std::string& name);
+  void loadTexture(const std::string& name, bool fullPath);
   std::map<std::string, Texture*> mTextures;
 
   void loadMusic(const std::string& name);

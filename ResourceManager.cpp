@@ -55,9 +55,9 @@ ShaderProgram* ResourceManager::shader(const std::string& name) {
 	return mShaders[name];
 }
 
-Texture* ResourceManager::texture(const std::string& name) {
+Texture* ResourceManager::texture(const std::string& name, bool fullPath) {
 	if (mTextures.count(name) == 0)
-		loadTexture(name);
+		loadTexture(name, fullPath);
 
 	return mTextures[name];
 }
@@ -149,9 +149,13 @@ void ResourceManager::loadShader(const std::string& name) {
 	mShaders[name] = shaderProgram;
 }
 
-void ResourceManager::loadTexture(const std::string& name) {
+void ResourceManager::loadTexture(const std::string& name, bool fullPath) {
   Texture* texture = new Texture();
-  texture->loadFromFile("textures/" + name, TEXTURE_PIXEL_FORMAT_RGBA);
+
+  if (fullPath)
+    texture->loadFromFile(name, TEXTURE_PIXEL_FORMAT_RGBA);
+  else
+    texture->loadFromFile("textures/" + name, TEXTURE_PIXEL_FORMAT_RGBA);
 
   mTextures[name] = texture;
 }

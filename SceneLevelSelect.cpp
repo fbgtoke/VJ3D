@@ -29,7 +29,7 @@ void SceneLevelSelect::initScene() {
   mFrame->init();
   mFrame->setMesh(Game::instance().getResource().mesh("plane.obj"));
   mFrame->setTexture(Game::instance().getResource().texture("frame.png"));
-  mFrame->setPosition(mLevels[0]->getPosition());
+  mFrame->setPosition(mLevels[0].model->getPosition());
   mFrame->setRotation(glm::vec3((float)M_PI * 0.5f, 0.f, 0.f));
   mFrame->setScale(glm::vec3(1.25f));
   addModel(mFrame);
@@ -42,8 +42,11 @@ void SceneLevelSelect::updateScene(int deltaTime) {
 
   if (Game::instance().getKeyPressed(27)) // Escape
     Game::instance().changeScene(Scene::SCENE_MENU);
-  else if (Game::instance().getKeyPressed('z'))
+  
+  if (Game::instance().getKeyPressed('z')) {
     Game::instance().changeScene(Scene::SCENE_TEST);
+    Game::instance().getBufferedScene()->receiveString("level-name", mLevels[mCurrentSelected].name);
+  }
 
   if (Game::instance().getKeyPressed('w'))
     Game::instance().changeScene(Scene::SCENE_TEST);
@@ -60,30 +63,34 @@ void SceneLevelSelect::renderScene() {
 }
 
 void SceneLevelSelect::initLevelList() {
-  DIR* dir;
-  struct dirent *ent;
-  if ((dir = opendir("levels")) != nullptr) {
-    while ((ent = readdir(dir)) != nullptr) {
-      std::string entry = ent->d_name;
-      if (entry != "." && entry != "..")
-        addLevel(entry);
-    }
-    closedir(dir);
+  std::ifstream stream("levels.txt");
+  
+  if (!stream.is_open()) {
+    std::cout << "Could not find level definition file" << std::endl;
+    Game::instance().stop();
+    return;
   }
+
+  std::string line;
+  while (getline(stream, line))
+    addLevel(line);
 }
 
 void SceneLevelSelect::addLevel(const std::string& name) {
   Model* model = new Model();
   model->init();
   model->setMesh(Game::instance().getResource().mesh("plane.obj"));
-  model->setTexture(Game::instance().getResource().texture("error.png"));
+  model->setTexture(Game::instance().getResource().texture("levels/" + name + "/thumbnail.png", true));
   model->setRotation(glm::vec3((float)M_PI * 0.5f, 0.f, 0.f));
 
   glm::vec3 position = index2position(mLevels.size());
   model->setPosition(position);
-
   addModel(model);
-  mLevels.push_back(model);
+
+  LevelInfo level;
+  level.name = name;
+  level.model = model;
+  mLevels.push_back(level);
 }
 
 void SceneLevelSelect::nextIndex() {
