@@ -77,8 +77,10 @@ void SceneTest::checkPlayerDead() {
 
   if (player->isExploding())
     mCameraVel = 0.f;
-  if (player->isDead())
+  if (player->isDead()) {
     Game::instance().changeScene(Scene::SCENE_DEAD);
+    Game::instance().getBufferedScene()->receiveString("level-name", mLevelName);
+  }
 }
 
 void SceneTest::checkPlayerOutOfCamera() {

@@ -33,7 +33,7 @@ public:
   glm::vec3 getPositionInTiles() const;
   glm::vec3 getCenter() const;
   glm::vec3 getTopCenter() const;
-  glm::mat4 getTransform() const;
+  virtual glm::mat4 getTransform() const;
 
   glm::vec3 getVelocity() const;
 

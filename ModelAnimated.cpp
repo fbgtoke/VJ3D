@@ -7,12 +7,24 @@ void ModelAnimated::update(int deltaTime) {
 }
 
 void ModelAnimated::render() {
-  Mesh* mesh = mAnimation.getCurrentFrame();
+  const AnimationFrame* frame = mAnimation.getCurrentFrame();
 
-  if (mesh != nullptr) {
-    setMesh(mesh);
-    Model::render();
+  if (frame != nullptr) {
+    Mesh* mesh = frame->mesh;
+    if (mesh != nullptr) {
+      setMesh(mesh);
+      Model::render();
+    }
   }
+}
+
+glm::mat4 ModelAnimated::getTransform() const {
+  const AnimationFrame* frame = mAnimation.getCurrentFrame();
+
+  if (frame != nullptr)
+    return frame->transform * Model::getTransform();
+
+  return Model::getTransform();
 }
 
 Animation3D& ModelAnimated::getAnimation() { return mAnimation; }

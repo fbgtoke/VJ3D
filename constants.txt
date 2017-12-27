@@ -1,13 +1,9 @@
 ##### Player #####
-// Min distance to clamp player position
 float distanceTolerance 1.1
-// Initial jump speed
-float jumpSpeed 0.2
-// Modulo of movement velocity
+float jumpSpeed 1.25
+int jumpFrames 10
 float horizontalSpeed 0.015
-// Drowning time until player explodes
 int drowningTime 1000
-// Time between player explodes and "You died" appears
 int explodingTime 2000
 
 ##### Obstacles #####

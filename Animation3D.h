@@ -4,6 +4,11 @@
 #include "utils.h"
 #include "Mesh.h"
 
+typedef struct {
+  Mesh* mesh = nullptr;
+  glm::mat4 transform = glm::mat4(1.f);
+} AnimationFrame;
+
 class Animation3D {
 public:
   Animation3D();
@@ -12,7 +17,7 @@ public:
   void update(unsigned int deltaTime);
 
   void setNumberOfAnimations(unsigned int number);
-  void addFrame(unsigned int animationId, Mesh* frame);
+  void addFrame(unsigned int animationId, const AnimationFrame& frame);
 
   void changeAnimation(unsigned int animationId);
 
@@ -26,10 +31,10 @@ public:
 
   void nextFrame();
 
-  Mesh* getCurrentFrame();
+  const AnimationFrame* getCurrentFrame() const;
 
 private:
-  typedef std::vector<Mesh*> Animation;
+  typedef std::vector<AnimationFrame> Animation;
   std::vector<Animation> mAnimations;
 
   int mCurrentAnimation;

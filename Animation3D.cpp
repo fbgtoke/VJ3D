@@ -32,7 +32,7 @@ void Animation3D::setNumberOfAnimations(unsigned int number) {
   mAnimations = std::vector<Animation> (number);
 }
 
-void Animation3D::addFrame(unsigned int animationId, Mesh* frame) {
+void Animation3D::addFrame(unsigned int animationId, const AnimationFrame& frame) {
   mAnimations[animationId].push_back(frame);
 }
 
@@ -63,8 +63,9 @@ void Animation3D::nextFrame() {
   mTimeCurFrame = 0;
 }
 
-Mesh* Animation3D::getCurrentFrame() {
+const AnimationFrame* Animation3D::getCurrentFrame() const {
   if (mCurrentAnimation != -1 && mCurrentFrame != -1)
-    return mAnimations[mCurrentAnimation][mCurrentFrame];
+    return &mAnimations[mCurrentAnimation][mCurrentFrame];
+
   return nullptr;
 }

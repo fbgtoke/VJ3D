@@ -1,9 +1,15 @@
 #include "SceneDead.h"
 #include "Game.h"
 
-SceneDead::SceneDead() {}
+SceneDead::SceneDead()
+  : mLevelName("") {}
 
 SceneDead::~SceneDead() {}
+
+void SceneDead::receiveString(const std::string& tag, const std::string str) {
+  if (tag == "level-name")
+    mLevelName = str;
+}
 
 void SceneDead::initScene() {
   Scene::initScene();
@@ -28,8 +34,14 @@ void SceneDead::updateScene(int deltaTime) {
   if (Game::instance().getKeyPressed(27)) // Escape
     Game::instance().stop();
 
-  if (Game::instance().getKeyPressed('z'))
-    Game::instance().changeScene(Scene::SCENE_PLAY);
+  if (Game::instance().getKeyPressed('z')) {
+    if (mLevelName == "") {
+      Game::instance().changeScene(Scene::SCENE_MENU);
+    } else {
+      Game::instance().changeScene(Scene::SCENE_PLAY);
+      Game::instance().getBufferedScene()->receiveString("level-name", mLevelName);
+    }
+  }
 }
 
 void SceneDead::renderScene() {

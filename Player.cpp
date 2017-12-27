@@ -18,15 +18,36 @@ void Player::init() {
   kMaxDrowningTime = Game::instance().getResource().Int("drowningTime");
   kMaxExplodingTime = Game::instance().getResource().Int("explodingTime");
 
+  AnimationFrame frame;
+  frame.transform = glm::mat4(1.f);
+
   mAnimation.setNumberOfAnimations(4);
-  mAnimation.addFrame(0, Game::instance().getResource().mesh("cowboy.obj"));
-  mAnimation.addFrame(1, Game::instance().getResource().mesh("animationcowboy.obj"));
-  mAnimation.addFrame(2, Game::instance().getResource().mesh("drowningcowboy1.obj"));
-  mAnimation.addFrame(2, Game::instance().getResource().mesh("drowningcowboy2.obj"));
-  mAnimation.addFrame(3, nullptr);
-  mAnimation.setTimePerFrame(200);
+  frame.mesh = Game::instance().getResource().mesh("cowboy.obj");
+  mAnimation.addFrame(0, frame);
+  
+  frame.mesh = Game::instance().getResource().mesh("animationcowboy.obj");
+  frame.transform = glm::mat4(1.f);
+  int kJumpFrames = Game::instance().getResource().Int("jumpFrames");
+  for (int i = 0; i < kJumpFrames/2; ++i) {
+    frame.transform = glm::translate(frame.transform, UP * kJumpSpeed);
+    mAnimation.addFrame(1, frame);
+  }
+  for (int i = 0; i < kJumpFrames/2; ++i) {
+    frame.transform = glm::translate(frame.transform, DOWN * kJumpSpeed);
+    mAnimation.addFrame(1, frame);
+  }
+
+  frame.mesh = Game::instance().getResource().mesh("drowningcowboy1.obj");
+  mAnimation.addFrame(2, frame);
+  frame.mesh = Game::instance().getResource().mesh("drowningcowboy2.obj");
+  mAnimation.addFrame(2, frame);
+  
+  frame.mesh = nullptr;
+  mAnimation.addFrame(3, frame);
+  
+  mAnimation.setTimePerFrame(100);
   mAnimation.changeAnimation(0);
-  setMesh(mAnimation.getCurrentFrame());
+  setMesh(mAnimation.getCurrentFrame()->mesh);
   
   setTexture(Game::instance().getResource().texture("palette.png"));
 
@@ -192,9 +213,6 @@ void Player::onCollision(Model* model) {
         explode();
       break;
     case Obstacle::Stone:
-      //obstacle->getMesh()->getMinMaxVertices(min, max);
-      //mPosition.y += max.y;
-      //changeState(Player::Idle);
       break;
     case Obstacle::Boat:
       if (mState != Player::Drowning) {
@@ -204,20 +222,10 @@ void Player::onCollision(Model* model) {
         explode();
       }
       break;
-      /*if (isAlive()) {
-        obstacle->getMesh()->getMinMaxVertices(min, max);
-        mPosition.x = obstacle->getCenter().x;
-        mPosition.y += max.y;
-        mPosition.z = obstacle->getCenter().z;
-        mVelocity.x = obstacle->getVelocity().x;
-        changeState(Player::onBoat);
-      } else if (mState == Player::Drowning) {
-        explode();
-      }*/
-      //break;
     case Obstacle::Bonus:
       std::cout << "GOT" << std::endl;
       obstacle->destroy();
+      std::cout << "Destroyed" << std::endl;
       break;
     default:
       break;
