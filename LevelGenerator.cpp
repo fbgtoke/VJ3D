@@ -90,114 +90,80 @@ Obstacle* LevelGenerator::generateObstacle(Level* level, const glm::vec3& positi
 }
 
 Obstacle* LevelGenerator::generateSpawner(Level* level, int value) {
-  ObstacleSpawner* spawner;
-
-  const int kPeriodSlow = Game::instance().getResource().Int("PeriodSlow");
-  const int kPeriodFast = Game::instance().getResource().Int("PeriodFast");
-  const float kVelSlow = Game::instance().getResource().Float("VelSlow");
-  const float kVelFast = Game::instance().getResource().Float("VelFast");
+  Obstacle::Type type;
+  int period;
+  float vel;
 
   switch (value) {
+  default:
   case 4:
-    spawner = new ObstacleSpawner();
-    spawner->init();
-    spawner->setSpawnType(Obstacle::Carriage);
-    spawner->setSpawnPeriod(kPeriodSlow);
-    spawner->setSpawnVel(-kVelSlow);
-    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    type = Obstacle::Carriage;
+    period = Game::instance().getResource().Int("PeriodCarriageSlow");
+    vel = Game::instance().getResource().Float("VelCarriageSlow") * (-1.f);
     break;
   case 5:
-    spawner = new ObstacleSpawner();
-    spawner->init();
-    spawner->setSpawnType(Obstacle::Carriage);
-    spawner->setSpawnPeriod(kPeriodFast);
-    spawner->setSpawnVel(-kVelFast);
-    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    type = Obstacle::Carriage;
+    period = Game::instance().getResource().Int("PeriodCarriageFast");
+    vel = Game::instance().getResource().Float("VelCarriageFast") * (-1.f);
     break;
   case 6:
-    spawner = new ObstacleSpawner();
-    spawner->init();
-    spawner->setSpawnType(Obstacle::Carriage);
-    spawner->setSpawnPeriod(kPeriodSlow);
-    spawner->setSpawnVel(kVelSlow);
-    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    type = Obstacle::Carriage;
+    period = Game::instance().getResource().Int("PeriodCarriageSlow");
+    vel = Game::instance().getResource().Float("VelCarriageSlow");
     break;
   case 7:
-    spawner = new ObstacleSpawner();
-    spawner->init();
-    spawner->setSpawnType(Obstacle::Carriage);
-    spawner->setSpawnPeriod(kPeriodFast);
-    spawner->setSpawnVel(kVelFast);
-    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    type = Obstacle::Carriage;
+    period = Game::instance().getResource().Int("PeriodCarriageFast");
+    vel = Game::instance().getResource().Float("VelCarriageFast");
     break;
   case 8:
-    spawner = new ObstacleSpawner();
-    spawner->init();
-    spawner->setSpawnType(Obstacle::Horse);
-    spawner->setSpawnPeriod(kPeriodSlow);
-    spawner->setSpawnVel(-kVelSlow);
-    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    type = Obstacle::Horse;
+    period = Game::instance().getResource().Int("PeriodHorseSlow");
+    vel = Game::instance().getResource().Float("VelHorseSlow") * (-1.f);
     break;
   case 9:
-    spawner = new ObstacleSpawner();
-    spawner->init();
-    spawner->setSpawnType(Obstacle::Horse);
-    spawner->setSpawnPeriod(kPeriodFast);
-    spawner->setSpawnVel(-kVelFast);
-    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    type = Obstacle::Horse;
+    period = Game::instance().getResource().Int("PeriodHorseFast");
+    vel = Game::instance().getResource().Float("VelHorseFast") * (-1.f);
     break;
   case 10:
-    spawner = new ObstacleSpawner();
-    spawner->init();
-    spawner->setSpawnType(Obstacle::Horse);
-    spawner->setSpawnPeriod(kPeriodSlow);
-    spawner->setSpawnVel(kVelSlow);
-    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    type = Obstacle::Horse;
+    period = Game::instance().getResource().Int("PeriodHorseSlow");
+    vel = Game::instance().getResource().Float("VelHorseSlow");
     break;
   case 11:
-    spawner = new ObstacleSpawner();
-    spawner->init();
-    spawner->setSpawnType(Obstacle::Horse);
-    spawner->setSpawnPeriod(kPeriodFast);
-    spawner->setSpawnVel(kVelFast);
-    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    type = Obstacle::Horse;
+    period = Game::instance().getResource().Int("PeriodHorseFast");
+    vel = Game::instance().getResource().Float("VelHorseFast");
     break;
   case 12:
-    spawner = new ObstacleSpawner();
-    spawner->init();
-    spawner->setSpawnType(Obstacle::Boat);
-    spawner->setSpawnPeriod(kPeriodSlow);
-    spawner->setSpawnVel(-kVelSlow);
-    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    type = Obstacle::Boat;
+    period = Game::instance().getResource().Int("PeriodBoatSlow");
+    vel = Game::instance().getResource().Float("VelBoatSlow") * (-1.f);
     break;
   case 13:
-    spawner = new ObstacleSpawner();
-    spawner->init();
-    spawner->setSpawnType(Obstacle::Boat);
-    spawner->setSpawnPeriod(kPeriodFast);
-    spawner->setSpawnVel(-kVelFast);
-    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    type = Obstacle::Boat;
+    period = Game::instance().getResource().Int("PeriodBoatFast");
+    vel = Game::instance().getResource().Float("VelBoatFast") * (-1.f);
     break;
   case 14:
-    spawner = new ObstacleSpawner();
-    spawner->init();
-    spawner->setSpawnType(Obstacle::Boat);
-    spawner->setSpawnPeriod(kPeriodSlow);
-    spawner->setSpawnVel(kVelSlow);
-    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+    type = Obstacle::Boat;
+    period = Game::instance().getResource().Int("PeriodBoatSlow");
+    vel = Game::instance().getResource().Float("VelBoatSlow");
     break;
   case 15:
-    spawner = new ObstacleSpawner();
-    spawner->init();
-    spawner->setSpawnType(Obstacle::Boat);
-    spawner->setSpawnPeriod(kPeriodFast);
-    spawner->setSpawnVel(kVelFast);
-    spawner->setNumberOfTiles(level->getTilemap()->getWidth());
-    break;
-  default:
-    spawner = nullptr;
+    type = Obstacle::Boat;
+    period = Game::instance().getResource().Int("PeriodBoatFast");
+    vel = Game::instance().getResource().Float("VelBoatFast");
     break;
   }
+
+  ObstacleSpawner* spawner = new ObstacleSpawner();
+  spawner->init();
+  spawner->setSpawnType(type);
+  spawner->setSpawnPeriod(period);
+  spawner->setSpawnVel(vel);
+  spawner->setNumberOfTiles(level->getTilemap()->getWidth());
 
   return spawner;
 }

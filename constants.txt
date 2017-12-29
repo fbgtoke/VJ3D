@@ -7,11 +7,25 @@ int drowningTime 1000
 int explodingTime 2000
 
 ##### Obstacles #####
-int PeriodSlow 1500
-int PeriodFast 1000
+int PeriodCarriageSlow 3500
+float VelCarriageSlow 0.020
+
+int PeriodCarriageFast 2000
+float VelCarriageFast 0.040
+
+int PeriodHorseSlow 1500
+float VelHorseSlow 0.020
+
+int PeriodHorseFast 1000
+float VelHorseFast 0.040
+
+int PeriodBoatSlow 1500
+float VelBoatSlow 0.020
+
+int PeriodBoatFast 1000
+float VelBoatFast 0.040
+
 int PeriodVariability 1500
-float VelSlow 0.020
-float VelFast 0.040
 
 ##### Bonus pickup #####
 float RotationSpeed 0.001
