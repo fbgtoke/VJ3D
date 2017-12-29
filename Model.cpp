@@ -46,7 +46,6 @@ void Model::beforeRender() {
   mShaderProgram->setUniformMatrix4f("PM", PM);
   mShaderProgram->setUniformMatrix4f("VM", VM);
   mShaderProgram->setUniformMatrix4f("TG", TG);
-  mShaderProgram->setUniform4f("color", 1.f, 1.f, 1.f, 1.f);
   mMesh->useShader(mShaderProgram);
 
   if (mTexture != nullptr)

@@ -825,33 +825,6 @@ Sprite.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Sprite.cpp.s
 .PHONY : Sprite.cpp.s
 
-Text.o: Text.cpp.o
-
-.PHONY : Text.o
-
-# target to build an object file
-Text.cpp.o:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Text.cpp.o
-.PHONY : Text.cpp.o
-
-Text.i: Text.cpp.i
-
-.PHONY : Text.i
-
-# target to preprocess a source file
-Text.cpp.i:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Text.cpp.i
-.PHONY : Text.cpp.i
-
-Text.s: Text.cpp.s
-
-.PHONY : Text.s
-
-# target to generate assembly for a file
-Text.cpp.s:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Text.cpp.s
-.PHONY : Text.cpp.s
-
 Text3D.o: Text3D.cpp.o
 
 .PHONY : Text3D.o
@@ -1101,9 +1074,6 @@ help:
 	@echo "... Sprite.o"
 	@echo "... Sprite.i"
 	@echo "... Sprite.s"
-	@echo "... Text.o"
-	@echo "... Text.i"
-	@echo "... Text.s"
 	@echo "... Text3D.o"
 	@echo "... Text3D.i"
 	@echo "... Text3D.s"

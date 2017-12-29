@@ -49,9 +49,7 @@ void SceneLevelSelect::updateScene(int deltaTime) {
     Game::instance().getBufferedScene()->receiveString("level-name", mLevels[mCurrentSelected].name);
   }
 
-  if (Game::instance().getKeyPressed('w'))
-    Game::instance().changeScene(Scene::SCENE_TEST);
-  else if (Game::instance().getKeyPressed('a'))
+  if (Game::instance().getKeyPressed('a'))
     prevIndex();
   else if (Game::instance().getKeyPressed('d'))
     nextIndex();
