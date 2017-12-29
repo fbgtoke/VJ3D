@@ -50,3 +50,9 @@ int BorderSize 10
 ##### Particles #####
 float ParticleGravity -0.025
 float ParticleFriction 0.8
+
+##### Light #####
+float sunSpeed 0.0004
+float minAmbientLight 0.2
+float maxAmbientLight 0.4
+float diffuseComponent 0.2

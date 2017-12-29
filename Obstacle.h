@@ -22,13 +22,14 @@ public:
 
   void init() override;
   void update(int deltaTime) override;
-  void render() override;
-
-  void onDestroy() override;
 
   virtual Obstacle::Type getType() const;
 
 private:
+  void beforeRender() override;
+
+  void onDestroy() override;
+  
   const Obstacle::Type mType;
   Shadow* mShadow;
 };

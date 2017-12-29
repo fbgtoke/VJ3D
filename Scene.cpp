@@ -8,7 +8,7 @@
 #include "Game.h"
 
 const glm::vec3 Scene::kLightDirection = glm::normalize(glm::vec3(0.0, -4.0, -1.0));
-const float Scene::kAmbientLight = 0.4f;
+const float Scene::kAmbientLight = 0.6;
 
 Scene::Scene(Scene::SceneType type)
   : mType(type) {}
@@ -44,7 +44,6 @@ Scene::SceneType Scene::getType() const { return mType; }
 void Scene::init() {
   initShaders();
   initScene();
-  initGUI();
   mCurrentTime = 0.0f;
 }
 
@@ -53,27 +52,24 @@ void Scene::update(int deltaTime) {
   mCurrentTime += deltaTime;
 
   updateScene(deltaTime);
-  updateGUI(deltaTime);
 
   checkSoundEffects();
 }
 
 void Scene::render() {
   renderScene();
-  renderGUI();
 }
 
 void Scene::receiveString(const std::string& tag, const std::string str) {}
 
-glm::vec3 Scene::getLightDirection() { return kLightDirection; }
-float Scene::getAmbientLight() { return kAmbientLight; }
+glm::vec3 Scene::getLightDirection() const { return kLightDirection; }
+float Scene::getAmbientLight() const { return kAmbientLight; }
 
 glm::mat4 Scene::getProjectionMatrix() const { return mProjectionMatrix; }
 glm::mat4 Scene::getViewMatrix() const { return mViewMatrix; }
 
 void Scene::initShaders() {
   mTexProgram = Game::instance().getResource().shader("simple");
-  mGuiProgram = Game::instance().getResource().shader("texture");
 }
 
 void Scene::initScene() {
@@ -106,21 +102,6 @@ void Scene::updateScene(int deltaTime) {
 void Scene::renderScene() {
   for (Model* model : mRenderList)
     model->render();
-}
-
-void Scene::initGUI() {
-  mProjectionMatrixGUI = glm::ortho(0.f, float(SCREEN_WIDTH - 1), float(SCREEN_HEIGHT - 1), 0.f);
-  mViewMatrixGUI = glm::mat4(1.0f);
-}
-
-void Scene::updateGUI(int deltaTime) {}
-
-void Scene::renderGUI() {
-  mGuiProgram->use();
-  mGuiProgram->setUniformMatrix4f("PM", mProjectionMatrixGUI);
-  mGuiProgram->setUniformMatrix4f("VM", mViewMatrixGUI);
-  mGuiProgram->setUniform2f("texCoordDispl", 0.f, 0.f);
-  mGuiProgram->setUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void Scene::playSoundEffect(const std::string& name) {

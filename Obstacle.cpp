@@ -105,11 +105,11 @@ void Obstacle::update(int deltaTime) {
     mShadow->update(deltaTime);
 }
 
-void Obstacle::render() {
-  ModelAnimated::render();
-
+void Obstacle::beforeRender() {
   if (mShadow != nullptr)
     mShadow->render();
+  
+  ModelAnimated::beforeRender();
 }
 
 void Obstacle::onDestroy() {

@@ -29,6 +29,7 @@ void Mesh::useShader(ShaderProgram* shaderProgram) {
 
     glDeleteVertexArrays(1, &mVAO);
   }
+  
   mShader = shaderProgram;
   
   glGenVertexArrays(1, &mVAO);

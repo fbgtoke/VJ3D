@@ -17,6 +17,8 @@ void ObstacleSpawner::init() {
   mSpawnVel = 0.f;
   mCurrentCycle = 0;
   mNumberOfTiles = 0;
+
+  mEnableRendering = false;
 }
 
 void ObstacleSpawner::update(int deltaTime) {
@@ -40,8 +42,6 @@ void ObstacleSpawner::update(int deltaTime) {
     }
   }
 }
-
-void ObstacleSpawner::render() {}
 
 bool ObstacleSpawner::collides(const Model* m) const { return false; }
 

@@ -10,9 +10,11 @@ public:
 
   void init() override;
   void update(int deltaTime) override;
-  void render() override;
 
 private:
+  void beforeRender() override;
+  void afterRender() override;
+  
   Model* mModel;
 };
 

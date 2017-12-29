@@ -14,7 +14,6 @@ public:
   ~Level();
 
   void update(int deltaTime);
-  void render();
 
   void setTilemap(Tilemap* tilemap);
   void setPlayer(Player* player);

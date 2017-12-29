@@ -20,7 +20,7 @@ public:
   ~Tile() override;
 
   void init() override;
-  void render() override;
+  void beforeRender() override;
 
   void setType(Tile::Type type);
   Tile::Type getType() const;

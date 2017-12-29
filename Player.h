@@ -14,7 +14,6 @@ public:
 
 	void init() override;
 	void update(int deltaTime) override;
-  void render() override;
 
   void onDestroy() override;
 
@@ -48,6 +47,8 @@ private:
   float kTol;
   float kJumpSpeed;
   float kHorSpeed;
+
+  void beforeRender() override;
 
   Player::State mState;
 

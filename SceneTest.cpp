@@ -49,6 +49,8 @@ void SceneTest::initScene() {
   mCameraVel = kCameraVel;
   VRP = mLevel->getPlayer()->getCenter();
   OBS = VRP + kObsVector * TILE_SIZE;
+
+  mLightAngle = 0.f;
 }
 
 void SceneTest::updateScene(int deltaTime) {
@@ -62,12 +64,8 @@ void SceneTest::updateScene(int deltaTime) {
 
   checkPlayerOutOfCamera();
   checkPlayerDead();
-}
 
-void SceneTest::renderScene() {
-	Scene::renderScene();
-
-  mLevel->render();
+  mLightAngle += (float)deltaTime * Game::instance().getResource().Float("sunSpeed");
 }
 
 void SceneTest::updateCamera(int deltaTime) {
@@ -98,4 +96,20 @@ void SceneTest::checkPlayerOutOfCamera() {
 
   if (projectedPosition.y/projectedPosition.w < -1.0f)
     mLevel->getPlayer()->explode();
+}
+
+glm::vec3 SceneTest::getLightDirection() const {
+  glm::vec3 dir;
+  dir.x = cos(mLightAngle);
+  dir.y = abs(sin(mLightAngle)) * (-1.f);
+  dir.z = 0.f;
+  dir = glm::normalize(dir);
+
+  return dir;
+}
+
+float SceneTest::getAmbientLight() const {
+  float maxAmbientLight = Game::instance().getResource().Float("maxAmbientLight");
+  float minAmbientLight = Game::instance().getResource().Float("minAmbientLight");
+  return abs(sin(mLightAngle)) * maxAmbientLight + minAmbientLight;
 }

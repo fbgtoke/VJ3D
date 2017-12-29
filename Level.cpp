@@ -75,10 +75,10 @@ void Level::update(int deltaTime) {
 
     if (tile == Tile::Water && !obstacleOfTypeAtTile(Obstacle::Stone, standingTile))
       mPlayer->changeState(Player::Drowning);
+    else if (tile == Tile::Goal)
+      Game::instance().changeScene(Scene::SCENE_WIN);
   }
 }
-
-void Level::render() {}
 
 void Level::setTilemap(Tilemap* tilemap) {
   if (tilemap != nullptr) {

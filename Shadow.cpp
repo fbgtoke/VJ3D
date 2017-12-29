@@ -18,7 +18,7 @@ void Shadow::update(int deltaTime) {
 
   glm::vec3 position = mModel->getPosition();
   position.y = 0.001f;
-  position.x += TILE_SIZE * 0.125f;
+  //position.x += TILE_SIZE * 0.125f;
   setPosition(position);
 
   const float base = mModel->getCenter().y - mModel->getSize().y * 0.5f;
@@ -31,12 +31,16 @@ void Shadow::update(int deltaTime) {
   setScale(scale);
 }
 
-void Shadow::render() {
+void Shadow::beforeRender() {
+  Model::beforeRender();
+
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glDepthMask(false);
+}
 
-  Model::render();
+void Shadow::afterRender() {
+  Model::afterRender();
 
   glDepthMask(true);
   glDisable(GL_BLEND);

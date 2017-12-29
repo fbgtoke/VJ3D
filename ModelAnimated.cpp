@@ -6,15 +6,14 @@ void ModelAnimated::update(int deltaTime) {
   mAnimation.update(deltaTime);
 }
 
-void ModelAnimated::render() {
+void ModelAnimated::beforeRender() {
+  Model::beforeRender();
+  
   const AnimationFrame* frame = mAnimation.getCurrentFrame();
 
   if (frame != nullptr) {
     Mesh* mesh = frame->mesh;
-    if (mesh != nullptr) {
-      setMesh(mesh);
-      Model::render();
-    }
+    setMesh(mesh);
   }
 }
 

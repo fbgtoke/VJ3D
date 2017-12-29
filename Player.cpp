@@ -39,9 +39,6 @@ void Player::init() {
   frame.mesh = Game::instance().getResource().mesh("drowningcowboy2.obj");
   mAnimation.addFrame(2, frame);
   
-  frame.mesh = nullptr;
-  mAnimation.addFrame(3, frame);
-  
   mAnimation.setTimePerFrame(100);
   mAnimation.changeAnimation(0);
   setMesh(mAnimation.getCurrentFrame()->mesh);
@@ -87,11 +84,14 @@ void Player::update(int deltaTime) {
     mShadow->update(deltaTime);
 }
 
-void Player::render() {
-  ModelAnimated::render();
-
+void Player::beforeRender() {
   if (isAlive() && mShadow != nullptr)
     mShadow->render();
+  
+  mEnableRendering =
+    mState != Player::Exploding &&
+    mState != Player::Dead;
+  ModelAnimated::beforeRender();
 }
 
 void Player::moveTowards(const glm::vec3& position) {
@@ -183,12 +183,10 @@ void Player::changeState(Player::State state) {
   case Player::Exploding:
     setTimer(kMaxExplodingTime);
     setVelocity(glm::vec3(0.f));
-    mAnimation.changeAnimation(3);
     //Game::instance().getScene()->playSoundEffect("death.ogg");
     initExplosion();
     break;
   case Player::Dead:
-    mAnimation.changeAnimation(3);
     break;
   }
 }
@@ -200,7 +198,11 @@ bool Player::isIdle() const { return mState == Player::Idle; }
 bool Player::isExploding() const { return mState == Player::Exploding; }
 bool Player::isDead() const { return mState == Player::Dead; }
 bool Player::isAlive() const {
-  return mState == Player::Idle || mState == Player::Moving;
+  return
+    mState == Player::Idle ||
+    mState == Player::Moving ||
+    mState == Player::towardsBoat ||
+    mState == Player::onBoat;
 }
 
 void Player::onCollision(Model* model) {
@@ -230,22 +232,6 @@ void Player::onCollision(Model* model) {
       obstacle->destroy();
       break;
     default:
-      break;
-    }
-  }
-
-  Tile* tile = dynamic_cast<Tile*> (model);
-  if (tile != nullptr) {
-    glm::vec3 position = tile->getPositionInTiles();
-    setPositionInTiles(position + UP);
-
-    switch (tile->getType()) {
-    case Tile::Goal:
-      Game::instance().changeScene(Scene::SCENE_WIN);
-      break;
-    default:
-      if (mState == Player::Moving)
-        changeState(Player::Idle);
       break;
     }
   }

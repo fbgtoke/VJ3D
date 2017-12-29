@@ -24,8 +24,8 @@ public:
 
 	virtual void receiveString(const std::string& tag, const std::string str);
 
-	static glm::vec3 getLightDirection();
-	static float getAmbientLight();
+	virtual glm::vec3 getLightDirection() const;
+	virtual float getAmbientLight() const;
 
 	glm::mat4 getProjectionMatrix() const;
 	glm::mat4 getViewMatrix() const;
@@ -52,9 +52,8 @@ protected:
 	const Scene::SceneType mType;
 	float mCurrentTime;
 
-	ShaderProgram *mTexProgram, *mGuiProgram;
+	ShaderProgram *mTexProgram;
 	glm::mat4 mProjectionMatrix, mViewMatrix;
-	glm::mat4 mProjectionMatrixGUI, mViewMatrixGUI;
 
 	glm::vec3 OBS, VRP;
 
@@ -64,10 +63,6 @@ protected:
 	virtual void initScene();
 	virtual void updateScene(int deltaTime);
 	virtual void renderScene();
-
-	virtual void initGUI();
-	virtual void updateGUI(int deltaTime);
-	virtual void renderGUI();
 
 	void checkSoundEffects();
 	std::list<sf::Sound*> mSoundEffects;

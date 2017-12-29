@@ -12,7 +12,8 @@ public:
 
   virtual void init();
   virtual void update(int deltaTime);
-  virtual void render();
+
+  void render();
 
   void setTexture(Texture* texture);
   void setMesh(Mesh* mesh);
@@ -45,7 +46,6 @@ public:
 
   virtual bool collides(const Model* m) const;
   virtual void onCollision(Model* m);
-
   virtual void getBoundingBox(glm::vec3& mincoords, glm::vec3& maxcoords) const;
 
   static Model* create(const std::string& mesh, const std::string& texture);
@@ -54,11 +54,16 @@ public:
 
   void destroy();
   bool hasBeenDestroyed() const;
-  virtual void onDestroy();
 
   virtual bool checkCollisions() const;
 
 protected:
+  bool mEnableRendering;
+  virtual void beforeRender();
+  virtual void afterRender();
+
+  virtual void onDestroy();
+
   ShaderProgram* mShaderProgram;
 
   Texture* mTexture;

@@ -11,7 +11,6 @@ public:
 
   void init() override;
   void update(int deltaTime) override;
-  void render() override;
 
   bool collides(const Model* m) const override;
 

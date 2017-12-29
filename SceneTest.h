@@ -14,7 +14,11 @@ public:
   void receiveString(const std::string& tag, const std::string str) override;
   void removeModel(Model* model) override;
 
+  glm::vec3 getLightDirection() const override;
+  float getAmbientLight() const override;
+
 private:
+  float mLightAngle;
 	glm::vec3 kObsVector;
   float kCameraVel;
 
@@ -23,7 +27,6 @@ private:
 
 	void initScene() override;
 	void updateScene(int deltaTime) override;
-	void renderScene() override;
 
   void checkPlayerOutOfCamera();
   void checkPlayerDead();

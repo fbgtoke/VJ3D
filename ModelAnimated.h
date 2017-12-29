@@ -7,12 +7,13 @@
 class ModelAnimated : public Model {
 public:
   void update(int deltaTime) override;
-  void render() override;
 
   glm::mat4 getTransform() const override;
   Animation3D& getAnimation();
 
 protected:
+  void beforeRender() override;
+  
   Animation3D mAnimation;
 };
 
