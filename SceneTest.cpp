@@ -2,7 +2,7 @@
 #include "Game.h"
 
 SceneTest::SceneTest()
-  : mLevelName("") {}
+  : Scene(Scene::SCENE_TEST), mLevelName("") {}
 
 SceneTest::~SceneTest() {
   if (mLevel != nullptr)
@@ -12,6 +12,14 @@ SceneTest::~SceneTest() {
 void SceneTest::receiveString(const std::string& tag, const std::string str) {
   if (tag == "level-name")
     mLevelName = str;
+}
+
+void SceneTest::removeModel(Model* model) {
+  Obstacle* obstacle = dynamic_cast<Obstacle*>(model);
+  if (obstacle != nullptr)
+    mLevel->removeObstacle(obstacle);
+
+  Scene::removeModel(model);
 }
 
 void SceneTest::initScene() {

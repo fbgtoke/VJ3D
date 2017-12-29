@@ -12,7 +12,6 @@ void Tilemap::clear() {
     for (int j = 0; j < getWidth(); ++j) {
       Tile* tile = mTiles[i][j];
       Game::instance().getScene()->removeModel(tile);
-      delete tile;
     }
   }
   mTiles.clear();

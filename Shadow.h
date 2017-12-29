@@ -5,17 +5,15 @@
 
 class Shadow : public Model {
 public:
-  Shadow(const Model* model);
+  Shadow(Model* model);
   ~Shadow() override;
 
   void init() override;
   void update(int deltaTime) override;
   void render() override;
 
-  void unbind();
-
 private:
-  const Model* mModel;
+  Model* mModel;
 };
 
 #endif // _SHADOW_INCLUDE

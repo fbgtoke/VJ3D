@@ -1,7 +1,7 @@
 #include "Shadow.h"
 #include "Game.h"
 
-Shadow::Shadow(const Model* model)
+Shadow::Shadow(Model* model)
   : mModel(model) {}
 
 Shadow::~Shadow() {}
@@ -14,11 +14,6 @@ void Shadow::init() {
 }
 
 void Shadow::update(int deltaTime) {
-  if (mModel == nullptr) {
-    destroy();
-    return;
-  }
-
   Model::update(deltaTime);
 
   glm::vec3 position = mModel->getPosition();
@@ -46,5 +41,3 @@ void Shadow::render() {
   glDepthMask(true);
   glDisable(GL_BLEND);
 }
-
-void Shadow::unbind() { mModel = nullptr; }

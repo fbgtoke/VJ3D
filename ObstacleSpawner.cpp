@@ -48,7 +48,7 @@ bool ObstacleSpawner::collides(const Model* m) const { return false; }
 void ObstacleSpawner::setSpawnType(Obstacle::Type type) { mSpawnType = type; }
 void ObstacleSpawner::setSpawnPeriod(int period) {
   mSpawnPeriod = period;
-  mCurrentCycle = mSpawnPeriod + randomInt(0, kPeriodVariability);
+  mCurrentCycle = randomInt(0, kPeriodVariability);
 }
 
 void ObstacleSpawner::setSpawnVel(float vel) { mSpawnVel = vel; }

@@ -1,7 +1,8 @@
 #include "SceneLevelSelect.h"
 #include "Game.h"
 
-SceneLevelSelect::SceneLevelSelect() {}
+SceneLevelSelect::SceneLevelSelect()
+  : Scene(Scene::SCENE_LEVEL_SELECT), mFrame(nullptr) {}
 
 SceneLevelSelect::~SceneLevelSelect() {}
 

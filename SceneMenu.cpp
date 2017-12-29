@@ -1,14 +1,14 @@
 #include "SceneMenu.h"
 #include "Game.h"
 
-SceneMenu::SceneMenu() {}
+SceneMenu::SceneMenu()
+  : Scene(Scene::SCENE_MENU) {}
 
 SceneMenu::~SceneMenu() {
-  for (Model* model : mOptions)
-    if (model != nullptr)
-      delete model;
-
-  mOptions.clear();
+  removeModel(mOptions[0]);
+  removeModel(mOptions[1]);
+  removeModel(mOptions[2]);
+  removeModel(mOptions[3]);
 }
 
 void SceneMenu::initScene() {
@@ -28,15 +28,19 @@ void SceneMenu::initScene() {
   
   mOptions.push_back(Model::create("newgame.obj", "palette.png"));
   mOptions[0]->setPosition(glm::vec3(0, 0, 0));
+  addModel(mOptions[0]);
 
   mOptions.push_back(Model::create("help.obj", "palette.png"));
   mOptions[1]->setPosition(glm::vec3(0, -16.f, 0));
+  addModel(mOptions[1]);
 
   mOptions.push_back(Model::create("credits.obj", "palette.png"));
   mOptions[2]->setPosition(glm::vec3(0, -32.f, 0));
+  addModel(mOptions[2]);
 
   mOptions.push_back(Model::create("exit.obj", "palette.png"));
   mOptions[3]->setPosition(glm::vec3(0, -48.f, 0));
+  addModel(mOptions[3]);
 
   Game::instance().setBackgroundMusic("menu.ogg", 0.f);
 }

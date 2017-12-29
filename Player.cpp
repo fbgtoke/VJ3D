@@ -4,10 +4,7 @@
 Player::Player() :
   mShadow(nullptr) {}
 
-Player::~Player() {
-  if (mShadow != nullptr)
-    mShadow->unbind();
-}
+Player::~Player() {}
 
 void Player::init() {
   ModelAnimated::init();
@@ -60,7 +57,6 @@ void Player::init() {
 
   mShadow = new Shadow(this);
   mShadow->init();
-  Game::instance().getScene()->addModel(mShadow);
 }
 
 void Player::update(int deltaTime) {
@@ -85,7 +81,17 @@ void Player::update(int deltaTime) {
   }
 
   if (mState == Player::Exploding && timerExpired())
-      changeState(Player::Dead);
+    changeState(Player::Dead);
+
+  if (isAlive() && mShadow != nullptr)
+    mShadow->update(deltaTime);
+}
+
+void Player::render() {
+  ModelAnimated::render();
+
+  if (isAlive() && mShadow != nullptr)
+    mShadow->render();
 }
 
 void Player::moveTowards(const glm::vec3& position) {
@@ -173,14 +179,12 @@ void Player::changeState(Player::State state) {
   case Player::Drowning:
     setTimer(kMaxDrowningTime);
     mAnimation.changeAnimation(2);
-    mShadow->unbind();
     break;
   case Player::Exploding:
     setTimer(kMaxExplodingTime);
     setVelocity(glm::vec3(0.f));
     mAnimation.changeAnimation(3);
     //Game::instance().getScene()->playSoundEffect("death.ogg");
-    mShadow->unbind();
     initExplosion();
     break;
   case Player::Dead:
@@ -223,9 +227,7 @@ void Player::onCollision(Model* model) {
       }
       break;
     case Obstacle::Bonus:
-      std::cout << "GOT" << std::endl;
       obstacle->destroy();
-      std::cout << "Destroyed" << std::endl;
       break;
     default:
       break;
@@ -238,10 +240,6 @@ void Player::onCollision(Model* model) {
     setPositionInTiles(position + UP);
 
     switch (tile->getType()) {
-    case Tile::Water:
-      //if (mState == Player::Idle)
-      //  changeState(Player::Drowning);
-      break;
     case Tile::Goal:
       Game::instance().changeScene(Scene::SCENE_WIN);
       break;
@@ -279,4 +277,12 @@ void Player::setTimer(int time) {
 
 bool Player::timerExpired() const {
   return mTimerActivated && mTimer < 0;
+}
+
+void Player::onDestroy() {
+  if (mShadow != nullptr) {
+    mShadow->destroy();
+    delete mShadow;
+    mShadow = nullptr;
+  }
 }

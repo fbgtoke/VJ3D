@@ -10,7 +10,8 @@
 const glm::vec3 Scene::kLightDirection = glm::normalize(glm::vec3(0.0, -4.0, -1.0));
 const float Scene::kAmbientLight = 0.4f;
 
-Scene::Scene() {}
+Scene::Scene(Scene::SceneType type)
+  : mType(type) {}
 
 Scene::~Scene() {
   for (auto it = mSoundEffects.begin(); it != mSoundEffects.end(); ++it)
@@ -18,10 +19,14 @@ Scene::~Scene() {
   mSoundEffects.clear();
 
   for (auto it = mModels.begin(); it != mModels.end(); ++it) {
-    (*it)->destroy();
+    if (!(*it)->hasBeenDestroyed())
+      (*it)->destroy();
+
     delete (*it);
   }
   mModels.clear();
+  mUpdateList.clear();
+  mRenderList.clear();
 }
 
 Scene* Scene::create(SceneType type) {
@@ -34,6 +39,7 @@ Scene* Scene::create(SceneType type) {
     return new SceneTest();
   }
 }
+Scene::SceneType Scene::getType() const { return mType; }
 
 void Scene::init() {
   initShaders();
@@ -146,7 +152,7 @@ void Scene::checkSoundEffects() {
 void Scene::addModel(Model* model, unsigned char flags) {
   if (model == nullptr) return;
 
-  mModels.insert(model);
+  mModels.push_back(model);
 
   if (flags & Scene::UpdateFirst)
     mUpdateList.push_front(model);
@@ -161,17 +167,20 @@ void Scene::addModel(Model* model, unsigned char flags) {
 
 void Scene::removeModel(Model* model) {
   if (model != nullptr) {
-    mModels.erase(model);
-
-    auto it = mUpdateList.begin();
-    while (it != mUpdateList.end() && (*it) != model) ++it;
+    auto it = mModels.begin();
+    while (it != mModels.end() && (*it) != model) ++it;
     if ((*it) == model) 
-      mUpdateList.erase(it);
+      mModels.erase(it);
 
-    auto it2 = mRenderList.begin();
-    while (it2 != mRenderList.end() && (*it2) != model) ++it2;
-    if ((*it2) == model)
-      mRenderList.erase(it2);
+    auto it2 = mUpdateList.begin();
+    while (it2 != mUpdateList.end() && (*it2) != model) ++it2;
+    if ((*it2) == model) 
+      mUpdateList.erase(it2);
+
+    auto it3 = mRenderList.begin();
+    while (it3 != mRenderList.end() && (*it3) != model) ++it3;
+    if ((*it3) == model)
+      mRenderList.erase(it3);
 
     delete model;
   }

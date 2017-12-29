@@ -5,10 +5,7 @@
 Obstacle::Obstacle(Obstacle::Type type)
   : mType(type), mShadow(nullptr) {}
 
-Obstacle::~Obstacle() {
-  if (mShadow != nullptr)
-    mShadow->unbind();
-}
+Obstacle::~Obstacle() {}
 
 Obstacle::Obstacle::Type Obstacle::getType() const { return mType; }
 
@@ -95,7 +92,6 @@ void Obstacle::init() {
   if (mType != Obstacle::Boat && mType != Obstacle::Stone && mType != Obstacle::Spawner) {
     mShadow = new Shadow(this);
     mShadow->init();
-    Game::instance().getScene()->addModel(mShadow);
   }
 }
 
@@ -104,4 +100,22 @@ void Obstacle::update(int deltaTime) {
 
   if (mVelocity.x >= 0.f)
     mScale.x = -1.f;
+
+  if (mShadow != nullptr)
+    mShadow->update(deltaTime);
+}
+
+void Obstacle::render() {
+  ModelAnimated::render();
+
+  if (mShadow != nullptr)
+    mShadow->render();
+}
+
+void Obstacle::onDestroy() {
+  if (mShadow != nullptr) {
+    mShadow->destroy();
+    delete mShadow;
+    mShadow = nullptr;
+  }
 }

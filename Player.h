@@ -14,6 +14,9 @@ public:
 
 	void init() override;
 	void update(int deltaTime) override;
+  void render() override;
+
+  void onDestroy() override;
 
   enum State {
     Idle,

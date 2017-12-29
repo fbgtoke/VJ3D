@@ -2,7 +2,7 @@
 #include "Game.h"
 
 SceneDead::SceneDead()
-  : mLevelName("") {}
+  : Scene(Scene::SCENE_DEAD), mLevelName("") {}
 
 SceneDead::~SceneDead() {}
 
@@ -32,7 +32,7 @@ void SceneDead::updateScene(int deltaTime) {
   Scene::updateScene(deltaTime);
 
   if (Game::instance().getKeyPressed(27)) // Escape
-    Game::instance().stop();
+    Game::instance().changeScene(Scene::SCENE_MENU);
 
   if (Game::instance().getKeyPressed('z')) {
     if (mLevelName == "") {

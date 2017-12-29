@@ -22,6 +22,9 @@ public:
 
   void init() override;
   void update(int deltaTime) override;
+  void render() override;
+
+  void onDestroy() override;
 
   virtual Obstacle::Type getType() const;
 

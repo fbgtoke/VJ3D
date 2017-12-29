@@ -1,7 +1,8 @@
 #include "SceneWin.h"
 #include "Game.h"
 
-SceneWin::SceneWin() {}
+SceneWin::SceneWin()
+  : Scene(Scene::SCENE_WIN) {}
 
 SceneWin::~SceneWin() {}
 

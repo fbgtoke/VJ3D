@@ -12,6 +12,7 @@ public:
 	~SceneTest() override;
 
   void receiveString(const std::string& tag, const std::string str) override;
+  void removeModel(Model* model) override;
 
 private:
 	glm::vec3 kObsVector;

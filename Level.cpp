@@ -88,10 +88,8 @@ void Level::setTilemap(Tilemap* tilemap) {
 
 void Level::setPlayer(Player* player) {
   if (player != nullptr) {
-    if (mPlayer != nullptr) {
+    if (mPlayer != nullptr)
       Game::instance().getScene()->removeModel(mPlayer);
-      delete mPlayer;
-    }
 
     mPlayer = player;
     Game::instance().getScene()->addModel(player);
@@ -102,6 +100,15 @@ void Level::addObstacle(Obstacle* obstacle) {
   if (obstacle != nullptr) {
     mObstacles.push_back(obstacle);
     Game::instance().getScene()->addModel(obstacle);
+  }
+}
+
+void Level::removeObstacle(Obstacle* obstacle) {
+  if (obstacle != nullptr) {
+    auto it = mObstacles.begin();
+    while (it != mObstacles.end() && (*it) != obstacle) ++it;
+    if ((*it) == obstacle) 
+      mObstacles.erase(it);
   }
 }
 
