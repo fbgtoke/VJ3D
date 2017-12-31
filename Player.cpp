@@ -102,7 +102,7 @@ void Player::moveTowards(const glm::vec3& position) {
 
 void Player::moveTowardsBoat(Obstacle* boat) {
   mTargetBoat = boat;
-  changeState(Player::towardsBoat);
+  changeState(Player::onBoat);
 }
 
 void Player::updateMoving(int deltaTime) {
@@ -155,7 +155,7 @@ void Player::initExplosion() {
 }
 
 void Player::changeState(Player::State state) {
-  if (state == mState) return;
+  //if (state == mState) return;
   mState = state;
 
   switch (state) {
