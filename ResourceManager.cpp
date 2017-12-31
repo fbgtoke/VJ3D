@@ -191,12 +191,12 @@ void ResourceManager::loadConstants() {
       int value;
       sstream >> command >> label >> value;
       mConstantsInt[label] = value;
-      std::cout << "Read int " << label << " " << value << std::endl;
+      //std::cout << "Read int " << label << " " << value << std::endl;
     } else if (line.find("float ") != std::string::npos) {
       float value;
       sstream >> command >> label >> value;
       mConstantsFloat[label] = value;
-      std::cout << "Read float " << label << " " << value << std::endl;   
+      //std::cout << "Read float " << label << " " << value << std::endl;   
     }
   }
 }

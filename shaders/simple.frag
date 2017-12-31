@@ -1,4 +1,4 @@
-#version 130
+#version 330 core
 
 uniform sampler2D tex;
 uniform vec2 texoffset;
@@ -10,7 +10,7 @@ uniform float diffColor;
 in vec3 normalFrag;
 in vec2 texcoordFrag;
 
-out vec4 outColor;
+layout(location = 0) out vec4 outColor;
 
 void main() {
 	float d = max(0.0, dot(-lightDir, normalize(normalFrag)));

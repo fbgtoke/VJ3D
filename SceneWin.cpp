@@ -19,8 +19,11 @@ void SceneWin::initScene() {
   OBS = glm::vec3(3, -1, 5) * TILE_SIZE;
   mViewMatrix = glm::lookAt(OBS, VRP, UP);
 
-  mText.setString("YOU WON");
-  mText.setPosition(glm::vec3(0.f));
+  mText = new Text3D();
+  mText->init();
+  mText->setString("YOU WON");
+  mText->setPosition(glm::vec3(0.f));
+  addModel(mText);
 }
 
 void SceneWin::updateScene(int deltaTime) {
@@ -30,11 +33,5 @@ void SceneWin::updateScene(int deltaTime) {
     Game::instance().stop();
 
   if (Game::instance().getKeyPressed('z'))
-    Game::instance().changeScene(Scene::SCENE_MENU);
-}
-
-void SceneWin::renderScene() {
-  Scene::renderScene();
-
-  mText.render();
+    Game::instance().changeScene(Scene::SCENE_LEVEL_SELECT);
 }

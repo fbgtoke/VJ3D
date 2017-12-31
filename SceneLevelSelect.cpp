@@ -57,10 +57,6 @@ void SceneLevelSelect::updateScene(int deltaTime) {
   mFrame->setPosition(index2position(mCurrentSelected));
 }
 
-void SceneLevelSelect::renderScene() {
-  Scene::renderScene();
-}
-
 void SceneLevelSelect::initLevelList() {
   std::ifstream stream("levels.txt");
   

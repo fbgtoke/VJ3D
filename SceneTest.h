@@ -5,6 +5,7 @@
 #include "Tilemap.h"
 #include "Level.h"
 #include "LevelGenerator.h"
+#include "FrameBuffer.h"
 
 class SceneTest : public Scene {
 public:
@@ -27,12 +28,16 @@ private:
 
 	void initScene() override;
 	void updateScene(int deltaTime) override;
+  
+  void beforeRender() override;
+  void afterRender() override;
 
   void checkPlayerOutOfCamera();
   void checkPlayerDead();
 
   Level* mLevel;
   std::string mLevelName;
+  FrameBuffer mFramebuffer;
 };
 
 #endif // SCENE_TEST_INCLUDE

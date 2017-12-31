@@ -12,11 +12,10 @@ Text3D::Text3D() : mString("") {
 Text3D::~Text3D() {}
 
 void Text3D::render() {
-  Model model;
-  model.init();
-  model.setMesh(mCharacters['0']);
-  model.setTexture(Game::instance().getResource().texture("palette.png"));
-  model.setPosition(mPosition);
+  glm::vec3 position = mPosition;
+
+  setMesh(mCharacters['0']);
+  setTexture(Game::instance().getResource().texture("palette.png"));
 
   for (char c : mString) {
     /* Caps => Minus */
@@ -24,11 +23,13 @@ void Text3D::render() {
       c += 32;
 
     if (mCharacters.count(c) != 0) {
-      model.setMesh(mCharacters[c]);
-      model.render();
+      setMesh(mCharacters[c]);
+      Model::render();
     }
-    model.move(RIGHT * model.getSize().x);
+    move(RIGHT * getSize().x);
   }
+
+  setPosition(position);
 }
 
 void Text3D::setString(const std::string& str) { mString = str; }

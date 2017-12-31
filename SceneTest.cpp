@@ -51,6 +51,8 @@ void SceneTest::initScene() {
   OBS = VRP + kObsVector * TILE_SIZE;
 
   mLightAngle = 0.f;
+
+  mFramebuffer.init();
 }
 
 void SceneTest::updateScene(int deltaTime) {
@@ -66,6 +68,38 @@ void SceneTest::updateScene(int deltaTime) {
   checkPlayerDead();
 
   mLightAngle += (float)deltaTime * Game::instance().getResource().Float("sunSpeed");
+}
+
+void SceneTest::beforeRender() {
+  Scene::beforeRender();
+  mFramebuffer.use();
+}
+
+void SceneTest::afterRender() {
+  Scene::afterRender();
+  
+  glBindFramebuffer(GL_FRAMEBUFFER, 0);
+  glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+ 
+  ShaderProgram* shader = Game::instance().getResource().shader("post");
+  
+  glm::mat4 TG(1.f);
+  TG = glm::scale(TG, glm::vec3(-1.f, 1.f, 1.f));
+
+  shader->use();
+  shader->setUniformMatrix4f("TG", TG);
+
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, mFramebuffer.getTexture());
+
+  Mesh* quad = Game::instance().getResource().mesh("frame-buffer.obj");
+  quad->useShader(shader);
+
+  glBindVertexArray(quad->getVAO());
+  glDrawArrays(GL_TRIANGLES, 0, quad->numVertices());
+  glBindVertexArray(0);
+  glDisable(GL_TEXTURE_2D);
 }
 
 void SceneTest::updateCamera(int deltaTime) {

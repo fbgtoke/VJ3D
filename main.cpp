@@ -90,6 +90,7 @@ int main(int argc, char **argv)
 	// GLUT initialization
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
+	glutInitContextVersion(3, 3);
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 

@@ -5,12 +5,12 @@
 #include "Mesh.h"
 #include "Model.h"
 
-class Text3D {
+class Text3D : public Model {
 public:
   Text3D();
   ~Text3D();
 
-  void render();
+  void render() override;
 
   void setString(const std::string& str);
   void setPosition(const glm::vec3& position);
@@ -21,7 +21,6 @@ private:
   static void initCharacters();
 
   std::string mString;
-  glm::vec3 mPosition;
 };
 
 #endif // _TEXT3D_INCLUDE

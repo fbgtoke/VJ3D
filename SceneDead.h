@@ -14,9 +14,8 @@ public:
 private:
   void initScene() override;
   void updateScene(int deltaTime) override;
-  void renderScene() override;
 
-  Text3D mText;
+  Text3D* mText;
 
   std::string mLevelName;
 };

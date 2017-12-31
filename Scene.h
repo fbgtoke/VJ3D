@@ -62,7 +62,9 @@ protected:
 
 	virtual void initScene();
 	virtual void updateScene(int deltaTime);
-	virtual void renderScene();
+
+	virtual void beforeRender();
+	virtual void afterRender();
 
 	void checkSoundEffects();
 	std::list<sf::Sound*> mSoundEffects;

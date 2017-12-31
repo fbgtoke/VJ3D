@@ -13,7 +13,7 @@ public:
   virtual void init();
   virtual void update(int deltaTime);
 
-  void render();
+  virtual void render();
 
   void setTexture(Texture* texture);
   void setMesh(Mesh* mesh);

@@ -76,13 +76,6 @@ void SceneMenu::updateScene(int deltaTime) {
   }
 }
 
-void SceneMenu::renderScene() {
-	Scene::renderScene();
-
-  for (int i = 0; i < NUM_OPTIONS; ++i)
-    mOptions[i]->render();
-}
-
 void SceneMenu::prevOption() {
   if (mCurrentOption == NEW_GAME)
     mCurrentOption = EXIT;

@@ -204,6 +204,33 @@ CsvReader.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/CsvReader.cpp.s
 .PHONY : CsvReader.cpp.s
 
+FrameBuffer.o: FrameBuffer.cpp.o
+
+.PHONY : FrameBuffer.o
+
+# target to build an object file
+FrameBuffer.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/FrameBuffer.cpp.o
+.PHONY : FrameBuffer.cpp.o
+
+FrameBuffer.i: FrameBuffer.cpp.i
+
+.PHONY : FrameBuffer.i
+
+# target to preprocess a source file
+FrameBuffer.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/FrameBuffer.cpp.i
+.PHONY : FrameBuffer.cpp.i
+
+FrameBuffer.s: FrameBuffer.cpp.s
+
+.PHONY : FrameBuffer.s
+
+# target to generate assembly for a file
+FrameBuffer.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/FrameBuffer.cpp.s
+.PHONY : FrameBuffer.cpp.s
+
 Game.o: Game.cpp.o
 
 .PHONY : Game.o
@@ -1005,6 +1032,9 @@ help:
 	@echo "... CsvReader.o"
 	@echo "... CsvReader.i"
 	@echo "... CsvReader.s"
+	@echo "... FrameBuffer.o"
+	@echo "... FrameBuffer.i"
+	@echo "... FrameBuffer.s"
 	@echo "... Game.o"
 	@echo "... Game.i"
 	@echo "... Game.s"

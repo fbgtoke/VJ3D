@@ -12,7 +12,6 @@ public:
 private:
   void initScene() override;
   void updateScene(int deltaTime) override;
-  void renderScene() override;
 
   void initLevelList();
   void addLevel(const std::string& name);

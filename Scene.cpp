@@ -57,7 +57,12 @@ void Scene::update(int deltaTime) {
 }
 
 void Scene::render() {
-  renderScene();
+  beforeRender();
+   
+  for (Model* model : mRenderList)
+    model->render();
+
+  afterRender();
 }
 
 void Scene::receiveString(const std::string& tag, const std::string str) {}
@@ -99,10 +104,12 @@ void Scene::updateScene(int deltaTime) {
   }
 }
 
-void Scene::renderScene() {
-  for (Model* model : mRenderList)
-    model->render();
+void Scene::beforeRender() {
+  glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
+
+void Scene::afterRender() {}
 
 void Scene::playSoundEffect(const std::string& name) {
   const sf::SoundBuffer* buffer = Game::instance().getResource().soundBuffer(name);
