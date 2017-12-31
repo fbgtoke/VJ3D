@@ -93,6 +93,9 @@ void Level::setPlayer(Player* player) {
 
     mPlayer = player;
     Game::instance().getScene()->addModel(player);
+
+    float middleTile = mTilemap->getWidth() * 0.5f;
+    mPlayer->setPositionInTiles(glm::vec3(middleTile, 0.f, 0.f));
   }
 }
 
