@@ -8,13 +8,13 @@ int explodingTime 2000
 float maxBoatDistance 26
 
 ##### Obstacles #####
-int PeriodCarriageSlow 3500 // Tiempo entre uno y otro
+int PeriodCarriageSlow 4000 // Tiempo entre uno y otro
 float VelCarriageSlow 0.020 // Velocidad
 
-int PeriodCarriageFast 2000
-float VelCarriageFast 0.040
+int PeriodCarriageFast 2500
+float VelCarriageFast 0.050
 
-int PeriodHorseSlow 3200
+int PeriodHorseSlow 4000
 float VelHorseSlow 0.020
 
 int PeriodHorseFast 1000
