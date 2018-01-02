@@ -11,25 +11,27 @@ void SceneDead::receiveString(const std::string& tag, const std::string str) {
     mLevelName = str;
 }
 
-void SceneDead::initScene() {
-  Scene::initScene();
+void SceneDead::init() {
+  Scene::init();
 
-  float FOV = (float)M_PI/3.f;
-  float ar = (float)SCREEN_WIDTH/(float)SCREEN_HEIGHT;
+  float left = 0.f;
+  float right = SCREEN_WIDTH * 0.125f;
+  float bottom = 0.f;
+  float top = SCREEN_HEIGHT * 0.125f;
   float znear = 0.1f;
   float zfar  = 10000.f;
-  mProjectionMatrix = glm::perspective(FOV, ar, znear, zfar);
+  mProjectionMatrix = glm::ortho(left, right, bottom, top, znear, zfar);
 
-  VRP = glm::vec3(3, -1, -1) * TILE_SIZE;
-  OBS = glm::vec3(3, -1, 5) * TILE_SIZE;
+  VRP = glm::vec3(0.f, 0.f, -1);
+  OBS = glm::vec3(0.f, 0.f, 5);
   mViewMatrix = glm::lookAt(OBS, VRP, UP);
 
   mText.setString("YOU DIED");
   mText.setPosition(glm::vec3(0.f));
 }
 
-void SceneDead::updateScene(int deltaTime) {
-  Scene::updateScene(deltaTime);
+void SceneDead::update(int deltaTime) {
+  Scene::update(deltaTime);
 
   if (Game::instance().getKeyPressed(27)) // Escape
     Game::instance().changeScene(Scene::SCENE_MENU);
@@ -42,4 +44,10 @@ void SceneDead::updateScene(int deltaTime) {
       Game::instance().getBufferedScene()->receiveString("level-name", mLevelName);
     }
   }
+}
+
+void SceneDead::render() {
+  Scene::render();
+
+  mText.render();
 }

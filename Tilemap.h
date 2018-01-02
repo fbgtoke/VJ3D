@@ -10,6 +10,8 @@ public:
   Tilemap();
   ~Tilemap();
 
+  void render();
+
   void clear();
   void resize(const glm::ivec2& size);
   unsigned int getHeight() const;

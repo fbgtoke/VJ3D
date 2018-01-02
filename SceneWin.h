@@ -9,10 +9,11 @@ public:
   SceneWin();
   ~SceneWin() override;
 
-private:
-  void initScene() override;
-  void updateScene(int deltaTime) override;
+  void init() override;
+  void update(int deltaTime) override;
+  void render() override;
 
+private:
   Text3D mText;
 };
 

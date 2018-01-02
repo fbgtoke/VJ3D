@@ -11,6 +11,7 @@ public:
   virtual ~Model();
 
   virtual void init();
+  void render();
   virtual void update(int deltaTime);
 
   virtual void beforeRender();

@@ -5,8 +5,8 @@ SceneTest::SceneTest()
   : Scene(Scene::SCENE_TEST), mLevel(nullptr), mLevelName(""), mPlayer(nullptr) {}
 
 SceneTest::~SceneTest() {
-  if (mLevel != nullptr)
-    delete mLevel;
+  if (mLevel != nullptr) delete mLevel;
+  if (mPlayer != nullptr) delete mPlayer;
 }
 
 void SceneTest::receiveString(const std::string& tag, const std::string str) {
@@ -14,20 +14,8 @@ void SceneTest::receiveString(const std::string& tag, const std::string str) {
     mLevelName = str;
 }
 
-void SceneTest::removeModel(Model* model) {
-  Obstacle* obstacle = dynamic_cast<Obstacle*>(model);
-  if (obstacle != nullptr) {
-    mLevel->removeObstacle(obstacle);
-
-    if (obstacle->getType() == Obstacle::Bonus)
-      addScore(kScorePerBonus);
-  }
-
-  Scene::removeModel(model);
-}
-
-void SceneTest::initScene() {
-	Scene::initScene();
+void SceneTest::init() {
+	Scene::init();
 
   if (mLevelName == "") {
     std::cout << "No level selected!" << std::endl;
@@ -51,6 +39,37 @@ void SceneTest::initScene() {
   mDepthbuffer.init();
 }
 
+void SceneTest::update(int deltaTime) {
+  Scene::update(deltaTime);
+
+  if (Game::instance().getKeyPressed(27)) // Escape
+    Game::instance().changeScene(Scene::SCENE_LEVEL_SELECT);
+  
+  if (mLevel != nullptr) mLevel->update(deltaTime);
+
+  if (mPlayer != nullptr) {
+    mPlayer->update(deltaTime);
+    mLevel->checkCollisions(mPlayer);
+
+    checkPlayerInput();
+    checkPlayerOutOfCamera();
+    checkPlayerStandingTile();
+    checkPlayerDead();
+  }
+
+  updateCamera(deltaTime);
+
+  mLightAngle += (float)deltaTime * Game::instance().getResource().Float("sunSpeed");
+}
+
+void SceneTest::render() {
+  Scene::render();
+
+  renderShadowmap();
+  renderFramebuffer();
+  renderScene();
+}
+
 void SceneTest::initCamera() {
   kObsVector.x = Game::instance().getResource().Float("ObsVector_x");
   kObsVector.y = Game::instance().getResource().Float("ObsVector_y");
@@ -66,8 +85,6 @@ void SceneTest::initPlayer() {
   mPlayer = new Player();
   mPlayer->init();
 
-  addModel(mPlayer);
-
   if (mLevel != nullptr) {
     unsigned int width = mLevel->getTilemap().getWidth();
     float middleTile = (float)(width/2);
@@ -75,105 +92,49 @@ void SceneTest::initPlayer() {
   }
 }
 
-void SceneTest::updateScene(int deltaTime) {
-  Scene::updateScene(deltaTime);
-
-  if (Game::instance().getKeyPressed(27)) // Escape
-    Game::instance().changeScene(Scene::SCENE_LEVEL_SELECT);
-
-  updateCamera(deltaTime);
-  
-  checkPlayerInput();
-  checkPlayerOutOfCamera();
-  checkPlayerStandingTile();
-  checkPlayerDead();
-
-  mLightAngle += (float)deltaTime * Game::instance().getResource().Float("sunSpeed");
-}
-
-void SceneTest::render() {
-  renderShadowmap();
-  renderFramebuffer();
-  renderScene();
-}
-
 void SceneTest::renderShadowmap() {
   mTexProgram = Game::instance().getResource().shader("depth");
   mDepthbuffer.use();
 
+  mTexProgram->use();
   glm::mat4 PM = getDepthProjectionMatrix();
+  mTexProgram->setUniformMatrix4f("PM", PM);
   glm::mat4 VM = getDepthViewMatrix();
-  glm::mat4 TG;
-  glm::mat4 MVP;
+  mTexProgram->setUniformMatrix4f("VM", VM);
   
-  for (Model* model : mRenderList) {
-    TG = model->getTransform();
-    MVP = PM * VM * TG;
-
-    mTexProgram->use();
-    mTexProgram->setUniformMatrix4f("MVP", MVP);
-
-    Mesh* mesh = model->getMesh();
-    if (mesh != nullptr && model->visible()) {
-      model->beforeRender();
-
-      mesh->useShader(mTexProgram);
-      glBindVertexArray(mesh->getVAO());
-      glDrawArrays(GL_TRIANGLES, 0, mesh->numVertices());
-      glBindVertexArray(0);
-
-      model->afterRender();
-    }
-  }
+  if (mLevel != nullptr) mLevel->render();
+  if (mPlayer != nullptr) mPlayer->render();
 }
 
 void SceneTest::renderFramebuffer() {
   mTexProgram = Game::instance().getResource().shader("level");
   mFramebuffer.use();
 
+  mTexProgram->use();
   glm::mat4 PM = getProjectionMatrix();
+  mTexProgram->setUniformMatrix4f("PM", PM);
   glm::mat4 VM = getViewMatrix();
-  glm::mat4 TG;
-  glm::mat4 MVP;
+  mTexProgram->setUniformMatrix4f("VM", VM);
 
-  glm::mat4 biasMatrix = glm::mat4(
-    0.5, 0.0, 0.0, 0.0,
-    0.0, 0.5, 0.0, 0.0,
-    0.0, 0.0, 0.5, 0.0,
-    0.5, 0.5, 0.5, 0.1
-  );
+  glm::mat4 biasMatrix = getDepthBiasMatrix();
+  mTexProgram->setUniformMatrix4f("depthBiasMatrix", biasMatrix);
   glm::mat4 depthPM = getDepthProjectionMatrix();
+  mTexProgram->setUniformMatrix4f("depthPM", depthPM);
   glm::mat4 depthVM = getDepthViewMatrix();
-  glm::mat4 depthMVP;
+  mTexProgram->setUniformMatrix4f("depthVM", depthVM);
 
   glm::vec3 lightDirection = getLightDirection();
   glm::vec3 ambientColor = getAmbientColor();
+  mTexProgram->setUniform3f("lightDir", lightDirection.x, lightDirection.y, lightDirection.z);
+  mTexProgram->setUniform3f("ambientColor", ambientColor);
   
-  for (Model* model : mRenderList) {
-    TG = model->getTransform();
+  GLuint depthMap = mDepthbuffer.getTexture();
+  mTexProgram->setUniform1i("shadow", 1);
+  glActiveTexture(GL_TEXTURE0 + 1);
+  glBindTexture(GL_TEXTURE_2D, depthMap);
 
-    MVP = PM * VM * TG;
-    mTexProgram->setUniformMatrix4f("MVP", MVP);
-    depthMVP = biasMatrix * depthPM * depthVM * TG;
-    mTexProgram->setUniformMatrix4f("depthMVP", depthMVP);
-
-    mTexProgram->use();
-    mTexProgram->setUniform3f("lightDir", lightDirection.x, lightDirection.y, lightDirection.z);
-    mTexProgram->setUniform3f("ambientColor", ambientColor);
-    mTexProgram->setUniform2f("texoffset", 0.f, 0.f);
-
-    Mesh* mesh = model->getMesh();
-    if (mesh != nullptr && model->visible()) {
-      model->beforeRender();
-
-      mesh->useShader(mTexProgram);
-      glBindVertexArray(mesh->getVAO());
-      glDrawArrays(GL_TRIANGLES, 0, mesh->numVertices());
-      glBindVertexArray(0);
-
-      model->afterRender();
-    }
-  }
+  if (mLevel != nullptr) mLevel->render();
+  if (mPlayer != nullptr) mPlayer->render();
 }
 
 void SceneTest::renderScene() {
@@ -183,7 +144,8 @@ void SceneTest::renderScene() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   glm::mat4 TG(1.f);
-  TG = glm::scale(TG, glm::vec3(-1.f, 1.f, 1.f));
+  TG = glm::translate(TG, glm::vec3(0.f, 0.f, -1.f));
+  TG = glm::scale(TG, glm::vec3(-1.f, 1.f, 100.f));
 
   shader->use();
   shader->setUniformMatrix4f("TG", TG);
@@ -363,10 +325,19 @@ glm::mat4 SceneTest::getViewMatrix() const {
 }
 
 glm::mat4 SceneTest::getDepthViewMatrix() const {
-  glm::vec3 obs = 2 * TILE_SIZE * getLightDirection() * (-1.f);
+  glm::vec3 obs = 2 * TILE_SIZE * getLightDirection();// * (-1.f);
   glm::vec3 vrp = glm::vec3(0.f);
 
   return glm::lookAt(obs, vrp, UP);
+}
+
+glm::mat4 SceneTest::getDepthBiasMatrix() const {
+  return glm::mat4(
+    0.5, 0.0, 0.0, 0.0,
+    0.0, 0.5, 0.0, 0.0,
+    0.0, 0.0, 0.5, 0.0,
+    0.5, 0.5, 0.5, 0.1
+  );
 }
 
 void SceneTest::addScore(unsigned int score) { mScore += score; }

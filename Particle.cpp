@@ -18,17 +18,10 @@ void Particle::update(int deltaTime) {
     destroy();
 
   mVelocity.y += kGravity;
-}
 
-void Particle::onCollision(Model* model) {
-  Model::onCollision(model);
-
-  Tile* tile = dynamic_cast<Tile*> (model);
-  if (tile != nullptr) {
+  if (mPosition.y < getSize().y) {
     mVelocity.y *= kFriction * (-1.f);
     mVelocity.x *= kFriction;
     mVelocity.z *= kFriction;
   }
 }
-
-bool Particle::checkCollisions() const { return true; }

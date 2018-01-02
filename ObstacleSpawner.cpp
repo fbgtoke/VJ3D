@@ -35,12 +35,21 @@ void ObstacleSpawner::update(int deltaTime) {
     Obstacle* obstacle = (*it);
 
     if (!outOfBounds(obstacle)) {
+      obstacle->update(deltaTime);
       ++it;
     } else {
       obstacle->destroy();
+      delete obstacle;
       mSpawned.erase(it++);
     }
   }
+}
+
+void ObstacleSpawner::afterRender() {
+  Obstacle::afterRender();
+  
+  for (Obstacle* obstacle : mSpawned)
+    obstacle->render();
 }
 
 bool ObstacleSpawner::collides(const Model* m) const { return false; }
@@ -85,5 +94,4 @@ void ObstacleSpawner::spawnObstacle() {
   obstacle->setPositionInTiles(spawnPosition);
   obstacle->setVelocity(glm::vec3(mSpawnVel, 0.f, 0.f));
   mSpawned.push_back(obstacle);
-  Game::instance().getScene()->addModel(obstacle);
 }

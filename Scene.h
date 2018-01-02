@@ -3,6 +3,7 @@
 
 #include "utils.h"
 #include "Model.h"
+#include "Particle.h"
 
 class Scene {
 public:
@@ -18,8 +19,8 @@ public:
 	Scene(Scene::SceneType type);
 	virtual ~Scene();
 
-	void init();
-	void update(int deltaTime);
+	virtual void init();
+	virtual void update(int deltaTime);
 	virtual void render();
 
 	virtual void receiveString(const std::string& tag, const std::string str);
@@ -35,20 +36,8 @@ public:
 	static Scene* create(SceneType type);
 	Scene::SceneType getType() const;
 
-	virtual void initShaders();
-
 	void playSoundEffect(const std::string& name);
-
-	enum ModelFlags : unsigned char {
-		RenderNone  = 0x01,
-		RenderFirst = 0x02,
-		RenderLast  = 0x04,
-		UpdateNone  = 0x08,
-		UpdateFirst = 0x0A,
-		UpdateLast  = 0x0C
-	};
-	virtual void addModel(Model* model, unsigned char render = RenderLast | UpdateLast);
-  virtual void removeModel(Model* model);
+	void addParticle(Particle* particle);
 
 protected:
 	const Scene::SceneType mType;
@@ -62,18 +51,11 @@ protected:
 	glm::vec3 kLightDirection;
 	glm::vec3 kAmbientColor;
 
-	virtual void initScene();
-	virtual void updateScene(int deltaTime);
-
-	virtual void beforeRender();
-	virtual void afterRender();
-
 	void checkSoundEffects();
 	std::list<sf::Sound*> mSoundEffects;
 
-	std::list<Model*> mModels;
-	std::list<Model*> mUpdateList;
-	std::list<Model*> mRenderList;
+	void checkParticles(int deltaTime);
+	std::list<Particle*> mParticles;
 };
 
 #endif // _SCENE_INCLUDE

@@ -12,6 +12,11 @@ public:
   Level();
   ~Level();
 
+  void update(int deltaTime);
+  void render();
+
+  void checkCollisions(Model* model);
+
   void addObstacle(Obstacle* obstacle);
   void removeObstacle(Obstacle* obstacle);
   

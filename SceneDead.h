@@ -9,12 +9,13 @@ public:
   SceneDead();
   ~SceneDead() override;
 
+  void init() override;
+  void update(int deltaTime) override;
+  void render() override;
+
   void receiveString(const std::string& tag, const std::string str) override;
 
 private:
-  void initScene() override;
-  void updateScene(int deltaTime) override;
-
   Text3D mText;
 
   std::string mLevelName;

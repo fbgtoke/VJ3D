@@ -9,9 +9,6 @@ public:
   void init(int aliveTime);
   void update(int deltaTime) override;
 
-  void onCollision(Model* model) override;
-  bool checkCollisions() const override;
-
 private:
   float kGravity;
   float kFriction;

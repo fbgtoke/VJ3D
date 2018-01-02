@@ -9,10 +9,11 @@ public:
   SceneMenu();
   ~SceneMenu() override;
 
-private:
-  void initScene() override;
-  void updateScene(int deltaTime) override;
+  void init() override;
+  void update(int deltaTime) override;
+  void render() override;
 
+private:
   enum MenuOption {
     NEW_GAME = 0,
     HELP,

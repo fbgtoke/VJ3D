@@ -5,14 +5,14 @@ SceneMenu::SceneMenu()
   : Scene(Scene::SCENE_MENU) {}
 
 SceneMenu::~SceneMenu() {
-  removeModel(mOptions[0]);
-  removeModel(mOptions[1]);
-  removeModel(mOptions[2]);
-  removeModel(mOptions[3]);
+  delete mOptions[0];
+  delete mOptions[1];
+  delete mOptions[2];
+  delete mOptions[3];
 }
 
-void SceneMenu::initScene() {
-	Scene::initScene();
+void SceneMenu::init() {
+	Scene::init();
 
 	float FOV = (float)M_PI/3.f;
 	float ar = (float)SCREEN_WIDTH/(float)SCREEN_HEIGHT;
@@ -33,25 +33,21 @@ void SceneMenu::initScene() {
   
   mOptions.push_back(Model::create("newgame.obj", "palette.png"));
   mOptions[0]->setPosition(glm::vec3(0, 0, 0));
-  addModel(mOptions[0]);
 
   mOptions.push_back(Model::create("help.obj", "palette.png"));
   mOptions[1]->setPosition(glm::vec3(0, -16.f, 0));
-  addModel(mOptions[1]);
 
   mOptions.push_back(Model::create("credits.obj", "palette.png"));
   mOptions[2]->setPosition(glm::vec3(0, -32.f, 0));
-  addModel(mOptions[2]);
 
   mOptions.push_back(Model::create("exit.obj", "palette.png"));
   mOptions[3]->setPosition(glm::vec3(0, -48.f, 0));
-  addModel(mOptions[3]);
 
   Game::instance().setBackgroundMusic("menu.ogg", 0.f);
 }
 
-void SceneMenu::updateScene(int deltaTime) {
-  Scene::updateScene(deltaTime);
+void SceneMenu::update(int deltaTime) {
+  Scene::update(deltaTime);
 
   if (Game::instance().getKeyPressed(27)) // Escape
     Game::instance().stop();
@@ -79,6 +75,13 @@ void SceneMenu::updateScene(int deltaTime) {
 
     mOptions[i]->update(deltaTime);
   }
+}
+
+void SceneMenu::render() {
+  Scene::render();
+  
+  for (int i = 0; i < NUM_OPTIONS; ++i)
+    mOptions[i]->render();
 }
 
 void SceneMenu::prevOption() {

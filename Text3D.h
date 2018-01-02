@@ -10,6 +10,8 @@ public:
   Text3D();
   ~Text3D();
 
+  void render();
+
   void setString(const std::string& str);
   void setPosition(const glm::vec3& position);
 

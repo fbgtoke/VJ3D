@@ -24,6 +24,8 @@ public:
   Obstacle* getObstacleAtTile(const glm::vec3& tile);
 
 private:
+  void afterRender() override;
+
   float kBoundsMargin;
   int kPeriodVariability;
   bool outOfBounds(Obstacle* obstacle);

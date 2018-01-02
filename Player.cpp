@@ -59,10 +59,9 @@ void Player::update(int deltaTime) {
   if (mState == Player::Moving)
     updateMoving(deltaTime);
 
-  if (mState == Player::towardsBoat) {
-    mTargetPosition = mTargetBoat->getTopCenter();
-    mTargetPosition.y += getSize().y * 0.5f;
-    updateMoving(deltaTime);
+  if (mState == Player::onBoat) {
+    mPosition = mTargetBoat->getTopCenter();
+    mPosition.y += getSize().y * 0.5f;
   }
 
   if (mState == Player::Drowning) {
@@ -141,7 +140,7 @@ void Player::initExplosion() {
     direction.z = randomFloat(-.2f, .2f);
     particle->setVelocity(glm::normalize(direction) * 0.05f);
 
-    Game::instance().getScene()->addModel(particle);
+    Game::instance().getScene()->addParticle(particle);
   }
 }
 
@@ -160,11 +159,7 @@ void Player::changeState(Player::State state) {
     //Game::instance().getScene()->playSoundEffect("piu.ogg");
     break;
   case Player::onBoat:
-    mPosition = mTargetBoat->getTopCenter();
-    mVelocity.x = mTargetBoat->getVelocity().x;
-    mVelocity.y = 0.f;
-    mVelocity.z = 0.f;
-    mRotation.y = (float)M_PI;
+    mVelocity = glm::vec3(0.f);
     mAnimation.changeAnimation(0);
     break;
   case Player::Drowning:

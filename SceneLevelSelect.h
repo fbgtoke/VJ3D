@@ -11,10 +11,11 @@ public:
   SceneLevelSelect();
   ~SceneLevelSelect() override;
 
-private:
-  void initScene() override;
-  void updateScene(int deltaTime) override;
+  void init() override;
+  void update(int deltaTime) override;
+  void render() override;
 
+private:
   void initLevelList();
   void addLevel(const std::string& name);
 
@@ -24,6 +25,7 @@ private:
   int kLevelsPerRow;
   float kOptionSize;
   std::vector<LevelInfo> mLevels;
+  std::vector<Model*> mThumbnails;
 
   Text3D* mHighscoreTitle;
   std::vector<Text3D*> mHighscoreTable;

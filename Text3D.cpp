@@ -9,29 +9,33 @@ Text3D::Text3D() : mString("") {
     initCharacters();
 }
 
-Text3D::~Text3D() {}
+Text3D::~Text3D() {
+  for (Model* model : mModels) delete model;
+}
+
+void Text3D::render() {
+  for (Model* model : mModels)
+    model->render();
+}
 
 void Text3D::setString(const std::string& str) {
   mString = str;
 
-  for (Model* model : mModels) Game::instance().getScene()->removeModel(model);
+  for (Model* model : mModels) delete model;
   mModels.clear();
 
   for (int i = 0; i < mString.size(); ++i) {
     char c = mString[i];
-    Model* model = new Model();
-
     /* Caps => Minus */
     if (c >= 'A' && c <= 'Z')
       c += 32;
 
+    Model* model = new Model();
     model->init();
     model->setMesh(mCharacters[c]);
     model->setTexture(Game::instance().getResource().texture("palette.png"));
     model->setPosition(mPosition + getCharacterWidth() * (float)i * RIGHT);
     mModels.push_back(model);
-
-    Game::instance().getScene()->addModel(model);
   }
 }
 

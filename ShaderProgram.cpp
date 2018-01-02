@@ -66,6 +66,14 @@ const string &ShaderProgram::log() const
 	return errorLog;
 }
 
+void ShaderProgram::setUniform1i(const string &uniformName, GLuint v)
+{
+	GLint location = glGetUniformLocation(programId, uniformName.c_str());
+
+	if(location != -1)
+		glUniform1i(location, v);	
+}
+
 void ShaderProgram::setUniform1f(const string &uniformName, float v)
 {
 	GLint location = glGetUniformLocation(programId, uniformName.c_str());

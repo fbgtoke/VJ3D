@@ -1,6 +1,7 @@
 #version 330 core
 
-uniform mat4 MVP, depthMVP;
+uniform mat4 PM, VM, TG;
+uniform mat4 depthPM, depthVM, biasDepthMatrix;
 
 in vec3 vertex;
 in vec3 normal;
@@ -14,6 +15,8 @@ void main() {
 	normalFrag = normal;
 	texcoordFrag = texcoord;
 	
-	gl_Position = MVP * vec4(vertex, 1.0);
-  shadowCoord = depthMVP * vec4(vertex, 1.0);
+	gl_Position =
+    PM * VM * TG * vec4(vertex, 1.0);
+  shadowCoord =
+    biasDepthMatrix * depthPM * depthVM * TG * vec4(vertex, 1.0);
 }

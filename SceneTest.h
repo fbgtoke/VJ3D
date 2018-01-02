@@ -9,22 +9,26 @@
 #include "Player.h"
 #include "FrameBuffer.h"
 #include "DepthBuffer.h"
+#include "Text3D.h"
 
 class SceneTest : public Scene {
 public:
 	SceneTest();
 	~SceneTest() override;
 
+  void init() override;
+  void update(int deltaTime) override;
   void render() override;
 
   void receiveString(const std::string& tag, const std::string str) override;
-  void removeModel(Model* model) override;
 
   glm::mat4 getProjectionMatrix() const override;
   glm::mat4 getDepthProjectionMatrix() const;
 
   glm::mat4 getViewMatrix() const override;
   glm::mat4 getDepthViewMatrix() const;
+
+  glm::mat4 getDepthBiasMatrix() const;
 
   glm::vec3 getLightDirection() const override;
 
@@ -36,9 +40,6 @@ private:
   float mCameraVel;
   void initCamera();
   void updateCamera(int deltaTime);
-
-	void initScene() override;
-	void updateScene(int deltaTime) override;
   
   void renderShadowmap();
   void renderFramebuffer();

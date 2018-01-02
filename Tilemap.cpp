@@ -7,11 +7,29 @@ Tilemap::Tilemap() {
 
 Tilemap::~Tilemap() {}
 
+void Tilemap::render() {
+  for (int i = 0; i < getHeight(); ++i)
+    for (int j = 0; j < getWidth(); ++j)
+      mTiles[i][j]->render();
+
+  for (int i = 0; i < mMarginLeft.size(); ++i)
+    for (int j = 0; j < mMarginLeft[0].size(); ++j)
+      mMarginLeft[i][j]->render();
+
+  for (int i = 0; i < mMarginRight.size(); ++i)
+    for (int j = 0; j < mMarginRight[0].size(); ++j)
+      mMarginRight[i][j]->render();
+
+  for (int i = 0; i < mMarginBottom.size(); ++i)
+    for (int j = 0; j < mMarginBottom[0].size(); ++j)
+      mMarginBottom[i][j]->render();
+}
+
 void Tilemap::clear() {
   for (int i = 0; i < getHeight(); ++i) {
     for (int j = 0; j < getWidth(); ++j) {
       Tile* tile = mTiles[i][j];
-      Game::instance().getScene()->removeModel(tile);
+      delete tile;
     }
   }
   mTiles.clear();
@@ -36,8 +54,6 @@ void Tilemap::resize(const glm::ivec2& size) {
       mTiles[i][j] = tile;
       mTiles[i][j]->init();
       mTiles[i][j]->setPositionInTiles(position);
-
-      Game::instance().getScene()->addModel(tile, Scene::RenderFirst);
     }
   }
 
@@ -108,8 +124,6 @@ void Tilemap::initMargins() {
       mMarginLeft[i][j]->setPositionInTiles(position);
       mMarginLeft[i][j]->setDark(true);
 
-      Game::instance().getScene()->addModel(tile, Scene::RenderFirst);
-
       tile = new Tile(Tile::Grass);
       position.x = j + getWidth();
       position.y = -1.f;
@@ -119,8 +133,6 @@ void Tilemap::initMargins() {
       mMarginRight[i][j]->init();
       mMarginRight[i][j]->setPositionInTiles(position);
       mMarginRight[i][j]->setDark(true);
-
-      Game::instance().getScene()->addModel(tile, Scene::RenderFirst);
     }
   }
 
@@ -135,8 +147,6 @@ void Tilemap::initMargins() {
       mMarginBottom[i][j]->init();
       mMarginBottom[i][j]->setPositionInTiles(position);
       mMarginBottom[i][j]->setDark(true);
-
-      Game::instance().getScene()->addModel(tile, Scene::RenderFirst);
     }
   }
 }

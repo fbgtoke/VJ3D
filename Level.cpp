@@ -5,10 +5,38 @@ Level::Level() {}
 
 Level::~Level() {}
 
+void Level::update(int deltaTime) {
+  auto it = mObstacles.begin();
+  while (it != mObstacles.end()) {
+    Obstacle* obstacle = (*it);
+
+    if (obstacle->hasBeenDestroyed()) {
+      delete obstacle;
+      mObstacles.erase(it++);
+    } else {
+      obstacle->update(deltaTime);
+      it++;
+    }
+  }
+}
+
+void Level::render() {
+  mTilemap.render();
+
+  for (Obstacle* obstacle : mObstacles)
+    obstacle->render();
+}
+
+void Level::checkCollisions(Model* model) {
+  for (Model* model2 : mObstacles) {
+    if (model != model2 && model->collides(model2))
+      model->onCollision(model2);
+  }
+}
+
 void Level::addObstacle(Obstacle* obstacle) {
   if (obstacle != nullptr) {
     mObstacles.push_back(obstacle);
-    Game::instance().getScene()->addModel(obstacle);
   }
 }
 

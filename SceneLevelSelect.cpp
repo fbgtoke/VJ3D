@@ -4,10 +4,15 @@
 SceneLevelSelect::SceneLevelSelect()
   : Scene(Scene::SCENE_LEVEL_SELECT), mFrame(nullptr) {}
 
-SceneLevelSelect::~SceneLevelSelect() {}
+SceneLevelSelect::~SceneLevelSelect() {
+  delete mFrame;
+  for (Model* model : mThumbnails) delete model;
+  delete mHighscoreTitle;
+  for (Text3D* text : mHighscoreTable) delete text;
+}
 
-void SceneLevelSelect::initScene() {
-  Scene::initScene();
+void SceneLevelSelect::init() {
+  Scene::init();
 
   mTexProgram = Game::instance().getResource().shader("quad");
 
@@ -38,11 +43,10 @@ void SceneLevelSelect::initScene() {
   mFrame->setPosition(index2position(mCurrentSelected));
   mFrame->setRotation(glm::vec3((float)M_PI * 0.5f, 0.f, 0.f));
   mFrame->setScale(glm::vec3(1.25f));
-  addModel(mFrame);
 }
 
-void SceneLevelSelect::updateScene(int deltaTime) {
-  Scene::updateScene(deltaTime);
+void SceneLevelSelect::update(int deltaTime) {
+  Scene::update(deltaTime);
 
   if (Game::instance().getKeyPressed(27)) // Escape
     Game::instance().changeScene(Scene::SCENE_MENU);
@@ -60,6 +64,19 @@ void SceneLevelSelect::updateScene(int deltaTime) {
     nextIndex();
 
   mFrame->setPosition(index2position(mCurrentSelected));
+}
+
+void SceneLevelSelect::render() {
+  Scene::render();
+
+  for (Model* model : mThumbnails)
+    model->render();
+
+  mFrame->render();
+
+  mHighscoreTitle->render();
+  for (Text3D* text : mHighscoreTable)
+    text->render();
 }
 
 void SceneLevelSelect::initLevelList() {
@@ -89,7 +106,7 @@ void SceneLevelSelect::addLevel(const std::string& name) {
 
   glm::vec3 position = index2position(mLevels.size() - 1);
   model->setPosition(position);
-  addModel(model);
+  mThumbnails.push_back(model);
 }
 
 void SceneLevelSelect::initHighscoreText() {

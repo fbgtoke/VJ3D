@@ -6,8 +6,8 @@ SceneWin::SceneWin()
 
 SceneWin::~SceneWin() {}
 
-void SceneWin::initScene() {
-  Scene::initScene();
+void SceneWin::init() {
+  Scene::init();
 
   float FOV = (float)M_PI/3.f;
   float ar = (float)SCREEN_WIDTH/(float)SCREEN_HEIGHT;
@@ -23,12 +23,18 @@ void SceneWin::initScene() {
   mText.setPosition(glm::vec3(0.f));
 }
 
-void SceneWin::updateScene(int deltaTime) {
-  Scene::updateScene(deltaTime);
+void SceneWin::update(int deltaTime) {
+  Scene::update(deltaTime);
 
   if (Game::instance().getKeyPressed(27)) // Escape
     Game::instance().stop();
 
   if (Game::instance().getKeyPressed('z'))
     Game::instance().changeScene(Scene::SCENE_LEVEL_SELECT);
+}
+
+void SceneWin::render() {
+  Scene::render();
+
+  mText.render();
 }
