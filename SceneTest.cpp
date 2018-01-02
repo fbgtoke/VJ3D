@@ -16,8 +16,12 @@ void SceneTest::receiveString(const std::string& tag, const std::string str) {
 
 void SceneTest::removeModel(Model* model) {
   Obstacle* obstacle = dynamic_cast<Obstacle*>(model);
-  if (obstacle != nullptr)
+  if (obstacle != nullptr) {
     mLevel->removeObstacle(obstacle);
+
+    if (obstacle->getType() == Obstacle::Bonus)
+      addScore(kScorePerBonus);
+  }
 
   Scene::removeModel(model);
 }
@@ -31,11 +35,17 @@ void SceneTest::initScene() {
     return;
   }
 
+  mLevelInfo.setName(mLevelName);
   mLevel = LevelGenerator::generate("levels/" + mLevelName + "/");
+  
   initPlayer();
-
   initCamera();
   mLightAngle = 0.f;
+
+  mScore = 0;
+  kScorePerTile = Game::instance().getResource().Int("scorePerTile");
+  kScorePerSideWalk = Game::instance().getResource().Int("scorePerSideWalk");
+  kScorePerBonus = Game::instance().getResource().Int("scorePerBonus");
 
   mFramebuffer.init();
   mDepthbuffer.init();
@@ -213,39 +223,8 @@ void SceneTest::checkPlayerInput() {
   else if (Game::instance().getKeyPressed('s'))
     direction = OUT;
 
-  /* Check for boat */
-  glm::vec3 adjacent[3][3];
-  mPlayer->getAdjacentTiles(adjacent);
-  Obstacle* boat = nullptr;
-  if (direction == IN) {
-    boat = mLevel->getObstacleAtTile(adjacent[0][0]);
-    if (boat == nullptr || boat->getType() != Obstacle::Boat)
-      boat = mLevel->getObstacleAtTile(adjacent[0][1]);
-    if (boat == nullptr || boat->getType() != Obstacle::Boat)
-      boat = mLevel->getObstacleAtTile(adjacent[0][2]);
-  } else if (direction == OUT) {
-    boat = mLevel->getObstacleAtTile(adjacent[2][0]);
-    if (boat == nullptr || boat->getType() != Obstacle::Boat)
-      boat = mLevel->getObstacleAtTile(adjacent[2][1]);
-    if (boat == nullptr || boat->getType() != Obstacle::Boat)
-      boat = mLevel->getObstacleAtTile(adjacent[2][2]);
-  }
-
-  if (boat != nullptr) {
-    glm::vec2 playerPos(mPlayer->getPosition().x, mPlayer->getPosition().z);
-    glm::vec2 boatPos(boat->getPosition().x, boat->getPosition().z);
-    float maxDistance = Game::instance().getResource().Float("maxBoatDistance");
-    float distance = glm::distance(playerPos, boatPos);
-
-    if (distance > maxDistance) boat = nullptr;
-  }
-
-  /* Check for stone */
-  Obstacle* stone = nullptr;
-  if (direction == IN)
-    stone = mLevel->getObstacleAtTile(adjacent[0][1]);
-  else if (direction == OUT)
-    stone = mLevel->getObstacleAtTile(adjacent[0][2]);
+  Obstacle* boat = getBoatAdjacentToPlayer(direction);
+  Obstacle* stone = getStoneAdjacentToPlayer(direction);
 
   glm::vec3 targetTile = mPlayer->getPositionInTiles() + direction;
   glm::ivec2 targetTileInTilemap = mLevel->player2tilemap(targetTile);
@@ -254,9 +233,9 @@ void SceneTest::checkPlayerInput() {
 
   glm::vec3 targetPosition;
   if (jumping && !outOfBounds) {
-    if (boat != nullptr && boat->getType() == Obstacle::Boat)  {
+    if (boat != nullptr) {
       mPlayer->moveTowardsBoat(boat);
-    } else if (stone != nullptr && stone->getType() == Obstacle::Stone) {
+    } else if (stone != nullptr) {
       targetPosition = stone->getTopCenter();
       targetPosition.y += mPlayer->getSize().y * 0.5f;
       mPlayer->moveTowards(targetPosition);
@@ -265,6 +244,10 @@ void SceneTest::checkPlayerInput() {
       targetPosition.y = mPlayer->getSize().y * 0.5f;
       mPlayer->moveTowards(targetPosition);
     }
+
+    if (direction == IN) addScore(kScorePerTile);
+    else if (direction == OUT) removeScore(kScorePerTile);
+    else removeScore(kScorePerSideWalk);
   }
 }
 
@@ -299,6 +282,54 @@ void SceneTest::checkPlayerDead() {
     Game::instance().changeScene(Scene::SCENE_DEAD);
     Game::instance().getBufferedScene()->receiveString("level-name", mLevelName);
   }
+}
+
+Obstacle* SceneTest::getBoatAdjacentToPlayer(const glm::vec3& direction) {
+  glm::vec3 adjacent[3][3];
+  mPlayer->getAdjacentTiles(adjacent);
+
+  Obstacle* boat = nullptr;
+  if (direction == IN) {
+    boat = mLevel->getObstacleAtTile(adjacent[0][0]);
+    if (boat == nullptr || boat->getType() != Obstacle::Boat)
+      boat = mLevel->getObstacleAtTile(adjacent[0][1]);
+    if (boat == nullptr || boat->getType() != Obstacle::Boat)
+      boat = mLevel->getObstacleAtTile(adjacent[0][2]);
+  } else if (direction == OUT) {
+    boat = mLevel->getObstacleAtTile(adjacent[2][0]);
+    if (boat == nullptr || boat->getType() != Obstacle::Boat)
+      boat = mLevel->getObstacleAtTile(adjacent[2][1]);
+    if (boat == nullptr || boat->getType() != Obstacle::Boat)
+      boat = mLevel->getObstacleAtTile(adjacent[2][2]);
+  }
+
+  if (boat != nullptr) {
+    glm::vec2 playerPos(mPlayer->getPosition().x, mPlayer->getPosition().z);
+    glm::vec2 boatPos(boat->getPosition().x, boat->getPosition().z);
+    float maxDistance = Game::instance().getResource().Float("maxBoatDistance");
+    float distance = glm::distance(playerPos, boatPos);
+
+    if (distance > maxDistance) boat = nullptr;
+  }
+
+  if (boat != nullptr && boat->getType() == Obstacle::Boat)
+    return boat;
+  return nullptr;
+}
+
+Obstacle* SceneTest::getStoneAdjacentToPlayer(const glm::vec3& direction) {
+  glm::vec3 adjacent[3][3];
+  mPlayer->getAdjacentTiles(adjacent);
+
+  Obstacle* stone = nullptr;
+  if (direction == IN)
+    stone = mLevel->getObstacleAtTile(adjacent[0][1]);
+  else if (direction == OUT)
+    stone = mLevel->getObstacleAtTile(adjacent[0][2]);
+
+  if (stone != nullptr && stone->getType() == Obstacle::Stone)
+    return stone;
+  return nullptr;
 }
 
 glm::vec3 SceneTest::getLightDirection() const {
@@ -336,4 +367,13 @@ glm::mat4 SceneTest::getDepthViewMatrix() const {
   glm::vec3 vrp = glm::vec3(0.f);
 
   return glm::lookAt(obs, vrp, UP);
+}
+
+void SceneTest::addScore(unsigned int score) { mScore += score; }
+
+void SceneTest::removeScore(unsigned int score) {
+  if (score > mScore)
+    mScore = 0;
+  else
+    mScore -= score;
 }

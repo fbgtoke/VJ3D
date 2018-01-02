@@ -7,6 +7,11 @@ int drowningTime 1000
 int explodingTime 2000
 float maxBoatDistance 26
 
+##### Score #####
+int scorePerTile 10
+int scorePerSideWalk 1
+int scorePerBonus 20
+
 ##### Obstacles #####
 int PeriodCarriageSlow 4000 // Tiempo entre uno y otro
 float VelCarriageSlow 0.020 // Velocidad

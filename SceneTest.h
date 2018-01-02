@@ -4,6 +4,7 @@
 #include "Scene.h"
 #include "Tilemap.h"
 #include "Level.h"
+#include "LevelInfo.h"
 #include "LevelGenerator.h"
 #include "Player.h"
 #include "FrameBuffer.h"
@@ -49,10 +50,21 @@ private:
   void checkPlayerStandingTile();
   void checkPlayerDead();
 
+  Obstacle* getBoatAdjacentToPlayer(const glm::vec3& direction);
+  Obstacle* getStoneAdjacentToPlayer(const glm::vec3& direction);
+
+  LevelInfo mLevelInfo;
   Level* mLevel;
   std::string mLevelName;
 
   Player* mPlayer;
+
+  unsigned int mScore;
+  unsigned int kScorePerTile;
+  unsigned int kScorePerSideWalk;
+  unsigned int kScorePerBonus;
+  void addScore(unsigned int score);
+  void removeScore(unsigned int score);
 
   FrameBuffer mFramebuffer;
   DepthBuffer mDepthbuffer;
