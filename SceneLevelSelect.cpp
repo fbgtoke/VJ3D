@@ -27,17 +27,18 @@ void SceneLevelSelect::initScene() {
   mViewMatrix = glm::lookAt(OBS, VRP, UP);
 
   initLevelList();
+  mCurrentSelected = 0;
+
+  initHighscoreText();
 
   mFrame = new Model();
   mFrame->init();
   mFrame->setMesh(Game::instance().getResource().mesh("plane.obj"));
   mFrame->setTexture(Game::instance().getResource().texture("frame.png"));
-  mFrame->setPosition(mLevels[0].model->getPosition());
+  mFrame->setPosition(index2position(mCurrentSelected));
   mFrame->setRotation(glm::vec3((float)M_PI * 0.5f, 0.f, 0.f));
   mFrame->setScale(glm::vec3(1.25f));
   addModel(mFrame);
-
-  mCurrentSelected = 0;
 }
 
 void SceneLevelSelect::updateScene(int deltaTime) {
@@ -48,7 +49,9 @@ void SceneLevelSelect::updateScene(int deltaTime) {
   
   if (Game::instance().getKeyPressed('z')) {
     Game::instance().changeScene(Scene::SCENE_TEST);
-    Game::instance().getBufferedScene()->receiveString("level-name", mLevels[mCurrentSelected].name);
+
+    std::string levelName = mLevels[mCurrentSelected].getName();
+    Game::instance().getBufferedScene()->receiveString("level-name", levelName);
   }
 
   if (Game::instance().getKeyPressed('a'))
@@ -74,20 +77,52 @@ void SceneLevelSelect::initLevelList() {
 }
 
 void SceneLevelSelect::addLevel(const std::string& name) {
+  LevelInfo levelInfo;
+  levelInfo.setName(name);
+  mLevels.push_back(levelInfo);
+
   Model* model = new Model();
   model->init();
   model->setMesh(Game::instance().getResource().mesh("plane.obj"));
-  model->setTexture(Game::instance().getResource().texture("levels/" + name + "/thumbnail.png", true));
+  model->setTexture(levelInfo.getThumbnail());
   model->setRotation(glm::vec3((float)M_PI * 0.5f, 0.f, 0.f));
 
-  glm::vec3 position = index2position(mLevels.size());
+  glm::vec3 position = index2position(mLevels.size() - 1);
   model->setPosition(position);
   addModel(model);
+}
 
-  LevelInfo level;
-  level.name = name;
-  level.model = model;
-  mLevels.push_back(level);
+void SceneLevelSelect::initHighscoreText() {
+  mHighscoreTitle = new Text3D();
+  mHighscoreTitle->setString("Highscores");
+  mHighscoreTitle->setPosition(index2position(0) + DOWN * kOptionSize);
+
+  std::vector<unsigned int> highscores = mLevels[mCurrentSelected].getHighscores();
+  for (int i = 0; i < highscores.size(); ++i) {
+    glm::vec3 position = index2position(0) + DOWN * kOptionSize * 2.f;
+    position.y -= kOptionSize * 0.5f * (float)i;
+
+    Text3D* highscore = new Text3D();
+    highscore->setPosition(position);
+    mHighscoreTable.push_back(highscore);
+  }
+
+  updateHighscoreTable();
+}
+
+void SceneLevelSelect::updateHighscoreTable() {
+  std::vector<unsigned int> highscores = mLevels[mCurrentSelected].getHighscores();
+  for (int i = 0; i < highscores.size(); ++i) {
+    unsigned int score = highscores[i];
+
+    std::string str;
+    if (i == 0) str = "1st ";
+    else if (i == 1) str = "2nd ";
+    else str = "3rd ";
+    str += std::to_string(score);
+
+    mHighscoreTable[i]->setString(str);
+  }
 }
 
 void SceneLevelSelect::nextIndex() {
@@ -95,6 +130,8 @@ void SceneLevelSelect::nextIndex() {
     mCurrentSelected = 0;
   else
     mCurrentSelected += 1;
+
+  updateHighscoreTable();
 }
 
 void SceneLevelSelect::prevIndex() {
@@ -102,6 +139,8 @@ void SceneLevelSelect::prevIndex() {
     mCurrentSelected = mLevels.size() - 1;
   else
     mCurrentSelected -= 1;
+
+  updateHighscoreTable();
 }
 
 glm::vec3 SceneLevelSelect::index2position(unsigned int index) const {

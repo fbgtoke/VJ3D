@@ -3,6 +3,8 @@
 
 #include "utils.h"
 #include "Scene.h"
+#include "LevelInfo.h"
+#include "Text3D.h"
 
 class SceneLevelSelect : public Scene {
 public:
@@ -21,11 +23,12 @@ private:
 
   int kLevelsPerRow;
   float kOptionSize;
-  typedef struct {
-    std::string name;
-    Model* model;
-  } LevelInfo;
   std::vector<LevelInfo> mLevels;
+
+  Text3D* mHighscoreTitle;
+  std::vector<Text3D*> mHighscoreTable;
+  void initHighscoreText();
+  void updateHighscoreTable();
 
   void nextIndex();
   void prevIndex();

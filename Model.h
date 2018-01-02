@@ -15,7 +15,8 @@ public:
 
   virtual void beforeRender();
   virtual void afterRender();
-  bool visible() const;
+  void setVisible(bool visible);
+  bool visible()const;
 
   void setTexture(Texture* texture);
   void setMesh(Mesh* mesh);

@@ -4,7 +4,6 @@
 #include "utils.h"
 #include "Tilemap.h"
 #include "Model.h"
-#include "Player.h"
 #include "Obstacle.h"
 #include "ObstacleSpawner.h"
 
@@ -13,24 +12,17 @@ public:
   Level();
   ~Level();
 
-  void update(int deltaTime);
-
-  void setTilemap(Tilemap* tilemap);
-  void setPlayer(Player* player);
-
   void addObstacle(Obstacle* obstacle);
   void removeObstacle(Obstacle* obstacle);
+  
   Obstacle* getObstacleAtTile(const glm::vec3& tile);
   bool obstacleOfTypeAtTile(Obstacle::Type type, const glm::vec3& tile);
 
-  Tilemap* getTilemap();
-  Player* getPlayer();
-
-private:
-  Tilemap* mTilemap;
+  Tilemap& getTilemap();
   glm::ivec2 player2tilemap(const glm::vec3& position);
 
-  Player* mPlayer;
+private:
+  Tilemap mTilemap;
   std::list<Obstacle*> mObstacles;
 };
 

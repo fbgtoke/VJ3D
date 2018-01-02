@@ -5,23 +5,14 @@ Level* LevelGenerator::generate(const std::string& name) {
   Level* level = new Level();
 
   LevelGenerator::generateTilemap(name, level);
-  LevelGenerator::generatePlayer(name, level);
   LevelGenerator::generateObstacles(name, level);
 
   return level;
 }
 
 void LevelGenerator::generateTilemap(const std::string& name, Level* level) {
-  Tilemap* tilemap = new Tilemap();
-  tilemap->loadFromFile(name + "tilemap.csv");
-  level->setTilemap(tilemap);
-}
-
-void LevelGenerator::generatePlayer(const std::string& name, Level* level) {
-  Player* player = new Player();
-  player->init();
-  player->setPositionInTiles(glm::vec3(0, 0, 0));
-  level->setPlayer(player);
+  Tilemap& tilemap = level->getTilemap();
+  tilemap.loadFromFile(name + "tilemap.csv");
 }
 
 void LevelGenerator::generateObstacles(const std::string& name, Level* level) {
@@ -163,7 +154,7 @@ Obstacle* LevelGenerator::generateSpawner(Level* level, int value) {
   spawner->setSpawnType(type);
   spawner->setSpawnPeriod(period);
   spawner->setSpawnVel(vel);
-  spawner->setNumberOfTiles(level->getTilemap()->getWidth());
+  spawner->setNumberOfTiles(level->getTilemap().getWidth());
 
   return spawner;
 }

@@ -34,6 +34,7 @@ void Model::afterRender() {
   glDisable(GL_TEXTURE_2D);
 }
 
+void Model::setVisible(bool visible) { mEnableRendering = visible; }
 bool Model::visible() const { return mEnableRendering; }
 
 void Model::setTexture(Texture* texture) { mTexture = texture; }

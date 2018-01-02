@@ -13,6 +13,10 @@ public:
   void setString(const std::string& str);
   void setPosition(const glm::vec3& position);
 
+  void setVisible(bool visible);
+
+  float getCharacterWidth() const;
+
 private:
   static bool mInitialized;
   static std::map<char, Mesh*> mCharacters;

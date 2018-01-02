@@ -2,7 +2,7 @@
 #include "Game.h"
 
 SceneTest::SceneTest()
-  : Scene(Scene::SCENE_TEST), mLevelName("") {}
+  : Scene(Scene::SCENE_TEST), mLevel(nullptr), mLevelName(""), mPlayer(nullptr) {}
 
 SceneTest::~SceneTest() {
   if (mLevel != nullptr)
@@ -31,20 +31,38 @@ void SceneTest::initScene() {
     return;
   }
 
+  mLevel = LevelGenerator::generate("levels/" + mLevelName + "/");
+  initPlayer();
+
+  initCamera();
+  mLightAngle = 0.f;
+
+  mFramebuffer.init();
+  mDepthbuffer.init();
+}
+
+void SceneTest::initCamera() {
   kObsVector.x = Game::instance().getResource().Float("ObsVector_x");
   kObsVector.y = Game::instance().getResource().Float("ObsVector_y");
   kObsVector.z = Game::instance().getResource().Float("ObsVector_z");
   kCameraVel = Game::instance().getResource().Float("CameraVel");
 
-  mLevel = LevelGenerator::generate("levels/" + mLevelName + "/");
-
   mCameraVel = kCameraVel;
-  VRP = mLevel->getPlayer()->getCenter();
+  VRP = mPlayer->getCenter();
   OBS = VRP + kObsVector * TILE_SIZE;
+}
 
-  mLightAngle = 0.f;
+void SceneTest::initPlayer() {
+  mPlayer = new Player();
+  mPlayer->init();
 
-  mFramebuffer.init();
+  addModel(mPlayer);
+
+  if (mLevel != nullptr) {
+    unsigned int width = mLevel->getTilemap().getWidth();
+    float middleTile = (float)(width/2);
+    mPlayer->setPositionInTiles(glm::vec3(middleTile, 0.f, 0.f));
+  }
 }
 
 void SceneTest::updateScene(int deltaTime) {
@@ -54,9 +72,10 @@ void SceneTest::updateScene(int deltaTime) {
     Game::instance().changeScene(Scene::SCENE_LEVEL_SELECT);
 
   updateCamera(deltaTime);
-  mLevel->update(deltaTime);
-
+  
+  checkPlayerInput();
   checkPlayerOutOfCamera();
+  checkPlayerStandingTile();
   checkPlayerDead();
 
   mLightAngle += (float)deltaTime * Game::instance().getResource().Float("sunSpeed");
@@ -172,36 +191,114 @@ void SceneTest::renderScene() {
 }
 
 void SceneTest::updateCamera(int deltaTime) {
-  if (mLevel == nullptr || mLevel->getPlayer() == nullptr)
-    return;
-  
-  if (mLevel->getPlayer()->isAlive()) {
-    VRP.x = mLevel->getPlayer()->getCenter().x;
+  if (mPlayer != nullptr && mPlayer->isAlive()) {
+    VRP.x = mPlayer->getCenter().x;
     VRP.y = 0.f;
     VRP.z += mCameraVel * (float)deltaTime;
     OBS = VRP + kObsVector * TILE_SIZE;
   }
 }
 
-void SceneTest::checkPlayerDead() {
-  Player* player = mLevel->getPlayer();
-  if (player == nullptr) return;
+void SceneTest::checkPlayerInput() {
+  Player::State state = mPlayer->getState();
+  if (state != Player::Idle && state != Player::onBoat) return;
+  
+  glm::vec3 direction(0.f);
+  if (Game::instance().getKeyPressed('a') && state != Player::onBoat)
+    direction = LEFT;
+  else if (Game::instance().getKeyPressed('d') && state != Player::onBoat)
+    direction = RIGHT;
+  else if (Game::instance().getKeyPressed('w'))
+    direction = IN;
+  else if (Game::instance().getKeyPressed('s'))
+    direction = OUT;
 
-  if (player->isExploding())
-    mCameraVel = 0.f;
-  if (player->isDead()) {
-    Game::instance().changeScene(Scene::SCENE_DEAD);
-    Game::instance().getBufferedScene()->receiveString("level-name", mLevelName);
+  /* Check for boat */
+  glm::vec3 adjacent[3][3];
+  mPlayer->getAdjacentTiles(adjacent);
+  Obstacle* boat = nullptr;
+  if (direction == IN) {
+    boat = mLevel->getObstacleAtTile(adjacent[0][0]);
+    if (boat == nullptr || boat->getType() != Obstacle::Boat)
+      boat = mLevel->getObstacleAtTile(adjacent[0][1]);
+    if (boat == nullptr || boat->getType() != Obstacle::Boat)
+      boat = mLevel->getObstacleAtTile(adjacent[0][2]);
+  } else if (direction == OUT) {
+    boat = mLevel->getObstacleAtTile(adjacent[2][0]);
+    if (boat == nullptr || boat->getType() != Obstacle::Boat)
+      boat = mLevel->getObstacleAtTile(adjacent[2][1]);
+    if (boat == nullptr || boat->getType() != Obstacle::Boat)
+      boat = mLevel->getObstacleAtTile(adjacent[2][2]);
+  }
+
+  if (boat != nullptr) {
+    glm::vec2 playerPos(mPlayer->getPosition().x, mPlayer->getPosition().z);
+    glm::vec2 boatPos(boat->getPosition().x, boat->getPosition().z);
+    float maxDistance = Game::instance().getResource().Float("maxBoatDistance");
+    float distance = glm::distance(playerPos, boatPos);
+
+    if (distance > maxDistance) boat = nullptr;
+  }
+
+  /* Check for stone */
+  Obstacle* stone = nullptr;
+  if (direction == IN)
+    stone = mLevel->getObstacleAtTile(adjacent[0][1]);
+  else if (direction == OUT)
+    stone = mLevel->getObstacleAtTile(adjacent[0][2]);
+
+  glm::vec3 targetTile = mPlayer->getPositionInTiles() + direction;
+  glm::ivec2 targetTileInTilemap = mLevel->player2tilemap(targetTile);
+  bool jumping = (direction != glm::vec3(0.f));
+  bool outOfBounds = mLevel->getTilemap().outOfBounds(targetTileInTilemap);
+
+  glm::vec3 targetPosition;
+  if (jumping && !outOfBounds) {
+    if (boat != nullptr && boat->getType() == Obstacle::Boat)  {
+      mPlayer->moveTowardsBoat(boat);
+    } else if (stone != nullptr && stone->getType() == Obstacle::Stone) {
+      targetPosition = stone->getTopCenter();
+      targetPosition.y += mPlayer->getSize().y * 0.5f;
+      mPlayer->moveTowards(targetPosition);
+    } else {
+      targetPosition = mPlayer->getPosition() + direction * TILE_SIZE;
+      targetPosition.y = mPlayer->getSize().y * 0.5f;
+      mPlayer->moveTowards(targetPosition);
+    }
   }
 }
 
 void SceneTest::checkPlayerOutOfCamera() {
-  glm::vec4 homoPosition(mLevel->getPlayer()->getCenter(), 1.0f);
+  glm::vec4 homoPosition(mPlayer->getCenter(), 1.0f);
   glm::vec4 projectedPosition =
     glm::vec4(mProjectionMatrix * mViewMatrix * homoPosition);
 
   if (projectedPosition.y/projectedPosition.w < -1.0f)
-    mLevel->getPlayer()->explode();
+    mPlayer->explode();
+}
+
+void SceneTest::checkPlayerStandingTile() {
+  if (mPlayer != nullptr && mPlayer->getState() == Player::Idle) {
+    glm::vec3 standingTile = mPlayer->getPositionInTiles();
+    glm::ivec2 standingTileInTilemap = mLevel->player2tilemap(standingTile);
+    Tile::Type tile = mLevel->getTilemap().getTile(standingTileInTilemap);
+
+    if (tile == Tile::Water && !mLevel->obstacleOfTypeAtTile(Obstacle::Stone, standingTile))
+      mPlayer->changeState(Player::Drowning);
+    else if (tile == Tile::Goal)
+      Game::instance().changeScene(Scene::SCENE_WIN);
+  }
+}
+
+void SceneTest::checkPlayerDead() {
+  if (mPlayer == nullptr) return;
+
+  if (mPlayer->isExploding())
+    mCameraVel = 0.f;
+  if (mPlayer->isDead()) {
+    Game::instance().changeScene(Scene::SCENE_DEAD);
+    Game::instance().getBufferedScene()->receiveString("level-name", mLevelName);
+  }
 }
 
 glm::vec3 SceneTest::getLightDirection() const {

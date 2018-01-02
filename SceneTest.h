@@ -5,6 +5,7 @@
 #include "Tilemap.h"
 #include "Level.h"
 #include "LevelGenerator.h"
+#include "Player.h"
 #include "FrameBuffer.h"
 #include "DepthBuffer.h"
 
@@ -32,6 +33,7 @@ private:
   float kCameraVel;
 
   float mCameraVel;
+  void initCamera();
   void updateCamera(int deltaTime);
 
 	void initScene() override;
@@ -41,11 +43,16 @@ private:
   void renderFramebuffer();
   void renderScene();
 
+  void initPlayer();
+  void checkPlayerInput();
   void checkPlayerOutOfCamera();
+  void checkPlayerStandingTile();
   void checkPlayerDead();
 
   Level* mLevel;
   std::string mLevelName;
+
+  Player* mPlayer;
 
   FrameBuffer mFramebuffer;
   DepthBuffer mDepthbuffer;

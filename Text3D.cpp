@@ -28,7 +28,8 @@ void Text3D::setString(const std::string& str) {
     model->init();
     model->setMesh(mCharacters[c]);
     model->setTexture(Game::instance().getResource().texture("palette.png"));
-    model->move(TILE_SIZE * (float)i * RIGHT);
+    model->setPosition(mPosition + getCharacterWidth() * (float)i * RIGHT);
+    mModels.push_back(model);
 
     Game::instance().getScene()->addModel(model);
   }
@@ -38,7 +39,25 @@ void Text3D::setPosition(const glm::vec3& position) {
   mPosition = position;
 
   for (int i = 0; i < mModels.size(); ++i)
-    mModels[i]->setPosition(position + RIGHT * (float)i);
+    mModels[i]->setPosition(position + getCharacterWidth() * RIGHT * (float)i);
+}
+
+void Text3D::setVisible(bool visible) {
+  for (int i = 0; i < mModels.size(); ++i) {
+    mModels[i]->setVisible(visible);
+  }
+}
+
+float Text3D::getCharacterWidth() const {
+  float width;
+
+  Model* m = new Model();
+  m->init();
+  m->setMesh(mCharacters['m']);
+  width = m->getSize().x;
+  delete m;
+
+  return width;
 }
 
 void Text3D::initCharacters() {
