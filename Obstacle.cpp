@@ -3,7 +3,7 @@
 #include "Game.h"
 
 Obstacle::Obstacle(Obstacle::Type type)
-  : mType(type), mShadow(nullptr) {}
+  : mType(type) {}
 
 Obstacle::~Obstacle() {}
 
@@ -88,11 +88,6 @@ void Obstacle::init() {
 
   setMesh(mAnimation.getCurrentFrame()->mesh);
   setTexture(Game::instance().getResource().texture("palette.png"));
-
-  if (mType != Obstacle::Boat && mType != Obstacle::Stone && mType != Obstacle::Spawner) {
-    mShadow = new Shadow(this);
-    mShadow->init();
-  }
 }
 
 void Obstacle::update(int deltaTime) {
@@ -100,22 +95,4 @@ void Obstacle::update(int deltaTime) {
 
   if (mVelocity.x >= 0.f)
     mScale.x = -1.f;
-
-  if (mShadow != nullptr)
-    mShadow->update(deltaTime);
-}
-
-void Obstacle::beforeRender() {
-  if (mShadow != nullptr)
-    mShadow->render();
-  
-  ModelAnimated::beforeRender();
-}
-
-void Obstacle::onDestroy() {
-  if (mShadow != nullptr) {
-    mShadow->destroy();
-    delete mShadow;
-    mShadow = nullptr;
-  }
 }

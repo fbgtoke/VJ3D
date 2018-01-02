@@ -204,6 +204,33 @@ CsvReader.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/CsvReader.cpp.s
 .PHONY : CsvReader.cpp.s
 
+DepthBuffer.o: DepthBuffer.cpp.o
+
+.PHONY : DepthBuffer.o
+
+# target to build an object file
+DepthBuffer.cpp.o:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/DepthBuffer.cpp.o
+.PHONY : DepthBuffer.cpp.o
+
+DepthBuffer.i: DepthBuffer.cpp.i
+
+.PHONY : DepthBuffer.i
+
+# target to preprocess a source file
+DepthBuffer.cpp.i:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/DepthBuffer.cpp.i
+.PHONY : DepthBuffer.cpp.i
+
+DepthBuffer.s: DepthBuffer.cpp.s
+
+.PHONY : DepthBuffer.s
+
+# target to generate assembly for a file
+DepthBuffer.cpp.s:
+	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/DepthBuffer.cpp.s
+.PHONY : DepthBuffer.cpp.s
+
 FrameBuffer.o: FrameBuffer.cpp.o
 
 .PHONY : FrameBuffer.o
@@ -798,33 +825,6 @@ ShaderProgram.cpp.s:
 	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/ShaderProgram.cpp.s
 .PHONY : ShaderProgram.cpp.s
 
-Shadow.o: Shadow.cpp.o
-
-.PHONY : Shadow.o
-
-# target to build an object file
-Shadow.cpp.o:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Shadow.cpp.o
-.PHONY : Shadow.cpp.o
-
-Shadow.i: Shadow.cpp.i
-
-.PHONY : Shadow.i
-
-# target to preprocess a source file
-Shadow.cpp.i:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Shadow.cpp.i
-.PHONY : Shadow.cpp.i
-
-Shadow.s: Shadow.cpp.s
-
-.PHONY : Shadow.s
-
-# target to generate assembly for a file
-Shadow.cpp.s:
-	$(MAKE) -f CMakeFiles/CrossyRoad.dir/build.make CMakeFiles/CrossyRoad.dir/Shadow.cpp.s
-.PHONY : Shadow.cpp.s
-
 Sprite.o: Sprite.cpp.o
 
 .PHONY : Sprite.o
@@ -1032,6 +1032,9 @@ help:
 	@echo "... CsvReader.o"
 	@echo "... CsvReader.i"
 	@echo "... CsvReader.s"
+	@echo "... DepthBuffer.o"
+	@echo "... DepthBuffer.i"
+	@echo "... DepthBuffer.s"
 	@echo "... FrameBuffer.o"
 	@echo "... FrameBuffer.i"
 	@echo "... FrameBuffer.s"
@@ -1098,9 +1101,6 @@ help:
 	@echo "... ShaderProgram.o"
 	@echo "... ShaderProgram.i"
 	@echo "... ShaderProgram.s"
-	@echo "... Shadow.o"
-	@echo "... Shadow.i"
-	@echo "... Shadow.s"
 	@echo "... Sprite.o"
 	@echo "... Sprite.i"
 	@echo "... Sprite.s"

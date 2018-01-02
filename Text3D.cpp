@@ -11,29 +11,35 @@ Text3D::Text3D() : mString("") {
 
 Text3D::~Text3D() {}
 
-void Text3D::render() {
-  glm::vec3 position = mPosition;
+void Text3D::setString(const std::string& str) {
+  mString = str;
 
-  setMesh(mCharacters['0']);
-  setTexture(Game::instance().getResource().texture("palette.png"));
+  for (Model* model : mModels) Game::instance().getScene()->removeModel(model);
+  mModels.clear();
 
-  for (char c : mString) {
+  for (int i = 0; i < mString.size(); ++i) {
+    char c = mString[i];
+    Model* model = new Model();
+
     /* Caps => Minus */
     if (c >= 'A' && c <= 'Z')
       c += 32;
 
-    if (mCharacters.count(c) != 0) {
-      setMesh(mCharacters[c]);
-      Model::render();
-    }
-    move(RIGHT * getSize().x);
-  }
+    model->init();
+    model->setMesh(mCharacters[c]);
+    model->setTexture(Game::instance().getResource().texture("palette.png"));
+    model->move(TILE_SIZE * (float)i * RIGHT);
 
-  setPosition(position);
+    Game::instance().getScene()->addModel(model);
+  }
 }
 
-void Text3D::setString(const std::string& str) { mString = str; }
-void Text3D::setPosition(const glm::vec3& position) { mPosition = position; }
+void Text3D::setPosition(const glm::vec3& position) {
+  mPosition = position;
+
+  for (int i = 0; i < mModels.size(); ++i)
+    mModels[i]->setPosition(position + RIGHT * (float)i);
+}
 
 void Text3D::initCharacters() {
   std::string file = "0.obj";

@@ -9,6 +9,8 @@ SceneLevelSelect::~SceneLevelSelect() {}
 void SceneLevelSelect::initScene() {
   Scene::initScene();
 
+  mTexProgram = Game::instance().getResource().shader("quad");
+
   kLevelsPerRow = Game::instance().getResource().Int("LevelsPerRow");
   kOptionSize = Game::instance().getResource().Float("OptionSize");
 

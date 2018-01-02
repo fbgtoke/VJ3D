@@ -20,15 +20,17 @@ public:
 
 	void init();
 	void update(int deltaTime);
-	void render();
+	virtual void render();
 
 	virtual void receiveString(const std::string& tag, const std::string str);
 
-	virtual glm::vec3 getLightDirection() const;
-	virtual float getAmbientLight() const;
+	ShaderProgram* getShader();
 
-	glm::mat4 getProjectionMatrix() const;
-	glm::mat4 getViewMatrix() const;
+	virtual glm::vec3 getLightDirection() const;
+	virtual glm::vec3 getAmbientColor() const;
+
+	virtual glm::mat4 getProjectionMatrix() const;
+	virtual glm::mat4 getViewMatrix() const;
 
 	static Scene* create(SceneType type);
 	Scene::SceneType getType() const;
@@ -57,8 +59,8 @@ protected:
 
 	glm::vec3 OBS, VRP;
 
-	static const glm::vec3 kLightDirection;
-	static const float kAmbientLight;
+	glm::vec3 kLightDirection;
+	glm::vec3 kAmbientColor;
 
 	virtual void initScene();
 	virtual void updateScene(int deltaTime);

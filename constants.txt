@@ -5,6 +5,7 @@ int jumpFrames 10 //los frames que tiene un salto 10
 float horizontalSpeed 0.015 //no bajar de 0.015
 int drowningTime 1000
 int explodingTime 2000
+float maxBoatDistance 26
 
 ##### Obstacles #####
 int PeriodCarriageSlow 3500 // Tiempo entre uno y otro
@@ -48,11 +49,15 @@ float CameraVel -0.0100 // cuanto mas grande en abs, mas rapido va
 int BorderSize 10
 
 ##### Particles #####
+int nParticles 20
 float ParticleGravity -0.025
 float ParticleFriction 0.8
 
 ##### Light #####
 float sunSpeed 0.0004
-float minAmbientLight 0.2
-float maxAmbientLight 0.4
-float diffuseComponent 0.2
+float menulightDir_x 0
+float menulightDir_y 0
+float menulightDir_z -1
+float ambientColor_x 0.1
+float ambientColor_y 0.1
+float ambientColor_z 0.1

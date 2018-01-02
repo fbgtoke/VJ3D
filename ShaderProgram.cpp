@@ -82,12 +82,28 @@ void ShaderProgram::setUniform2f(const string &uniformName, float v0, float v1)
 		glUniform2f(location, v0, v1);
 }
 
+void ShaderProgram::setUniform2f(const string &uniformName, const glm::vec2& v)
+{
+	GLint location = glGetUniformLocation(programId, uniformName.c_str());
+
+	if(location != -1)
+		glUniform2f(location, v.x, v.y);
+}
+
 void ShaderProgram::setUniform3f(const string &uniformName, float v0, float v1, float v2)
 {
 	GLint location = glGetUniformLocation(programId, uniformName.c_str());
 
 	if(location != -1)
 		glUniform3f(location, v0, v1, v2);
+}
+
+void ShaderProgram::setUniform3f(const string &uniformName, const glm::vec3& v)
+{
+	GLint location = glGetUniformLocation(programId, uniformName.c_str());
+
+	if(location != -1)
+		glUniform3f(location, v.x, v.y, v.z);
 }
 
 void ShaderProgram::setUniform4f(const string &uniformName, float v0, float v1, float v2, float v3)

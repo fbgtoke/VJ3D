@@ -5,7 +5,6 @@
 #include "Obstacle.h"
 #include "Tile.h"
 #include "Particle.h"
-#include "Shadow.h"
 
 class Player : public ModelAnimated {
 public:
@@ -14,8 +13,6 @@ public:
 
 	void init() override;
 	void update(int deltaTime) override;
-
-  void onDestroy() override;
 
   enum State {
     Idle,
@@ -68,8 +65,6 @@ private:
   void renderParticles();
 
   void initExplosion();
-
-  Shadow* mShadow;
 };
 
 #endif // _PLAYER_INCLUDE

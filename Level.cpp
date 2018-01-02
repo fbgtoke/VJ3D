@@ -40,6 +40,15 @@ void Level::update(int deltaTime) {
       boat = getObstacleAtTile(adjacent[2][2]);
   }
 
+  if (boat != nullptr) {
+    glm::vec2 playerPos(mPlayer->getPosition().x, mPlayer->getPosition().z);
+    glm::vec2 boatPos(boat->getPosition().x, boat->getPosition().z);
+    float maxDistance = Game::instance().getResource().Float("maxBoatDistance");
+    float distance = glm::distance(playerPos, boatPos);
+
+    if (distance > maxDistance) boat = nullptr;
+  }
+
   /* Check for stone */
   Obstacle* stone = nullptr;
   if (direction == IN)

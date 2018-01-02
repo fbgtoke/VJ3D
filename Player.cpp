@@ -1,8 +1,7 @@
 #include "Player.h"
 #include "Game.h"
 
-Player::Player() :
-  mShadow(nullptr) {}
+Player::Player() {}
 
 Player::~Player() {}
 
@@ -51,9 +50,6 @@ void Player::init() {
 
   mTimer = 0;
   mTimerActivated = false;
-
-  mShadow = new Shadow(this);
-  mShadow->init();
 }
 
 void Player::update(int deltaTime) {
@@ -79,15 +75,9 @@ void Player::update(int deltaTime) {
 
   if (mState == Player::Exploding && timerExpired())
     changeState(Player::Dead);
-
-  if (isAlive() && mShadow != nullptr)
-    mShadow->update(deltaTime);
 }
 
 void Player::beforeRender() {
-  if (isAlive() && mShadow != nullptr)
-    mShadow->render();
-  
   mEnableRendering =
     mState != Player::Exploding &&
     mState != Player::Dead;
@@ -128,7 +118,8 @@ void Player::updateMoving(int deltaTime) {
 }
 
 void Player::initExplosion() {
-  for (int i = 0; i < 50; ++i) {
+  int nParticles = Game::instance().getResource().Int("nParticles");
+  for (int i = 0; i < nParticles; ++i) {
     Particle* particle = new Particle();
     particle->init(15000 + rand()%200);
     particle->setMesh(Game::instance().getResource().mesh("cube.obj"));
@@ -155,11 +146,11 @@ void Player::initExplosion() {
 }
 
 void Player::changeState(Player::State state) {
-  //if (state == mState) return;
   mState = state;
 
   switch (state) {
   case Player::Idle:
+    setPositionInTiles(getPositionInTiles());
     setVelocity(glm::vec3(0.f));
     mAnimation.changeAnimation(0);
     break;
@@ -263,12 +254,4 @@ void Player::setTimer(int time) {
 
 bool Player::timerExpired() const {
   return mTimerActivated && mTimer < 0;
-}
-
-void Player::onDestroy() {
-  if (mShadow != nullptr) {
-    mShadow->destroy();
-    delete mShadow;
-    mShadow = nullptr;
-  }
 }

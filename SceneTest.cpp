@@ -36,14 +36,6 @@ void SceneTest::initScene() {
   kObsVector.z = Game::instance().getResource().Float("ObsVector_z");
   kCameraVel = Game::instance().getResource().Float("CameraVel");
 
-	float left = 6 * TILE_SIZE * (-1.f);
-	float right = 6 * TILE_SIZE;
-  float bottom = 2 * TILE_SIZE * (-1.f);
-  float top = (float)SCREEN_HEIGHT/(float)SCREEN_WIDTH * (right - left) + bottom;
-	float znear = 0.1f;
-	float zfar  = 10000.f;
-  mProjectionMatrix = glm::ortho(left, right, bottom, top, znear, zfar);
-
   mLevel = LevelGenerator::generate("levels/" + mLevelName + "/");
 
   mCameraVel = kCameraVel;
@@ -70,20 +62,97 @@ void SceneTest::updateScene(int deltaTime) {
   mLightAngle += (float)deltaTime * Game::instance().getResource().Float("sunSpeed");
 }
 
-void SceneTest::beforeRender() {
-  Scene::beforeRender();
-  mFramebuffer.use();
+void SceneTest::render() {
+  renderShadowmap();
+  renderFramebuffer();
+  renderScene();
 }
 
-void SceneTest::afterRender() {
-  Scene::afterRender();
+void SceneTest::renderShadowmap() {
+  mTexProgram = Game::instance().getResource().shader("depth");
+  mDepthbuffer.use();
+
+  glm::mat4 PM = getDepthProjectionMatrix();
+  glm::mat4 VM = getDepthViewMatrix();
+  glm::mat4 TG;
+  glm::mat4 MVP;
   
+  for (Model* model : mRenderList) {
+    TG = model->getTransform();
+    MVP = PM * VM * TG;
+
+    mTexProgram->use();
+    mTexProgram->setUniformMatrix4f("MVP", MVP);
+
+    Mesh* mesh = model->getMesh();
+    if (mesh != nullptr && model->visible()) {
+      model->beforeRender();
+
+      mesh->useShader(mTexProgram);
+      glBindVertexArray(mesh->getVAO());
+      glDrawArrays(GL_TRIANGLES, 0, mesh->numVertices());
+      glBindVertexArray(0);
+
+      model->afterRender();
+    }
+  }
+}
+
+void SceneTest::renderFramebuffer() {
+  mTexProgram = Game::instance().getResource().shader("level");
+  mFramebuffer.use();
+
+  glm::mat4 PM = getProjectionMatrix();
+  glm::mat4 VM = getViewMatrix();
+  glm::mat4 TG;
+  glm::mat4 MVP;
+
+  glm::mat4 biasMatrix = glm::mat4(
+    0.5, 0.0, 0.0, 0.0,
+    0.0, 0.5, 0.0, 0.0,
+    0.0, 0.0, 0.5, 0.0,
+    0.5, 0.5, 0.5, 0.1
+  );
+  glm::mat4 depthPM = getDepthProjectionMatrix();
+  glm::mat4 depthVM = getDepthViewMatrix();
+  glm::mat4 depthMVP;
+
+  glm::vec3 lightDirection = getLightDirection();
+  glm::vec3 ambientColor = getAmbientColor();
+  
+  for (Model* model : mRenderList) {
+    TG = model->getTransform();
+
+    MVP = PM * VM * TG;
+    mTexProgram->setUniformMatrix4f("MVP", MVP);
+    depthMVP = biasMatrix * depthPM * depthVM * TG;
+    mTexProgram->setUniformMatrix4f("depthMVP", depthMVP);
+
+    mTexProgram->use();
+    mTexProgram->setUniform3f("lightDir", lightDirection.x, lightDirection.y, lightDirection.z);
+    mTexProgram->setUniform3f("ambientColor", ambientColor);
+    mTexProgram->setUniform2f("texoffset", 0.f, 0.f);
+
+    Mesh* mesh = model->getMesh();
+    if (mesh != nullptr && model->visible()) {
+      model->beforeRender();
+
+      mesh->useShader(mTexProgram);
+      glBindVertexArray(mesh->getVAO());
+      glDrawArrays(GL_TRIANGLES, 0, mesh->numVertices());
+      glBindVertexArray(0);
+
+      model->afterRender();
+    }
+  }
+}
+
+void SceneTest::renderScene() {
+  ShaderProgram* shader = Game::instance().getResource().shader("post");
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
   glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
- 
-  ShaderProgram* shader = Game::instance().getResource().shader("post");
-  
+
   glm::mat4 TG(1.f);
   TG = glm::scale(TG, glm::vec3(-1.f, 1.f, 1.f));
 
@@ -103,12 +172,15 @@ void SceneTest::afterRender() {
 }
 
 void SceneTest::updateCamera(int deltaTime) {
-  VRP.x = mLevel->getPlayer()->getCenter().x;
-  VRP.y = 0.f;
-  VRP.z += mCameraVel * (float)deltaTime;
-  OBS = VRP + kObsVector * TILE_SIZE;
-
-  mViewMatrix = glm::lookAt(OBS, VRP, UP);
+  if (mLevel == nullptr || mLevel->getPlayer() == nullptr)
+    return;
+  
+  if (mLevel->getPlayer()->isAlive()) {
+    VRP.x = mLevel->getPlayer()->getCenter().x;
+    VRP.y = 0.f;
+    VRP.z += mCameraVel * (float)deltaTime;
+    OBS = VRP + kObsVector * TILE_SIZE;
+  }
 }
 
 void SceneTest::checkPlayerDead() {
@@ -134,16 +206,37 @@ void SceneTest::checkPlayerOutOfCamera() {
 
 glm::vec3 SceneTest::getLightDirection() const {
   glm::vec3 dir;
-  dir.x = cos(mLightAngle);
+  dir.z = cos(mLightAngle);
   dir.y = abs(sin(mLightAngle)) * (-1.f);
-  dir.z = 0.f;
+  dir.x = 0.f;
+
   dir = glm::normalize(dir);
 
   return dir;
 }
 
-float SceneTest::getAmbientLight() const {
-  float maxAmbientLight = Game::instance().getResource().Float("maxAmbientLight");
-  float minAmbientLight = Game::instance().getResource().Float("minAmbientLight");
-  return abs(sin(mLightAngle)) * maxAmbientLight + minAmbientLight;
+glm::mat4 SceneTest::getProjectionMatrix() const {
+  return glm::ortho(
+    6 * TILE_SIZE * (-1.f),
+    6 * TILE_SIZE,
+    2 * TILE_SIZE * (-1.f),
+    (float)SCREEN_HEIGHT/(float)SCREEN_WIDTH * (12 * TILE_SIZE) - 2 * TILE_SIZE,
+    0.1f,
+    10000.f
+  );
+}
+
+glm::mat4 SceneTest::getDepthProjectionMatrix() const {
+  return glm::ortho(-10.f, 10.f, -10.f, 10.f, -10.f, 20.f);
+}
+
+glm::mat4 SceneTest::getViewMatrix() const {
+  return glm::lookAt(OBS, VRP, UP);
+}
+
+glm::mat4 SceneTest::getDepthViewMatrix() const {
+  glm::vec3 obs = 2 * TILE_SIZE * getLightDirection() * (-1.f);
+  glm::vec3 vrp = glm::vec3(0.f);
+
+  return glm::lookAt(obs, vrp, UP);
 }

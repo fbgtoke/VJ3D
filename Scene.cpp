@@ -7,9 +7,6 @@
 
 #include "Game.h"
 
-const glm::vec3 Scene::kLightDirection = glm::normalize(glm::vec3(0.0, -4.0, -1.0));
-const float Scene::kAmbientLight = 0.6;
-
 Scene::Scene(Scene::SceneType type)
   : mType(type) {}
 
@@ -58,17 +55,48 @@ void Scene::update(int deltaTime) {
 
 void Scene::render() {
   beforeRender();
-   
-  for (Model* model : mRenderList)
-    model->render();
+
+  glm::mat4 PM = getProjectionMatrix();
+  glm::mat4 VM = getViewMatrix();
+  glm::mat4 TG;
+  glm::mat4 MVP;
+
+  glm::vec3 lightDirection = getLightDirection();
+  glm::vec3 ambientColor = getAmbientColor();
+
+  for (Model* model : mRenderList) {
+    TG = model->getTransform();
+    MVP = PM * VM * TG;
+
+    mTexProgram->use();
+    mTexProgram->setUniform3f("lightDir", lightDirection.x, lightDirection.y, lightDirection.z);
+    mTexProgram->setUniform3f("ambientColor", ambientColor);
+    mTexProgram->setUniform2f("texoffset", 0.f, 0.f);
+    mTexProgram->setUniformMatrix4f("MVP", MVP);
+    mTexProgram->setUniformMatrix4f("modelMatrix", TG);
+
+    Mesh* mesh = model->getMesh();
+    if (mesh != nullptr && model->visible()) {
+      model->beforeRender();
+
+      mesh->useShader(mTexProgram);
+      glBindVertexArray(mesh->getVAO());
+      glDrawArrays(GL_TRIANGLES, 0, mesh->numVertices());
+      glBindVertexArray(0);
+
+      model->afterRender();
+    }
+  }
 
   afterRender();
 }
 
 void Scene::receiveString(const std::string& tag, const std::string str) {}
 
+ShaderProgram* Scene::getShader() { return mTexProgram; }
+
 glm::vec3 Scene::getLightDirection() const { return kLightDirection; }
-float Scene::getAmbientLight() const { return kAmbientLight; }
+glm::vec3 Scene::getAmbientColor() const { return kAmbientColor; }
 
 glm::mat4 Scene::getProjectionMatrix() const { return mProjectionMatrix; }
 glm::mat4 Scene::getViewMatrix() const { return mViewMatrix; }
@@ -80,6 +108,12 @@ void Scene::initShaders() {
 void Scene::initScene() {
   mProjectionMatrix = glm::mat4(1.0f);
   mViewMatrix = glm::mat4(1.0f);
+
+  kLightDirection = glm::vec3(0.f);
+
+  kAmbientColor.x = Game::instance().getResource().Float("ambientColor_x");
+  kAmbientColor.y = Game::instance().getResource().Float("ambientColor_y");
+  kAmbientColor.z = Game::instance().getResource().Float("ambientColor_z");
 }
 
 void Scene::updateScene(int deltaTime) {

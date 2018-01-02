@@ -6,17 +6,25 @@
 #include "Level.h"
 #include "LevelGenerator.h"
 #include "FrameBuffer.h"
+#include "DepthBuffer.h"
 
 class SceneTest : public Scene {
 public:
 	SceneTest();
 	~SceneTest() override;
 
+  void render() override;
+
   void receiveString(const std::string& tag, const std::string str) override;
   void removeModel(Model* model) override;
 
+  glm::mat4 getProjectionMatrix() const override;
+  glm::mat4 getDepthProjectionMatrix() const;
+
+  glm::mat4 getViewMatrix() const override;
+  glm::mat4 getDepthViewMatrix() const;
+
   glm::vec3 getLightDirection() const override;
-  float getAmbientLight() const override;
 
 private:
   float mLightAngle;
@@ -29,15 +37,18 @@ private:
 	void initScene() override;
 	void updateScene(int deltaTime) override;
   
-  void beforeRender() override;
-  void afterRender() override;
+  void renderShadowmap();
+  void renderFramebuffer();
+  void renderScene();
 
   void checkPlayerOutOfCamera();
   void checkPlayerDead();
 
   Level* mLevel;
   std::string mLevelName;
+
   FrameBuffer mFramebuffer;
+  DepthBuffer mDepthbuffer;
 };
 
 #endif // SCENE_TEST_INCLUDE

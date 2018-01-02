@@ -19,18 +19,14 @@ void Tile::init() {
 void Tile::beforeRender() {
   Model::beforeRender();
 
+  ShaderProgram* shader = Game::instance().getScene()->getShader();
+
   glm::vec2 texcoord = type2texturecoord(mType);
-  mShaderProgram->setUniform2f("texoffset", texcoord.x, texcoord.y);
+  shader->setUniform2f("texoffset", texcoord);
 
-  mShaderProgram->setUniform3f("lightDir", 0.f, 0.f, 0.f);
-
-  float ambientLight = Game::instance().getScene()->getAmbientLight();
-  if (mDark) ambientLight = Game::instance().getResource().Float("minAmbientLight");
-  mShaderProgram->setUniform1f("ambientColor", ambientLight);
-
-  float diffColor = Game::instance().getResource().Float("diffuseComponent");
-  if (mDark) diffColor *= 0.1f;
-  mShaderProgram->setUniform1f("diffColor", diffColor);
+  glm::vec3 ambientColor = Game::instance().getScene()->getAmbientColor();
+  if (mDark) ambientColor *= 0.05f;
+  shader->setUniform3f("ambientColor", ambientColor);
 }
 
 void Tile::setType(Tile::Type type) { mType = type; }

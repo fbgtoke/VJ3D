@@ -24,11 +24,8 @@ void SceneDead::initScene() {
   OBS = glm::vec3(3, -1, 5) * TILE_SIZE;
   mViewMatrix = glm::lookAt(OBS, VRP, UP);
 
-  mText = new Text3D();
-  mText->init();
-  mText->setString("YOU DIED");
-  mText->setPosition(glm::vec3(0.f));
-  addModel(mText);
+  mText.setString("YOU DIED");
+  mText.setPosition(glm::vec3(0.f));
 }
 
 void SceneDead::updateScene(int deltaTime) {

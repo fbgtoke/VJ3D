@@ -24,6 +24,11 @@ void SceneMenu::initScene() {
   OBS = glm::vec3(3, -1, 5) * TILE_SIZE;
   mViewMatrix = glm::lookAt(OBS, VRP, UP);
 
+  kLightDirection.x = Game::instance().getResource().Float("menulightDir_x");
+  kLightDirection.y = Game::instance().getResource().Float("menulightDir_y");
+  kLightDirection.z = Game::instance().getResource().Float("menulightDir_z");
+  kLightDirection = glm::normalize(kLightDirection);
+
   mCurrentOption = NEW_GAME;
   
   mOptions.push_back(Model::create("newgame.obj", "palette.png"));

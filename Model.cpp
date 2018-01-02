@@ -2,7 +2,6 @@
 #include "Game.h"
 
 Model::Model() :
-  mShaderProgram(nullptr),
   mTexture(nullptr), mMesh(nullptr) {}
 
 Model::~Model() {}
@@ -15,8 +14,6 @@ void Model::init() {
   mRotationSpeed = glm::vec3(0.f);
   mScale = glm::vec3(1.f);
 
-	setShader(Game::instance().getResource().shader("simple"));
-
   mEnableRendering = true;
   mDestroyed = false;
 }
@@ -27,48 +24,17 @@ void Model::update(int deltaTime) {
 }
 
 void Model::beforeRender() {
-  Scene* scene = Game::instance().getScene();
-
-  glm::vec3 lightDirection = scene->getLightDirection();
-  float ambientLight = scene->getAmbientLight();
-
-  float diffColor = Game::instance().getResource().Float("diffuseComponent");
-
-  glm::mat4 PM = scene->getProjectionMatrix();
-  glm::mat4 VM = scene->getViewMatrix();
-  glm::mat4 TG = getTransform();
-  
-  mShaderProgram->use();
-  mShaderProgram->setUniform3f("lightDir", lightDirection.x, lightDirection.y, lightDirection.z);
-  mShaderProgram->setUniform1f("ambientColor", ambientLight);
-  mShaderProgram->setUniform1f("diffColor", diffColor);
-  mShaderProgram->setUniform2f("texoffset", 0.f, 0.f);
-  mShaderProgram->setUniformMatrix4f("PM", PM);
-  mShaderProgram->setUniformMatrix4f("VM", VM);
-  mShaderProgram->setUniformMatrix4f("TG", TG);
-  mMesh->useShader(mShaderProgram);
+  glEnable(GL_TEXTURE_2D);
 
   if (mTexture != nullptr)
     mTexture->use();
-
-  glEnable(GL_TEXTURE_2D);
-}
-
-void Model::render() {
-  beforeRender();
-
-  if (mMesh != nullptr && mEnableRendering) {
-    glBindVertexArray(mMesh->getVAO());
-  	glDrawArrays(GL_TRIANGLES, 0, mMesh->numVertices());
-    glBindVertexArray(0);
-  }
-
-  afterRender();
 }
 
 void Model::afterRender() {
   glDisable(GL_TEXTURE_2D);
 }
+
+bool Model::visible() const { return mEnableRendering; }
 
 void Model::setTexture(Texture* texture) { mTexture = texture; }
 
@@ -79,8 +45,6 @@ void Model::setMesh(Mesh* mesh) {
     mSize = mMesh->size();
   }
 }
-
-void Model::setShader(ShaderProgram* shaderProgram) { mShaderProgram = shaderProgram; }
 
 void Model::setPosition(const glm::vec3& position) { mPosition = position; }
 void Model::setPositionInTiles(const glm::vec3& position) {

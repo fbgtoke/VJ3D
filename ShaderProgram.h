@@ -31,7 +31,9 @@ public:
 	// Pass uniforms to the associated shaders
 	void setUniform1f(const string &uniformName, float v);
 	void setUniform2f(const string &uniformName, float v0, float v1);
+	void setUniform2f(const string &uniformName, const glm::vec2& v);
 	void setUniform3f(const string &uniformName, float v0, float v1, float v2);
+	void setUniform3f(const string &uniformName, const glm::vec3& v);
 	void setUniform4f(const string &uniformName, float v0, float v1, float v2, float v3);
 	void setUniformMatrix4f(const string &uniformName, glm::mat4 &mat);
 

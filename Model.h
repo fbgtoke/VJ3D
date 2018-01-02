@@ -13,11 +13,12 @@ public:
   virtual void init();
   virtual void update(int deltaTime);
 
-  virtual void render();
+  virtual void beforeRender();
+  virtual void afterRender();
+  bool visible() const;
 
   void setTexture(Texture* texture);
   void setMesh(Mesh* mesh);
-  void setShader(ShaderProgram* shaderProgram);
 
   void setPosition(const glm::vec3& position);
   void setPositionInTiles(const glm::vec3& position);
@@ -59,12 +60,8 @@ public:
 
 protected:
   bool mEnableRendering;
-  virtual void beforeRender();
-  virtual void afterRender();
 
   virtual void onDestroy();
-
-  ShaderProgram* mShaderProgram;
 
   Texture* mTexture;
   Mesh* mMesh;
