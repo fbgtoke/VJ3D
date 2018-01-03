@@ -1,11 +1,57 @@
-<gui layers=1>
+<gui layers=2>
 
 <layer>
   <sprite>
-    <position>200 200</position>
+    <position>150 100</position>
     <size>128 128</size>
     <texture>levels/level1/thumbnail.png</texture>
-  </sprite> 
+  </sprite>
+  <text>
+    <position>130 250</position>
+    <size>20</size>
+    <color>1.0 1.0 1.0</color>
+    <value>OneShot</value>
+  </text>
+  <sprite>
+    <position>350 100</position>
+    <size>128 128</size>
+    <texture>levels/level2/thumbnail.png</texture>
+  </sprite>
+  <text>
+    <position>330 250</position>
+    <size>20</size>
+    <color>1.0 1.0 1.0</color>
+    <value>Casual</value>
+  </text>
+  <sprite>
+    <position>550 100</position>
+    <size>128 128</size>
+    <texture>levels/level3/thumbnail.png</texture>
+  </sprite>
+  <text>
+    <position>530 250</position>
+    <size>20</size>
+    <color>1.0 1.0 1.0</color>
+    <value>HighRisk</value>
+  </text>
+  <sprite>
+    <position>750 100</position>
+    <size>128 128</size>
+    <texture>levels/level3/thumbnail.png</texture>
+  </sprite>
+  <text>
+    <position>730 250</position>
+    <size>20</size>
+    <color>1.0 1.0 1.0</color>
+    <value>TheLast</value>
+  </text>
 </layer>
+
+<layer>
+  <position>0 0</position>
+  <size>1280 720</size>
+  <texture>textures/error.png</texture>
+</layer>
+
 
 </gui>
