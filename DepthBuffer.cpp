@@ -1,25 +1,35 @@
 #include "DepthBuffer.h"
 #include "Game.h"
 
-DepthBuffer::DepthBuffer() {}
+DepthBuffer::DepthBuffer()
+  : mTexture(nullptr) {}
 
 DepthBuffer::~DepthBuffer() {
   glDeleteFramebuffers(1, &mFBO);
+
+  if (mTexture != nullptr) delete mTexture;
 }
 
 void DepthBuffer::init() {
   glGenFramebuffers(1, &mFBO);
   glBindFramebuffer(GL_FRAMEBUFFER, mFBO);
 
-  glGenTextures(1, &mTexture);
-  glBindTexture(GL_TEXTURE_2D, mTexture);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-  glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, mTexture, 0);
+  mTexture = new Texture();
+  mTexture->createEmptyTexture(
+    SCREEN_WIDTH,
+    SCREEN_HEIGHT,
+    GL_DEPTH_COMPONENT16,
+    GL_DEPTH_COMPONENT,
+    GL_FLOAT
+  );
+  mTexture->setWrapS(GL_CLAMP_TO_EDGE);
+  mTexture->setWrapT(GL_CLAMP_TO_EDGE);
+  mTexture->setMinFilter(GL_NEAREST);
+  mTexture->setMagFilter(GL_NEAREST);
+  mTexture->setTexUnit(GL_TEXTURE1);
+  
+  GLuint texId = mTexture->getTexId();
+  glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, texId, 0);
   glDrawBuffer(GL_NONE);
 
   if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
@@ -34,4 +44,4 @@ void DepthBuffer::use() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-GLuint DepthBuffer::getTexture() const { return mTexture; }
+Texture* DepthBuffer::getTexture() { return mTexture; }

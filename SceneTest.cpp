@@ -28,6 +28,7 @@ void SceneTest::init() {
   
   initPlayer();
   initCamera();
+  initGui();
   mLightAngle = 0.f;
 
   mScore = 0;
@@ -128,38 +129,21 @@ void SceneTest::renderFramebuffer() {
   mTexProgram->setUniform3f("lightDir", lightDirection.x, lightDirection.y, lightDirection.z);
   mTexProgram->setUniform3f("ambientColor", ambientColor);
   
-  GLuint depthMap = mDepthbuffer.getTexture();
   mTexProgram->setUniform1i("shadow", 1);
-  glActiveTexture(GL_TEXTURE0 + 1);
-  glBindTexture(GL_TEXTURE_2D, depthMap);
+  mDepthbuffer.getTexture()->use();
 
   if (mLevel != nullptr) mLevel->render();
   if (mPlayer != nullptr) mPlayer->render();
 }
 
 void SceneTest::renderScene() {
-  ShaderProgram* shader = Game::instance().getResource().shader("post");
+  mTexProgram = Game::instance().getResource().shader("post");
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
   glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  glm::mat4 TG(1.f);
-  TG = glm::translate(TG, glm::vec3(0.f, 0.f, -1.f));
-  TG = glm::scale(TG, glm::vec3(-1.f, 1.f, 100.f));
-
-  shader->use();
-  shader->setUniformMatrix4f("TG", TG);
-
-  glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D, mFramebuffer.getTexture());
-
-  Mesh* quad = Game::instance().getResource().mesh("frame-buffer.obj");
-  quad->useShader(shader);
-
-  glBindVertexArray(quad->getVAO());
-  glDrawArrays(GL_TRIANGLES, 0, quad->numVertices());
-  glBindVertexArray(0);
-  glDisable(GL_TEXTURE_2D);
+  mBufferedScene->setTexture(mFramebuffer.getTexture());
+  mGui.render();
 }
 
 void SceneTest::updateCamera(int deltaTime) {
@@ -347,4 +331,19 @@ void SceneTest::removeScore(unsigned int score) {
     mScore = 0;
   else
     mScore -= score;
+}
+
+void SceneTest::initGui() {
+  Text* text = new Text();
+  text->init();
+  text->setString("Test");
+  mGui.addSprite(text);
+
+  mBufferedScene = Sprite::create(
+    glm::vec2(SCREEN_WIDTH, SCREEN_HEIGHT),
+    mFramebuffer.getTexture(),
+    Game::instance().getResource().shader("post")
+  );
+  mBufferedScene->flipY();
+  mGui.addSprite(mBufferedScene);
 }

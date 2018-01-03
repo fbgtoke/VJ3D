@@ -25,7 +25,11 @@ public:
 	bool loadFromFile(const string &filename, PixelFormat format);
 	void loadFromGlyphBuffer(unsigned char *buffer, int width, int height);
 
-	void createEmptyTexture(int width, int height);
+	void createEmptyTexture(int width, int height,
+		GLint internalFormat = GL_RED,
+		GLenum format = GL_RED,
+		GLenum type = GL_UNSIGNED_BYTE);
+	
 	void loadSubtextureFromGlyphBuffer(unsigned char *buffer, int x, int y, int width, int height);
 	void generateMipmap();
 	
@@ -40,12 +44,13 @@ public:
 	int height() const { return heightTex; }
 
 	GLuint getTexId() const;
+	void setTexUnit(GLenum unit);
 
 private:
 	int widthTex, heightTex;
 	GLuint texId;
 	GLint wrapS, wrapT, minFilter, magFilter;
-
+	GLenum texUnit;
 };
 
 

@@ -10,6 +10,7 @@ Texture::Texture() {
 	wrapT = GL_REPEAT;
 	minFilter = GL_LINEAR_MIPMAP_LINEAR;
 	magFilter = GL_LINEAR_MIPMAP_LINEAR;
+	texUnit = GL_TEXTURE0;
 }
 
 
@@ -52,11 +53,11 @@ void Texture::loadFromGlyphBuffer(unsigned char *buffer, int width, int height) 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 }
 
-void Texture::createEmptyTexture(int width, int height) {
+void Texture::createEmptyTexture(int width, int height, GLint internalFormat, GLenum format, GLenum type) {
 	glGenTextures(1, &texId);
 	glBindTexture(GL_TEXTURE_2D, texId);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, type, 0);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 }
 
@@ -83,6 +84,7 @@ void Texture::setMinFilter(GLint value) { minFilter = value; }
 void Texture::setMagFilter(GLint value) { magFilter = value; }
 
 void Texture::use() const {
+	glActiveTexture(texUnit);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, texId);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS);
@@ -92,3 +94,4 @@ void Texture::use() const {
 }
 
 GLuint Texture::getTexId() const { return texId; }
+void Texture::setTexUnit(GLenum unit) { texUnit = unit; }

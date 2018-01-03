@@ -6,5 +6,5 @@ in vec2 texcoordFrag;
 out vec4 color;
 
 void main() {
-	color = texture(tex, texcoordFrag);
+  color = texture(tex, texcoordFrag);
 }

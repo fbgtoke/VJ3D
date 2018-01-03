@@ -2,6 +2,7 @@
 #define _FRAME_BUFFER_INCLUDE
 
 #include "utils.h"
+#include "Texture.h"
 
 class FrameBuffer {
 public:
@@ -10,10 +11,11 @@ public:
 
   void init();
   void use();
-  GLuint getTexture() const;
+  Texture* getTexture();
 
 private:
-  GLuint mFBO, mTexture, mDepthbuffer;
+  GLuint mFBO, mDepthbuffer;
+  Texture* mTexture;
 };
 
 #endif // _FRAME_BUFFER_INCLUDE

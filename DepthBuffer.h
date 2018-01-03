@@ -2,6 +2,7 @@
 #define _DEPTH_BUFFER_INCLUDE
 
 #include "utils.h"
+#include "Texture.h"
 
 class DepthBuffer {
 public:
@@ -11,10 +12,11 @@ public:
   void init();
   void use();
 
-  GLuint getTexture() const;
+  Texture* getTexture();
 
 private:
-  GLuint mFBO, mTexture, mDepthbuffer;
+  GLuint mFBO, mDepthbuffer;
+  Texture* mTexture;
 };
 
 #endif // _DEPTH_BUFFER_INCLUDE
