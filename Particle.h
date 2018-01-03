@@ -6,13 +6,20 @@
 
 class Particle : public Model {
 public:
-  void init(int aliveTime);
+  void init();
   void update(int deltaTime) override;
+
+  void setAliveTime(int aliveTime);
+  void setColor(const glm::vec3& color);
+
+  static void generateExplosion(const glm::vec3& origin);
 
 private:
   float kGravity;
   float kFriction;
+
   int mAliveTime;
+  glm::vec3 mColor;
 };
 
 #endif // _PARTICLE_INCLUDE

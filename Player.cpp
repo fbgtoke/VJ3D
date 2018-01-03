@@ -116,34 +116,6 @@ void Player::updateMoving(int deltaTime) {
     changeState(Player::onBoat);
 }
 
-void Player::initExplosion() {
-  int nParticles = Game::instance().getResource().Int("nParticles");
-  for (int i = 0; i < nParticles; ++i) {
-    Particle* particle = new Particle();
-    particle->init(15000 + rand()%200);
-    particle->setMesh(Game::instance().getResource().mesh("cube.obj"));
-
-    int texture = rand()%3;
-    if (texture == 0)
-      particle->setTexture(Game::instance().getResource().texture("palette.png"));
-    else if (texture == 1)
-      particle->setTexture(Game::instance().getResource().texture("palette.png"));
-    else
-      particle->setTexture(Game::instance().getResource().texture("palette.png"));
-
-    particle->setPosition(getCenter() + DOWN * TILE_SIZE);
-    particle->setScale(glm::vec3(0.07f));
-
-    glm::vec3 direction;
-    direction.x = randomFloat(-.2f, .2f);
-    direction.y = randomFloat( 0.f, 1.5f);
-    direction.z = randomFloat(-.2f, .2f);
-    particle->setVelocity(glm::normalize(direction) * 0.25f);
-
-    Game::instance().getScene()->addParticle(particle);
-  }
-}
-
 void Player::changeState(Player::State state) {
   mState = state;
 
@@ -170,7 +142,7 @@ void Player::changeState(Player::State state) {
     setTimer(kMaxExplodingTime);
     setVelocity(glm::vec3(0.f));
     //Game::instance().getScene()->playSoundEffect("death.ogg");
-    initExplosion();
+    Particle::generateExplosion(getCenter());
     break;
   case Player::Dead:
     break;

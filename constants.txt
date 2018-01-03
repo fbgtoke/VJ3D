@@ -4,7 +4,7 @@ float jumpSpeed 1.5 //lo que sumas en cada frame 1.5
 int jumpFrames 10 //los frames que tiene un salto 10
 float horizontalSpeed 0.015 //no bajar de 0.015
 int drowningTime 1000
-int explodingTime 2000
+int explodingTime 5000
 float maxBoatDistance 26
 
 ##### Score #####
@@ -16,7 +16,7 @@ int scorePerBonus 20
 int PeriodCarriageSlow 4000 // Tiempo entre uno y otro
 float VelCarriageSlow 0.020 // Velocidad
 
-int PeriodCarriageFast 2500
+int PeriodCarriageFast 3000
 float VelCarriageFast 0.050
 
 int PeriodHorseSlow 4000
@@ -55,8 +55,11 @@ int BorderSize 10
 
 ##### Particles #####
 int nParticles 100
-float ParticleGravity -0.025
-float ParticleFriction 0.8
+int minAliveTime 2000
+int randomAddedTime 500
+float particleSize 0.07
+float ParticleGravity -0.035
+float ParticleFriction 0.85
 
 ##### Light #####
 float sunSpeed 0.0004
