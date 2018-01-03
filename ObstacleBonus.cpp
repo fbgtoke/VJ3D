@@ -21,6 +21,8 @@ void ObstacleBonus::init() {
   setRotationSpeed(glm::vec3(0.f, kRotationSpeed, 0.f));
 
   mCurrentCycle = 0;
+
+  mPicked = false;
 }
 
 void ObstacleBonus::update(int deltaTime) {
@@ -30,3 +32,10 @@ void ObstacleBonus::update(int deltaTime) {
 
   mPosition.y += 0.5f * sin(kBobSpeed * (float)mCurrentCycle);
 }
+
+void ObstacleBonus::pick() {
+  mPicked = true;
+  destroy();
+}
+
+bool ObstacleBonus::picked() const { return mPicked; }

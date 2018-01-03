@@ -4,6 +4,7 @@
 #include "utils.h"
 #include "Model.h"
 #include "Particle.h"
+#include "Gui.h"
 
 class Scene {
 public:
@@ -56,6 +57,11 @@ protected:
 
 	void checkParticles(int deltaTime);
 	std::list<Particle*> mParticles;
+
+	Gui* mGui;
+	virtual void initGui();
+	virtual void updateGui();
+	virtual void renderGui();
 };
 
 #endif // _SCENE_INCLUDE

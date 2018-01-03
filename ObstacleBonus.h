@@ -10,9 +10,14 @@ public:
   void init() override;
   void update(int deltaTime) override;
 
+  void pick();
+  bool picked() const;
+
 private:
   float kRotationSpeed;
   float kBobSpeed;
+
+  bool mPicked;
 
   int mCurrentCycle;
 };

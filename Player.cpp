@@ -215,7 +215,7 @@ void Player::onCollision(Model* model) {
       }
       break;
     case Obstacle::Bonus:
-      obstacle->destroy();
+      (dynamic_cast<ObstacleBonus*>(obstacle))->pick();
       break;
     default:
       break;

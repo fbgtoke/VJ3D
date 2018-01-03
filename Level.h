@@ -6,6 +6,7 @@
 #include "Model.h"
 #include "Obstacle.h"
 #include "ObstacleSpawner.h"
+#include "ObstacleBonus.h"
 
 class Level {
 public:

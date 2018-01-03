@@ -69,14 +69,14 @@ void SceneLevelSelect::update(int deltaTime) {
 void SceneLevelSelect::render() {
   Scene::render();
 
-  for (Model* model : mThumbnails)
+  /*for (Model* model : mThumbnails)
     model->render();
 
   mFrame->render();
 
   mHighscoreTitle->render();
   for (Text3D* text : mHighscoreTable)
-    text->render();
+    text->render();*/
 }
 
 void SceneLevelSelect::initLevelList() {
@@ -176,4 +176,15 @@ glm::vec3 SceneLevelSelect::index2position(unsigned int index) const {
   position.z = 0.f;
 
   return position;
+}
+
+void SceneLevelSelect::initGui() {
+  Scene::initGui();
+
+  mGui = Game::instance().getResource().layout("level-select.xml");
+}
+
+void SceneLevelSelect::updateGui() {
+  Scene::updateGui();
+
 }

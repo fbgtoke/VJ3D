@@ -7,6 +7,8 @@
 #include "ObjReader.h"
 #include "Texture.h"
 #include "Level.h"
+#include "Gui.h"
+#include "GuiReader.h"
 
 class ResourceManager {
 public:
@@ -23,6 +25,10 @@ public:
   void loadConstants();
   int Int(const std::string& name);
   float Float(const std::string& name);
+
+  void setInt(const std::string& name, int value);
+
+  Gui* layout(const std::string& name);
 
 private:
   void loadMesh(const std::string& name);

@@ -161,7 +161,11 @@ Sprite* GuiReader::readSprite(std::ifstream& stream, Gui* gui) {
     } else if (tag == "texture") {
       std::string filename;
       sstream >> filename;
-      sprite->setTexture(Game::instance().getResource().texture(filename));
+
+      if (filename.find("/") != std::string::npos)
+        sprite->setTexture(Game::instance().getResource().texture(filename));
+      else
+        sprite->setTexture(Game::instance().getResource().texture(filename, true));
     } else if (tag != "/sprite") {
       std::cout << "Unrecognized property for Sprite element: " << tag << std::endl;
     }

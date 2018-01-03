@@ -28,13 +28,11 @@ void SceneTest::init() {
   
   initPlayer();
   initCamera();
-  initGui();
   mLightAngle = 0.f;
 
-  mScore = 0;
+  Game::instance().getResource().setInt("score", 0);
   kScorePerTile = Game::instance().getResource().Int("scorePerTile");
   kScorePerSideWalk = Game::instance().getResource().Int("scorePerSideWalk");
-  kScorePerBonus = Game::instance().getResource().Int("scorePerBonus");
 
   mFramebuffer.init();
   mDepthbuffer.init();
@@ -142,8 +140,7 @@ void SceneTest::renderScene() {
   glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  mGui->getSprite("scene-frame")->setTexture(mFramebuffer.getTexture());
-  mGui->render();
+  renderGui();
 }
 
 void SceneTest::updateCamera(int deltaTime) {
@@ -309,7 +306,7 @@ glm::mat4 SceneTest::getViewMatrix() const {
 }
 
 glm::mat4 SceneTest::getDepthViewMatrix() const {
-  glm::vec3 obs = 2 * TILE_SIZE * getLightDirection();// * (-1.f);
+  glm::vec3 obs = 2 * TILE_SIZE * getLightDirection();
   glm::vec3 vrp = glm::vec3(0.f);
 
   return glm::lookAt(obs, vrp, UP);
@@ -324,16 +321,39 @@ glm::mat4 SceneTest::getDepthBiasMatrix() const {
   );
 }
 
-void SceneTest::addScore(unsigned int score) { mScore += score; }
+void SceneTest::addScore(unsigned int score) {
+  int currentScore = Game::instance().getResource().Int("score");
+  Game::instance().getResource().setInt("score", currentScore + score);
+}
 
 void SceneTest::removeScore(unsigned int score) {
-  if (score > mScore)
-    mScore = 0;
+  int currentScore = Game::instance().getResource().Int("score");
+
+  if (score > currentScore)
+    Game::instance().getResource().setInt("score", 0);
   else
-    mScore -= score;
+    Game::instance().getResource().setInt("score", currentScore - score);
 }
 
 void SceneTest::initGui() {
-  mGui = GuiReader::loadFromFile("test.xml");
+  Scene::initGui();
+
+  mGui = Game::instance().getResource().layout("level.xml");
   mGui->getSprite("scene-frame")->flipY();
+}
+
+void SceneTest::updateGui() {
+  Scene::updateGui();
+
+  Text* scoreText = mGui->getText("score-text");
+  if (scoreText != nullptr) {
+    int score = Game::instance().getResource().Int("score");
+    scoreText->setString(std::to_string(score));
+  }
+}
+
+void SceneTest::renderGui() {
+  mGui->getSprite("scene-frame")->setTexture(mFramebuffer.getTexture());
+
+  Scene::renderGui();
 }

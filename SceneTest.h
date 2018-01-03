@@ -9,8 +9,6 @@
 #include "Player.h"
 #include "FrameBuffer.h"
 #include "DepthBuffer.h"
-#include "Gui.h"
-#include "GuiReader.h"
 
 class SceneTest : public Scene {
 public:
@@ -61,18 +59,17 @@ private:
 
   Player* mPlayer;
 
-  unsigned int mScore;
   unsigned int kScorePerTile;
   unsigned int kScorePerSideWalk;
-  unsigned int kScorePerBonus;
   void addScore(unsigned int score);
   void removeScore(unsigned int score);
 
   FrameBuffer mFramebuffer;
   DepthBuffer mDepthbuffer;
 
-  Gui* mGui;
-  void initGui();
+  void initGui() override;
+  void updateGui() override;
+  void renderGui() override;
 };
 
 #endif // SCENE_TEST_INCLUDE

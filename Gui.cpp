@@ -63,6 +63,10 @@ Sprite* Gui::getSprite(const std::string& name) {
   return nullptr;
 }
 
+Text* Gui::getText(const std::string& name) {
+  return dynamic_cast<Text*>(getSprite(name));
+}
+
 glm::mat4 Gui::getProjectionMatrix() {
   return glm::ortho(
     0.f,

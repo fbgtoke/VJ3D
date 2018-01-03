@@ -79,7 +79,6 @@ sf::SoundBuffer* ResourceManager::soundBuffer(const std::string& name) {
 int ResourceManager::Int(const std::string& name) {
   if (mConstantsInt.count(name) == 0) {
     std::cout << "Tried to load undefined constant: " << name << std::endl;
-    Game::instance().stop();
     return 0.f;
   }
 
@@ -89,11 +88,14 @@ int ResourceManager::Int(const std::string& name) {
 float ResourceManager::Float(const std::string& name) {
   if (mConstantsFloat.count(name) == 0) {
     std::cout << "Tried to load undefined constant: " << name << std::endl;
-    Game::instance().stop();
     return 0.f;
   }
 
   return mConstantsFloat[name];
+}
+
+void ResourceManager::setInt(const std::string& name, int value) {
+  mConstantsInt[name] = value;
 }
 
 void ResourceManager::loadMesh(const std::string& name) {
@@ -199,4 +201,8 @@ void ResourceManager::loadConstants() {
       //std::cout << "Read float " << label << " " << value << std::endl;   
     }
   }
+}
+
+Gui* ResourceManager::layout(const std::string& name) {
+  return GuiReader::loadFromFile(name);
 }

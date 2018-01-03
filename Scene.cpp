@@ -8,7 +8,7 @@
 #include "Game.h"
 
 Scene::Scene(Scene::SceneType type)
-  : mType(type) {}
+  : mType(type), mGui(nullptr) {}
 
 Scene::~Scene() {
   for (auto it = mSoundEffects.begin(); it != mSoundEffects.end(); ++it)
@@ -18,6 +18,9 @@ Scene::~Scene() {
   for (auto it = mParticles.begin(); it != mParticles.end(); ++it)
     delete (*it);
   mParticles.clear();
+
+  if (mGui != nullptr)
+    delete mGui;
 }
 
 Scene* Scene::create(SceneType type) {
@@ -45,6 +48,8 @@ void Scene::init() {
   kAmbientColor.x = Game::instance().getResource().Float("ambientColor_x");
   kAmbientColor.y = Game::instance().getResource().Float("ambientColor_y");
   kAmbientColor.z = Game::instance().getResource().Float("ambientColor_z");
+
+  initGui();
 }
 
 void Scene::update(int deltaTime) {
@@ -53,6 +58,8 @@ void Scene::update(int deltaTime) {
 
   checkSoundEffects();
   checkParticles(deltaTime);
+
+  updateGui();
 }
 
 void Scene::render() {
@@ -71,7 +78,10 @@ void Scene::render() {
   glm::vec3 ambientColor = getAmbientColor();
   mTexProgram->setUniform3f("ambientColor", ambientColor);
 
-  for (Particle* particle : mParticles) particle->render();
+  for (Particle* particle : mParticles)
+    particle->render();
+
+  renderGui();
 }
 
 void Scene::receiveString(const std::string& tag, const std::string str) {}
@@ -129,4 +139,13 @@ void Scene::checkParticles(int deltaTime) {
       it++;
     }
   }
+}
+
+void Scene::initGui() {}
+
+void Scene::updateGui() {}
+
+void Scene::renderGui() {
+  if (mGui != nullptr)
+    mGui->render();
 }

@@ -3,6 +3,7 @@
 
 #include "utils.h"
 #include "Sprite.h"
+#include "Text.h"
 
 class Gui {
 public:
@@ -16,6 +17,8 @@ public:
   void setNumberOfLayers(unsigned int n);
   void addSprite(Sprite* sprite, unsigned int layer = 0);
   Sprite* getSprite(const std::string& name);
+
+  Text* getText(const std::string& name);
 
 private:
   static glm::mat4 getProjectionMatrix();

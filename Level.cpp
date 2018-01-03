@@ -11,6 +11,16 @@ void Level::update(int deltaTime) {
     Obstacle* obstacle = (*it);
 
     if (obstacle->hasBeenDestroyed()) {
+      if (obstacle->getType() == Obstacle::Bonus) {
+        ObstacleBonus* bonus = dynamic_cast<ObstacleBonus*>(obstacle);
+
+        if (bonus->picked()) {
+          int score = Game::instance().getResource().Int("score");
+          int scorePerBonus = Game::instance().getResource().Int("scorePerBonus");
+          Game::instance().getResource().setInt("score", score + scorePerBonus);
+        }
+      }
+
       delete obstacle;
       mObstacles.erase(it++);
     } else {

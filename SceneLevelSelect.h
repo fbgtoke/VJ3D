@@ -35,6 +35,9 @@ private:
   void nextIndex();
   void prevIndex();
   glm::vec3 index2position(unsigned int index) const;
+
+  void initGui() override;
+  void updateGui() override;
 };
 
 #endif // SCENE_LEVEL_SELECT_INCLUDE
