@@ -18,6 +18,9 @@ public:
 
   void resize(const glm::vec2& size);
 
+  void setName(const std::string& name);
+  std::string getName() const;
+
   void setTexture(Texture* texture,
     const glm::vec4& rect = glm::vec4(0.f, 1.f, 0.f, 1.f));
   void setTextureRect(const glm::vec4& rect);
@@ -34,6 +37,7 @@ public:
   void flipY();
 
 protected:
+  std::string mName;
   glm::vec2 mPosition;
   glm::vec2 mSize;
   bool mFlipX;

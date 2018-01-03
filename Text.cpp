@@ -7,15 +7,16 @@ Text::~Text() {}
 void Text::init() {
   Sprite::init();
 
-  resize(glm::vec2(64.f, 64.f));
   setShader(Game::instance().getResource().shader("text"));
   setTexture(Game::instance().getResource().texture("font.png"));
+
   setString("");
+  setFontSize(64.f);
   setFontColor(glm::vec3(1.f));
 }
 
 void Text::render() {
-  mShader->setUniform3f("fontColor", mFontColor);
+  mShader->setUniform3f("fontcolor", mFontColor);
 
   glm::vec2 position = mPosition;
 
@@ -32,7 +33,8 @@ void Text::render() {
 }
 
 void Text::setString(const std::string& str) { mString  = str; }
-void Text::setFontColor(const glm::vec3& color) { mFontColor  = color; }
+void Text::setFontSize(float size) { resize(glm::vec2(size)); }
+void Text::setFontColor(const glm::vec3& color) { mFontColor = color; }
 
 glm::vec4 Text::char2uvs(char c) {
   return glm::vec4(

@@ -142,8 +142,8 @@ void SceneTest::renderScene() {
   glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  mBufferedScene->setTexture(mFramebuffer.getTexture());
-  mGui.render();
+  mGui->getSprite("scene-frame")->setTexture(mFramebuffer.getTexture());
+  mGui->render();
 }
 
 void SceneTest::updateCamera(int deltaTime) {
@@ -334,16 +334,6 @@ void SceneTest::removeScore(unsigned int score) {
 }
 
 void SceneTest::initGui() {
-  Text* text = new Text();
-  text->init();
-  text->setString("Test");
-  mGui.addSprite(text);
-
-  mBufferedScene = Sprite::create(
-    glm::vec2(SCREEN_WIDTH, SCREEN_HEIGHT),
-    mFramebuffer.getTexture(),
-    Game::instance().getResource().shader("post")
-  );
-  mBufferedScene->flipY();
-  mGui.addSprite(mBufferedScene);
+  mGui = GuiReader::loadFromFile("test.xml");
+  mGui->getSprite("scene-frame")->flipY();
 }

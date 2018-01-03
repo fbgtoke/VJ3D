@@ -20,6 +20,7 @@ Sprite* Sprite::create(const glm::vec2& size, Texture* texture,
 }
 
 void Sprite::init() {
+  mName = "";
   mPosition = glm::vec2(0.f);
   mSize = glm::vec2(1.f);
   mFlipX = false;
@@ -37,6 +38,8 @@ void Sprite::init() {
 
   mVAO = GL_INVALID_VALUE;
   mVBO_vertices = mVBO_texcoords = GL_INVALID_VALUE;
+
+  mShader = Game::instance().getResource().shader("post");
 }
 
 void Sprite::render() {
@@ -79,6 +82,9 @@ void Sprite::render() {
 }
 
 void Sprite::resize(const glm::vec2& size) { mSize = size; }
+
+void Sprite::setName(const std::string& name) { mName = name; }
+std::string Sprite::getName() const { return mName; }
 
 void Sprite::setTexture(Texture* texture, const glm::vec4& rect) {
   mTexture = texture;

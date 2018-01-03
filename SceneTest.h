@@ -9,9 +9,8 @@
 #include "Player.h"
 #include "FrameBuffer.h"
 #include "DepthBuffer.h"
-#include "Sprite.h"
 #include "Gui.h"
-#include "Text.h"
+#include "GuiReader.h"
 
 class SceneTest : public Scene {
 public:
@@ -72,8 +71,7 @@ private:
   FrameBuffer mFramebuffer;
   DepthBuffer mDepthbuffer;
 
-  Gui mGui;
-  Sprite* mBufferedScene;
+  Gui* mGui;
   void initGui();
 };
 

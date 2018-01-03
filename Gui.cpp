@@ -4,11 +4,12 @@
 Gui::Gui() {}
 
 Gui::~Gui() {
-  for (Sprite* sprite : mSprites)
-    delete sprite;
+  clear();
 }
 
-void Gui::init() {}
+void Gui::init() {
+  setNumberOfLayers(1);
+}
 
 void Gui::render() {
   glEnable(GL_BLEND);
@@ -16,23 +17,50 @@ void Gui::render() {
   glm::mat4 PM = getProjectionMatrix();
   glm::mat4 VM = getViewMatrix();
 
-  for (Sprite* sprite : mSprites) {
-    ShaderProgram* shader = sprite->getShader();
-    if (shader != nullptr) {
-      shader->use();
-      shader->setUniformMatrix4f("PM", PM);
-      shader->setUniformMatrix4f("VM", VM);
+  for (int i = 0; i < mLayers.size(); ++i) {
+    for (Sprite* sprite : mLayers[i]) {
+      ShaderProgram* shader = sprite->getShader();
+      if (shader != nullptr) {
+        shader->use();
+        shader->setUniformMatrix4f("PM", PM);
+        shader->setUniformMatrix4f("VM", VM);
 
-      sprite->render();
+        sprite->render();
+      }
     }
   }
 
   glDisable(GL_BLEND);
 }
 
-void Gui::addSprite(Sprite* sprite) {
-  if (sprite != nullptr)
-    mSprites.push_back(sprite);
+void Gui::clear() {
+  for (int i = 0; i < mLayers.size(); ++i) {
+    for (Sprite* sprite : mLayers[i])
+      delete sprite;
+
+    mLayers[i].clear();
+  }
+  mLayers.clear();
+}
+
+void Gui::setNumberOfLayers(unsigned int n) {
+  clear();
+
+  mLayers = std::vector<std::vector<Sprite*>>(n);
+}
+
+void Gui::addSprite(Sprite* sprite, unsigned int layer) {
+  if (sprite != nullptr && layer < mLayers.size())
+    mLayers[layer].push_back(sprite);
+}
+
+Sprite* Gui::getSprite(const std::string& name) {
+  for (int i = 0; i < mLayers.size(); ++i)
+    for (Sprite* sprite : mLayers[i])
+      if (sprite->getName() == name)
+        return sprite;
+
+  return nullptr;
 }
 
 glm::mat4 Gui::getProjectionMatrix() {

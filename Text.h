@@ -13,6 +13,7 @@ public:
   void render() override;
 
   void setString(const std::string& str);
+  void setFontSize(float size);
   void setFontColor(const glm::vec3& color);
 
 private:

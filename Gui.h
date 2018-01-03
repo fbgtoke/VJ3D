@@ -11,14 +11,17 @@ public:
 
   void init();
   void render();
+  void clear();
 
-  void addSprite(Sprite* sprite);
+  void setNumberOfLayers(unsigned int n);
+  void addSprite(Sprite* sprite, unsigned int layer = 0);
+  Sprite* getSprite(const std::string& name);
 
 private:
   static glm::mat4 getProjectionMatrix();
   static glm::mat4 getViewMatrix();
 
-  std::list<Sprite*> mSprites;
+  std::vector<std::vector<Sprite*>> mLayers;
 };
 
 #endif // _GUI_INCLUDE
