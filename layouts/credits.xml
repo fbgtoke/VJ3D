@@ -1,11 +1,62 @@
-<gui layers=1>
+<gui layers=2>
 
 <layer>
   <text>
-    <position>0 0</position>
-    <size>24</size>
-    <color>0.0 1.0 0.5</color>
-    <value>De pro del Dota a disenador de vj</value>
+    <position>50 50</position>
+    <size>32</size>
+    <color>0.8 0.8 0.8</color>
+    <value>FABIO BANCHELLI</value>
+  </text>
+  <text>
+    <position>50 80</position>
+    <size>26</size>
+    <color>0.5 0.5 0.5</color>
+    <value>-Main Programmer</value>
+  </text>
+  <text>
+    <position>50 100</position>
+    <size>26</size>
+    <color>0.5 0.5 0.5</color>
+    <value>-XML master</value>
+  </text>
+  <text>
+    <position>50 120</position>
+    <size>26</size>
+    <color>0.5 0.5 0.5</color>
+    <value>-Most commits</value>
+  </text>
+</layer>
+
+<layer>
+  <text>
+    <position>600 500</position>
+    <size>32</size>
+    <color>0.8 0.8 0.8</color>
+    <value>KILIAN PEIRO</value>
+  </text>
+  <text>
+    <position>600 580</position>
+    <size>26</size>
+    <color>0.5 0.5 0.5</color>
+    <value>-Game Designer</value>
+  </text>
+  <text>
+    <position>600 640</position>
+    <size>26</size>
+    <color>0.5 0.5 0.5</color>
+    <value>-Model Artist</value>
+  </text>
+  <text>
+    <position>600 700</position>
+    <size>26</size>
+    <color>0.5 0.5 0.5</color>
+    <value>-Sound Artist</value>
+  </text>
+  <text>
+    <position>600 760</position>
+    <size>26</size>
+    <color>0.5 0.5 0.5</color>
+    <value>-XML Slave</value>
   </text>
 </layer>
 
