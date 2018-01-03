@@ -15,11 +15,18 @@ public:
 
 private:
   float kRotationSpeed;
+  float kRotationSpeedFast;
   float kBobSpeed;
-
-  bool mPicked;
+  int kMaxRotationTime;
 
   int mCurrentCycle;
+
+  enum State {
+    Idle,
+    RecentPicked,
+    Exiting
+  };
+  ObstacleBonus::State mState;
 };
 
 #endif // _OBSTACLE_BONUS_INCLUDE

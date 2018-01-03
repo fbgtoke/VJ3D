@@ -35,7 +35,9 @@ int PeriodVariability 2000
 
 ##### Bonus pickup #####
 float RotationSpeed 0.001
+float RotationSpeedFast 0.125
 float BobSpeed 0.003
+int MaxRotationTime 750
 
 ##### Spawner margin #####
 float BoundsMargin 10

@@ -38,9 +38,17 @@ void Level::render() {
 }
 
 void Level::checkCollisions(Model* model) {
-  for (Model* model2 : mObstacles) {
-    if (model != model2 && model->collides(model2))
-      model->onCollision(model2);
+  for (Obstacle* obstacle : mObstacles) {
+    if (obstacle->getType() == Obstacle::Spawner) {
+      std::list<Obstacle*> spawnedList = (dynamic_cast<ObstacleSpawner*>(obstacle))->getSpawned();
+      for (Obstacle* spawned : spawnedList) {
+        if (model != spawned && model->collides(spawned))
+          model->onCollision(spawned);
+      }
+    } else {
+      if (model != obstacle && model->collides(obstacle))
+        model->onCollision(obstacle);
+    }
   }
 }
 

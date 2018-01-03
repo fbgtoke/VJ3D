@@ -23,6 +23,8 @@ public:
 
   Obstacle* getObstacleAtTile(const glm::vec3& tile);
 
+  std::list<Obstacle*> getSpawned();
+
 private:
   void afterRender() override;
 

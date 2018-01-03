@@ -72,6 +72,8 @@ Obstacle* ObstacleSpawner::getObstacleAtTile(const glm::vec3& tile) {
   return nullptr;
 }
 
+std::list<Obstacle*> ObstacleSpawner::getSpawned() { return mSpawned; }
+
 bool ObstacleSpawner::outOfBounds(Obstacle* obstacle) {
   glm::vec3 pos = obstacle->getPositionInTiles();
   glm::vec3 vel = obstacle->getVelocity();

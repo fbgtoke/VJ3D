@@ -128,7 +128,7 @@ void Player::changeState(Player::State state) {
   case Player::Moving:
   case Player::towardsBoat:
     mAnimation.changeAnimation(1);
-    //Game::instance().getScene()->playSoundEffect("piu.ogg");
+    Game::instance().getScene()->playSoundEffect("jump0.ogg");
     break;
   case Player::onBoat:
     mVelocity = glm::vec3(0.f);
@@ -170,11 +170,21 @@ void Player::onCollision(Model* model) {
 
     switch (obstacle->getType()) {
     case Obstacle::Cactus:
-    case Obstacle::Stump:
+      if (isAlive()) {
+        explode();
+        Game::instance().getScene()->playSoundEffect("deathCactus.ogg");
+      }
+      break;
     case Obstacle::Carriage:
     case Obstacle::Horse:
-      if (isAlive())
+      if (isAlive()) {
         explode();
+
+        if (randomInt(0, 100) < 50)
+          Game::instance().getScene()->playSoundEffect("deathOverrun0.ogg");
+        else
+          Game::instance().getScene()->playSoundEffect("deathOverrun1.ogg");
+      }
       break;
     case Obstacle::Stone:
       break;
@@ -187,7 +197,10 @@ void Player::onCollision(Model* model) {
       }
       break;
     case Obstacle::Bonus:
-      (dynamic_cast<ObstacleBonus*>(obstacle))->pick();
+      if (!(dynamic_cast<ObstacleBonus*>(obstacle))->picked()) {
+        (dynamic_cast<ObstacleBonus*>(obstacle))->pick();
+        Game::instance().getScene()->playSoundEffect("bonus.ogg");
+      }
       break;
     default:
       break;
