@@ -36,6 +36,8 @@ void SceneTest::init() {
 
   mFramebuffer.init();
   mDepthbuffer.init();
+
+  Game::instance().setBackgroundMusic("ingame.ogg", 100.f);
 }
 
 void SceneTest::update(int deltaTime) {

@@ -11,12 +11,12 @@ void Game::init() {
 
 	mResourceManager.loadConstants();
 
+	mBackgroundMusic = nullptr;
+
 	scene = Scene::create(Scene::SCENE_MENU);
 	scene->init();
 
 	bufferedScene = nullptr;
-
-	mBackgroundMusic = nullptr;
 }
 
 bool Game::update(int deltaTime) {
@@ -143,12 +143,14 @@ void Game::stop() { bPlay = false; }
 ResourceManager& Game::getResource() { return mResourceManager; }
 
 void Game::setBackgroundMusic(const std::string& name, float volume) {
-	if (mBackgroundMusic != nullptr)
-		mBackgroundMusic->stop();
+	sf::Music* music = getResource().music(name);
+	if (music != nullptr && music != mBackgroundMusic) {
+		if (mBackgroundMusic != nullptr)
+			mBackgroundMusic->stop();
 
-	mBackgroundMusic = getResource().music(name);
-	if (mBackgroundMusic != nullptr) {
+		mBackgroundMusic = music;
 		mBackgroundMusic->play();
 		mBackgroundMusic->setVolume(volume);
+		mBackgroundMusic->setLoop(true);
 	}
 }

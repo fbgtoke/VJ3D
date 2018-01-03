@@ -11,6 +11,8 @@ void SceneLevelSelect::init() {
 
   mCurrentSelected = 0;
   mOptionSelected = false;
+
+  Game::instance().setBackgroundMusic("menu.ogg", 100.f);
 }
 
 void SceneLevelSelect::update(int deltaTime) {
