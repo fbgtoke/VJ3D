@@ -46,6 +46,7 @@ private:
 
   void initPlayer();
   void checkPlayerInput();
+  void checkPlayerOutOfBounds();
   void checkPlayerOutOfCamera();
   void checkPlayerStandingTile();
   void checkPlayerDead();

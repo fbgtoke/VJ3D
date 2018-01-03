@@ -19,7 +19,7 @@ void Particle::update(int deltaTime) {
 
   mVelocity.y += kGravity;
 
-  if (mPosition.y < getSize().y) {
+  if (mPosition.y < getSize().y * 2.f - TILE_SIZE) {
     mVelocity.y *= kFriction * (-1.f);
     mVelocity.x *= kFriction;
     mVelocity.z *= kFriction;

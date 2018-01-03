@@ -51,6 +51,7 @@ void SceneTest::update(int deltaTime) {
     mLevel->checkCollisions(mPlayer);
 
     checkPlayerInput();
+    checkPlayerOutOfBounds();
     checkPlayerOutOfCamera();
     checkPlayerStandingTile();
     checkPlayerDead();
@@ -132,6 +133,9 @@ void SceneTest::renderFramebuffer() {
 
   if (mLevel != nullptr) mLevel->render();
   if (mPlayer != nullptr) mPlayer->render();
+
+  for (Particle* particle : mParticles)
+    particle->render();
 }
 
 void SceneTest::renderScene() {
@@ -173,9 +177,10 @@ void SceneTest::checkPlayerInput() {
   glm::ivec2 targetTileInTilemap = mLevel->player2tilemap(targetTile);
   bool jumping = (direction != glm::vec3(0.f));
   bool outOfBounds = mLevel->getTilemap().outOfBounds(targetTileInTilemap);
+  bool stumpInTarget = mLevel->obstacleOfTypeAtTile(Obstacle::Stump, targetTile);
 
   glm::vec3 targetPosition;
-  if (jumping && !outOfBounds) {
+  if (jumping && !outOfBounds && !stumpInTarget) {
     if (boat != nullptr) {
       mPlayer->moveTowardsBoat(boat);
     } else if (stone != nullptr) {
@@ -192,6 +197,14 @@ void SceneTest::checkPlayerInput() {
     else if (direction == OUT) removeScore(kScorePerTile);
     else removeScore(kScorePerSideWalk);
   }
+}
+
+void SceneTest::checkPlayerOutOfBounds() {
+  glm::vec3 standingTile = mPlayer->getPositionInTiles();
+  glm::ivec2 standingTileInTilemap = mLevel->player2tilemap(standingTile);
+
+  if (mLevel->getTilemap().outOfBounds(standingTileInTilemap))
+    mPlayer->explode();
 }
 
 void SceneTest::checkPlayerOutOfCamera() {

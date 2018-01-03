@@ -138,7 +138,7 @@ void Player::initExplosion() {
     direction.x = randomFloat(-.2f, .2f);
     direction.y = randomFloat( 0.f, 1.5f);
     direction.z = randomFloat(-.2f, .2f);
-    particle->setVelocity(glm::normalize(direction) * 0.05f);
+    particle->setVelocity(glm::normalize(direction) * 0.25f);
 
     Game::instance().getScene()->addParticle(particle);
   }

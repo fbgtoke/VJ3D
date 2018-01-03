@@ -54,7 +54,7 @@ float CameraVel -0.0100 // cuanto mas grande en abs, mas rapido va
 int BorderSize 10
 
 ##### Particles #####
-int nParticles 20
+int nParticles 100
 float ParticleGravity -0.025
 float ParticleFriction 0.8
 
