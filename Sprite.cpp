@@ -73,7 +73,6 @@ void Sprite::render() {
     mLoc_texcoord = mShader->bindVertexAttribute("texcoord", 2, 0, 0);
     glEnableVertexAttribArray(mLoc_texcoord);
 
-    mShader->setUniform1i("tex", 0);
     mTexture->use();
 
     glDrawArrays(GL_TRIANGLES, 0, 6);

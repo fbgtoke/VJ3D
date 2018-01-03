@@ -24,8 +24,6 @@ void Model::update(int deltaTime) {
 }
 
 void Model::beforeRender() {
-  glEnable(GL_TEXTURE_2D);
-
   ShaderProgram* shader = Game::instance().getScene()->getShader();
   if (mTexture != nullptr) {
     //mTexture->use();
@@ -54,9 +52,7 @@ void Model::render() {
   afterRender();
 }
 
-void Model::afterRender() {
-  glDisable(GL_TEXTURE_2D);
-}
+void Model::afterRender() {}
 
 void Model::setVisible(bool visible) { mEnableRendering = visible; }
 bool Model::visible() const { return mEnableRendering; }

@@ -298,7 +298,7 @@ glm::mat4 SceneTest::getProjectionMatrix() const {
 }
 
 glm::mat4 SceneTest::getDepthProjectionMatrix() const {
-  return glm::ortho(-10.f, 10.f, -10.f, 10.f, -10.f, 20.f);
+  return glm::ortho(-1.f, 1.f, -1.f, 1.f, 0.001f, 20000.f);
 }
 
 glm::mat4 SceneTest::getViewMatrix() const {
@@ -306,8 +306,8 @@ glm::mat4 SceneTest::getViewMatrix() const {
 }
 
 glm::mat4 SceneTest::getDepthViewMatrix() const {
-  glm::vec3 obs = 2 * TILE_SIZE * getLightDirection();
-  glm::vec3 vrp = glm::vec3(0.f);
+  glm::vec3 obs = 10 * TILE_SIZE * getLightDirection() * (-1.f);
+  glm::vec3 vrp = glm::vec3(10.f, 0.f, 0.f);
 
   return glm::lookAt(obs, vrp, UP);
 }
@@ -317,7 +317,7 @@ glm::mat4 SceneTest::getDepthBiasMatrix() const {
     0.5, 0.0, 0.0, 0.0,
     0.0, 0.5, 0.0, 0.0,
     0.0, 0.0, 0.5, 0.0,
-    0.5, 0.5, 0.5, 0.1
+    0.5, 0.5, 0.5, 1.0
   );
 }
 

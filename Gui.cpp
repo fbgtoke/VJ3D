@@ -8,12 +8,10 @@ Gui::~Gui() {
 }
 
 void Gui::init() {
-  setNumberOfLayers(1);
+  setNumberOfLayers(0);
 }
 
 void Gui::render() {
-  glEnable(GL_BLEND);
-
   glm::mat4 PM = getProjectionMatrix();
   glm::mat4 VM = getViewMatrix();
 
@@ -29,8 +27,6 @@ void Gui::render() {
       }
     }
   }
-
-  glDisable(GL_BLEND);
 }
 
 void Gui::clear() {
@@ -46,7 +42,7 @@ void Gui::clear() {
 void Gui::setNumberOfLayers(unsigned int n) {
   clear();
 
-  mLayers = std::vector<std::vector<Sprite*>>(n);
+  mLayers = std::vector<std::vector<Sprite*>>(n, std::vector<Sprite*>(0));
 }
 
 void Gui::addSprite(Sprite* sprite, unsigned int layer) {
