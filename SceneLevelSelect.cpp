@@ -10,6 +10,7 @@ void SceneLevelSelect::init() {
   Scene::init();
 
   mCurrentSelected = 0;
+  mOptionSelected = false;
 }
 
 void SceneLevelSelect::update(int deltaTime) {
@@ -19,15 +20,22 @@ void SceneLevelSelect::update(int deltaTime) {
     Game::instance().changeScene(Scene::SCENE_MENU);
   
   if (Game::instance().getKeyPressed('z')) {
+    Game::instance().getScene()->playSoundEffect("cursorSelect.ogg");
+    mOptionSelected = true;
+  }
+
+  if (mOptionSelected && mSoundEffects.empty()) {
     std::string levelName = "level" + std::to_string(mCurrentSelected + 1);
     Game::instance().changeScene(Scene::SCENE_TEST);
     Game::instance().getBufferedScene()->receiveString("level-name", levelName);
   }
 
-  if (Game::instance().getKeyPressed('a'))
-    prevOption();
-  if (Game::instance().getKeyPressed('d'))
-    nextOption();
+  if (!mOptionSelected) {
+    if (Game::instance().getKeyPressed('a'))
+      prevOption();
+    if (Game::instance().getKeyPressed('d'))
+      nextOption();
+  }
 }
 
 void SceneLevelSelect::initGui() {
@@ -48,6 +56,8 @@ void SceneLevelSelect::prevOption() {
     mCurrentSelected = Game::instance().getResource().Int("numLevels") - 1;
   else
     mCurrentSelected -= 1;
+
+  Game::instance().getScene()->playSoundEffect("cursorMove.ogg");
 }
 
 void SceneLevelSelect::nextOption() {
@@ -55,4 +65,6 @@ void SceneLevelSelect::nextOption() {
     mCurrentSelected = 0;
   else
     mCurrentSelected += 1;
+
+  Game::instance().getScene()->playSoundEffect("cursorMove.ogg");
 }

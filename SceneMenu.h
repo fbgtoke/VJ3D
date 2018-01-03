@@ -24,6 +24,7 @@ private:
   std::vector<Model*> mOptions;
   MenuOption mCurrentOption;
 
+  bool mOptionSelected;
   void prevOption();
   void nextOption();
   void selectOption();

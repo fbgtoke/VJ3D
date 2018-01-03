@@ -16,6 +16,7 @@ public:
 
 private:
   unsigned int mCurrentSelected;
+  bool mOptionSelected;
   void prevOption();
   void nextOption();
 

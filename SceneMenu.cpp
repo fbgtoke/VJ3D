@@ -43,7 +43,9 @@ void SceneMenu::init() {
   mOptions.push_back(Model::create("exit.obj", "palette.png"));
   mOptions[3]->setPosition(glm::vec3(0, -48.f, 0));
 
-  Game::instance().setBackgroundMusic("menu.ogg", 0.f);
+  Game::instance().setBackgroundMusic("menu.ogg", 100.f);
+
+  mOptionSelected = false;
 }
 
 void SceneMenu::update(int deltaTime) {
@@ -52,28 +54,51 @@ void SceneMenu::update(int deltaTime) {
   if (Game::instance().getKeyPressed(27)) // Escape
     Game::instance().stop();
 
-  if (Game::instance().getKeyPressed('w'))
-    prevOption();
-  else if (Game::instance().getKeyPressed('s'))
-    nextOption();
-  else if (Game::instance().getKeyPressed('z'))
-    selectOption();
-
-  for (int i = 0; i < NUM_OPTIONS; ++i) {
-    if (i == mCurrentOption) {
-      mOptions[i]->setScale(glm::vec3(1.2f));
-
-      glm::vec3 rotation(0.f);
-      rotation.y = (float)M_PI/16 * sin(0.0048f * mCurrentTime);
-      rotation.z = (float)M_PI/16 * sin(0.0023f * mCurrentTime);
-      mOptions[i]->setRotation(rotation);
-    } else {
-      mOptions[i]->setScale(glm::vec3(1.f));
-      mOptions[i]->setRotation(glm::vec3(0.f, 0.f, 0.f));
-      mOptions[i]->setRotationSpeed(glm::vec3(0.f, 0.f, 0.f));
+  if (!mOptionSelected) {
+    if (Game::instance().getKeyPressed('w'))
+      prevOption();
+    else if (Game::instance().getKeyPressed('s'))
+      nextOption();
+    else if (Game::instance().getKeyPressed('z')) {
+      Game::instance().getScene()->playSoundEffect("cursorSelect.ogg");
+      mOptionSelected = true;
     }
 
-    mOptions[i]->update(deltaTime);
+    for (int i = 0; i < NUM_OPTIONS; ++i) {
+      if (i == mCurrentOption) {
+        mOptions[i]->setScale(glm::vec3(1.2f));
+
+        glm::vec3 rotation(0.f);
+        rotation.y = (float)M_PI/16 * sin(0.0048f * mCurrentTime);
+        rotation.z = (float)M_PI/16 * sin(0.0023f * mCurrentTime);
+        mOptions[i]->setRotation(rotation);
+      } else {
+        mOptions[i]->setScale(glm::vec3(1.f));
+        mOptions[i]->setRotation(glm::vec3(0.f, 0.f, 0.f));
+        mOptions[i]->setRotationSpeed(glm::vec3(0.f, 0.f, 0.f));
+      }
+
+      mOptions[i]->update(deltaTime);
+    }
+  }
+
+  if (mOptionSelected && mSoundEffects.empty()) {
+    switch (mCurrentOption) {
+    case NEW_GAME:
+      Game::instance().changeScene(Scene::SCENE_LEVEL_SELECT);
+      break;
+    case HELP:
+      Game::instance().changeScene(Scene::SCENE_HELP);
+      break;
+    case CREDITS:
+      Game::instance().changeScene(Scene::SCENE_CREDITS);
+      break;
+    case EXIT:
+      Game::instance().stop();
+      break;
+    default:
+      break;
+    }
   }
 }
 
@@ -89,6 +114,8 @@ void SceneMenu::prevOption() {
     mCurrentOption = EXIT;
   else
     mCurrentOption = static_cast<MenuOption>(mCurrentOption - 1);
+
+  Game::instance().getScene()->playSoundEffect("cursorMove.ogg");
 }
 
 void SceneMenu::nextOption() {
@@ -96,23 +123,6 @@ void SceneMenu::nextOption() {
     mCurrentOption = NEW_GAME;
   else
     mCurrentOption = static_cast<MenuOption>(mCurrentOption + 1);
-}
 
-void SceneMenu::selectOption() {
-  switch (mCurrentOption) {
-  case NEW_GAME:
-    Game::instance().changeScene(Scene::SCENE_LEVEL_SELECT);
-    break;
-  case HELP:
-    Game::instance().changeScene(Scene::SCENE_HELP);
-    break;
-  case CREDITS:
-    Game::instance().changeScene(Scene::SCENE_CREDITS);
-    break;
-  case EXIT:
-    Game::instance().stop();
-    break;
-  default:
-    break;
-  }
+  Game::instance().getScene()->playSoundEffect("cursorMove.ogg");
 }

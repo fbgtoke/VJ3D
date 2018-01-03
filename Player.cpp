@@ -140,7 +140,6 @@ void Player::changeState(Player::State state) {
   case Player::Exploding:
     setTimer(kMaxExplodingTime);
     setVelocity(glm::vec3(0.f));
-    //Game::instance().getScene()->playSoundEffect("death.ogg");
     Particle::generateExplosion(getCenter());
 
     if (mState == Player::Drowning)
