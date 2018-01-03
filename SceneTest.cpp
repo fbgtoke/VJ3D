@@ -306,7 +306,7 @@ glm::mat4 SceneTest::getViewMatrix() const {
 }
 
 glm::mat4 SceneTest::getDepthViewMatrix() const {
-  glm::vec3 obs = 10 * TILE_SIZE * getLightDirection() * (-1.f);
+  glm::vec3 obs = 10 * TILE_SIZE * getLightDirection();
   glm::vec3 vrp = glm::vec3(10.f, 0.f, 0.f);
 
   return glm::lookAt(obs, vrp, UP);
@@ -354,6 +354,7 @@ void SceneTest::updateGui() {
 
 void SceneTest::renderGui() {
   mGui->getSprite("scene-frame")->setTexture(mFramebuffer.getTexture());
+  mGui->getSprite("scene-frame")->setShader(Game::instance().getResource().shader("post"));
 
   Scene::renderGui();
 }

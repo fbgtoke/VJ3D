@@ -1,0 +1,72 @@
+<gui layers=3>
+
+<layer>
+  <sprite>
+    <position>150 100</position>
+    <size>128 128</size>
+    <texture>frame.png</texture>
+    <name>level-selector</name>
+  </sprite>
+</layer>
+
+<layer>
+  <sprite>
+    <position>150 100</position>
+    <size>128 128</size>
+    <texture>levels/level1/thumbnail.png</texture>
+    <name>level1</name>
+  </sprite>
+  <text>
+    <position>130 250</position>
+    <size>20</size>
+    <color>1.0 1.0 1.0</color>
+    <value>OneShot</value>
+  </text>
+  <sprite>
+    <position>350 100</position>
+    <size>128 128</size>
+    <texture>levels/level2/thumbnail.png</texture>
+    <name>level2</name>
+  </sprite>
+  <text>
+    <position>330 250</position>
+    <size>20</size>
+    <color>1.0 1.0 1.0</color>
+    <value>Casual</value>
+  </text>
+  <sprite>
+    <position>550 100</position>
+    <size>128 128</size>
+    <texture>levels/level3/thumbnail.png</texture>
+    <name>level3</name>
+  </sprite>
+  <text>
+    <position>530 250</position>
+    <size>20</size>
+    <color>1.0 1.0 1.0</color>
+    <value>HighRisk</value>
+  </text>
+  <sprite>
+    <position>750 100</position>
+    <size>128 128</size>
+    <texture>levels/level3/thumbnail.png</texture>
+    <name>level4</name>
+  </sprite>
+  <text>
+    <position>730 250</position>
+    <size>20</size>
+    <color>1.0 1.0 1.0</color>
+    <value>TheLast</value>
+  </text>
+</layer>
+
+<layer>
+  <sprite>
+    <position>0 0</position>
+    <size>1280 720</size>
+    <texture>textures/error.png</texture>
+  </sprite>
+</layer>
+
+
+</gui>

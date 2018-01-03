@@ -149,12 +149,10 @@ Sprite* GuiReader::readSprite(std::ifstream& stream, Gui* gui) {
     if (tag == "position") {
       glm::vec2 position;
       sstream >> position.x >> position.y;
-      std::cout << "Position " << position.x << " " << position.y << std::endl;
       sprite->setPosition(position);
     } else if (tag == "size") {
       glm::vec2 size;
       sstream >> size.x >> size.y;
-      std::cout << "Size " << size.x << " " << size.y << std::endl;
       sprite->resize(size);
     } else if (tag == "name") {
       std::string name;
@@ -164,9 +162,7 @@ Sprite* GuiReader::readSprite(std::ifstream& stream, Gui* gui) {
       std::string filename;
       sstream >> filename;
 
-      std::cout << "Texture " << filename << std::endl;
       Texture* texture;
-
       if (filename.find("/") == std::string::npos)
         texture = Game::instance().getResource().texture(filename);
       else

@@ -16,8 +16,11 @@ public:
 
 private:
   unsigned int mCurrentSelected;
+  void prevOption();
+  void nextOption();
 
   void initGui() override;
+  void updateGui() override;
 };
 
 #endif // SCENE_LEVEL_SELECT_INCLUDE

@@ -65,4 +65,7 @@ float menulightDir_y 0
 float menulightDir_z -1
 float ambientColor_x 0.1
 float ambientColor_y 0.1
-float ambientColor_z 0.1
+float ambientColor_z 0.
+
+##### Levels #####
+int numLevels 4

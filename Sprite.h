@@ -29,6 +29,7 @@ public:
   ShaderProgram* getShader();
 
   void setPosition(const glm::vec2& position);
+  glm::vec2 getPosition() const;
   
   void move(const glm::vec2& direction);
   void move(float x, float y);

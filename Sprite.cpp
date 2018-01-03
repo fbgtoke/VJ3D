@@ -39,7 +39,7 @@ void Sprite::init() {
   mVAO = GL_INVALID_VALUE;
   mVBO_vertices = mVBO_texcoords = GL_INVALID_VALUE;
 
-  mShader = Game::instance().getResource().shader("post");
+  mShader = Game::instance().getResource().shader("gui");
 }
 
 void Sprite::render() {
@@ -105,6 +105,7 @@ void Sprite::setShader(ShaderProgram* shader) { mShader = shader; }
 ShaderProgram* Sprite::getShader() { return mShader; }
 
 void Sprite::setPosition(const glm::vec2& position) { mPosition = position; }
+glm::vec2 Sprite::getPosition() const { return mPosition; }
 
 void Sprite::move(const glm::vec2& direction) { mPosition += direction; }
 void Sprite::move(float x, float y) {
