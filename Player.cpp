@@ -14,6 +14,9 @@ void Player::init() {
   kMaxDrowningTime = Game::instance().getResource().Int("drowningTime");
   kMaxExplodingTime = Game::instance().getResource().Int("explodingTime");
 
+  kMinJumpsChangeSound = Game::instance().getResource().Int("minJumpsChangeSound");
+  kMaxJumpsChangeSound = Game::instance().getResource().Int("maxJumpsChangeSound");
+
   AnimationFrame frame;
   frame.transform = glm::mat4(1.f);
 
@@ -50,6 +53,8 @@ void Player::init() {
 
   mTimer = 0;
   mTimerActivated = false;
+
+  mJumpsChangeSound = randomInt(kMinJumpsChangeSound, kMaxJumpsChangeSound);
 }
 
 void Player::update(int deltaTime) {
@@ -126,7 +131,7 @@ void Player::changeState(Player::State state) {
   case Player::Moving:
   case Player::towardsBoat:
     mAnimation.changeAnimation(1);
-    Game::instance().getScene()->playSoundEffect("jump0.ogg");
+    playJumpSound();
     break;
   case Player::onBoat:
     mVelocity = glm::vec3(0.f);
@@ -237,4 +242,23 @@ void Player::setTimer(int time) {
 
 bool Player::timerExpired() const {
   return mTimerActivated && mTimer < 0;
+}
+
+void Player::playJumpSound() {
+  --mJumpsChangeSound;
+
+  if (mJumpsChangeSound <= 0) {
+    int sound = randomInt(0, 100);
+
+    if (sound < 30)
+      Game::instance().getScene()->playSoundEffect("jump1.ogg");
+    else if (sound < 60)
+      Game::instance().getScene()->playSoundEffect("jump2.ogg");
+    else
+      Game::instance().getScene()->playSoundEffect("jump3.ogg");
+
+    mJumpsChangeSound = randomInt(kMinJumpsChangeSound, kMaxJumpsChangeSound);
+  } else {
+    Game::instance().getScene()->playSoundEffect("jump0.ogg");
+  }
 }

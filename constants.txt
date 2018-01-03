@@ -6,6 +6,8 @@ float horizontalSpeed 0.015 //no bajar de 0.015
 int drowningTime 1000
 int explodingTime 5000
 float maxBoatDistance 26
+int minJumpsChangeSound 5
+int maxJumpsChangeSound 10
 
 ##### Score #####
 int scorePerTile 10

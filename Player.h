@@ -61,10 +61,10 @@ private:
 
   void updateMoving(int deltaTime);
 
-  void updateParticles(int deltaTime);
-  void renderParticles();
-
-  void initExplosion();
+  int kMinJumpsChangeSound;
+  int kMaxJumpsChangeSound;
+  int mJumpsChangeSound;
+  void playJumpSound();
 };
 
 #endif // _PLAYER_INCLUDE
