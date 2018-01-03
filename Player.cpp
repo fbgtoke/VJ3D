@@ -117,8 +117,6 @@ void Player::updateMoving(int deltaTime) {
 }
 
 void Player::changeState(Player::State state) {
-  mState = state;
-
   switch (state) {
   case Player::Idle:
     setPositionInTiles(getPositionInTiles());
@@ -137,16 +135,22 @@ void Player::changeState(Player::State state) {
   case Player::Drowning:
     setTimer(kMaxDrowningTime);
     mAnimation.changeAnimation(2);
+    Game::instance().getScene()->playSoundEffect("deathDrowning.ogg");
     break;
   case Player::Exploding:
     setTimer(kMaxExplodingTime);
     setVelocity(glm::vec3(0.f));
     //Game::instance().getScene()->playSoundEffect("death.ogg");
     Particle::generateExplosion(getCenter());
+
+    if (mState == Player::Drowning)
+      Game::instance().getScene()->playSoundEffect("drowning.ogg");
     break;
   case Player::Dead:
     break;
   }
+
+  mState = state;
 }
 
 Player::State Player::getState() const { return mState; }
