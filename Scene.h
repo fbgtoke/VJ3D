@@ -14,7 +14,9 @@ public:
 		SCENE_LEVEL_SELECT,
 		SCENE_PLAY,
 		SCENE_WIN,
-		SCENE_DEAD
+		SCENE_DEAD,
+		SCENE_HELP,
+		SCENE_CREDITS
 	};
 	
 	Scene(Scene::SceneType type);

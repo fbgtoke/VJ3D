@@ -103,6 +103,12 @@ void SceneMenu::selectOption() {
   case NEW_GAME:
     Game::instance().changeScene(Scene::SCENE_LEVEL_SELECT);
     break;
+  case HELP:
+    Game::instance().changeScene(Scene::SCENE_HELP);
+    break;
+  case CREDITS:
+    Game::instance().changeScene(Scene::SCENE_CREDITS);
+    break;
   case EXIT:
     Game::instance().stop();
     break;

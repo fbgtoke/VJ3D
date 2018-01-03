@@ -39,7 +39,7 @@ void Sprite::init() {
   mVAO = GL_INVALID_VALUE;
   mVBO_vertices = mVBO_texcoords = GL_INVALID_VALUE;
 
-  mShader = Game::instance().getResource().shader("gui");
+  mShader = Game::instance().getResource().shader("sprite");
 }
 
 void Sprite::render() {

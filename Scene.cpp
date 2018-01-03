@@ -4,6 +4,8 @@
 #include "SceneTest.h"
 #include "SceneWin.h"
 #include "SceneDead.h"
+#include "SceneHelp.h"
+#include "SceneCredits.h"
 
 #include "Game.h"
 
@@ -29,6 +31,8 @@ Scene* Scene::create(SceneType type) {
   case SCENE_LEVEL_SELECT: return new SceneLevelSelect();
   case SCENE_WIN:  return new SceneWin();
   case SCENE_DEAD: return new SceneDead();
+  case SCENE_HELP: return new SceneHelp();
+  case SCENE_CREDITS: return new SceneCredits();
   default:
     return new SceneTest();
   }

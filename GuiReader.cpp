@@ -116,9 +116,7 @@ Sprite* GuiReader::readText(std::ifstream& stream, Gui* gui) {
       sstream >> fontColor.x >> fontColor.y >> fontColor.z;
       text->setFontColor(fontColor);
     } else if (tag == "value") {
-      std::string str;
-      sstream >> str;
-      text->setString(str);
+      text->setString(value);
     } else if (tag == "name") {
       std::string name;
       sstream >> name;

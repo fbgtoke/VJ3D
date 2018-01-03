@@ -1,0 +1,12 @@
+<gui layers=1>
+
+<layer>
+  <text>
+    <position>0 0</position>
+    <size>24</size>
+    <color>0.0 1.0 0.5</color>
+    <value>De pro del Dota a disenador de vj</value>
+  </text>
+</layer>
+
+</gui>
