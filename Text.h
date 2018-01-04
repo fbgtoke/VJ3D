@@ -16,10 +16,13 @@ public:
   void setFontSize(float size);
   void setFontColor(const glm::vec3& color);
 
+  float getFontSize() const;
+
 private:
-  static glm::vec4 char2uvs(char c);
-  std::string mString;
+  static glm::vec2 char2uvs(char c);
   glm::vec3 mFontColor;
+
+  std::string mString;
 };
 
 #endif // _TEXT_INCLUDE

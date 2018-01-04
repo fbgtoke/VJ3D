@@ -18,13 +18,12 @@ void Gui::render() {
   for (unsigned int i = 0; i < mLayers.size(); ++i) {
     for (Sprite* sprite : mLayers[i]) {
       ShaderProgram* shader = sprite->getShader();
-      if (shader != nullptr) {
-        shader->use();
-        shader->setUniformMatrix4f("PM", PM);
-        shader->setUniformMatrix4f("VM", VM);
+      shader->use();
+      shader->setUniformMatrix4f("PM", PM);
+      shader->setUniformMatrix4f("VM", VM);
+      shader->setUniform1i("tex", 0);
 
-        sprite->render();
-      }
+      sprite->render();
     }
   }
 }
@@ -69,8 +68,8 @@ glm::mat4 Gui::getProjectionMatrix() {
     (float)SCREEN_WIDTH,
     (float)SCREEN_HEIGHT,
     0.f,
-    0.001f,
-    100.f
+    0.f,
+    20.f
   );
 }
 

@@ -9,11 +9,6 @@ float maxBoatDistance 26
 int minJumpsChangeSound 5
 int maxJumpsChangeSound 10
 
-##### Models #####
-float modelMatAmb_x 0.1
-float modelMatAmb_y 0.1
-float modelMatAmb_z 0.1
-
 ##### Score #####
 int scorePerTile 10
 int scorePerSideWalk 1

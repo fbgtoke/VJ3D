@@ -44,23 +44,45 @@ void Mesh::initVAO() {
   glBindVertexArray(0);
 }
 
+void Mesh::updateVAO() {
+  glBindVertexArray(mVAO);
+
+  glBindBuffer(GL_ARRAY_BUFFER, mVBO_vertices);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+  glBindBuffer(GL_ARRAY_BUFFER, mVBO_normals);
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
+  glBindBuffer(GL_ARRAY_BUFFER, mVBO_texcoord);
+  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
+  
+  glBindVertexArray(0);
+}
+
 GLuint Mesh::getVAO() const { return mVAO; }
 
 void Mesh::setVertices(float* vertices, unsigned int nelem) {
+  if (mVertices != nullptr) free(mVertices);
+
   mVertices = vertices;
   nFloatsVertices = nelem;
+  updateVAO();
 
   getMinMaxVertices(min, max);
 }
 
 void Mesh::setNormals(float* normals, unsigned int nelem) {
+  if (mNormals != nullptr) free(mNormals);
+
   mNormals = normals;
   nFloatsNormals = nelem;
+  updateVAO();
 }
 
 void Mesh::setTexCoords(float* texcoords, unsigned int nelem) {
+  if (mTexCoords != nullptr) free(mTexCoords);
+
   mTexCoords = texcoords;
   nFloatsTexCoords = nelem;
+  updateVAO();
 }
 
 float* Mesh::vertices() { return mVertices; }

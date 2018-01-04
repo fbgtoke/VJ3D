@@ -11,7 +11,7 @@ public:
   virtual ~Model();
 
   virtual void init();
-  void render();
+  virtual void render();
   virtual void update(int deltaTime);
 
   virtual void beforeRender();
@@ -61,8 +61,6 @@ public:
   virtual bool checkCollisions() const;
 
 protected:
-  glm::vec3 kMatAmb;
-
   bool mEnableRendering;
 
   virtual void onDestroy();

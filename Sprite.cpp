@@ -2,133 +2,81 @@
 #include "Game.h"
 
 Sprite::Sprite()
-  : mTexture(nullptr), mShader(nullptr) {}
+  : mShader(nullptr) {}
 
-Sprite::~Sprite() {
-  free();
-}
+Sprite::~Sprite() {}
 
-Sprite* Sprite::create(const glm::vec2& size, Texture* texture,
-  ShaderProgram* shader, const glm::vec4& rect) {
-
+Sprite* Sprite::create(const glm::vec2& size, Texture* texture) {
   Sprite* sprite = new Sprite();
   sprite->init();
   sprite->resize(size);
-  sprite->setTexture(texture, rect);
-  sprite->setShader(shader);
+  sprite->setTexture(texture);
   return sprite;
 }
 
 void Sprite::init() {
   mName = "";
-  mPosition = glm::vec2(0.f);
-  mSize = glm::vec2(1.f);
-  mFlipX = false;
-  mFlipY = false;
+  setShader(Game::instance().getResource().shader("sprite"));
 
-  mVertices = {
-    -0.5f,  0.5f, 0.f,
-    -0.5f, -0.5f, 0.f,
-     0.5f,  0.5f, 0.f,
-     0.5f, -0.5f, 0.f,
-     0.5f,  0.5f, 0.f,
-    -0.5f, -0.5f, 0.f
-  };
-  setTextureRect(glm::vec4(0.f, 1.f, 0.f, 1.f));
-
-  mVAO = GL_INVALID_VALUE;
-  mVBO_vertices = mVBO_texcoords = GL_INVALID_VALUE;
-
-  mShader = Game::instance().getResource().shader("sprite");
+  mModel.init();
+  mModel.setMesh(Game::instance().getResource().mesh("plane.obj"));
 }
 
 void Sprite::render() {
-  if (mTexture != nullptr && mShader != nullptr) {
-    free();
+  glm::vec3 offset;
+  offset.x = abs(mModel.getScale().x) * 0.5f;
+  offset.y = abs(mModel.getScale().y) * 0.5f;
+  offset.z = 0.f;
 
-    glm::mat4 TG = glm::mat4(1.f);
-    TG = glm::translate(TG, glm::vec3(mPosition, 0.f));
-    TG = glm::translate(TG, glm::vec3(mSize, 0.f) * 0.5f);
-    TG = glm::scale(TG, glm::vec3(mSize, 0.f));
-
-    if (mFlipX)
-      TG = glm::scale(TG, glm::vec3(-1.f, 1.f, 1.f));
-    if (mFlipY)
-      TG = glm::scale(TG, glm::vec3(1.f, -1.f, 1.f));
-
-    mShader->setUniformMatrix4f("TG", TG);
-
-    glGenVertexArrays(1, &mVAO);
-    glBindVertexArray(mVAO);
-
-    glGenBuffers(1, &mVBO_vertices);
-    glBindBuffer(GL_ARRAY_BUFFER, mVBO_vertices);
-    glBufferData(GL_ARRAY_BUFFER, 18 * sizeof(float), &mVertices[0], GL_STATIC_DRAW);
-    mLoc_vertices = mShader->bindVertexAttribute("vertex", 3, 0, 0);
-    glEnableVertexAttribArray(mLoc_vertices);
-
-    glGenBuffers(1, &mVBO_texcoords);
-    glBindBuffer(GL_ARRAY_BUFFER, mVBO_texcoords);
-    glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), &mTexcoords[0], GL_STATIC_DRAW);
-    mLoc_texcoord = mShader->bindVertexAttribute("texcoord", 2, 0, 0);
-    glEnableVertexAttribArray(mLoc_texcoord);
-
-    mTexture->use();
-
-    glDrawArrays(GL_TRIANGLES, 0, 6);
-    glBindVertexArray(0);
-  }
+  mModel.move(offset);
+  mModel.render();
+  mModel.move(-offset);
 }
 
-void Sprite::resize(const glm::vec2& size) { mSize = size; }
+void Sprite::resize(const glm::vec2& size) {
+  mModel.setScale(glm::vec3(size.x, size.y, 1.f));
+}
+
+void Sprite::setPosition(const glm::vec2& position) {
+  glm::vec3 p(position.x, position.y, 0.f);
+  mModel.setPosition(p);
+}
+
+glm::vec2 Sprite::getPosition() const {
+  return glm::vec2(mModel.getPosition().x, mModel.getPosition().y);
+}
+
+void Sprite::move(const glm::vec2& direction) {
+  mModel.move(glm::vec3(direction.x, direction.y, 0.f));
+}
 
 void Sprite::setName(const std::string& name) { mName = name; }
 std::string Sprite::getName() const { return mName; }
 
-void Sprite::setTexture(Texture* texture, const glm::vec4& rect) {
-  mTexture = texture;
-  setTextureRect(rect);
-}
-
-void Sprite::setTextureRect(const glm::vec4& rect) {
-  mTexcoords = {
-    rect[0], rect[3],
-    rect[0], rect[2],
-    rect[1], rect[3],
-    rect[1], rect[2],
-    rect[1], rect[3],
-    rect[0], rect[2]
-  };
-}
-
 void Sprite::setShader(ShaderProgram* shader) { mShader = shader; }
 ShaderProgram* Sprite::getShader() { return mShader; }
 
-void Sprite::setPosition(const glm::vec2& position) { mPosition = position; }
-glm::vec2 Sprite::getPosition() const { return mPosition; }
-
-void Sprite::move(const glm::vec2& direction) { mPosition += direction; }
-void Sprite::move(float x, float y) {
-  mPosition.x += x;
-  mPosition.y += y;
+void Sprite::flipX() {
+  glm::vec3 scale = mModel.getScale();
+  scale.x *= -1.f;
+  mModel.setScale(scale);
 }
 
-void Sprite::flipX() { mFlipX = !mFlipX; }
-void Sprite::flipY() { mFlipY = !mFlipY; }
+void Sprite::flipY() {
+  glm::vec3 scale = mModel.getScale();
+  scale.y *= -1.f;
+  mModel.setScale(scale);
+}
 
-void Sprite::free() {
-  if (mVBO_vertices != GL_INVALID_VALUE) {
-    glDeleteBuffers(1, &mVBO_vertices);
-    mVBO_vertices = GL_INVALID_VALUE;
-  }
+void Sprite::setTexture(Texture* texture) { mModel.setTexture(texture); }
 
-  if (mVBO_texcoords != GL_INVALID_VALUE) {
-    glDeleteBuffers(1, &mVBO_texcoords);
-    mVBO_texcoords = GL_INVALID_VALUE;
-  }
-
-  if (mVAO != GL_INVALID_VALUE) {
-    glDeleteVertexArrays(1, &mVAO);
-    mVAO = GL_INVALID_VALUE;
-  }
+void Sprite::setTextureRect(const glm::vec4& rect) {
+  float* texcoords = (float*) malloc(12 * sizeof(float));
+     texcoords[0] = rect[0];  texcoords[1] = rect[2];
+     texcoords[2] = rect[0];  texcoords[3] = rect[3];
+     texcoords[4] = rect[1];  texcoords[5] = rect[2];
+     texcoords[6] = rect[1];  texcoords[7] = rect[2];
+     texcoords[8] = rect[0];  texcoords[9] = rect[3];
+    texcoords[10] = rect[1]; texcoords[11] = rect[3];
+  mModel.getMesh()->setTexCoords(texcoords, 12);
 }

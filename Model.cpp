@@ -16,10 +16,6 @@ void Model::init() {
 
   mEnableRendering = true;
   mDestroyed = false;
-
-  kMatAmb.x = Game::instance().getResource().Float("modelMatAmb_x");
-  kMatAmb.y = Game::instance().getResource().Float("modelMatAmb_y");
-  kMatAmb.z = Game::instance().getResource().Float("modelMatAmb_z");
 }
 
 void Model::update(int deltaTime) {
@@ -30,13 +26,9 @@ void Model::update(int deltaTime) {
 void Model::beforeRender() {
   if (mTexture != nullptr)
     mTexture->use();
-
-  ShaderProgram* shader = Game::instance().getScene()->getShader();
   
   glm::mat4 TG = getTransform();
-  shader->setUniformMatrix4f("TG", TG);
-  shader->setUniform2f("texoffset", 0.f, 0.f);
-  shader->setUniform3f("matAmb", kMatAmb);
+  glUniformMatrix4fv(2, 1, GL_FALSE, glm::value_ptr(TG));
 }
 
 void Model::render() {
@@ -93,10 +85,10 @@ glm::vec3 Model::getTopCenter() const { return getCenter() + getSize().y * 0.5f;
 glm::mat4 Model::getTransform() const {
   glm::mat4 modelMatrix(1.f);
   modelMatrix = glm::translate(modelMatrix, mPosition);
-  modelMatrix = glm::scale(modelMatrix, mScale);
   modelMatrix = glm::rotate(modelMatrix, mRotation.z, glm::vec3(0, 0, 1));
   modelMatrix = glm::rotate(modelMatrix, mRotation.y, glm::vec3(0, 1, 0));
   modelMatrix = glm::rotate(modelMatrix, mRotation.x, glm::vec3(1, 0, 0));
+  modelMatrix = glm::scale(modelMatrix, mScale);
   modelMatrix = glm::translate(modelMatrix, mCenter * (-1.f));
 
   return modelMatrix;

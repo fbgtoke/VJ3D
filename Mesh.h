@@ -2,7 +2,6 @@
 #define _MESH_INCLUDE
 
 #include "utils.h"
-#include "ShaderProgram.h"
 
 class Mesh {
 public:
@@ -10,6 +9,7 @@ public:
 	~Mesh();
 
   void initVAO();
+  void updateVAO();
   void freeVAO();
   GLuint getVAO() const;
 
@@ -43,8 +43,6 @@ protected:
   unsigned int nFloatsTexCoords;
 
   glm::vec3 min, max;
-
-  ShaderProgram* mShader = nullptr;
 
   float* mVertices = nullptr;
   float* mNormals = nullptr;

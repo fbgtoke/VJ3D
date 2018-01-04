@@ -305,7 +305,6 @@ void SceneTest::updateGui() {
 
 void SceneTest::renderGui() {
   mGui->getSprite("scene-frame")->setTexture(mFramebuffer.getTexture());
-  mGui->getSprite("scene-frame")->setShader(Game::instance().getResource().shader("post"));
 
   Scene::renderGui();
 }
