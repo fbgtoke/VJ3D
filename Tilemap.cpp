@@ -10,11 +10,7 @@ const std::vector<glm::vec3> Tilemap::kQuad = {
   glm::vec3(1.f, 0.f, 1.f)
 };
 
-Tilemap::Tilemap()
-  : mShader(nullptr)
-{
-  kBorderSize = Game::instance().getResource().Int("BorderSize");
-}
+Tilemap::Tilemap() : mShader(nullptr) {}
 
 Tilemap::~Tilemap() {
   freeVAO();
@@ -26,6 +22,8 @@ void Tilemap::init() {
 
   mShader = Game::instance().getResource().shader("level");
   initVAO();
+
+  kBorderSize = Game::instance().getResource().Int("BorderSize");
 }
 
 void Tilemap::render() {
@@ -37,6 +35,7 @@ void Tilemap::render() {
   initVAO();
 
   glm::mat4 TG = glm::mat4(1.f);
+  TG = glm::translate(TG, glm::vec3(-kBorderSize * TILE_SIZE, 0.f, kBorderSize * TILE_SIZE));
   mShader->setUniformMatrix4f("TG", TG);
 
   mShader->setUniform2f("texoffset", 0.f, 0.f);
@@ -80,8 +79,8 @@ void Tilemap::initVertices() {
 
   glm::vec3 stride = glm::vec3(0.f);
   glm::vec3 vertex;
-  for (int i = 0; i < mHeight; ++i) {
-    for (int j = 0; j < mWidth; ++j) {
+  for (int i = 0; i < mHeight + kBorderSize * 2; ++i) {
+    for (int j = 0; j < mWidth + kBorderSize * 2; ++j) {
       stride.x =  j;
       stride.z = -i;
 
@@ -99,8 +98,8 @@ void Tilemap::initVertices() {
 void Tilemap::initNormals() {
   mNormals.clear();
 
-  for (int i = 0; i < mHeight; ++i) {
-    for (int j = 0; j < mWidth; ++j) {
+  for (int i = 0; i < mHeight + kBorderSize * 2; ++i) {
+    for (int j = 0; j < mWidth + kBorderSize * 2; ++j) {
       for (int k = 0; k < kQuad.size(); ++k) {
         mNormals.push_back(0.f);
         mNormals.push_back(1.f);
@@ -113,8 +112,8 @@ void Tilemap::initNormals() {
 void Tilemap::initTexcoords() {
   mTexcoords.clear();
 
-  for (int i = 0; i < mHeight; ++i) {
-    for (int j = 0; j < mWidth; ++j) {
+  for (int i = 0; i < mHeight + kBorderSize * 2; ++i) {
+    for (int j = 0; j < mWidth + kBorderSize * 2; ++j) {
       for (int k = 0; k < kQuad.size(); ++k) {
         mTexcoords.push_back(0.f);
         mTexcoords.push_back(0.f);
@@ -171,14 +170,18 @@ void Tilemap::updateVAO() {
   glBindVertexArray(0);
 }
 
-unsigned int Tilemap::getHeight() const { return mHeight; }
-unsigned int Tilemap::getWidth() const { return mWidth; }
+int Tilemap::getHeight() const { return mHeight; }
+int Tilemap::getWidth() const { return mWidth; }
 
 void Tilemap::setTile(const glm::ivec2& position, Tile::Type type) {
-  if (outOfBounds(position)) return;
-  mTiles[position.y][position.x] = type;
+  if (!outOfBounds(position));
+    mTiles[position.y][position.x] = type;
 
-  int index = (position.y * mWidth + position.x) * 12;
+  int index =
+    ((position.y + kBorderSize) * (mWidth + kBorderSize * 2) + (position.x + kBorderSize)) * 12;
+
+  //std::cout << "Position " << position.x << " " << position.y << std::endl;
+  //std::cout << "Index " << index << std::endl;
 
   float uvLeft  = (type%4) * 0.25f + 0.00f;
   float uvRight = (type%4) * 0.25f + 0.25f;
@@ -211,6 +214,13 @@ void Tilemap::setTile(const glm::ivec2& position, Tile::Type type) {
   mTexcoords[index + 11] = uvBot;
 
   updateVAO();
+
+  //if (position.x == 0) {
+  //  for (int i = 1; i <= kBorderSize; ++i) {
+  //    std::cout << "Going to " << -i << " " << position.y << std::endl;
+  //    setTile(glm::ivec2(-i, position.y), type);
+  //  }
+  //}
 }
 
 Tile::Type Tilemap::getTile(const glm::ivec2& position) const {

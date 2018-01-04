@@ -17,8 +17,8 @@ public:
 
   void clear();
   void resize(const glm::ivec2& size);
-  unsigned int getHeight() const;
-  unsigned int getWidth() const;
+  int getHeight() const;
+  int getWidth() const;
 
   void setTile(const glm::ivec2& position, Tile::Type type);
   Tile::Type getTile(const glm::ivec2& position) const;
@@ -29,8 +29,8 @@ public:
 
 private:
   int kBorderSize;
-  unsigned int mWidth;
-  unsigned int mHeight;
+  int mWidth;
+  int mHeight;
   static const std::vector<glm::vec3> kQuad;
   std::vector<float> mVertices;
   std::vector<float> mTexcoords;

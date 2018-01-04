@@ -97,6 +97,7 @@ void Player::moveTowards(const glm::vec3& position) {
 void Player::moveTowardsBoat(Obstacle* boat) {
   mTargetBoat = boat;
   changeState(Player::onBoat);
+  playJumpSound();
 }
 
 void Player::updateMoving(int deltaTime) {
