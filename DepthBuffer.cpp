@@ -18,7 +18,7 @@ void DepthBuffer::init() {
   mTexture->createEmptyTexture(
     SCREEN_WIDTH,
     SCREEN_HEIGHT,
-    GL_DEPTH_COMPONENT16,
+    GL_DEPTH_COMPONENT32,
     GL_DEPTH_COMPONENT,
     GL_FLOAT
   );
@@ -30,7 +30,6 @@ void DepthBuffer::init() {
   
   GLuint texId = mTexture->getTexId();
   glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, texId, 0);
-  glDrawBuffer(GL_NONE);
 
   if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
     std::cout << "Could not create depth buffer" << std::endl;
@@ -40,6 +39,7 @@ void DepthBuffer::init() {
 
 void DepthBuffer::use() {
   glBindFramebuffer(GL_FRAMEBUFFER, mFBO);
+  glDrawBuffer(GL_DEPTH_ATTACHMENT);
   glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
