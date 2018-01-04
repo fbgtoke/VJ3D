@@ -12,28 +12,6 @@ void Sun::init() {
 
   kDistance = Game::instance().getResource().Float("sunDistance");
 
-  kMorningTime = Game::instance().getResource().Float("sunMorningTime");
-  kDayTime = Game::instance().getResource().Float("sunDayTime");
-  kTwilightTime = Game::instance().getResource().Float("sunTwilightTime");
-  kNightTime = Game::instance().getResource().Float("sunNightTime");
-
-  kMorningColor.x = Game::instance().getResource().Float("sunMorningColor_x");
-  kMorningColor.y = Game::instance().getResource().Float("sunMorningColor_y");
-  kMorningColor.z = Game::instance().getResource().Float("sunMorningColor_z");
-
-  kDayColor.x = Game::instance().getResource().Float("sunDayColor_x");
-  kDayColor.y = Game::instance().getResource().Float("sunDayColor_y");
-  kDayColor.z = Game::instance().getResource().Float("sunDayColor_z");
-
-  kTwilightColor.x = Game::instance().getResource().Float("sunTwilightColor_x");
-  kTwilightColor.y = Game::instance().getResource().Float("sunTwilightColor_y");
-  kTwilightColor.z = Game::instance().getResource().Float("sunTwilightColor_z");
-
-  kNightColor.x = Game::instance().getResource().Float("sunNightColor_x");
-  kNightColor.y = Game::instance().getResource().Float("sunNightColor_y");
-  kNightColor.z = Game::instance().getResource().Float("sunNightColor_z");
-
-
   mCurrentTime = 0;
 }
 
@@ -56,7 +34,7 @@ glm::vec3 Sun::getTarget() const { return kTarget; }
 glm::vec3 Sun::getPosition() const { return kTarget - getDirection() * kDistance; }
 
 glm::vec3 Sun::getDirection() const {
-  if (mCurrentTime > kNightTime)
+  if (mCurrentTime > (float)M_PI * 15.f/16.f)
     return DOWN;
 
   glm::vec3 dir;
@@ -70,16 +48,18 @@ glm::vec3 Sun::getDirection() const {
 }
 
 glm::vec3 Sun::getColor() const {
-  if (mCurrentTime < kDayTime)
-    return kMorningColor;
-  if (mCurrentTime < kTwilightTime)
-    return kDayColor;
-  if (mCurrentTime < kNightTime)
-    return kTwilightColor;
-  if (mCurrentTime - (float)M_PI * 2.f < kMorningTime)
-    return kNightColor;
+  float r, g, b;
 
-  return glm::vec3(0.f);
+  if (mCurrentTime > (float)M_PI * 1.f/16.f && mCurrentTime < (float)M_PI * 15.f/16.f) {
+    r = max(0.75f, abs(cos(mCurrentTime)));
+    g = max(0.3f, abs(sin(mCurrentTime * .5f)));
+    b = max(0.3f, abs(sin(mCurrentTime * .5f)));
+  } else {
+    r = 0.3f;
+    g = 0.3f;
+    b = 0.3f;
+  }
+  return glm::vec3(r, g, b);
 }
 
 glm::mat4 Sun::getBiasMatrix() const {

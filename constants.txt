@@ -71,32 +71,11 @@ float ParticleGravity -0.035
 float ParticleFriction 0.85
 
 ##### Light #####
-float sunSpeed 0.00004
+float sunSpeed 0.0004
 float sunTarget_x 160
 float sunTarget_y 0
 float sunTarget_z 0
 float sunDistance 150
-
-float sunMorningTime 0.392699082
-float sunDayTime 1.178097245
-float sunTwilightTime 1.963495408
-float sunNightTime 2.748893572
-
-float sunMorningColor_x 0.88627451
-float sunMorningColor_y 0.71372549
-float sunMorningColor_z 0.098039216
-
-float sunDayColor_x 0.619607843
-float sunDayColor_y 0.905882353
-float sunDayColor_z 0.933333333
-
-float sunTwilightColor_x 0.88627451
-float sunTwilightColor_y 0.71372549
-float sunTwilightColor_z 0.098039216
-
-float sunNightColor_x 0.596078431
-float sunNightColor_y 0.752941176
-float sunNightColor_z 0.764705882
 
 float menulightDir_x 0
 float menulightDir_y 0
