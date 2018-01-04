@@ -210,12 +210,12 @@ void SceneTest::checkPlayerOutOfBounds() {
 }
 
 void SceneTest::checkPlayerOutOfCamera() {
-  glm::vec4 homoPosition(mPlayer->getCenter(), 1.0f);
-  glm::vec4 projectedPosition =
-    glm::vec4(mProjectionMatrix * mViewMatrix * homoPosition);
+  if (!mPlayer->isAlive()) return;
 
-  if (projectedPosition.y/projectedPosition.w < -1.0f)
+  if (mPlayer->isAlive() && outOfCamera(mPlayer)) {
     mPlayer->explode();
+    Game::instance().getScene()->playSoundEffect("deathOverrun0.ogg");
+  }
 }
 
 void SceneTest::checkPlayerStandingTile() {
@@ -334,6 +334,10 @@ glm::mat4 SceneTest::getDepthBiasMatrix() const {
     0.0, 0.0, 0.5, 0.0,
     0.5, 0.5, 0.5, 1.0
   );
+}
+
+bool SceneTest::doUpdate(Model* model) const {
+  return abs(mPlayer->getCenter().z - model->getCenter().z) < 10.0f * TILE_SIZE;
 }
 
 void SceneTest::addScore(unsigned int score) {

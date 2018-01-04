@@ -31,6 +31,8 @@ public:
 
   glm::vec3 getLightDirection() const override;
 
+  bool doUpdate(Model* model) const override;
+
 private:
   float mLightAngle;
 	glm::vec3 kObsVector;

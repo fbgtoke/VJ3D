@@ -31,10 +31,11 @@ void Level::update(int deltaTime) {
 }
 
 void Level::render() {
-  mTilemap.render();
+  //mTilemap.render();
 
   for (Obstacle* obstacle : mObstacles)
-    obstacle->render();
+    if (Game::instance().getScene()->doUpdate(obstacle))
+      obstacle->render();
 }
 
 void Level::checkCollisions(Model* model) {

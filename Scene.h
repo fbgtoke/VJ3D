@@ -42,6 +42,9 @@ public:
 	void playSoundEffect(const std::string& name);
 	void addParticle(Particle* particle);
 
+	virtual bool outOfCamera(Model* model) const;
+	virtual bool doUpdate(Model* model) const;
+
 protected:
 	const Scene::SceneType mType;
 	float mCurrentTime;
