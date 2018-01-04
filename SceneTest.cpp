@@ -216,8 +216,11 @@ void SceneTest::checkPlayerStandingTile() {
 void SceneTest::checkPlayerDead() {
   if (mPlayer == nullptr) return;
 
-  if (mPlayer->isExploding())
+  if (mPlayer->isExploding()) {
     mCamera.setMoving(false);
+    mGui->getSprite("scene-frame")->setShader(Game::instance().getResource().shader("post"));
+
+  }
   if (mPlayer->isDead()) {
     Game::instance().changeScene(Scene::SCENE_DEAD);
     Game::instance().getBufferedScene()->receiveString("level-name", mLevelName);
