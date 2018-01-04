@@ -11,11 +11,15 @@ public:
   void init();
   void update(int deltaTime);
 
+  void setCurrentTime(float time);
+
   void setLevelSize(unsigned int width, unsigned int length);
 
   glm::vec3 getPosition() const;
   glm::vec3 getTarget() const;
   glm::vec3 getDirection() const;
+
+  glm::vec3 getColor() const;
 
   glm::mat4 getBiasMatrix() const;
   glm::mat4 getProjectionMatrix() const;
@@ -28,6 +32,16 @@ private:
   float mCurrentTime;
   unsigned int mWidth  = 0;
   unsigned int mLength = 0;
+
+  float kMorningTime;
+  float kDayTime;
+  float kTwilightTime;
+  float kNightTime;
+
+  glm::vec3 kMorningColor;
+  glm::vec3 kDayColor;
+  glm::vec3 kTwilightColor;
+  glm::vec3 kNightColor;
 };
 
 #endif // _SUN_INCLUDE

@@ -31,7 +31,6 @@ public:
 	ShaderProgram* getShader();
 
 	virtual glm::vec3 getLightDirection() const;
-	virtual glm::vec3 getAmbientColor() const;
 
 	virtual glm::mat4 getProjectionMatrix() const;
 	virtual glm::mat4 getViewMatrix() const;
@@ -52,7 +51,6 @@ protected:
 	glm::vec3 OBS, VRP;
 
 	glm::vec3 kLightDirection;
-	glm::vec3 kAmbientColor;
 
 	void checkSoundEffects();
 	std::list<sf::Sound*> mSoundEffects;

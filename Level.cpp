@@ -1,11 +1,19 @@
 #include "Level.h"
 #include "Game.h"
+#include "LevelGenerator.h"
 
-Level::Level() {
-  mTilemap.init();
-}
+Level::Level() {}
 
 Level::~Level() {}
+
+void Level::loadFromFile(const std::string& filename) {
+  LevelGenerator::generate(this, filename);
+}
+
+void Level::init(const std::string& name) {
+  mLevelInfo.setName(name);
+  mTilemap.init();
+}
 
 void Level::update(int deltaTime) {
   auto it = mObstacles.begin();
@@ -100,3 +108,5 @@ glm::ivec2 Level::player2tilemap(const glm::vec3& position) {
 
   return index;
 }
+
+LevelInfo Level::getLevelInfo() const { return mLevelInfo; }

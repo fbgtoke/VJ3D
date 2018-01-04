@@ -2,10 +2,7 @@
 #define SCENE_TEST_INCLUDE
 
 #include "Scene.h"
-#include "Tilemap.h"
 #include "Level.h"
-#include "LevelInfo.h"
-#include "LevelGenerator.h"
 #include "Player.h"
 #include "FrameBuffer.h"
 #include "DepthBuffer.h"
@@ -24,6 +21,9 @@ public:
   void receiveString(const std::string& tag, const std::string str) override;
 
 private:
+  std::string mLevelName;
+  Level mLevel;
+  
   Camera mCamera;
   Sun mSun;
   
@@ -40,10 +40,6 @@ private:
 
   Obstacle* getBoatAdjacentToPlayer(const glm::vec3& direction);
   Obstacle* getStoneAdjacentToPlayer(const glm::vec3& direction);
-
-  LevelInfo mLevelInfo;
-  Level* mLevel;
-  std::string mLevelName;
 
   Player* mPlayer;
 

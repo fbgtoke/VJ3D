@@ -16,6 +16,10 @@ void Model::init() {
 
   mEnableRendering = true;
   mDestroyed = false;
+
+  kMatAmb.x = Game::instance().getResource().Float("modelMatAmb_x");
+  kMatAmb.y = Game::instance().getResource().Float("modelMatAmb_y");
+  kMatAmb.z = Game::instance().getResource().Float("modelMatAmb_z");
 }
 
 void Model::update(int deltaTime) {
@@ -26,10 +30,13 @@ void Model::update(int deltaTime) {
 void Model::beforeRender() {
   if (mTexture != nullptr)
     mTexture->use();
+
+  ShaderProgram* shader = Game::instance().getScene()->getShader();
   
   glm::mat4 TG = getTransform();
-  glUniformMatrix4fv(2, 1, GL_FALSE, glm::value_ptr(TG));
-  glUniform2f(0, 0.f, 0.f);
+  shader->setUniformMatrix4f("TG", TG);
+  shader->setUniform2f("texoffset", 0.f, 0.f);
+  shader->setUniform3f("matAmb", kMatAmb);
 }
 
 void Model::render() {

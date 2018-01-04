@@ -8,7 +8,7 @@
 
 class LevelGenerator {
 public:
-  static Level* generate(const std::string& name);
+  static void generate(Level* level, const std::string& name);
 
 private:
   static void generateTilemap(const std::string& name, Level* level);

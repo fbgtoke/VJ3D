@@ -49,10 +49,6 @@ void Scene::init() {
 
   kLightDirection = glm::vec3(0.f);
 
-  kAmbientColor.x = Game::instance().getResource().Float("ambientColor_x");
-  kAmbientColor.y = Game::instance().getResource().Float("ambientColor_y");
-  kAmbientColor.z = Game::instance().getResource().Float("ambientColor_z");
-
   initGui();
 }
 
@@ -80,8 +76,6 @@ void Scene::render() {
 
   glm::vec3 lightDirection = getLightDirection();
   mTexProgram->setUniform3f("lightDir", lightDirection);
-  glm::vec3 ambientColor = getAmbientColor();
-  mTexProgram->setUniform3f("ambientColor", ambientColor);
 
   for (Particle* particle : mParticles)
     particle->render();
@@ -94,7 +88,6 @@ void Scene::receiveString(const std::string& tag, const std::string str) {}
 ShaderProgram* Scene::getShader() { return mTexProgram; }
 
 glm::vec3 Scene::getLightDirection() const { return kLightDirection; }
-glm::vec3 Scene::getAmbientColor() const { return kAmbientColor; }
 
 glm::mat4 Scene::getProjectionMatrix() const { return mProjectionMatrix; }
 glm::mat4 Scene::getViewMatrix() const { return mViewMatrix; }

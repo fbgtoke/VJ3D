@@ -1,13 +1,11 @@
 #include "LevelGenerator.h"
 #include "Game.h"
 
-Level* LevelGenerator::generate(const std::string& name) {
-  Level* level = new Level();
+void LevelGenerator::generate(Level* level, const std::string& name) {
+  level->init(name);
 
   LevelGenerator::generateTilemap(name, level);
   LevelGenerator::generateObstacles(name, level);
-
-  return level;
 }
 
 void LevelGenerator::generateTilemap(const std::string& name, Level* level) {

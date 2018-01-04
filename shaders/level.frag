@@ -6,7 +6,9 @@ uniform sampler2D shadow;
 uniform vec2 texoffset;
 
 uniform vec3 lightDir;
-uniform vec3 ambientColor;
+uniform vec3 lightColor;
+
+uniform vec3 matAmb;
 
 in vec3 normalFrag;
 in vec2 texcoordFrag;
@@ -27,6 +29,9 @@ void main() {
     visibility = 0.5;
   }
 
-  vec4 color = vec4(ambientColor, 0) + visibility * texcolor;
+  vec4 color =
+    vec4(matAmb, 0)
+    + visibility * texcolor * cosTheta * vec4(lightColor, 1);
+  
   outColor = color;
 }

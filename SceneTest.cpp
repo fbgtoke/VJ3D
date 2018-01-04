@@ -2,10 +2,9 @@
 #include "Game.h"
 
 SceneTest::SceneTest()
-  : Scene(Scene::SCENE_TEST), mLevel(nullptr), mLevelName(""), mPlayer(nullptr) {}
+  : Scene(Scene::SCENE_TEST), mLevelName(""), mPlayer(nullptr) {}
 
 SceneTest::~SceneTest() {
-  if (mLevel != nullptr) delete mLevel;
   if (mPlayer != nullptr) delete mPlayer;
 }
 
@@ -17,14 +16,7 @@ void SceneTest::receiveString(const std::string& tag, const std::string str) {
 void SceneTest::init() {
 	Scene::init();
 
-  if (mLevelName == "") {
-    std::cout << "No level selected!" << std::endl;
-    Game::instance().changeScene(Scene::SCENE_MENU);
-    return;
-  }
-
-  mLevelInfo.setName(mLevelName);
-  mLevel = LevelGenerator::generate("levels/" + mLevelName + "/");
+  mLevel.loadFromFile("levels/" + mLevelName + "/");
   
   initPlayer();
   mCamera.init();
@@ -38,7 +30,7 @@ void SceneTest::init() {
   mDepthbuffer.init();
 
   mSun.init();
-  mSun.setLevelSize(mLevel->getTilemap().getWidth(), mLevel->getTilemap().getHeight());
+  mSun.setLevelSize(mLevel.getTilemap().getWidth(), mLevel.getTilemap().getHeight());
 
   Game::instance().setBackgroundMusic("ingame.ogg", 100.f);
 }
@@ -48,15 +40,20 @@ void SceneTest::update(int deltaTime) {
 
   if (Game::instance().getKeyPressed(27)) // Escape
     Game::instance().changeScene(Scene::SCENE_LEVEL_SELECT);
-  
-  if (mLevel != nullptr) mLevel->update(deltaTime);
 
+  if (mLevelName == "") {
+    std::cout << "No level selected!" << std::endl;
+    Game::instance().changeScene(Scene::SCENE_LEVEL_SELECT);
+    return;
+  }
+  
+  mLevel.update(deltaTime);
   mCamera.update(deltaTime);
   mSun.update(deltaTime);
 
   if (mPlayer != nullptr) {
     mPlayer->update(deltaTime);
-    mLevel->checkCollisions(mPlayer);
+    mLevel.checkCollisions(mPlayer);
 
     checkPlayerInput();
     checkPlayerOutOfBounds();
@@ -78,11 +75,9 @@ void SceneTest::initPlayer() {
   mPlayer = new Player();
   mPlayer->init();
 
-  if (mLevel != nullptr) {
-    unsigned int width = mLevel->getTilemap().getWidth();
-    float middleTile = (float)(width/2);
-    mPlayer->setPositionInTiles(glm::vec3(middleTile, 0.f, 0.f));
-  }
+  unsigned int width = mLevel.getTilemap().getWidth();
+  float middleTile = (float)(width/2);
+  mPlayer->setPositionInTiles(glm::vec3(middleTile, 0.f, 0.f));
 }
 
 void SceneTest::renderShadowmap() {
@@ -96,7 +91,7 @@ void SceneTest::renderShadowmap() {
   mTexProgram->setUniformMatrix4f("PM", PM);
   mTexProgram->setUniformMatrix4f("VM", VM);
   
-  if (mLevel != nullptr) mLevel->render();
+  mLevel.render();
   if (mPlayer != nullptr) mPlayer->render();
 }
 
@@ -112,22 +107,22 @@ void SceneTest::renderFramebuffer() {
   glm::mat4 depthPM = mSun.getProjectionMatrix();
   glm::mat4 depthVM = mSun.getViewMatrix();
 
-  glm::vec3 lightDirection = getLightDirection();
-  glm::vec3 ambientColor = getAmbientColor();
+  glm::vec3 lightDirection = mSun.getDirection();
+  glm::vec3 lightColor = mSun.getColor();
 
   mTexProgram->setUniformMatrix4f("PM", PM);
   mTexProgram->setUniformMatrix4f("VM", VM);
   mTexProgram->setUniformMatrix4f("biasDepthMatrix", biasMatrix);
   mTexProgram->setUniformMatrix4f("depthPM", depthPM);
   mTexProgram->setUniformMatrix4f("depthVM", depthVM);
-  mTexProgram->setUniform3f("lightDir", lightDirection.x, lightDirection.y, lightDirection.z);
-  mTexProgram->setUniform3f("ambientColor", ambientColor);
+  mTexProgram->setUniform3f("lightDir", lightDirection);
+  mTexProgram->setUniform3f("lightColor", lightColor);
 
   mTexProgram->setUniform1i("tex", 0);
   mTexProgram->setUniform1i("shadow", 1);
   mDepthbuffer.getTexture()->use();
 
-  if (mLevel != nullptr) mLevel->render();
+  mLevel.render();
   if (mPlayer != nullptr) mPlayer->render();
 
   for (Particle* particle : mParticles)
@@ -161,10 +156,10 @@ void SceneTest::checkPlayerInput() {
   Obstacle* stone = getStoneAdjacentToPlayer(direction);
 
   glm::vec3 targetTile = mPlayer->getPositionInTiles() + direction;
-  glm::ivec2 targetTileInTilemap = mLevel->player2tilemap(targetTile);
+  glm::ivec2 targetTileInTilemap = mLevel.player2tilemap(targetTile);
   bool jumping = (direction != glm::vec3(0.f));
-  bool outOfBounds = mLevel->getTilemap().outOfBounds(targetTileInTilemap);
-  bool stumpInTarget = mLevel->obstacleOfTypeAtTile(Obstacle::Stump, targetTile);
+  bool outOfBounds = mLevel.getTilemap().outOfBounds(targetTileInTilemap);
+  bool stumpInTarget = mLevel.obstacleOfTypeAtTile(Obstacle::Stump, targetTile);
 
   glm::vec3 targetPosition;
   if (jumping && !outOfBounds && !stumpInTarget) {
@@ -188,9 +183,9 @@ void SceneTest::checkPlayerInput() {
 
 void SceneTest::checkPlayerOutOfBounds() {
   glm::vec3 standingTile = mPlayer->getPositionInTiles();
-  glm::ivec2 standingTileInTilemap = mLevel->player2tilemap(standingTile);
+  glm::ivec2 standingTileInTilemap = mLevel.player2tilemap(standingTile);
 
-  if (mPlayer->isAlive() && mLevel->getTilemap().outOfBounds(standingTileInTilemap)) {
+  if (mPlayer->isAlive() && mLevel.getTilemap().outOfBounds(standingTileInTilemap)) {
     mPlayer->explode();
     Game::instance().getScene()->playSoundEffect("deathOverrun0.ogg");
   }
@@ -208,10 +203,10 @@ void SceneTest::checkPlayerOutOfCamera() {
 void SceneTest::checkPlayerStandingTile() {
   if (mPlayer != nullptr && mPlayer->getState() == Player::Idle) {
     glm::vec3 standingTile = mPlayer->getPositionInTiles();
-    glm::ivec2 standingTileInTilemap = mLevel->player2tilemap(standingTile);
-    Tile::Type tile = mLevel->getTilemap().getTile(standingTileInTilemap);
+    glm::ivec2 standingTileInTilemap = mLevel.player2tilemap(standingTile);
+    Tile::Type tile = mLevel.getTilemap().getTile(standingTileInTilemap);
 
-    if (tile == Tile::Water && !mLevel->obstacleOfTypeAtTile(Obstacle::Stone, standingTile))
+    if (tile == Tile::Water && !mLevel.obstacleOfTypeAtTile(Obstacle::Stone, standingTile))
       mPlayer->changeState(Player::Drowning);
     else if (tile == Tile::Goal)
       Game::instance().changeScene(Scene::SCENE_WIN);
@@ -235,17 +230,17 @@ Obstacle* SceneTest::getBoatAdjacentToPlayer(const glm::vec3& direction) {
 
   Obstacle* boat = nullptr;
   if (direction == IN) {
-    boat = mLevel->getObstacleAtTile(adjacent[0][0]);
+    boat = mLevel.getObstacleAtTile(adjacent[0][0]);
     if (boat == nullptr || boat->getType() != Obstacle::Boat)
-      boat = mLevel->getObstacleAtTile(adjacent[0][1]);
+      boat = mLevel.getObstacleAtTile(adjacent[0][1]);
     if (boat == nullptr || boat->getType() != Obstacle::Boat)
-      boat = mLevel->getObstacleAtTile(adjacent[0][2]);
+      boat = mLevel.getObstacleAtTile(adjacent[0][2]);
   } else if (direction == OUT) {
-    boat = mLevel->getObstacleAtTile(adjacent[2][0]);
+    boat = mLevel.getObstacleAtTile(adjacent[2][0]);
     if (boat == nullptr || boat->getType() != Obstacle::Boat)
-      boat = mLevel->getObstacleAtTile(adjacent[2][1]);
+      boat = mLevel.getObstacleAtTile(adjacent[2][1]);
     if (boat == nullptr || boat->getType() != Obstacle::Boat)
-      boat = mLevel->getObstacleAtTile(adjacent[2][2]);
+      boat = mLevel.getObstacleAtTile(adjacent[2][2]);
   }
 
   if (boat != nullptr) {
@@ -268,9 +263,9 @@ Obstacle* SceneTest::getStoneAdjacentToPlayer(const glm::vec3& direction) {
 
   Obstacle* stone = nullptr;
   if (direction == IN)
-    stone = mLevel->getObstacleAtTile(adjacent[0][1]);
+    stone = mLevel.getObstacleAtTile(adjacent[0][1]);
   else if (direction == OUT)
-    stone = mLevel->getObstacleAtTile(adjacent[0][2]);
+    stone = mLevel.getObstacleAtTile(adjacent[0][2]);
 
   if (stone != nullptr && stone->getType() == Obstacle::Stone)
     return stone;

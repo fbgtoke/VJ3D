@@ -61,6 +61,8 @@ public:
   virtual bool checkCollisions() const;
 
 protected:
+  glm::vec3 kMatAmb;
+
   bool mEnableRendering;
 
   virtual void onDestroy();
