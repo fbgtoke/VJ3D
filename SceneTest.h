@@ -10,6 +10,7 @@
 #include "FrameBuffer.h"
 #include "DepthBuffer.h"
 #include "Sun.h"
+#include "Camera.h"
 
 class SceneTest : public Scene {
 public:
@@ -22,17 +23,8 @@ public:
 
   void receiveString(const std::string& tag, const std::string str) override;
 
-  glm::mat4 getProjectionMatrix() const override;
-  glm::mat4 getViewMatrix() const override;
-
 private:
-	glm::vec3 kObsVector;
-  float kCameraVel;
-
-  float mCameraVel;
-  void initCamera();
-  void updateCamera(int deltaTime);
-
+  Camera mCamera;
   Sun mSun;
   
   void renderShadowmap();

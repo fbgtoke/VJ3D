@@ -27,7 +27,8 @@ void SceneTest::init() {
   mLevel = LevelGenerator::generate("levels/" + mLevelName + "/");
   
   initPlayer();
-  initCamera();  
+  mCamera.init();
+  mCamera.follow(mPlayer);
 
   Game::instance().getResource().setInt("score", 0);
   kScorePerTile = Game::instance().getResource().Int("scorePerTile");
@@ -50,6 +51,9 @@ void SceneTest::update(int deltaTime) {
   
   if (mLevel != nullptr) mLevel->update(deltaTime);
 
+  mCamera.update(deltaTime);
+  mSun.update(deltaTime);
+
   if (mPlayer != nullptr) {
     mPlayer->update(deltaTime);
     mLevel->checkCollisions(mPlayer);
@@ -60,10 +64,6 @@ void SceneTest::update(int deltaTime) {
     checkPlayerStandingTile();
     checkPlayerDead();
   }
-
-  updateCamera(deltaTime);
-
-  mSun.update(deltaTime);
 }
 
 void SceneTest::render() {
@@ -72,17 +72,6 @@ void SceneTest::render() {
   renderShadowmap();
   renderFramebuffer();
   renderScene();
-}
-
-void SceneTest::initCamera() {
-  kObsVector.x = Game::instance().getResource().Float("ObsVector_x");
-  kObsVector.y = Game::instance().getResource().Float("ObsVector_y");
-  kObsVector.z = Game::instance().getResource().Float("ObsVector_z");
-  kCameraVel = Game::instance().getResource().Float("CameraVel");
-
-  mCameraVel = kCameraVel;
-  VRP = mPlayer->getCenter();
-  OBS = VRP + kObsVector * TILE_SIZE;
 }
 
 void SceneTest::initPlayer() {
@@ -102,8 +91,9 @@ void SceneTest::renderShadowmap() {
 
   mTexProgram->use();
   glm::mat4 PM = mSun.getProjectionMatrix();
-  mTexProgram->setUniformMatrix4f("PM", PM);
   glm::mat4 VM = mSun.getViewMatrix();
+
+  mTexProgram->setUniformMatrix4f("PM", PM);
   mTexProgram->setUniformMatrix4f("VM", VM);
   
   if (mLevel != nullptr) mLevel->render();
@@ -115,20 +105,21 @@ void SceneTest::renderFramebuffer() {
   mFramebuffer.use();
 
   mTexProgram->use();
-  glm::mat4 PM = getProjectionMatrix();
-  mTexProgram->setUniformMatrix4f("PM", PM);
-  glm::mat4 VM = getViewMatrix();
-  mTexProgram->setUniformMatrix4f("VM", VM);
+  glm::mat4 PM = mCamera.getProjectionMatrix();
+  glm::mat4 VM = mCamera.getViewMatrix();
 
   glm::mat4 biasMatrix = mSun.getBiasMatrix();
-  mTexProgram->setUniformMatrix4f("biasDepthMatrix", biasMatrix);
   glm::mat4 depthPM = mSun.getProjectionMatrix();
-  mTexProgram->setUniformMatrix4f("depthPM", depthPM);
   glm::mat4 depthVM = mSun.getViewMatrix();
-  mTexProgram->setUniformMatrix4f("depthVM", depthVM);
 
   glm::vec3 lightDirection = getLightDirection();
   glm::vec3 ambientColor = getAmbientColor();
+
+  mTexProgram->setUniformMatrix4f("PM", PM);
+  mTexProgram->setUniformMatrix4f("VM", VM);
+  mTexProgram->setUniformMatrix4f("biasDepthMatrix", biasMatrix);
+  mTexProgram->setUniformMatrix4f("depthPM", depthPM);
+  mTexProgram->setUniformMatrix4f("depthVM", depthVM);
   mTexProgram->setUniform3f("lightDir", lightDirection.x, lightDirection.y, lightDirection.z);
   mTexProgram->setUniform3f("ambientColor", ambientColor);
 
@@ -150,15 +141,6 @@ void SceneTest::renderScene() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   renderGui();
-}
-
-void SceneTest::updateCamera(int deltaTime) {
-  if (mPlayer != nullptr && mPlayer->isAlive()) {
-    VRP.x = mPlayer->getCenter().x;
-    VRP.y = 0.f;
-    VRP.z += mCameraVel * (float)deltaTime;
-    OBS = VRP + kObsVector * TILE_SIZE;
-  }
 }
 
 void SceneTest::checkPlayerInput() {
@@ -217,7 +199,7 @@ void SceneTest::checkPlayerOutOfBounds() {
 void SceneTest::checkPlayerOutOfCamera() {
   if (!mPlayer->isAlive()) return;
 
-  if (mPlayer->isAlive() && outOfCamera(mPlayer)) {
+  if (mPlayer->isAlive() && mCamera.outOfView(mPlayer)) {
     mPlayer->explode();
     Game::instance().getScene()->playSoundEffect("deathOverrun0.ogg");
   }
@@ -240,7 +222,7 @@ void SceneTest::checkPlayerDead() {
   if (mPlayer == nullptr) return;
 
   if (mPlayer->isExploding())
-    mCameraVel = 0.f;
+    mCamera.setMoving(false);
   if (mPlayer->isDead()) {
     Game::instance().changeScene(Scene::SCENE_DEAD);
     Game::instance().getBufferedScene()->receiveString("level-name", mLevelName);
@@ -293,21 +275,6 @@ Obstacle* SceneTest::getStoneAdjacentToPlayer(const glm::vec3& direction) {
   if (stone != nullptr && stone->getType() == Obstacle::Stone)
     return stone;
   return nullptr;
-}
-
-glm::mat4 SceneTest::getProjectionMatrix() const {
-  return glm::ortho(
-    6 * TILE_SIZE * (-1.f),
-    6 * TILE_SIZE,
-    2 * TILE_SIZE * (-1.f),
-    (float)SCREEN_HEIGHT/(float)SCREEN_WIDTH * (12 * TILE_SIZE) - 2 * TILE_SIZE,
-    0.1f,
-    10000.f
-  );
-}
-
-glm::mat4 SceneTest::getViewMatrix() const {
-  return glm::lookAt(OBS, VRP, UP);
 }
 
 void SceneTest::addScore(unsigned int score) {

@@ -146,14 +146,6 @@ void Scene::checkParticles(int deltaTime) {
   }
 }
 
-bool Scene::outOfCamera(Model* model) const {
-  glm::vec4 homoPosition(model->getCenter(), 1.0f);
-  glm::vec4 projectedPosition =
-    glm::vec4(getProjectionMatrix() * getViewMatrix() * homoPosition);
-
-  return projectedPosition.y/projectedPosition.w < -1.0f;
-}
-
 void Scene::initGui() {}
 
 void Scene::updateGui() {}
