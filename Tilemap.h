@@ -45,6 +45,8 @@ private:
   void updateVAO();
   void freeVAO();
 
+  void initMargins();
+
   ShaderProgram* mShader;
   GLuint mVAO;
   GLuint mVBO_vertices, mVBO_normals, mVBO_texcoords;

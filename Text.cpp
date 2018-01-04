@@ -20,7 +20,7 @@ void Text::render() {
 
   glm::vec2 position = mPosition;
 
-  for (int i = 0; i < mString.size(); ++i) {
+  for (unsigned int i = 0; i < mString.size(); ++i) {
     char c = mString[i];
 
     setTextureRect(char2uvs(c));

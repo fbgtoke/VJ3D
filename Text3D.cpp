@@ -24,7 +24,7 @@ void Text3D::setString(const std::string& str) {
   for (Model* model : mModels) delete model;
   mModels.clear();
 
-  for (int i = 0; i < mString.size(); ++i) {
+  for (unsigned int i = 0; i < mString.size(); ++i) {
     char c = mString[i];
     /* Caps => Minus */
     if (c >= 'A' && c <= 'Z')
@@ -42,12 +42,12 @@ void Text3D::setString(const std::string& str) {
 void Text3D::setPosition(const glm::vec3& position) {
   mPosition = position;
 
-  for (int i = 0; i < mModels.size(); ++i)
+  for (unsigned int i = 0; i < mModels.size(); ++i)
     mModels[i]->setPosition(position + getCharacterWidth() * RIGHT * (float)i);
 }
 
 void Text3D::setVisible(bool visible) {
-  for (int i = 0; i < mModels.size(); ++i) {
+  for (unsigned int i = 0; i < mModels.size(); ++i) {
     mModels[i]->setVisible(visible);
   }
 }

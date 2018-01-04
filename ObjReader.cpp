@@ -25,7 +25,7 @@ void ObjReader::getVertices(float* &vertices, size_t& nelem) {
 
   Face face;
   glm::vec3 vertex;
-  for (int i = 0; i < mFaces.size(); ++i) {
+  for (unsigned int i = 0; i < mFaces.size(); ++i) {
     face = mFaces[i];
     for (int j = 0; j < 3; ++j) {
       vertex = face.v[j];
@@ -43,7 +43,7 @@ void ObjReader::getTexCoords(float* &texcoords, size_t& nelem) {
 
   Face face;
   glm::vec2 texcoord;
-  for (int i = 0; i < mFaces.size(); ++i) {
+  for (unsigned int i = 0; i < mFaces.size(); ++i) {
     face = mFaces[i];
     for (int j = 0; j < 3; ++j) {
       texcoord = face.t[j];
@@ -60,7 +60,7 @@ void ObjReader::getNormals(float* &normals, size_t& nelem) {
 
   Face face;
   glm::vec3 normal;
-  for (int i = 0; i < mFaces.size(); ++i) {
+  for (unsigned int i = 0; i < mFaces.size(); ++i) {
     face = mFaces[i];
     for (int j = 0; j < 3; ++j) {
       normal = face.n[j];
@@ -97,7 +97,7 @@ void ObjReader::readNormal(const std::string& line) {
 }
 
 void ObjReader::readTexCoord(const std::string& line) {
-  std:istringstream sstream(line);
+  std::istringstream sstream(line);
 
   std::string command;
   sstream >> command;

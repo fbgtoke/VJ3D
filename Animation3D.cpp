@@ -18,7 +18,7 @@ Animation3D::~Animation3D() {
 }
 
 void Animation3D::update(unsigned int deltaTime) {
-  if (!mPlaying || mCurrentAnimation == -1 || mCurrentFrame == -1) return;
+  if (!mPlaying || mAnimations.size() == 0) return;
 
   mTimeCurFrame += deltaTime;
   if (mTimeCurFrame >= mTimePerFrame)
@@ -64,7 +64,7 @@ void Animation3D::nextFrame() {
 }
 
 const AnimationFrame* Animation3D::getCurrentFrame() const {
-  if (mCurrentAnimation != -1 && mCurrentFrame != -1)
+  if (mAnimations.size() != 0)
     return &mAnimations[mCurrentAnimation][mCurrentFrame];
 
   return nullptr;

@@ -84,7 +84,7 @@ void Tilemap::initVertices() {
       stride.x =  j;
       stride.z = -i;
 
-      for (int k = 0; k < kQuad.size(); ++k) {
+      for (unsigned int k = 0; k < kQuad.size(); ++k) {
         vertex = (stride + kQuad[k]) * TILE_SIZE;
 
         mVertices.push_back(vertex.x);
@@ -100,7 +100,7 @@ void Tilemap::initNormals() {
 
   for (int i = 0; i < mHeight + kBorderSize * 2; ++i) {
     for (int j = 0; j < mWidth + kBorderSize * 2; ++j) {
-      for (int k = 0; k < kQuad.size(); ++k) {
+      for (unsigned int k = 0; k < kQuad.size(); ++k) {
         mNormals.push_back(0.f);
         mNormals.push_back(1.f);
         mNormals.push_back(0.f);
@@ -114,7 +114,7 @@ void Tilemap::initTexcoords() {
 
   for (int i = 0; i < mHeight + kBorderSize * 2; ++i) {
     for (int j = 0; j < mWidth + kBorderSize * 2; ++j) {
-      for (int k = 0; k < kQuad.size(); ++k) {
+      for (unsigned int k = 0; k < kQuad.size(); ++k) {
         mTexcoords.push_back(0.f);
         mTexcoords.push_back(0.f);
       }
@@ -174,53 +174,39 @@ int Tilemap::getHeight() const { return mHeight; }
 int Tilemap::getWidth() const { return mWidth; }
 
 void Tilemap::setTile(const glm::ivec2& position, Tile::Type type) {
-  if (!outOfBounds(position));
+  if (!outOfBounds(position))
     mTiles[position.y][position.x] = type;
 
   int index =
     ((position.y + kBorderSize) * (mWidth + kBorderSize * 2) + (position.x + kBorderSize)) * 12;
 
-  //std::cout << "Position " << position.x << " " << position.y << std::endl;
-  //std::cout << "Index " << index << std::endl;
-
-  float uvLeft  = (type%4) * 0.25f + 0.00f;
-  float uvRight = (type%4) * 0.25f + 0.25f;
-
-  float uvTop = (type/4) * 0.25f + 0.00f;
-  float uvBot = (type/4) * 0.25f + 0.25f;
+  glm::vec2 uv = Tile::type2texturecoord(type);
 
   // Bottom Left
-  mTexcoords[index +  0] = uvLeft;
-  mTexcoords[index +  1] = uvBot;
+  mTexcoords[index +  0] = uv.x + 0.00f;
+  mTexcoords[index +  1] = uv.y + 0.25f;
 
   // Top Left
-  mTexcoords[index +  2] = uvLeft;
-  mTexcoords[index +  3] = uvTop;
+  mTexcoords[index +  2] = uv.x + 0.00f;
+  mTexcoords[index +  3] = uv.y + 0.00f;
 
   // Top Right
-  mTexcoords[index +  4] = uvRight;
-  mTexcoords[index +  5] = uvTop;
+  mTexcoords[index +  4] = uv.x + 0.25f;
+  mTexcoords[index +  5] = uv.y + 0.00f;
 
   // Bottom Left
-  mTexcoords[index +  6] = uvLeft;
-  mTexcoords[index +  7] = uvBot;
+  mTexcoords[index +  6] = uv.x + 0.00f;
+  mTexcoords[index +  7] = uv.y + 0.25f;
 
   // Top Right
-  mTexcoords[index +  8] = uvRight;
-  mTexcoords[index +  9] = uvTop;
+  mTexcoords[index +  8] = uv.x + 0.25f;
+  mTexcoords[index +  9] = uv.y + 0.00f;
 
   // Bottom Right
-  mTexcoords[index + 10] = uvRight;
-  mTexcoords[index + 11] = uvBot;
+  mTexcoords[index + 10] = uv.x + 0.25f;
+  mTexcoords[index + 11] = uv.y + 0.25f;
 
   updateVAO();
-
-  //if (position.x == 0) {
-  //  for (int i = 1; i <= kBorderSize; ++i) {
-  //    std::cout << "Going to " << -i << " " << position.y << std::endl;
-  //    setTile(glm::ivec2(-i, position.y), type);
-  //  }
-  //}
 }
 
 Tile::Type Tilemap::getTile(const glm::ivec2& position) const {
@@ -249,6 +235,39 @@ void Tilemap::loadFromFile(const std::string& filename) {
       glm::ivec2 index(j, size.y - 1 - i);
 
       setTile(index, type);
+    }
+  }
+
+  initMargins();
+}
+
+void Tilemap::initMargins() {
+  glm::ivec2 index;
+
+  for (int i = 0; i < kBorderSize; ++i) {
+    for (int j = 0; j < mWidth - 1 + kBorderSize * 2; ++j) {
+      index.x = j - kBorderSize;
+
+      index.y = i - kBorderSize;
+      setTile(index, Tile::GrassDark);
+
+      index.y = mHeight + i;
+      setTile(index, Tile::GrassDark);
+    }
+  }
+
+  Tile::Type border;
+  for (int i = 0; i < mHeight; ++i) {
+    for (int j = 0; j < kBorderSize; ++j) {
+      index.y = i;
+
+      index.x = j - kBorderSize;
+      border = getTile(glm::ivec2(0, index.y));
+      setTile(index, Tile::toDark(border));
+
+      index.x = mWidth + j;
+      border = getTile(glm::ivec2(mWidth - 1, index.y));
+      setTile(index, Tile::toDark(border));
     }
   }
 }

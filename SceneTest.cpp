@@ -354,7 +354,7 @@ void SceneTest::addScore(unsigned int score) {
 }
 
 void SceneTest::removeScore(unsigned int score) {
-  int currentScore = Game::instance().getResource().Int("score");
+  unsigned int currentScore = (unsigned int)Game::instance().getResource().Int("score");
 
   if (score > currentScore)
     Game::instance().getResource().setInt("score", 0);

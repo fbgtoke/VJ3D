@@ -37,8 +37,8 @@ private:
   typedef std::vector<AnimationFrame> Animation;
   std::vector<Animation> mAnimations;
 
-  int mCurrentAnimation;
-  int mCurrentFrame;
+  unsigned int mCurrentAnimation;
+  unsigned int mCurrentFrame;
 
   bool mPlaying;
   bool mRepeating;

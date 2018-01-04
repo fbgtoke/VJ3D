@@ -15,7 +15,7 @@ void Gui::render() {
   glm::mat4 PM = getProjectionMatrix();
   glm::mat4 VM = getViewMatrix();
 
-  for (int i = 0; i < mLayers.size(); ++i) {
+  for (unsigned int i = 0; i < mLayers.size(); ++i) {
     for (Sprite* sprite : mLayers[i]) {
       ShaderProgram* shader = sprite->getShader();
       if (shader != nullptr) {
@@ -30,7 +30,7 @@ void Gui::render() {
 }
 
 void Gui::clear() {
-  for (int i = 0; i < mLayers.size(); ++i) {
+  for (unsigned int i = 0; i < mLayers.size(); ++i) {
     for (Sprite* sprite : mLayers[i])
       delete sprite;
 
@@ -51,7 +51,7 @@ void Gui::addSprite(Sprite* sprite, unsigned int layer) {
 }
 
 Sprite* Gui::getSprite(const std::string& name) {
-  for (int i = 0; i < mLayers.size(); ++i)
+  for (unsigned int i = 0; i < mLayers.size(); ++i)
     for (Sprite* sprite : mLayers[i])
       if (sprite->getName() == name)
         return sprite;

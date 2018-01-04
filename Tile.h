@@ -2,9 +2,8 @@
 #define _TILE_INCLUDE
 
 #include "utils.h"
-#include "Model.h"
 
-class Tile : public Model {
+class Tile {
 public:
   enum Type {
     None = 0,
@@ -12,28 +11,19 @@ public:
     Road,
     Train,
     Water,
-    Goal
+    Goal,
+    Padding1,
+    Padding2,
+    NoneDark,
+    GrassDark,
+    RoadDark,
+    TrainDark,
+    WaterDark,
+    GoalDark 
   };
 
-  Tile();
-  Tile(Tile::Type type);
-  ~Tile() override;
-
-  void init() override;
-  void beforeRender() override;
-
-  void setType(Tile::Type type);
-  Tile::Type getType() const;
-
-  void setDark(bool dark);
-
+  static Tile::Type toDark(Tile::Type type);
   static glm::vec2 type2texturecoord(Tile::Type type);
-
-  void getBoundingBox(glm::vec3& mincoords, glm::vec3& maxcoords) const override;
-
-private:
-  Tile::Type mType;
-  bool mDark;
 };
 
 #endif // _TILE_INCLUDE

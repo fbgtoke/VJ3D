@@ -14,19 +14,19 @@ public:
   //void initVAO();
   GLuint getVAO() const;
 
-  void setVertices(float* vertices, size_t nelem);
-  void setNormals(float* normals, size_t nelem);
-  void setTexCoords(float* texcoords, size_t nelem);
+  void setVertices(float* vertices, unsigned int nelem);
+  void setNormals(float* normals, unsigned int nelem);
+  void setTexCoords(float* texcoords, unsigned int nelem);
 
   float* vertices();
   float* normals();
   float* texcoords();
 
-  size_t verticesSize() const;
-  size_t normalsSize() const;
-  size_t texcoordsSize() const;
+  unsigned int verticesSize() const;
+  unsigned int normalsSize() const;
+  unsigned int texcoordsSize() const;
 
-  size_t numVertices() const;
+  unsigned int numVertices() const;
 
   void getMinMaxVertices(glm::vec3& min, glm::vec3& max) const;
 
@@ -35,20 +35,21 @@ public:
   glm::vec3 size() const;
 
 protected:
-  ShaderProgram* mShader;
   GLuint mVAO;
   GLuint mVBO_vertices, mVBO_normals, mVBO_texcoord;
   GLuint mLoc_vertices, mLoc_normals, mLoc_texcoord;
 
-  float* mVertices;
-  float* mNormals;
-  float* mTexCoords;
-
-  size_t nFloatsVertices;
-  size_t nFloatsNormals;
-  size_t nFloatsTexCoords;
+  unsigned int nFloatsVertices;
+  unsigned int nFloatsNormals;
+  unsigned int nFloatsTexCoords;
 
   glm::vec3 min, max;
+
+  ShaderProgram* mShader = nullptr;
+
+  float* mVertices = nullptr;
+  float* mNormals = nullptr;
+  float* mTexCoords = nullptr;
 };
 
 #endif // _MESH_INCLUDE

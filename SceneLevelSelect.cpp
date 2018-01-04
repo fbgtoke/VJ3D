@@ -54,8 +54,10 @@ void SceneLevelSelect::updateGui() {
 }
 
 void SceneLevelSelect::prevOption() {
+  unsigned int numLevels = Game::instance().getResource().Int("numLevels") - 1;
+
   if (mCurrentSelected == 0)
-    mCurrentSelected = Game::instance().getResource().Int("numLevels") - 1;
+    mCurrentSelected = numLevels;
   else
     mCurrentSelected -= 1;
 
@@ -63,7 +65,8 @@ void SceneLevelSelect::prevOption() {
 }
 
 void SceneLevelSelect::nextOption() {
-  if (mCurrentSelected == Game::instance().getResource().Int("numLevels") - 1)
+  unsigned int numLevels = Game::instance().getResource().Int("numLevels") - 1;
+  if (mCurrentSelected == numLevels)
     mCurrentSelected = 0;
   else
     mCurrentSelected += 1;

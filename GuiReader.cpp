@@ -51,7 +51,7 @@ void GuiReader::readHeader(std::ifstream& stream, unsigned int& nlayers) {
   for (std::string token; getline(sstream, token, ' '); ) {
     std::string id, value;
 
-    if (token.find("=") != -1) {
+    if (token.find("=") != std::string::npos) {
       id = token.substr(0, token.find("="));
       value = token.substr(token.find("=") + 1);
     } else {

@@ -1,9 +1,7 @@
 #include "Mesh.h"
 
 Mesh::Mesh() :
-  nFloatsVertices(0), nFloatsNormals(0), nFloatsTexCoords(0),
-  mVertices(nullptr), mNormals(nullptr), mTexCoords(nullptr),
-  mShader(nullptr) {}
+  nFloatsVertices(0), nFloatsNormals(0), nFloatsTexCoords(0) {}
 
 Mesh::~Mesh() {
   if (mVertices != nullptr) free(mVertices);
@@ -58,19 +56,19 @@ void Mesh::useShader(ShaderProgram* shaderProgram) {
 
 GLuint Mesh::getVAO() const { return mVAO; }
 
-void Mesh::setVertices(float* vertices, size_t nelem) {
+void Mesh::setVertices(float* vertices, unsigned int nelem) {
   mVertices = vertices;
   nFloatsVertices = nelem;
 
   getMinMaxVertices(min, max);
 }
 
-void Mesh::setNormals(float* normals, size_t nelem) {
+void Mesh::setNormals(float* normals, unsigned int nelem) {
   mNormals = normals;
   nFloatsNormals = nelem;
 }
 
-void Mesh::setTexCoords(float* texcoords, size_t nelem) {
+void Mesh::setTexCoords(float* texcoords, unsigned int nelem) {
   mTexCoords = texcoords;
   nFloatsTexCoords = nelem;
 }
@@ -79,11 +77,11 @@ float* Mesh::vertices() { return mVertices; }
 float* Mesh::normals() { return mNormals; }
 float* Mesh::texcoords() { return mTexCoords; }
 
-size_t Mesh::verticesSize() const { return nFloatsVertices * sizeof(float); }
-size_t Mesh::normalsSize() const { return nFloatsNormals * sizeof(float); }
-size_t Mesh::texcoordsSize() const { return nFloatsTexCoords * sizeof(float); }
+unsigned int Mesh::verticesSize() const { return nFloatsVertices * sizeof(float); }
+unsigned int Mesh::normalsSize() const { return nFloatsNormals * sizeof(float); }
+unsigned int Mesh::texcoordsSize() const { return nFloatsTexCoords * sizeof(float); }
 
-size_t Mesh::numVertices() const { return nFloatsVertices/3; }
+unsigned int Mesh::numVertices() const { return nFloatsVertices/3; }
 
 void Mesh::getMinMaxVertices(glm::vec3& min, glm::vec3& max) const {
   min.x = max.x = mVertices[0];
