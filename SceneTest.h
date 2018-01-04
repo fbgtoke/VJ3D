@@ -29,6 +29,8 @@ public:
 
   glm::mat4 getDepthBiasMatrix() const;
 
+  glm::vec3 getLightTarget() const;
+  glm::vec3 getLightPosition() const;
   glm::vec3 getLightDirection() const override;
 
 private:

@@ -129,20 +129,20 @@ void Tilemap::initVAO() {
   glGenBuffers(1, &mVBO_vertices);
   glBindBuffer(GL_ARRAY_BUFFER, mVBO_vertices);
   glBufferData(GL_ARRAY_BUFFER, mVertices.size() * sizeof(float), &mVertices[0], GL_STATIC_DRAW);
-  mLoc_vertices = mShader->bindVertexAttribute("vertex", 3, 0, 0);
-  glEnableVertexAttribArray(mLoc_vertices);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+  glEnableVertexAttribArray(0);
 
   glGenBuffers(1, &mVBO_normals);
   glBindBuffer(GL_ARRAY_BUFFER, mVBO_normals);
   glBufferData(GL_ARRAY_BUFFER, mNormals.size() * sizeof(float), &mNormals[0], GL_STATIC_DRAW);
-  mLoc_vertices = mShader->bindVertexAttribute("normal", 3, 0, 0);
-  glEnableVertexAttribArray(mLoc_normals);
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
+  glEnableVertexAttribArray(1);
 
   glGenBuffers(1, &mVBO_texcoords);
   glBindBuffer(GL_ARRAY_BUFFER, mVBO_texcoords);
   glBufferData(GL_ARRAY_BUFFER, mTexcoords.size() * sizeof(float), &mTexcoords[0], GL_STATIC_DRAW);
-  mLoc_texcoords = mShader->bindVertexAttribute("texcoord", 2, 0, 0);
-  glEnableVertexAttribArray(mLoc_texcoords);
+  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
+  glEnableVertexAttribArray(2);
 
   glBindVertexArray(0);
 }

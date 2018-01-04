@@ -119,7 +119,7 @@ void SceneTest::renderFramebuffer() {
   mTexProgram->setUniformMatrix4f("VM", VM);
 
   glm::mat4 biasMatrix = getDepthBiasMatrix();
-  mTexProgram->setUniformMatrix4f("depthBiasMatrix", biasMatrix);
+  mTexProgram->setUniformMatrix4f("biasDepthMatrix", biasMatrix);
   glm::mat4 depthPM = getDepthProjectionMatrix();
   mTexProgram->setUniformMatrix4f("depthPM", depthPM);
   glm::mat4 depthVM = getDepthViewMatrix();
@@ -129,7 +129,8 @@ void SceneTest::renderFramebuffer() {
   glm::vec3 ambientColor = getAmbientColor();
   mTexProgram->setUniform3f("lightDir", lightDirection.x, lightDirection.y, lightDirection.z);
   mTexProgram->setUniform3f("ambientColor", ambientColor);
-  
+
+  mTexProgram->setUniform1i("tex", 0);
   mTexProgram->setUniform1i("shadow", 1);
   mDepthbuffer.getTexture()->use();
 
@@ -296,6 +297,7 @@ glm::vec3 SceneTest::getLightDirection() const {
   dir.y = abs(sin(mLightAngle)) * (-1.f);
   dir.x = 0.f;
 
+  dir = glm::vec3(-1.0f, -1.0f, 0.0f);
   dir = glm::normalize(dir);
 
   return dir;
@@ -313,7 +315,7 @@ glm::mat4 SceneTest::getProjectionMatrix() const {
 }
 
 glm::mat4 SceneTest::getDepthProjectionMatrix() const {
-  return glm::ortho(-1.f, 1.f, -1.f, 1.f, 0.001f, 20000.f);
+  return glm::ortho(-150.f, 150.f, -150.f, 150.f, 0.0f, 200.0f);
 }
 
 glm::mat4 SceneTest::getViewMatrix() const {
@@ -321,8 +323,8 @@ glm::mat4 SceneTest::getViewMatrix() const {
 }
 
 glm::mat4 SceneTest::getDepthViewMatrix() const {
-  glm::vec3 obs = 10 * TILE_SIZE * getLightDirection();
-  glm::vec3 vrp = glm::vec3(10.f, 0.f, 0.f);
+  glm::vec3 vrp = getLightTarget();
+  glm::vec3 obs = getLightPosition();
 
   return glm::lookAt(obs, vrp, UP);
 }
@@ -333,7 +335,17 @@ glm::mat4 SceneTest::getDepthBiasMatrix() const {
     0.0, 0.5, 0.0, 0.0,
     0.0, 0.0, 0.5, 0.0,
     0.5, 0.5, 0.5, 1.0
-  );
+              );
+}
+
+glm::vec3 SceneTest::getLightTarget() const
+{
+    return mPlayer->getPosition();
+}
+
+glm::vec3 SceneTest::getLightPosition() const
+{
+    return getLightTarget() - getLightDirection() * 150.0f;
 }
 
 void SceneTest::addScore(unsigned int score) {
@@ -369,7 +381,11 @@ void SceneTest::updateGui() {
 
 void SceneTest::renderGui() {
   mGui->getSprite("scene-frame")->setTexture(mFramebuffer.getTexture());
+  // mDepthbuffer.getTexture()->setTexUnit(GL_TEXTURE0);
+  // mGui->getSprite("scene-frame")->setTexture(mDepthbuffer.getTexture());
   mGui->getSprite("scene-frame")->setShader(Game::instance().getResource().shader("post"));
 
   Scene::renderGui();
+
+  // mDepthbuffer.getTexture()->setTexUnit(GL_TEXTURE1);
 }

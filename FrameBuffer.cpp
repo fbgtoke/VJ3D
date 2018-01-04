@@ -27,8 +27,6 @@ void FrameBuffer::init() {
   glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, mDepthbuffer);
 
   glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, texId, 0);
-  GLenum DrawBuffers[1] = {GL_COLOR_ATTACHMENT0};
-  glDrawBuffers(1, DrawBuffers);
 
   GLenum result = glCheckFramebufferStatus(GL_FRAMEBUFFER);
   if (result != GL_FRAMEBUFFER_COMPLETE) {
@@ -39,6 +37,7 @@ void FrameBuffer::init() {
 
 void FrameBuffer::use() {
   glBindFramebuffer(GL_FRAMEBUFFER, mFBO);
+  glDrawBuffer(GL_COLOR_ATTACHMENT0);
   glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
