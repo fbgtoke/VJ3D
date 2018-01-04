@@ -1,7 +1,9 @@
 #include "Level.h"
 #include "Game.h"
 
-Level::Level() {}
+Level::Level() {
+  mTilemap.init();
+}
 
 Level::~Level() {}
 
@@ -31,11 +33,10 @@ void Level::update(int deltaTime) {
 }
 
 void Level::render() {
-  //mTilemap.render();
+  mTilemap.render();
 
   for (Obstacle* obstacle : mObstacles)
-    if (Game::instance().getScene()->doUpdate(obstacle))
-      obstacle->render();
+    obstacle->render();
 }
 
 void Level::checkCollisions(Model* model) {

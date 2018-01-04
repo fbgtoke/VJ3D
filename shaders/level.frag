@@ -26,7 +26,7 @@ void main() {
 
   vec4 color = 
     vec4(ambientColor, 0) + 
-    visibility * texcolor * cosTheta;
+    visibility * texcolor;
 
 	outColor = color;
 }

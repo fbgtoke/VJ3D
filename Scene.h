@@ -43,7 +43,6 @@ public:
 	void addParticle(Particle* particle);
 
 	virtual bool outOfCamera(Model* model) const;
-	virtual bool doUpdate(Model* model) const;
 
 protected:
 	const Scene::SceneType mType;

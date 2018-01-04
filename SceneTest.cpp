@@ -28,7 +28,7 @@ void SceneTest::init() {
   
   initPlayer();
   initCamera();
-  mLightAngle = 0.f;
+  mLightAngle = (float)M_PI;
 
   Game::instance().getResource().setInt("score", 0);
   kScorePerTile = Game::instance().getResource().Int("scorePerTile");
@@ -61,7 +61,7 @@ void SceneTest::update(int deltaTime) {
 
   updateCamera(deltaTime);
 
-  mLightAngle += (float)deltaTime * Game::instance().getResource().Float("sunSpeed");
+  //mLightAngle += (float)deltaTime * Game::instance().getResource().Float("sunSpeed");
 }
 
 void SceneTest::render() {
@@ -334,10 +334,6 @@ glm::mat4 SceneTest::getDepthBiasMatrix() const {
     0.0, 0.0, 0.5, 0.0,
     0.5, 0.5, 0.5, 1.0
   );
-}
-
-bool SceneTest::doUpdate(Model* model) const {
-  return abs(mPlayer->getCenter().z - model->getCenter().z) < 10.0f * TILE_SIZE;
 }
 
 void SceneTest::addScore(unsigned int score) {

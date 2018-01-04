@@ -2,6 +2,8 @@
 #define _TILEMAP_INCLUDE
 
 #include "utils.h"
+#include "ShaderProgram.h"
+#include "Texture.h"
 #include "Tile.h"
 #include "CsvReader.h"
 
@@ -10,6 +12,7 @@ public:
   Tilemap();
   ~Tilemap();
 
+  void init();
   void render();
 
   void clear();
@@ -26,16 +29,26 @@ public:
 
 private:
   int kBorderSize;
+  unsigned int mWidth;
+  unsigned int mHeight;
+  static const std::vector<glm::vec3> kQuad;
+  std::vector<float> mVertices;
+  std::vector<float> mTexcoords;
+  std::vector<float> mNormals;
+  std::vector<std::vector<Tile::Type>> mTiles;
+  
+  void initVertices();
+  void initTexcoords();
+  void initNormals();
 
-  typedef std::vector<Tile*> TileRow;
-  typedef std::vector<TileRow> TileArray;
-  TileArray mTiles;
+  void initVAO();
+  void updateVAO();
+  void freeVAO();
 
-  void initMargins();
-  void clearMargins();
-  TileArray mMarginLeft;
-  TileArray mMarginRight;
-  TileArray mMarginBottom;
+  ShaderProgram* mShader;
+  GLuint mVAO;
+  GLuint mVBO_vertices, mVBO_normals, mVBO_texcoords;
+  GLuint mLoc_vertices, mLoc_normals, mLoc_texcoords;
 };
 
 #endif // _TILEMAP_INCLUDE

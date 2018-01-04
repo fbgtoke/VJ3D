@@ -57,7 +57,7 @@ void Scene::init() {
 }
 
 void Scene::update(int deltaTime) {
-  std::cout << deltaTime << std::endl;;
+  //std::cout << deltaTime << std::endl;
   Game::instance().scanKeys();
   mCurrentTime += deltaTime;
 
@@ -153,8 +153,6 @@ bool Scene::outOfCamera(Model* model) const {
 
   return projectedPosition.y/projectedPosition.w < -1.0f;
 }
-
-bool Scene::doUpdate(Model* model) const { return true; }
 
 void Scene::initGui() {}
 
