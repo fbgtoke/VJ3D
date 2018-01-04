@@ -1,7 +1,12 @@
 #version 330 core
 
-uniform mat4 PM, VM, TG;
-uniform mat4 depthPM, depthVM, biasDepthMatrix;
+uniform mat4 PM;
+uniform mat4 VM;
+uniform mat4 TG;
+
+uniform mat4 depthPM;
+uniform mat4 depthVM;
+uniform mat4 biasDepthMatrix;
 
 layout(location=0) in vec3 vertex;
 layout(location=1) in vec3 normal;

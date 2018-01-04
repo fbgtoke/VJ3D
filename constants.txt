@@ -67,6 +67,10 @@ float ParticleFriction 0.85
 
 ##### Light #####
 float sunSpeed 0.0004
+float sunTarget_x 160
+float sunTarget_y 0
+float sunTarget_z 0
+float sunDistance 150
 float menulightDir_x 0
 float menulightDir_y 0
 float menulightDir_z -1

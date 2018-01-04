@@ -150,7 +150,7 @@ void Game::setBackgroundMusic(const std::string& name, float volume) {
 
 		mBackgroundMusic = music;
 		mBackgroundMusic->play();
-    mBackgroundMusic->setVolume(0.f);
+    mBackgroundMusic->setVolume(volume);
     mBackgroundMusic->setLoop(true);
 	}
 }

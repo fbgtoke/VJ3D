@@ -4,11 +4,7 @@ void ModelAnimated::update(int deltaTime) {
   Model::update(deltaTime);
 
   mAnimation.update(deltaTime);
-}
 
-void ModelAnimated::beforeRender() {
-  Model::beforeRender();
-  
   const AnimationFrame* frame = mAnimation.getCurrentFrame();
 
   if (frame != nullptr) {

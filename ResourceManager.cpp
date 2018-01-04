@@ -114,7 +114,7 @@ void ResourceManager::loadMesh(const std::string& name) {
   mesh->setVertices(vertices, nvertices);
   mesh->setNormals(normals, nnormals);
   mesh->setTexCoords(texcoords, ntexcoords);
-  //mesh->initVAO();
+  mesh->initVAO();
 
   mMeshes[name] = mesh;
 }

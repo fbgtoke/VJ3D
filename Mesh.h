@@ -9,9 +9,8 @@ public:
 	Mesh();
 	~Mesh();
 
-  void useShader(ShaderProgram* shaderProgram);
-
-  //void initVAO();
+  void initVAO();
+  void freeVAO();
   GLuint getVAO() const;
 
   void setVertices(float* vertices, unsigned int nelem);

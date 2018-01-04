@@ -27,8 +27,7 @@ void SceneTest::init() {
   mLevel = LevelGenerator::generate("levels/" + mLevelName + "/");
   
   initPlayer();
-  initCamera();
-  mLightAngle = (float)M_PI;
+  initCamera();  
 
   Game::instance().getResource().setInt("score", 0);
   kScorePerTile = Game::instance().getResource().Int("scorePerTile");
@@ -36,6 +35,9 @@ void SceneTest::init() {
 
   mFramebuffer.init();
   mDepthbuffer.init();
+
+  mSun.init();
+  mSun.setLevelSize(mLevel->getTilemap().getWidth(), mLevel->getTilemap().getHeight());
 
   Game::instance().setBackgroundMusic("ingame.ogg", 100.f);
 }
@@ -61,7 +63,7 @@ void SceneTest::update(int deltaTime) {
 
   updateCamera(deltaTime);
 
-  //mLightAngle += (float)deltaTime * Game::instance().getResource().Float("sunSpeed");
+  mSun.update(deltaTime);
 }
 
 void SceneTest::render() {
@@ -99,9 +101,9 @@ void SceneTest::renderShadowmap() {
   mDepthbuffer.use();
 
   mTexProgram->use();
-  glm::mat4 PM = getDepthProjectionMatrix();
+  glm::mat4 PM = mSun.getProjectionMatrix();
   mTexProgram->setUniformMatrix4f("PM", PM);
-  glm::mat4 VM = getDepthViewMatrix();
+  glm::mat4 VM = mSun.getViewMatrix();
   mTexProgram->setUniformMatrix4f("VM", VM);
   
   if (mLevel != nullptr) mLevel->render();
@@ -118,11 +120,11 @@ void SceneTest::renderFramebuffer() {
   glm::mat4 VM = getViewMatrix();
   mTexProgram->setUniformMatrix4f("VM", VM);
 
-  glm::mat4 biasMatrix = getDepthBiasMatrix();
+  glm::mat4 biasMatrix = mSun.getBiasMatrix();
   mTexProgram->setUniformMatrix4f("biasDepthMatrix", biasMatrix);
-  glm::mat4 depthPM = getDepthProjectionMatrix();
+  glm::mat4 depthPM = mSun.getProjectionMatrix();
   mTexProgram->setUniformMatrix4f("depthPM", depthPM);
-  glm::mat4 depthVM = getDepthViewMatrix();
+  glm::mat4 depthVM = mSun.getViewMatrix();
   mTexProgram->setUniformMatrix4f("depthVM", depthVM);
 
   glm::vec3 lightDirection = getLightDirection();
@@ -206,8 +208,10 @@ void SceneTest::checkPlayerOutOfBounds() {
   glm::vec3 standingTile = mPlayer->getPositionInTiles();
   glm::ivec2 standingTileInTilemap = mLevel->player2tilemap(standingTile);
 
-  if (mLevel->getTilemap().outOfBounds(standingTileInTilemap))
+  if (mPlayer->isAlive() && mLevel->getTilemap().outOfBounds(standingTileInTilemap)) {
     mPlayer->explode();
+    Game::instance().getScene()->playSoundEffect("deathOverrun0.ogg");
+  }
 }
 
 void SceneTest::checkPlayerOutOfCamera() {
@@ -291,18 +295,6 @@ Obstacle* SceneTest::getStoneAdjacentToPlayer(const glm::vec3& direction) {
   return nullptr;
 }
 
-glm::vec3 SceneTest::getLightDirection() const {
-  glm::vec3 dir;
-  dir.z = cos(mLightAngle);
-  dir.y = abs(sin(mLightAngle)) * (-1.f);
-  dir.x = 0.f;
-
-  dir = glm::vec3(-1.0f, -1.0f, 0.0f);
-  dir = glm::normalize(dir);
-
-  return dir;
-}
-
 glm::mat4 SceneTest::getProjectionMatrix() const {
   return glm::ortho(
     6 * TILE_SIZE * (-1.f),
@@ -314,38 +306,8 @@ glm::mat4 SceneTest::getProjectionMatrix() const {
   );
 }
 
-glm::mat4 SceneTest::getDepthProjectionMatrix() const {
-  return glm::ortho(-150.f, 150.f, -150.f, 150.f, 0.0f, 200.0f);
-}
-
 glm::mat4 SceneTest::getViewMatrix() const {
   return glm::lookAt(OBS, VRP, UP);
-}
-
-glm::mat4 SceneTest::getDepthViewMatrix() const {
-  glm::vec3 vrp = getLightTarget();
-  glm::vec3 obs = getLightPosition();
-
-  return glm::lookAt(obs, vrp, UP);
-}
-
-glm::mat4 SceneTest::getDepthBiasMatrix() const {
-  return glm::mat4(
-    0.5, 0.0, 0.0, 0.0,
-    0.0, 0.5, 0.0, 0.0,
-    0.0, 0.0, 0.5, 0.0,
-    0.5, 0.5, 0.5, 1.0
-              );
-}
-
-glm::vec3 SceneTest::getLightTarget() const
-{
-    return mPlayer->getPosition();
-}
-
-glm::vec3 SceneTest::getLightPosition() const
-{
-    return getLightTarget() - getLightDirection() * 150.0f;
 }
 
 void SceneTest::addScore(unsigned int score) {
@@ -381,11 +343,7 @@ void SceneTest::updateGui() {
 
 void SceneTest::renderGui() {
   mGui->getSprite("scene-frame")->setTexture(mFramebuffer.getTexture());
-  // mDepthbuffer.getTexture()->setTexUnit(GL_TEXTURE0);
-  // mGui->getSprite("scene-frame")->setTexture(mDepthbuffer.getTexture());
   mGui->getSprite("scene-frame")->setShader(Game::instance().getResource().shader("post"));
 
   Scene::renderGui();
-
-  // mDepthbuffer.getTexture()->setTexUnit(GL_TEXTURE1);
 }

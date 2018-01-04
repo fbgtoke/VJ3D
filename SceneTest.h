@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "FrameBuffer.h"
 #include "DepthBuffer.h"
+#include "Sun.h"
 
 class SceneTest : public Scene {
 public:
@@ -22,25 +23,17 @@ public:
   void receiveString(const std::string& tag, const std::string str) override;
 
   glm::mat4 getProjectionMatrix() const override;
-  glm::mat4 getDepthProjectionMatrix() const;
-
   glm::mat4 getViewMatrix() const override;
-  glm::mat4 getDepthViewMatrix() const;
-
-  glm::mat4 getDepthBiasMatrix() const;
-
-  glm::vec3 getLightTarget() const;
-  glm::vec3 getLightPosition() const;
-  glm::vec3 getLightDirection() const override;
 
 private:
-  float mLightAngle;
 	glm::vec3 kObsVector;
   float kCameraVel;
 
   float mCameraVel;
   void initCamera();
   void updateCamera(int deltaTime);
+
+  Sun mSun;
   
   void renderShadowmap();
   void renderFramebuffer();

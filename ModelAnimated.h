@@ -11,9 +11,7 @@ public:
   glm::mat4 getTransform() const override;
   Animation3D& getAnimation();
 
-protected:
-  void beforeRender() override;
-  
+protected:  
   Animation3D mAnimation;
 };
 

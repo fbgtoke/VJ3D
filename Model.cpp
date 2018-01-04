@@ -24,26 +24,18 @@ void Model::update(int deltaTime) {
 }
 
 void Model::beforeRender() {
-  ShaderProgram* shader = Game::instance().getScene()->getShader();
-  if (mTexture != nullptr) {
-    //mTexture->use();
-    GLuint texId = mTexture->getTexId();
-    shader->setUniform1i("tex", 0);
-    glActiveTexture(GL_TEXTURE0 + 0); // Texture unit 0
-    glBindTexture(GL_TEXTURE_2D, texId);
-  }
+  if (mTexture != nullptr)
+    mTexture->use();
   
   glm::mat4 TG = getTransform();
-  shader->setUniformMatrix4f("TG", TG);
-  shader->setUniform2f("texoffset", 0.f, 0.f);
+  glUniformMatrix4fv(2, 1, GL_FALSE, glm::value_ptr(TG));
+  glUniform2f(0, 0.f, 0.f);
 }
 
 void Model::render() {
   beforeRender();
 
   if (mMesh != nullptr && visible()) {
-    ShaderProgram* shader = Game::instance().getScene()->getShader();
-    mMesh->useShader(shader);
     glBindVertexArray(mMesh->getVAO());
     glDrawArrays(GL_TRIANGLES, 0, mMesh->numVertices());
     glBindVertexArray(0);
