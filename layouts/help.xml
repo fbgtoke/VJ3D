@@ -3,8 +3,8 @@
 <layer>
   <sprite>
     <position>20 100</position>
-    <size>128 128</size>
-    <texture>textures/WASD.jpg</texture>
+    <size>256 168</size>
+    <texture>textures/WASD.png</texture>
   </sprite>
   <text>
     <position>300 20</position>
