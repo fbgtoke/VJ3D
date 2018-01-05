@@ -51,15 +51,15 @@ void SceneMenu::init() {
 void SceneMenu::update(int deltaTime) {
   Scene::update(deltaTime);
 
-  if (Game::instance().getKeyPressed(27)) // Escape
+  if (InputManager::getAction(InputManager::Close)) // Escape
     Game::instance().stop();
 
   if (!mOptionSelected) {
-    if (Game::instance().getKeyPressed('w'))
+    if (InputManager::getAction(InputManager::Up))
       prevOption();
-    else if (Game::instance().getKeyPressed('s'))
+    else if (InputManager::getAction(InputManager::Down))
       nextOption();
-    else if (Game::instance().getKeyPressed('z')) {
+    else if (InputManager::getAction(InputManager::Accept)) {
       Game::instance().getScene()->playSoundEffect("cursorSelect.ogg");
       mOptionSelected = true;
     }

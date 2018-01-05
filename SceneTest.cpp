@@ -15,6 +15,7 @@ void SceneTest::receiveString(const std::string& tag, const std::string str) {
 
 void SceneTest::init() {
 	Scene::init();
+  InputManager::enableTouchControls(true);
 
   mLevel.loadFromFile("levels/" + mLevelName + "/");
   
@@ -40,7 +41,7 @@ void SceneTest::init() {
 void SceneTest::update(int deltaTime) {
   Scene::update(deltaTime);
 
-  if (Game::instance().getKeyPressed(27)) // Escape
+  if (InputManager::getAction(InputManager::Close)) // Escape
     Game::instance().changeScene(Scene::SCENE_LEVEL_SELECT);
 
   if (mLevelName == "") {
@@ -78,7 +79,7 @@ void SceneTest::update(int deltaTime) {
       changeState(SceneTest::Dead);
     break;
   case SceneTest::Dead:
-    if (Game::instance().getKeyPressed('z'))
+    if (InputManager::getAction(InputManager::Accept))
       Game::instance().changeScene(Scene::SCENE_LEVEL_SELECT);
     break;
   case SceneTest::Win:
@@ -167,13 +168,13 @@ void SceneTest::checkPlayerInput() {
   if (state != Player::Idle && state != Player::onBoat) return;
   
   glm::vec3 direction(0.f);
-  if (Game::instance().getKeyPressed('a') && state != Player::onBoat)
+  if (InputManager::getAction(InputManager::Left) && state != Player::onBoat)
     direction = LEFT;
-  else if (Game::instance().getKeyPressed('d') && state != Player::onBoat)
+  else if (InputManager::getAction(InputManager::Right) && state != Player::onBoat)
     direction = RIGHT;
-  else if (Game::instance().getKeyPressed('w'))
+  else if (InputManager::getAction(InputManager::Up))
     direction = IN;
-  else if (Game::instance().getKeyPressed('s'))
+  else if (InputManager::getAction(InputManager::Down))
     direction = OUT;
 
   Obstacle* boat = getBoatAdjacentToPlayer(direction);

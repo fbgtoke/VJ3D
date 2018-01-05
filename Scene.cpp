@@ -39,6 +39,7 @@ Scene::SceneType Scene::getType() const { return mType; }
 
 void Scene::init() {
   mCurrentTime = 0.0f;
+  InputManager::enableTouchControls(false);
 
   mTexProgram = Game::instance().getResource().shader("simple");
 
@@ -52,7 +53,6 @@ void Scene::init() {
 
 void Scene::update(int deltaTime) {
   //std::cout << deltaTime << std::endl;
-  Game::instance().scanKeys();
   mCurrentTime += deltaTime;
 
   checkSoundEffects();

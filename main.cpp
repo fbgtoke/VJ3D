@@ -17,35 +17,35 @@ static Game game; // This object represents our whole game
 
 static void keyboardDownCallback(unsigned char key, int x, int y)
 {
-	Game::instance().keyPressed(key);
+	InputManager::keyPressed(key);
 }
 
 // If a key is released this callback is called
 
 static void keyboardUpCallback(unsigned char key, int x, int y)
 {
-	Game::instance().keyReleased(key);
+	InputManager::keyReleased(key);
 }
 
 // If a special key is pressed this callback is called
 
 static void specialDownCallback(int key, int x, int y)
 {
-	Game::instance().specialKeyPressed(key);
+	InputManager::specialKeyPressed(key);
 }
 
 // If a special key is released this callback is called
 
 static void specialUpCallback(int key, int x, int y)
 {
-	Game::instance().specialKeyReleased(key);
+	InputManager::specialKeyReleased(key);
 }
 
 // Same for changes in mouse cursor position
 
 static void motionCallback(int x, int y)
 {
-	Game::instance().mouseMove(x, y);
+	InputManager::mouseMove(x, y);
 }
 
 // Same for mouse button presses or releases
@@ -53,9 +53,9 @@ static void motionCallback(int x, int y)
 static void mouseCallback(int button, int state, int x, int y)
 {
 	if(state == GLUT_DOWN)
-		Game::instance().mousePress(button);
+		InputManager::mousePress(button);
 	else if(state == GLUT_UP)
-		Game::instance().mouseRelease(button);
+		InputManager::mouseRelease(button);
 }
 
 static void reshapeCallback(int width, int height)

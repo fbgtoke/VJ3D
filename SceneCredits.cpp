@@ -9,7 +9,7 @@ SceneCredits::~SceneCredits() {}
 void SceneCredits::update(int deltaTime) {
   Scene::update(deltaTime);
 
-  if (Game::instance().getKeyPressed(27)) // Escape
+  if (InputManager::getAction(InputManager::Close)) // Escape
     Game::instance().changeScene(Scene::SCENE_MENU);
 }
 

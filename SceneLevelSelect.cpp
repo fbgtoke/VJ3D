@@ -18,10 +18,10 @@ void SceneLevelSelect::init() {
 void SceneLevelSelect::update(int deltaTime) {
   Scene::update(deltaTime);
 
-  if (Game::instance().getKeyPressed(27)) // Escape
+  if (InputManager::getAction(InputManager::Close))
     Game::instance().changeScene(Scene::SCENE_MENU);
   
-  if (Game::instance().getKeyPressed('z')) {
+  if (InputManager::getAction(InputManager::Accept)) {
     Game::instance().getScene()->playSoundEffect("cursorSelect.ogg");
     mOptionSelected = true;
   }
@@ -33,9 +33,9 @@ void SceneLevelSelect::update(int deltaTime) {
   }
 
   if (!mOptionSelected) {
-    if (Game::instance().getKeyPressed('a'))
+    if (InputManager::getAction(InputManager::Left))
       prevOption();
-    if (Game::instance().getKeyPressed('d'))
+    if (InputManager::getAction(InputManager::Right))
       nextOption();
   }
 }

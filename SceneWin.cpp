@@ -9,10 +9,10 @@ SceneWin::~SceneWin() {}
 void SceneWin::update(int deltaTime) {
   Scene::update(deltaTime);
 
-  if (Game::instance().getKeyPressed(27)) // Escape
+  if (InputManager::getAction(InputManager::Close)) // Escape
     Game::instance().stop();
 
-  if (Game::instance().getKeyPressed('z'))
+  if (InputManager::getAction(InputManager::Accept))
     Game::instance().changeScene(Scene::SCENE_LEVEL_SELECT);
 }
 
