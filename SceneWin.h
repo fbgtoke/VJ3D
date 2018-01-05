@@ -9,12 +9,10 @@ public:
   SceneWin();
   ~SceneWin() override;
 
-  void init() override;
   void update(int deltaTime) override;
-  void render() override;
 
 private:
-  Text3D mText;
+  void initGui() override;
 };
 
 #endif // _SCENE_WIN_INCLUDE
