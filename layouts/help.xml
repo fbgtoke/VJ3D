@@ -1,12 +1,114 @@
-<gui layers=1>
+<gui layers=3>
 
 <layer>
+  <sprite>
+    <position>20 100</position>
+    <size>256 168</size>
+    <texture>textures/WASD.png</texture>
+  </sprite>
+  <text>
+    <position>300 20</position>
+    <size>24</size>
+    <color>1.0 0.0 0.0</color>
+    <value>MODELO COWBOY MOVIENDOSE</value>
+  </text>
   <text>
     <position>0 0</position>
     <size>24</size>
-    <color>0.0 1.0 0.5</color>
-    <value>Have fun writing this layout</value>
+    <color>0.8 0.8 0.8</color>
+    <value>YOU CAN MOVE USING THE ARROW KEYS OR THE MOUSE</value>
   </text>
+  <text>
+    <position>20 300</position>
+    <size>24</size>
+    <color>0.8 0.8 0.8</color>
+    <value>CAMERA MOVES FORWARD SLOWLY, YOU DIE IF YOU ARE OUT OF BOUNDS, GET TO THE END OF THE LEVEL IN ORDER TO WIN.</value>
+  </text>
+</layer>
+
+<layer>
+  <text>
+    <position>20 20</position>
+    <size>24</size>
+    <color>0.8 0.8 0.8</color>
+    <value>WAYS TO DIE</value>
+  </text>
+  <text>
+    <position>300 20</position>
+    <size>24</size>
+    <color>1.0 0.0 0.0</color>
+    <value>MODELO CACTUS</value>
+  </text>
+  <text>
+    <position>500 20</position>
+    <size>24</size>
+    <color>1.0 0.0 0.0</color>
+    <value>COWBOY AHOGANDOSE EN UN CHUNK DE AGUA</value>
+  </text>
+  <text>
+    <position>300 300</position>
+    <size>24</size>
+    <color>1.0 0.0 0.0</color>
+    <value>MODELO CABALLO ANIMADO SIN MOVERSE</value>
+  </text>
+  <text>
+    <position>500 300</position>
+    <size>24</size>
+    <color>1.0 0.0 0.0</color>
+    <value>MODELO CARRUAJE ANIMADO SIN MOVERSE</value>
+  </text>
+</layer>
+
+<layer>
+  <text>
+    <position>20 20</position>
+    <size>24</size>
+    <color>0.8 0.8 0.8</color>
+    <value>YOU CAN RIDE BOATS OR STONES TO CROSS WATER</value>
+  </text>
+  <text>
+    <position>20 200</position>
+    <size>24</size>
+    <color>1.0 0.0 0.0</color>
+    <value>MODELO PIEDRA</value>
+  </text>
+  <text>
+    <position>20 400</position>
+    <size>24</size>
+    <color>1.0 0.0 0.0</color>
+    <value>MODELO BARCO EN CHUNK DE AGUA</value>
+  </text>
+
+  <text>
+    <position>400 20</position>
+    <size>24</size>
+    <color>0.8 0.8 0.8</color>
+    <value>PICK THE CARDS IN ORDER TO INCREASE SCORE</value>
+  </text>
+  <text>
+    <position>400 200</position>
+    <size>24</size>
+    <color>1.0 0.0 0.0</color>
+    <value>MODELO BONUS GIRANDO LENTO</value>
+  </text>
+
+  <text>
+    <position>800 20</position>
+    <size>24</size>
+    <color>0.8 0.8 0.8</color>
+    <value>GET TO THE END OF THE LEVEL TO WIN</value>
+  </text>
+  <text>
+    <position>800 200</position>
+    <size>24</size>
+    <color>1.0 0.0 0.0</color>
+    <value>CUATRO BLOQUES DE ESTOS PERO EN 3D</value>
+  </text>
+  <sprite>
+    <position>800 400</position>
+    <size>128 128</size>
+    <texture>textures/tileset.png</texture>
+  </sprite>
 </layer>
 
 </gui>
