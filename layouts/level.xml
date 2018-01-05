@@ -1,4 +1,4 @@
-<gui layers=4>
+<gui layers=5>
 
 <layer>
   <sprite>
@@ -11,6 +11,13 @@
   <sprite>
     <size>1280 720</size>
     <texture>go.png</texture>
+  </sprite>
+</layer>
+
+<layer>
+  <sprite>
+    <size>1280 720</size>
+    <texture>failure.png</texture>
   </sprite>
 </layer>
 

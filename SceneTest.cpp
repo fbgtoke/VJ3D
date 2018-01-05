@@ -330,6 +330,7 @@ void SceneTest::changeState(SceneTest::State state) {
     Game::instance().getScene()->playSoundEffect("ready.ogg");
     mGui->showLayer(0);
     mGui->hideLayer(1); 
+    mGui->hideLayer(2);
     break;
   case SceneTest::Go:
     Game::instance().getScene()->playSoundEffect("go.ogg");
@@ -342,6 +343,7 @@ void SceneTest::changeState(SceneTest::State state) {
   case SceneTest::Dead:
     mCamera.setMoving(false);
     Game::instance().getScene()->playSoundEffect("youLose.ogg");
+    mGui->showLayer(2);
     mGui->getSprite("scene-frame")->setShader(Game::instance().getResource().shader("post"));
     break;
   case SceneTest::Win:

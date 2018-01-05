@@ -11,7 +11,7 @@ void Level::loadFromFile(const std::string& filename) {
 }
 
 void Level::init(const std::string& name) {
-  mLevelInfo.setName(name);
+  mName = name;
   mTilemap.init();
 }
 
@@ -109,4 +109,32 @@ glm::ivec2 Level::player2tilemap(const glm::vec3& position) {
   return index;
 }
 
-LevelInfo Level::getLevelInfo() const { return mLevelInfo; }
+void Level::setName(const std::string& name) { mName = name; }
+
+std::string Level::getName() const { return mName; }
+
+void Level::readHighscores() {
+  std::ifstream stream("levels/" + mName + "/highscores.txt");
+
+  if (stream.is_open()) {
+    unsigned int score;
+    while (stream >> score) {
+      mHighscores.push_back(score);
+    }
+    stream.close();
+  } else {
+    std::cout << "Could not find highscores for level " << mName << std::endl;
+    mHighscores = std::vector<unsigned int>(3, 0);
+  }
+}
+
+void Level::saveHighscores() const {
+  std::ofstream stream("levels/" + mName + "/highsocres.txt", ios::trunc);
+
+  for (unsigned int score : mHighscores)
+    stream << score << std::endl;
+
+  stream.close();
+}
+
+std::vector<unsigned int> Level::getHighscores() const { return mHighscores; }

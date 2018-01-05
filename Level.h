@@ -2,7 +2,6 @@
 #define _LEVEL_INCLUDE
 
 #include "utils.h"
-#include "LevelInfo.h"
 #include "Tilemap.h"
 #include "Model.h"
 #include "Obstacle.h"
@@ -31,10 +30,17 @@ public:
   Tilemap& getTilemap();
   glm::ivec2 player2tilemap(const glm::vec3& position);
 
-  LevelInfo getLevelInfo() const;
+  void setName(const std::string& name);
+  std::string getName() const;
+
+  void readHighscores();
+  void saveHighscores() const;
+  std::vector<unsigned int> getHighscores() const;
 
 private:
-  LevelInfo mLevelInfo;
+  std::string mName;
+  std::vector<unsigned int> mHighscores;
+
   Tilemap mTilemap;
   std::list<Obstacle*> mObstacles;
 };

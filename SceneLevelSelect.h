@@ -3,8 +3,6 @@
 
 #include "utils.h"
 #include "Scene.h"
-#include "LevelInfo.h"
-#include "Text3D.h"
 
 class SceneLevelSelect : public Scene {
 public:
