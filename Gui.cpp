@@ -16,14 +16,16 @@ void Gui::render() {
   glm::mat4 VM = getViewMatrix();
 
   for (unsigned int i = 0; i < mLayers.size(); ++i) {
-    for (Sprite* sprite : mLayers[i]) {
-      ShaderProgram* shader = sprite->getShader();
-      shader->use();
-      shader->setUniformMatrix4f("PM", PM);
-      shader->setUniformMatrix4f("VM", VM);
-      shader->setUniform1i("tex", 0);
+    if (isLayerVisible(i)) {
+      for (Sprite* sprite : mLayers[i]) {
+        ShaderProgram* shader = sprite->getShader();
+        shader->use();
+        shader->setUniformMatrix4f("PM", PM);
+        shader->setUniformMatrix4f("VM", VM);
+        shader->setUniform1i("tex", 0);
 
-      sprite->render();
+        sprite->render();
+      }
     }
   }
 }
@@ -42,7 +44,12 @@ void Gui::setNumberOfLayers(unsigned int n) {
   clear();
 
   mLayers = std::vector<std::vector<Sprite*>>(n, std::vector<Sprite*>(0));
+  mVisible = std::vector<bool>(n, true);
 }
+
+void Gui::hideLayer(unsigned int n) { mVisible[n] = false; }
+void Gui::showLayer(unsigned int n) { mVisible[n] = true; }
+bool Gui::isLayerVisible(unsigned int n) const { return mVisible[n]; }
 
 void Gui::addSprite(Sprite* sprite, unsigned int layer) {
   if (sprite != nullptr && layer < mLayers.size())

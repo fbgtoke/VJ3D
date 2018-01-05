@@ -294,6 +294,7 @@ void SceneTest::initGui() {
 
   mGui = Game::instance().getResource().layout("level.xml");
   mGui->getSprite("scene-frame")->flipY();
+  mGui->hideLayer(0);
 }
 
 void SceneTest::updateGui() {
