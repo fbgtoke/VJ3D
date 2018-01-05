@@ -180,7 +180,9 @@ void SceneTest::checkPlayerInput() {
   Obstacle* stone = getStoneAdjacentToPlayer(direction);
 
   glm::vec3 targetTile = mPlayer->getPositionInTiles() + direction;
+  targetTile.y = 0.f;
   glm::ivec2 targetTileInTilemap = mLevel.player2tilemap(targetTile);
+
   bool jumping = (direction != glm::vec3(0.f));
   bool outOfBounds = mLevel.getTilemap().outOfBounds(targetTileInTilemap);
   bool stumpInTarget = mLevel.obstacleOfTypeAtTile(Obstacle::Stump, targetTile);
