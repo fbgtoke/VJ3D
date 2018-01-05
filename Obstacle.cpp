@@ -93,6 +93,10 @@ void Obstacle::init() {
 void Obstacle::update(int deltaTime) {
   ModelAnimated::update(deltaTime);
 
-  if (mVelocity.x >= 0.f)
-    mScale.x = -1.f;
+  if (mVelocity.x >= 0.f) {
+    if (mType == Obstacle::Horse)
+      mScale.z = -1.f;
+    else
+      mScale.x = -1.f;
+  }
 }

@@ -29,6 +29,7 @@ public:
 
   void setRotation(const glm::vec3& rotation);
   void setRotationSpeed(const glm::vec3& speed);
+  void rotate(const glm::vec3& rotation);
 
   void move(const glm::vec3& direction);
   void moveInTiles(const glm::vec3& direction);

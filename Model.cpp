@@ -69,6 +69,8 @@ void Model::setVelocity(const glm::vec3& velocity) { mVelocity = velocity; }
 void Model::setRotation(const glm::vec3& rotation) { mRotation = rotation; }
 void Model::setRotationSpeed(const glm::vec3& speed) { mRotationSpeed = speed; }
 
+void Model::rotate(const glm::vec3& rotation) { mRotation += rotation; }
+
 void Model::move(const glm::vec3& direction) { mPosition += direction; }
 void Model::moveInTiles(const glm::vec3& direction) { mPosition += direction * TILE_SIZE; }
 
