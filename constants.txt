@@ -53,6 +53,8 @@ float ObsVector_x 1
 float ObsVector_y 5
 float ObsVector_z 4
 float CameraVel 0.0100 // cuanto mas grande en abs, mas rapido va
+float CameraVelFast 0.0150
+float CameraMargin 32
 
 ##### Tilemap #####
 int BorderSize 10

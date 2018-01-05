@@ -23,6 +23,9 @@ public:
 private:
   glm::vec3 kObsVector;
   float kVel;
+  float kVelFast;
+  float kMargin;
+  float mVel;
 
   bool mMoving;
   glm::vec3 OBS;

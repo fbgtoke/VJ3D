@@ -11,24 +11,32 @@ void Camera::init() {
   kObsVector.y = Game::instance().getResource().Float("ObsVector_y");
   kObsVector.z = Game::instance().getResource().Float("ObsVector_z");
   kVel = Game::instance().getResource().Float("CameraVel");
+  kVelFast = Game::instance().getResource().Float("CameraVelFast");
+  kMargin = Game::instance().getResource().Float("CameraMargin");
 
   OBS = glm::vec3(0.f);
   VRP = glm::vec3(0.f);
 
   mMoving = true;
+  mVel = kVel;
 }
 
 void Camera::update(int deltaTime) {
   if (!mMoving) return;
 
-  VRP += IN * kVel * (float)deltaTime;
-  OBS += IN * kVel * (float)deltaTime;
+  VRP += IN * mVel * (float)deltaTime;
+  OBS += IN * mVel * (float)deltaTime;
 
   if (mFollowing != nullptr) {
     glm::vec3 center = mFollowing->getCenter();
 
     VRP.x = center.x;
-    VRP.z = min(VRP.z, center.z);
+
+    if (VRP.z > center.z + kMargin)
+      mVel = kVelFast;
+    else
+      mVel = kVel;
+
     OBS = VRP + kObsVector * TILE_SIZE;
   }
 }
