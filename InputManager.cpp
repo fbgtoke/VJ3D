@@ -89,8 +89,9 @@ bool InputManager::getSpecialKeyReleased(int key) {
 glm::ivec2 InputManager::getMousePosition() { return mMousePosition; }
 
 bool InputManager::mouseIsInQuarter(unsigned int quarter) {
-  glm::vec2 position(mMousePosition.x - SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT - mMousePosition.y); 
+  glm::vec2 position(mMousePosition.x - SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f - mMousePosition.y); 
   float angle = atan2(position.y, position.x);
+  if (angle < 0.f) angle += M_PI * 2.f;
 
   if (quarter == 1 && angle > M_PI * 0.25f && angle < M_PI * 0.75f) return true;
   else if (quarter == 2 && angle > M_PI * 0.75f && angle < M_PI * 1.25f) return true;
