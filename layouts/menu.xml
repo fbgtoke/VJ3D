@@ -1,0 +1,19 @@
+<gui layers=2>
+<layer>
+  <text>
+    <position>1000 360</position>
+    <size>10</size>
+    <color>1.0 0.0 0.0</color>
+    <value>MODELO COWBOY</value>
+  </text>
+</layer>
+
+<layer>
+  <sprite>
+    <position>0 0</position>
+    <size>1280 720</size>
+    <texture>textures/error.png</texture>
+  </sprite>
+</layer>
+
+</gui>

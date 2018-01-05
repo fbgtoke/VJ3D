@@ -1,62 +1,81 @@
-<gui layers=2>
+<gui layers=5>
 
 <layer>
   <text>
-    <position>50 50</position>
+    <position>0 50</position>
     <size>32</size>
     <color>0.8 0.8 0.8</color>
     <value>FABIO BANCHELLI</value>
   </text>
   <text>
-    <position>50 80</position>
+    <position>0 80</position>
     <size>26</size>
     <color>0.5 0.5 0.5</color>
     <value>-Main Programmer</value>
   </text>
   <text>
-    <position>50 100</position>
+    <position>0 110</position>
     <size>26</size>
     <color>0.5 0.5 0.5</color>
     <value>-XML master</value>
   </text>
   <text>
-    <position>50 120</position>
+    <position>0 140</position>
     <size>26</size>
     <color>0.5 0.5 0.5</color>
     <value>-Most commits</value>
   </text>
 </layer>
+<layer>
+  <text>
+    <position>520 50</position>
+    <size>12</size>
+    <color>1.0 0.0 0.0</color>
+    <value>MODELO FABIO</value>
+  </text>
+</layer>
 
 <layer>
   <text>
-    <position>600 500</position>
+    <position>860 50</position>
     <size>32</size>
     <color>0.8 0.8 0.8</color>
     <value>KILIAN PEIRO</value>
   </text>
   <text>
-    <position>600 580</position>
+    <position>860 80</position>
     <size>26</size>
     <color>0.5 0.5 0.5</color>
     <value>-Game Designer</value>
   </text>
   <text>
-    <position>600 640</position>
+    <position>860 110</position>
     <size>26</size>
     <color>0.5 0.5 0.5</color>
     <value>-Model Artist</value>
   </text>
   <text>
-    <position>600 700</position>
+    <position>860 140</position>
     <size>26</size>
     <color>0.5 0.5 0.5</color>
     <value>-Sound Artist</value>
   </text>
+</layer>
+<layer>
   <text>
-    <position>600 760</position>
-    <size>26</size>
-    <color>0.5 0.5 0.5</color>
-    <value>-XML Slave</value>
+    <position>680 50</position>
+    <size>12</size>
+    <color>1.0 0.0 0.0</color>
+    <value>MODELO KILIAN</value>
+  </text>
+</layer>
+
+<layer>
+  <text>
+    <position>550 600</position>
+    <size>18</size>
+    <color>1.0 0.0 0.0</color>
+    <value>OTHER STUFF</value>
   </text>
 </layer>
 
