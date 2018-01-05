@@ -9,3 +9,4 @@ gui
       value
       color
       ...
+1280 x 720
