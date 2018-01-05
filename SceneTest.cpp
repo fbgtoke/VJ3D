@@ -30,9 +30,11 @@ void SceneTest::init() {
   mDepthbuffer.init();
 
   mSun.init();
+  mSun.setCurrentTime((float)M_PI * 0.75f);
   mSun.setLevelSize(mLevel.getTilemap().getWidth(), mLevel.getTilemap().getHeight());
 
   Game::instance().setBackgroundMusic("ingame.ogg", 100.f);
+  changeState(SceneTest::Ready);
 }
 
 void SceneTest::update(int deltaTime) {
@@ -48,18 +50,40 @@ void SceneTest::update(int deltaTime) {
   }
   
   mLevel.update(deltaTime);
-  mCamera.update(deltaTime);
-  mSun.update(deltaTime);
 
-  if (mPlayer != nullptr) {
-    mPlayer->update(deltaTime);
-    mLevel.checkCollisions(mPlayer);
+  switch (mState) {
+  case SceneTest::Ready:
+    if (mSoundEffects.empty())
+      changeState(SceneTest::Go);
+    break;
+  case SceneTest::Go:
+    if (mSoundEffects.empty())
+      changeState(SceneTest::Playing);
+    break;
+  case SceneTest::Playing:
+    mCamera.update(deltaTime);
+    //mSun.update(deltaTime);
 
-    checkPlayerInput();
-    checkPlayerOutOfBounds();
-    checkPlayerOutOfCamera();
-    checkPlayerStandingTile();
-    checkPlayerDead();
+    if (mPlayer != nullptr) {
+      mPlayer->update(deltaTime);
+      mLevel.checkCollisions(mPlayer);
+
+      checkPlayerInput();
+      checkPlayerOutOfBounds();
+      checkPlayerOutOfCamera();
+      checkPlayerStandingTile();
+    }
+
+    if (mPlayer->isExploding())
+      changeState(SceneTest::Dead);
+    break;
+  case SceneTest::Dead:
+    if (Game::instance().getKeyPressed('z'))
+      Game::instance().changeScene(Scene::SCENE_LEVEL_SELECT);
+    break;
+  case SceneTest::Win:
+    if (mSoundEffects.empty())
+      Game::instance().changeScene(Scene::SCENE_WIN);
   }
 }
 
@@ -209,21 +233,7 @@ void SceneTest::checkPlayerStandingTile() {
     if (tile == Tile::Water && !mLevel.obstacleOfTypeAtTile(Obstacle::Stone, standingTile))
       mPlayer->changeState(Player::Drowning);
     else if (tile == Tile::Goal)
-      Game::instance().changeScene(Scene::SCENE_WIN);
-  }
-}
-
-void SceneTest::checkPlayerDead() {
-  if (mPlayer == nullptr) return;
-
-  if (mPlayer->isExploding()) {
-    mCamera.setMoving(false);
-    mGui->getSprite("scene-frame")->setShader(Game::instance().getResource().shader("post"));
-
-  }
-  if (mPlayer->isDead()) {
-    Game::instance().changeScene(Scene::SCENE_DEAD);
-    Game::instance().getBufferedScene()->receiveString("level-name", mLevelName);
+      changeState(SceneTest::Win);
   }
 }
 
@@ -295,6 +305,7 @@ void SceneTest::initGui() {
   mGui = Game::instance().getResource().layout("level.xml");
   mGui->getSprite("scene-frame")->flipY();
   mGui->hideLayer(0);
+  mGui->hideLayer(1);
 }
 
 void SceneTest::updateGui() {
@@ -311,4 +322,32 @@ void SceneTest::renderGui() {
   mGui->getSprite("scene-frame")->setTexture(mFramebuffer.getTexture());
 
   Scene::renderGui();
+}
+
+void SceneTest::changeState(SceneTest::State state) {
+  switch (state) {
+  case SceneTest::Ready:
+    Game::instance().getScene()->playSoundEffect("ready.ogg");
+    mGui->showLayer(0);
+    mGui->hideLayer(1); 
+    break;
+  case SceneTest::Go:
+    Game::instance().getScene()->playSoundEffect("go.ogg");
+    mGui->hideLayer(0);
+    mGui->showLayer(1); 
+    break;
+  case SceneTest::Playing:
+    mGui->hideLayer(1); 
+    break;
+  case SceneTest::Dead:
+    mCamera.setMoving(false);
+    Game::instance().getScene()->playSoundEffect("youLose.ogg");
+    mGui->getSprite("scene-frame")->setShader(Game::instance().getResource().shader("post"));
+    break;
+  case SceneTest::Win:
+    Game::instance().getScene()->playSoundEffect("youWon.ogg");
+    break;
+  }
+
+  mState = state;
 }

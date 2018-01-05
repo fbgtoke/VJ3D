@@ -36,7 +36,6 @@ private:
   void checkPlayerOutOfBounds();
   void checkPlayerOutOfCamera();
   void checkPlayerStandingTile();
-  void checkPlayerDead();
 
   Obstacle* getBoatAdjacentToPlayer(const glm::vec3& direction);
   Obstacle* getStoneAdjacentToPlayer(const glm::vec3& direction);
@@ -54,6 +53,16 @@ private:
   void initGui() override;
   void updateGui() override;
   void renderGui() override;
+
+  enum State {
+    Ready,
+    Go,
+    Playing,
+    Dead,
+    Win
+  };
+  SceneTest::State mState;
+  void changeState(SceneTest::State state);
 };
 
 #endif // SCENE_TEST_INCLUDE
