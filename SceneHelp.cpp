@@ -55,22 +55,62 @@ void SceneHelp::updateLayer0(int deltaTime) {
 
   if (cowboy->getPositionInTiles() == glm::vec3(0.f))
     cowboy->moveTowards(cowboy->getPosition() + LEFT * TILE_SIZE);
-  else if (cowboy->getPositionInTiles() == LEFT)
+  else if (cowboy->getPositionInTiles() == LEFT) {
     cowboy->moveTowards(cowboy->getPosition() + IN * TILE_SIZE);
-  else if (cowboy->getPositionInTiles() == LEFT + IN)
+    mGui->getSprite("W")->setTexture(Game::instance().getResource().texture("W_red.png"));
+    mGui->getSprite("A")->setTexture(Game::instance().getResource().texture("A_white.png"));
+    mGui->getSprite("S")->setTexture(Game::instance().getResource().texture("S_white.png"));
+    mGui->getSprite("D")->setTexture(Game::instance().getResource().texture("D_white.png"));
+  }
+  else if (cowboy->getPositionInTiles() == LEFT + IN) {
     cowboy->moveTowards(cowboy->getPosition() + RIGHT * TILE_SIZE);
-  else if (cowboy->getPositionInTiles() == IN)
+    mGui->getSprite("W")->setTexture(Game::instance().getResource().texture("W_white.png"));
+    mGui->getSprite("A")->setTexture(Game::instance().getResource().texture("A_white.png"));
+    mGui->getSprite("S")->setTexture(Game::instance().getResource().texture("S_white.png"));
+    mGui->getSprite("D")->setTexture(Game::instance().getResource().texture("D_red.png"));
+  }
+  else if (cowboy->getPositionInTiles() == IN) {
     cowboy->moveTowards(cowboy->getPosition() + RIGHT * TILE_SIZE);
-  else if (cowboy->getPositionInTiles() == RIGHT + IN)
+    mGui->getSprite("W")->setTexture(Game::instance().getResource().texture("W_white.png"));
+    mGui->getSprite("A")->setTexture(Game::instance().getResource().texture("A_white.png"));
+    mGui->getSprite("S")->setTexture(Game::instance().getResource().texture("S_white.png"));
+    mGui->getSprite("D")->setTexture(Game::instance().getResource().texture("D_red.png"));
+  }
+  else if (cowboy->getPositionInTiles() == RIGHT + IN) {
     cowboy->moveTowards(cowboy->getPosition() + OUT * TILE_SIZE);
-  else if (cowboy->getPositionInTiles() == RIGHT)
+    mGui->getSprite("W")->setTexture(Game::instance().getResource().texture("W_white.png"));
+    mGui->getSprite("A")->setTexture(Game::instance().getResource().texture("A_white.png"));
+    mGui->getSprite("S")->setTexture(Game::instance().getResource().texture("S_red.png"));
+    mGui->getSprite("D")->setTexture(Game::instance().getResource().texture("D_white.png"));
+  }
+  else if (cowboy->getPositionInTiles() == RIGHT) {
     cowboy->moveTowards(cowboy->getPosition() + OUT * TILE_SIZE);
-  else if (cowboy->getPositionInTiles() == RIGHT + OUT)
+    mGui->getSprite("W")->setTexture(Game::instance().getResource().texture("W_white.png"));
+    mGui->getSprite("A")->setTexture(Game::instance().getResource().texture("A_white.png"));
+    mGui->getSprite("S")->setTexture(Game::instance().getResource().texture("S_red.png"));
+    mGui->getSprite("D")->setTexture(Game::instance().getResource().texture("D_white.png"));
+  }
+  else if (cowboy->getPositionInTiles() == RIGHT + OUT) {
     cowboy->moveTowards(cowboy->getPosition() + LEFT * TILE_SIZE);
-  else if (cowboy->getPositionInTiles() == OUT)
+    mGui->getSprite("W")->setTexture(Game::instance().getResource().texture("W_white.png"));
+    mGui->getSprite("A")->setTexture(Game::instance().getResource().texture("A_red.png"));
+    mGui->getSprite("S")->setTexture(Game::instance().getResource().texture("S_white.png"));
+    mGui->getSprite("D")->setTexture(Game::instance().getResource().texture("D_white.png"));
+  }
+  else if (cowboy->getPositionInTiles() == OUT) {
     cowboy->moveTowards(cowboy->getPosition() + LEFT * TILE_SIZE);
-  else if (cowboy->getPositionInTiles() == LEFT + OUT)
+    mGui->getSprite("W")->setTexture(Game::instance().getResource().texture("W_white.png"));
+    mGui->getSprite("A")->setTexture(Game::instance().getResource().texture("A_red.png"));
+    mGui->getSprite("S")->setTexture(Game::instance().getResource().texture("S_white.png"));
+    mGui->getSprite("D")->setTexture(Game::instance().getResource().texture("D_white.png"));
+  }
+  else if (cowboy->getPositionInTiles() == LEFT + OUT) {
     cowboy->moveTowards(cowboy->getPosition() + IN * TILE_SIZE);
+    mGui->getSprite("W")->setTexture(Game::instance().getResource().texture("W_red.png"));
+    mGui->getSprite("A")->setTexture(Game::instance().getResource().texture("A_white.png"));
+    mGui->getSprite("S")->setTexture(Game::instance().getResource().texture("S_white.png"));
+    mGui->getSprite("D")->setTexture(Game::instance().getResource().texture("D_white.png"));
+  }
 }
 
 void SceneHelp::update(int deltaTime) {
