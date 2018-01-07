@@ -84,7 +84,7 @@ void SceneTest::update(int deltaTime) {
     break;
   case SceneTest::Win:
     if (mSoundEffects.empty())
-      Game::instance().changeScene(Scene::SCENE_WIN);
+      Game::instance().changeScene(Scene::SCENE_LEVEL_SELECT);
   }
 }
 
