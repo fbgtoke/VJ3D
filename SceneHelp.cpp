@@ -146,8 +146,13 @@ void SceneHelp::updateLayer0(int deltaTime) {
   if (mCountdown > 0) return;
   mCountdown = 1000;
 
-  if (cowboy->getPositionInTiles() == glm::vec3(0.f))
+  if (cowboy->getPositionInTiles() == glm::vec3(0.f)) {
     cowboy->moveTowards(cowboy->getPosition() + LEFT * TILE_SIZE);
+    mGui->getSprite("W")->setTexture(Game::instance().getResource().texture("W_white.png"));
+    mGui->getSprite("A")->setTexture(Game::instance().getResource().texture("A_red.png"));
+    mGui->getSprite("S")->setTexture(Game::instance().getResource().texture("S_white.png"));
+    mGui->getSprite("D")->setTexture(Game::instance().getResource().texture("D_white.png"));
+  }
   else if (cowboy->getPositionInTiles() == LEFT) {
     cowboy->moveTowards(cowboy->getPosition() + IN * TILE_SIZE);
     mGui->getSprite("W")->setTexture(Game::instance().getResource().texture("W_red.png"));
@@ -212,8 +217,12 @@ void SceneHelp::update(int deltaTime) {
   if (InputManager::getAction(InputManager::Close)) // Escape
     Game::instance().changeScene(Scene::SCENE_MENU);
 
-  if (InputManager::getAction(InputManager::Accept))
-    nextLayer();
+  if (InputManager::getAction(InputManager::Accept)) {
+    if (mCurrentLayer < 2)
+      nextLayer();
+    else
+      Game::instance().changeScene(Scene::SCENE_MENU);
+  }
 
   for (Model* model : mModels[mCurrentLayer])
     model->update(deltaTime);

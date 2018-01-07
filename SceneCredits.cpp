@@ -11,6 +11,9 @@ void SceneCredits::update(int deltaTime) {
 
   if (InputManager::getAction(InputManager::Close)) // Escape
     Game::instance().changeScene(Scene::SCENE_MENU);
+
+  if (InputManager::getAction(InputManager::Accept)) // Escape
+    Game::instance().changeScene(Scene::SCENE_MENU);
 }
 
 void SceneCredits::initGui() {
