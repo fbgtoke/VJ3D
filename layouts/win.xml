@@ -2,10 +2,22 @@
 
 <layer>
   <text>
-    <position>0 0</position>
-    <size>24</size>
+    <position>0 100</position>
+    <size>30</size>
     <color>0.2 0.2 0.2</color>
-    <value>This is the win scene</value>
+    <value>You WON!</value>
+  </text>
+  <text>
+    <position>100 300</position>
+    <size>24</size>
+    <color>0.4 0.4 0.4</color>
+    <value>You are now the sheriff of the town,</value>
+  </text>
+  <text>
+    <position>100 330</position>
+    <size>24</size>
+    <color>0.4 0.4 0.4</color>
+    <value>you name will be remembered.</value>
   </text>
 </layer>
 
