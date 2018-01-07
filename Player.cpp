@@ -106,6 +106,11 @@ void Player::moveTowardsBoat(Obstacle* boat) {
   mTargetBoat = boat;
   changeState(Player::onBoat);
   playJumpSound();
+
+  if (boat->getPosition().z < mPosition.z)
+    setRotation(glm::vec3(0.f, (float)M_PI * 1.f, 0.f));
+  else
+    setRotation(glm::vec3(0.f, (float)M_PI * 0.f, 0.f));
 }
 
 void Player::updateMoving(int deltaTime) {
@@ -114,8 +119,6 @@ void Player::updateMoving(int deltaTime) {
 
   if (mState == Player::Moving)
     mVelocity = direction * kHorSpeed;
-  else if (mState == Player::towardsBoat)
-    mVelocity = direction * abs(mTargetBoat->getVelocity().x);
   
   float angle = atan2(-direction.z, direction.x) + (float)M_PI/2.f;
   setRotation(UP * angle);
@@ -126,8 +129,7 @@ void Player::updateMoving(int deltaTime) {
     mVelocity = glm::vec3(0.f);
 
     changeState(Player::Idle);
-  } else if (mState == Player::towardsBoat && distance < mTargetBoat->getSize().x * 0.5f)
-    changeState(Player::onBoat);
+  }
 }
 
 void Player::changeState(Player::State state) {
@@ -138,7 +140,6 @@ void Player::changeState(Player::State state) {
     mAnimation.changeAnimation(0);
     break;
   case Player::Moving:
-  case Player::towardsBoat:
     mAnimation.changeAnimation(1);
     playJumpSound();
     break;
@@ -176,7 +177,6 @@ bool Player::isAlive() const {
   return
     mState == Player::Idle ||
     mState == Player::Moving ||
-    mState == Player::towardsBoat ||
     mState == Player::onBoat;
 }
 
