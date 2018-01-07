@@ -65,6 +65,8 @@ void Scene::render() {
   glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+  renderGui();
+
   mTexProgram->use();
 
   glm::mat4 PM = getProjectionMatrix();
@@ -77,8 +79,6 @@ void Scene::render() {
 
   for (Particle* particle : mParticles)
     particle->render();
-
-  renderGui();
 }
 
 void Scene::receiveString(const std::string& tag, const std::string str) {}

@@ -3,7 +3,6 @@
 uniform sampler2D tex;
 
 uniform vec3 lightDir;
-uniform vec3 ambientColor;
 
 in vec3 normalFrag;
 in vec2 texcoordFrag;
