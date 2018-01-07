@@ -22,6 +22,7 @@ void Obstacle::init() {
     mAnimation.addFrame(0, frame);
     mAnimation.setTimePerFrame(0);
     mAnimation.changeAnimation(0);
+    mRotation.y = randomFloat(0.f, 2.f) * (float)M_PI;
     break;
   case Obstacle::Stump:
     mAnimation.setNumberOfAnimations(1);
@@ -30,6 +31,7 @@ void Obstacle::init() {
     mAnimation.addFrame(0, frame);
     mAnimation.setTimePerFrame(0);
     mAnimation.changeAnimation(0);
+    mRotation.y = randomFloat(0.f, 2.f) * (float)M_PI;
     break;
   case Obstacle::Stone:
     mAnimation.setNumberOfAnimations(1);
@@ -38,6 +40,7 @@ void Obstacle::init() {
     mAnimation.addFrame(0, frame);
     mAnimation.setTimePerFrame(0);
     mAnimation.changeAnimation(0);
+    mRotation.y = randomInt(0, 3) * (float)M_PI * 0.5f;
     break;
   case Obstacle::Bottle:
     mAnimation.setNumberOfAnimations(1);
@@ -47,6 +50,7 @@ void Obstacle::init() {
     mAnimation.setTimePerFrame(0);
     mAnimation.changeAnimation(0);
     setScale(glm::vec3(0.5f));
+    setRotationSpeed(glm::vec3(0.f, 0.f, -0.0005f));
     break;
   case Obstacle::Carriage:
     mAnimation.setNumberOfAnimations(1);
@@ -107,5 +111,12 @@ void Obstacle::update(int deltaTime) {
       mScale.z = mScale.z < 0.f? mScale.z : mScale.z * (-1.f);
     else
       mScale.x = mScale.x < 0.f? mScale.x : mScale.x * (-1.f);
+  }
+
+  if (mType == Obstacle::Bottle) {
+    if (mRotation.z < -0.125f * (float)M_PI)
+      setRotationSpeed(glm::vec3(0.f, 0.f, 0.0005f));
+    else if (mRotation.z > 0.125f * (float)M_PI)
+      setRotationSpeed(glm::vec3(0.f, 0.f, -0.0005f));
   }
 }
