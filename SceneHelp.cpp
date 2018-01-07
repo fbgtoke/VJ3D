@@ -4,7 +4,13 @@
 SceneHelp::SceneHelp()
   : Scene(Scene::SCENE_HELP) {}
 
-SceneHelp::~SceneHelp() {}
+SceneHelp::~SceneHelp() {
+  for (int i = 0; i < 3; ++i) {
+    for (Model* model : mModels[i])
+      delete model;
+    mModels[i].clear();
+  }
+}
 
 void SceneHelp::init() {
   Scene::init();
@@ -12,6 +18,8 @@ void SceneHelp::init() {
 
   
   initLayer0();
+  initLayer1();
+  initLayer2();
 
   mCamera.init();
   mCamera.follow(mModels[0][2]);
@@ -42,6 +50,91 @@ void SceneHelp::initLayer0() {
   mModels[0].push_back(cowboy);
 
   mCountdown = 1000;
+}
+
+void SceneHelp::initLayer1() {
+  Model* cactus = new Model();
+  cactus->init();
+  cactus->setMesh(Game::instance().getResource().mesh("cactus.obj"));
+  cactus->setTexture(Game::instance().getResource().texture("palette.png"));
+  cactus->setPositionInTiles(glm::vec3(-4.f, 0.f, 2.f));
+  mModels[1].push_back(cactus);
+
+  Model* water = new Model();
+  water->init();
+  water->setMesh(Game::instance().getResource().mesh("cube.obj"));
+  water->setTexture(Game::instance().getResource().texture("water.png"));
+  water->setPositionInTiles(glm::vec3(-2.f, -1.f, 1.f));
+  mModels[1].push_back(water);
+
+  Model* cowboy = new Model();
+  cowboy->init();
+  cowboy->setMesh(Game::instance().getResource().mesh("drowningcowboy1.obj"));
+  cowboy->setTexture(Game::instance().getResource().texture("palette.png"));
+  cowboy->setPositionInTiles(glm::vec3(-2.f, 0.f, 1.f));
+  mModels[1].push_back(cowboy);
+
+  Model* horse = new Model();
+  horse->init();
+  horse->setMesh(Game::instance().getResource().mesh("animationhorse1.obj"));
+  horse->setTexture(Game::instance().getResource().texture("palette.png"));
+  horse->setPositionInTiles(glm::vec3(0.f, 0.f, 1.f));
+  horse->setRotation(glm::vec3(0.f, (float)M_PI * -0.5f, 0.f));
+  mModels[1].push_back(horse);
+
+  Model* carriage = new Model();
+  carriage->init();
+  carriage->setMesh(Game::instance().getResource().mesh("carriage1.obj"));
+  carriage->setTexture(Game::instance().getResource().texture("palette.png"));
+  carriage->setPositionInTiles(glm::vec3(2.f, 0.f, 1.f));
+  carriage->setRotation(glm::vec3(0.f, (float)M_PI, 0.f));
+  mModels[1].push_back(carriage);
+}
+
+void SceneHelp::initLayer2() {
+  Model* stone = new Model();
+  stone->init();
+  stone->setMesh(Game::instance().getResource().mesh("stone.obj"));
+  stone->setTexture(Game::instance().getResource().texture("palette.png"));
+  stone->setPositionInTiles(glm::vec3(-2.f, 0.f, -2.f));
+  mModels[2].push_back(stone);
+
+  Model* boat = new Model();
+  boat->init();
+  boat->setMesh(Game::instance().getResource().mesh("boat.obj"));
+  boat->setTexture(Game::instance().getResource().texture("palette.png"));
+  boat->setPositionInTiles(glm::vec3(0.f, 0.f, -2.f));
+  mModels[2].push_back(boat);
+
+  Model* bonus = new Model();
+  bonus->init();
+  bonus->setMesh(Game::instance().getResource().mesh("bonus1.obj"));
+  bonus->setTexture(Game::instance().getResource().texture("palette.png"));
+  bonus->setPositionInTiles(glm::vec3(0.f, 0.f, 1.f));
+  bonus->setRotationSpeed(glm::vec3(0.f, 0.002f, 0.f));
+  mModels[2].push_back(bonus);
+
+  Model* goal;
+  goal = new Model();
+  goal->init();
+  goal->setMesh(Game::instance().getResource().mesh("cube.obj"));
+  goal->setTexture(Game::instance().getResource().texture("goal.png"));
+  goal->setPositionInTiles(glm::vec3(0.f, -1.f, 3.f));
+  mModels[2].push_back(goal);
+
+  goal = new Model();
+  goal->init();
+  goal->setMesh(Game::instance().getResource().mesh("cube.obj"));
+  goal->setTexture(Game::instance().getResource().texture("goal.png"));
+  goal->setPositionInTiles(glm::vec3(1.f, -1.f, 3.f));
+  mModels[2].push_back(goal);
+
+  goal = new Model();
+  goal->init();
+  goal->setMesh(Game::instance().getResource().mesh("cube.obj"));
+  goal->setTexture(Game::instance().getResource().texture("goal.png"));
+  goal->setPositionInTiles(glm::vec3(2.f, -1.f, 3.f));
+  mModels[2].push_back(goal);
 }
 
 void SceneHelp::updateLayer0(int deltaTime) {
@@ -135,7 +228,7 @@ void SceneHelp::render() {
     model->render();
 }
 
-glm::vec3 SceneHelp::getLightDirection() const { return mSun.getDirection(); }
+glm::vec3 SceneHelp::getLightDirection() const { return glm::vec3(-.5f, -1.f, -.5f); }
 glm::mat4 SceneHelp::getProjectionMatrix() const { return mCamera.getProjectionMatrix(); }
 glm::mat4 SceneHelp::getViewMatrix() const { return mCamera.getViewMatrix(); }
 

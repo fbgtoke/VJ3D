@@ -28,8 +28,10 @@ private:
   std::vector<Model*> mModels[3];
   int mCountdown;
   void initLayer0();
+  void initLayer1();
+  void initLayer2();
+
   void updateLayer0(int deltaTime);
-  void renderLayer0();
 
   void initGui() override;
 

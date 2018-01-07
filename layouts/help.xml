@@ -53,34 +53,10 @@
 
 <layer>
   <text>
-    <position>20 20</position>
+    <position>20 50</position>
     <size>24</size>
     <color>0.8 0.8 0.8</color>
     <value>WAYS TO DIE</value>
-  </text>
-  <text>
-    <position>300 20</position>
-    <size>24</size>
-    <color>1.0 0.0 0.0</color>
-    <value>MODELO CACTUS</value>
-  </text>
-  <text>
-    <position>500 20</position>
-    <size>24</size>
-    <color>1.0 0.0 0.0</color>
-    <value>COWBOY AHOGANDOSE EN UN CHUNK DE AGUA</value>
-  </text>
-  <text>
-    <position>300 300</position>
-    <size>24</size>
-    <color>1.0 0.0 0.0</color>
-    <value>MODELO CABALLO ANIMADO SIN MOVERSE</value>
-  </text>
-  <text>
-    <position>500 300</position>
-    <size>24</size>
-    <color>1.0 0.0 0.0</color>
-    <value>MODELO CARRUAJE ANIMADO SIN MOVERSE</value>
   </text>
 </layer>
 
@@ -91,49 +67,20 @@
     <color>0.8 0.8 0.8</color>
     <value>YOU CAN RIDE BOATS OR STONES TO CROSS WATER</value>
   </text>
-  <text>
-    <position>20 200</position>
-    <size>24</size>
-    <color>1.0 0.0 0.0</color>
-    <value>MODELO PIEDRA</value>
-  </text>
-  <text>
-    <position>20 400</position>
-    <size>24</size>
-    <color>1.0 0.0 0.0</color>
-    <value>MODELO BARCO EN CHUNK DE AGUA</value>
-  </text>
 
   <text>
-    <position>400 20</position>
+    <position>20 250</position>
     <size>24</size>
     <color>0.8 0.8 0.8</color>
     <value>PICK THE CARDS IN ORDER TO INCREASE SCORE</value>
   </text>
-  <text>
-    <position>400 200</position>
-    <size>24</size>
-    <color>1.0 0.0 0.0</color>
-    <value>MODELO BONUS GIRANDO LENTO</value>
-  </text>
 
   <text>
-    <position>800 20</position>
+    <position>20 450</position>
     <size>24</size>
     <color>0.8 0.8 0.8</color>
     <value>GET TO THE END OF THE LEVEL TO WIN</value>
   </text>
-  <text>
-    <position>800 200</position>
-    <size>24</size>
-    <color>1.0 0.0 0.0</color>
-    <value>CUATRO BLOQUES DE ESTOS PERO EN 3D</value>
-  </text>
-  <sprite>
-    <position>800 400</position>
-    <size>128 128</size>
-    <texture>textures/tileset.png</texture>
-  </sprite>
 </layer>
 
 </gui>
