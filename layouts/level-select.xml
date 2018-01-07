@@ -2,7 +2,7 @@
 
 <layer>
   <sprite>
-    <position>150 100</position>
+    <position>150 250</position>
     <size>128 128</size>
     <texture>crosshairs.png</texture>
     <name>level-selector</name>
@@ -11,49 +11,49 @@
 
 <layer>
   <sprite>
-    <position>150 100</position>
+    <position>150 250</position>
     <size>128 128</size>
     <texture>levels/level1/thumbnail.png</texture>
     <name>level1</name>
   </sprite>
   <text>
-    <position>130 250</position>
+    <position>130 400</position>
     <size>20</size>
     <color>1.0 1.0 1.0</color>
     <value>OneShot</value>
   </text>
   <sprite>
-    <position>350 100</position>
+    <position>350 250</position>
     <size>128 128</size>
     <texture>levels/level2/thumbnail.png</texture>
     <name>level2</name>
   </sprite>
   <text>
-    <position>330 250</position>
+    <position>330 400</position>
     <size>20</size>
     <color>1.0 1.0 1.0</color>
     <value>Casual</value>
   </text>
   <sprite>
-    <position>550 100</position>
+    <position>550 250</position>
     <size>128 128</size>
     <texture>levels/level3/thumbnail.png</texture>
     <name>level3</name>
   </sprite>
   <text>
-    <position>530 250</position>
+    <position>530 400</position>
     <size>20</size>
     <color>1.0 1.0 1.0</color>
     <value>HighRisk</value>
   </text>
   <sprite>
-    <position>750 100</position>
+    <position>750 250</position>
     <size>128 128</size>
     <texture>levels/level3/thumbnail.png</texture>
     <name>level4</name>
   </sprite>
   <text>
-    <position>730 250</position>
+    <position>730 400</position>
     <size>20</size>
     <color>1.0 1.0 1.0</color>
     <value>TheLast</value>
@@ -62,45 +62,45 @@
 
 <layer>
   <text>
-    <position>130 500</position>
-    <size>20</size>
+    <position>180 450</position>
+    <size>28</size>
     <color>1.0 1.0 1.0</color>
     <value>Highscores</value>
   </text>
   <text>
-    <position>140 520</position>
+    <position>270 500</position>
     <size>20</size>
     <color>1.0 1.0 1.0</color>
     <value>1st</value>
   </text>
   <text>
-    <position>250 520</position>
+    <position>380 500</position>
     <size>20</size>
     <color>1.0 1.0 1.0</color>
     <value>---</value>
     <name>score-1st</name>
   </text>
   <text>
-    <position>140 540</position>
+    <position>270 540</position>
     <size>20</size>
     <color>1.0 1.0 1.0</color>
     <value>2nd</value>
   </text>
   <text>
-    <position>250 540</position>
+    <position>380 540</position>
     <size>20</size>
     <color>1.0 1.0 1.0</color>
     <value>---</value>
     <name>score-2nd</name>
   </text>
   <text>
-    <position>140 560</position>
+    <position>270 580</position>
     <size>20</size>
     <color>1.0 1.0 1.0</color>
     <value>3rd</value>
   </text>
   <text>
-    <position>250 560</position>
+    <position>380 580</position>
     <size>20</size>
     <color>1.0 1.0 1.0</color>
     <value>---</value>
@@ -110,9 +110,14 @@
 
 <layer>
   <sprite>
+    <position>1000 50</position>
+    <size>253 603</size>
+    <texture>textures/cowboy.png</texture>
+  </sprite>
+  <sprite>
     <position>0 0</position>
     <size>1280 720</size>
-    <texture>textures/error.png</texture>
+    <texture>textures/level-menu.png</texture>
   </sprite>
 </layer>
 
