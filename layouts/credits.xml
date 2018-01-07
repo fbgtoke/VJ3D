@@ -1,4 +1,4 @@
-<gui layers=5>
+<gui layers=6>
 
 <layer>
   <text>
@@ -18,12 +18,6 @@
     <size>26</size>
     <color>0.5 0.5 0.5</color>
     <value>-XML master</value>
-  </text>
-  <text>
-    <position>0 140</position>
-    <size>26</size>
-    <color>0.5 0.5 0.5</color>
-    <value>-Most commits</value>
   </text>
 </layer>
 <layer>
@@ -58,7 +52,7 @@
     <position>860 140</position>
     <size>26</size>
     <color>0.5 0.5 0.5</color>
-    <value>-Sound Artist</value>
+    <value>-XML slave</value>
   </text>
 </layer>
 <layer>
@@ -72,11 +66,29 @@
 
 <layer>
   <text>
-    <position>550 600</position>
+    <position>0 600</position>
     <size>18</size>
     <color>1.0 0.0 0.0</color>
-    <value>OTHER STUFF</value>
+    <value>SPECIAL THANKS:</value>
   </text>
+  <sprite>
+    <position>500 600</position>
+    <size>272 72</size>
+    <texture>textures/soundresource.png</texture>
+  </sprite>
+  <sprite>
+    <position>800 600</position>
+    <size>272 72</size>
+    <texture>textures/spriteresource.png</texture>
+  </sprite>
+</layer>
+
+<layer>
+  <sprite>
+    <position>0 0</position>
+    <size>1280 720</size>
+    <texture>textures/menu.png</texture>
+  </sprite>
 </layer>
 
 </gui>

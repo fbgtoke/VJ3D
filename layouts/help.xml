@@ -2,27 +2,52 @@
 
 <layer>
   <sprite>
-    <position>20 100</position>
-    <size>256 168</size>
-    <texture>textures/WASD.png</texture>
+    <position>130 200</position>
+    <size>80 80</size>
+    <texture>textures/W_white.png</texture>
+    <name>W</name>
+  </sprite>
+  <sprite>
+    <position>50 280</position>
+    <size>80 80</size>
+    <texture>textures/A_white.png</texture>
+    <name>A</name>
+  </sprite>
+  <sprite>
+    <position>130 280</position>
+    <size>80 80</size>
+    <texture>textures/S_white.png</texture>
+    <name>S</name>
+  </sprite>
+  <sprite>
+    <position>210 280</position>
+    <size>80 80</size>
+    <texture>textures/D_white.png</texture>
+    <name>D</name>
   </sprite>
   <text>
-    <position>300 20</position>
-    <size>24</size>
-    <color>1.0 0.0 0.0</color>
-    <value>MODELO COWBOY MOVIENDOSE</value>
-  </text>
-  <text>
-    <position>0 0</position>
+    <position>0 50</position>
     <size>24</size>
     <color>0.8 0.8 0.8</color>
     <value>YOU CAN MOVE USING THE ARROW KEYS OR THE MOUSE</value>
   </text>
   <text>
-    <position>20 300</position>
+    <position>20 600</position>
     <size>24</size>
     <color>0.8 0.8 0.8</color>
-    <value>CAMERA MOVES FORWARD SLOWLY, YOU DIE IF YOU ARE OUT OF BOUNDS, GET TO THE END OF THE LEVEL IN ORDER TO WIN.</value>
+    <value>CAMERA MOVES FORWARD SLOWLY</value>
+  </text>
+  <text>
+    <position>20 624</position>
+    <size>24</size>
+    <color>0.8 0.8 0.8</color>
+    <value>YOU DIE IF YOU ARE OUT OF BOUNDS</value>GET TO THE END OF THE LEVEL IN ORDER TO WIN.</value>
+  </text>
+  <text>
+    <position>20 648</position>
+    <size>24</size>
+    <color>0.8 0.8 0.8</color>
+    <value>GET TO THE END OF THE LEVEL IN ORDER TO WIN.</value>
   </text>
 </layer>
 

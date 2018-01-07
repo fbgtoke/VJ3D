@@ -18,7 +18,6 @@ public:
     Idle,
     onBoat,
     Moving,
-    towardsBoat,
     Exploding,
     Drowning,
     Dead
