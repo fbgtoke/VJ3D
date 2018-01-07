@@ -17,6 +17,12 @@
     <position>-10 210</position>
     <size>26</size>
     <color>0.3 0.3 0.3</color>
+    <value>-Side Programmer</value>
+  </text>
+  <text>
+    <position>-10 240</position>
+    <size>26</size>
+    <color>0.3 0.3 0.3</color>
     <value>-XML master</value>
   </text>
 </layer>
@@ -70,15 +76,39 @@
     <value>SPECIAL THANKS:</value>
   </text>
   <sprite>
-    <position>450 550</position>
+    <position>350 550</position>
     <size>272 72</size>
     <texture>textures/soundresource.png</texture>
   </sprite>
   <sprite>
-    <position>750 550</position>
+    <position>700 550</position>
     <size>272 72</size>
     <texture>textures/spriteresource.png</texture>
   </sprite>
+  <text>
+    <position>350 650</position>
+    <size>18</size>
+    <color>0.5 0.5 0.5</color>
+    <value>-Antonio Chica</value>
+  </text>
+  <text>
+    <position>350 680</position>
+    <size>18</size>
+    <color>0.5 0.5 0.5</color>
+    <value>-Joan Fons</value>
+  </text>
+  <text>
+    <position>700 650</position>
+    <size>18</size>
+    <color>0.5 0.5 0.5</color>
+    <value>-Jesus Alonso</value>
+  </text>
+  <text>
+    <position>700 680</position>
+    <size>18</size>
+    <color>0.5 0.5 0.5</color>
+    <value>-Victor Anton</value>
+  </text>
 </layer>
 
 <layer>
