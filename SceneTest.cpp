@@ -311,8 +311,18 @@ void SceneTest::initGui() {
   mGui->hideLayer(1);
 }
 
-void SceneTest::updateGui() {
-  Scene::updateGui();
+void SceneTest::updateGui(int deltaTime) {
+  Scene::updateGui(deltaTime);
+
+  if (mState == SceneTest::Playing) {
+    if (mPlayer->isDrunk()) {
+      mGui->getSprite("scene-frame")->setShader(Game::instance().getResource().shader("drunk"));
+      Game::instance().setBackgroundMusicPitch(0.5f);
+    } else {
+      mGui->getSprite("scene-frame")->setShader(Game::instance().getResource().shader("sprite"));
+      Game::instance().setBackgroundMusicPitch(1.f);
+    }
+  }
 
   Text* scoreText = mGui->getText("score-text");
   if (scoreText != nullptr) {
@@ -350,6 +360,8 @@ void SceneTest::changeState(SceneTest::State state) {
     mGui->getSprite("scene-frame")->setShader(Game::instance().getResource().shader("post"));
     break;
   case SceneTest::Win:
+    mGui->getSprite("scene-frame")->setShader(Game::instance().getResource().shader("sprite"));
+    Game::instance().setBackgroundMusicPitch(1.f);
     Game::instance().getScene()->playSoundEffect("youWon.ogg");
     break;
   }

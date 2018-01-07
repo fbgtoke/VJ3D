@@ -38,6 +38,7 @@ public:
 	ResourceManager& getResource();
 
 	void setBackgroundMusic(const std::string& name, float volume = 50.f);
+	void setBackgroundMusicPitch(float pitch);
 
 private:
 	bool bPlay;                       // Continue to play game?

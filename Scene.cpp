@@ -58,7 +58,7 @@ void Scene::update(int deltaTime) {
   checkSoundEffects();
   checkParticles(deltaTime);
 
-  updateGui();
+  updateGui(deltaTime);
 }
 
 void Scene::render() {
@@ -139,7 +139,10 @@ void Scene::checkParticles(int deltaTime) {
 
 void Scene::initGui() {}
 
-void Scene::updateGui() {}
+void Scene::updateGui(int deltaTime) {
+  if (mGui != nullptr)
+    mGui->update(deltaTime);
+}
 
 void Scene::renderGui() {
   if (mGui != nullptr)

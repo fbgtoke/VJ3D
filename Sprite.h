@@ -14,6 +14,7 @@ public:
   static Sprite* create(const glm::vec2& size, Texture* texture);
 
   virtual void init();
+  virtual void update(int deltaTime);
   virtual void render();
 
   void resize(const glm::vec2& size);
@@ -40,6 +41,8 @@ protected:
 
   ShaderProgram* mShader;
   Model mModel;
+
+  int mCurrentTime;
 };
 
 #endif // _SPRITE_INCLUDE

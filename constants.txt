@@ -8,6 +8,7 @@ int explodingTime 5000
 float maxBoatDistance 26
 int minJumpsChangeSound 5
 int maxJumpsChangeSound 10
+int drunkCountdownMax 10000
 
 ##### Score #####
 int scorePerTile 10

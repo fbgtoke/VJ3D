@@ -55,6 +55,9 @@ void Player::init() {
   mTimerActivated = false;
 
   mJumpsChangeSound = randomInt(kMinJumpsChangeSound, kMaxJumpsChangeSound);
+
+  mDrunk = false;
+  kDrunkCountdownMax = Game::instance().getResource().Int("drunkCountdownMax");
 }
 
 void Player::update(int deltaTime) {
@@ -79,6 +82,11 @@ void Player::update(int deltaTime) {
 
   if (mState == Player::Exploding && timerExpired())
     changeState(Player::Dead);
+
+  if (mDrunk) {
+    mDrunkCountdown -= deltaTime;
+    mDrunk = (mDrunkCountdown > 0);
+  }
 }
 
 void Player::beforeRender() {
@@ -211,6 +219,12 @@ void Player::onCollision(Model* model) {
         Game::instance().getScene()->playSoundEffect("bonus.ogg");
       }
       break;
+    case Obstacle::Bottle:
+      mDrunk = true;
+      mDrunkCountdown = kDrunkCountdownMax;
+      obstacle->destroy();
+      Game::instance().getScene()->playSoundEffect("bonus.ogg");
+      break;
     default:
       break;
     }
@@ -233,6 +247,8 @@ void Player::getAdjacentTiles(glm::vec3 v[3][3]) const {
   v[2][1] = position + OUT;
   v[2][2] = position + RIGHT + OUT;
 }
+
+bool Player::isDrunk() const { return mDrunk; }
 
 bool Player::checkCollisions() const { return true; }
 

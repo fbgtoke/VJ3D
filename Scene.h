@@ -59,7 +59,7 @@ protected:
 
 	Gui* mGui;
 	virtual void initGui();
-	virtual void updateGui();
+	virtual void updateGui(int deltaTime);
 	virtual void renderGui();
 };
 

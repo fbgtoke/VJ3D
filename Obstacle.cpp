@@ -39,6 +39,15 @@ void Obstacle::init() {
     mAnimation.setTimePerFrame(0);
     mAnimation.changeAnimation(0);
     break;
+  case Obstacle::Bottle:
+    mAnimation.setNumberOfAnimations(1);
+    frame.mesh = Game::instance().getResource().mesh("bonus2.obj");
+    frame.transform = glm::mat4(1.f);
+    mAnimation.addFrame(0, frame);
+    mAnimation.setTimePerFrame(0);
+    mAnimation.changeAnimation(0);
+    setScale(glm::vec3(0.5f));
+    break;
   case Obstacle::Carriage:
     mAnimation.setNumberOfAnimations(1);
     frame.transform = glm::mat4(1.f);
@@ -95,8 +104,8 @@ void Obstacle::update(int deltaTime) {
 
   if (mVelocity.x >= 0.f) {
     if (mType == Obstacle::Horse)
-      mScale.z = -1.f;
+      mScale.z = mScale.z < 0.f? mScale.z : mScale.z * (-1.f);
     else
-      mScale.x = -1.f;
+      mScale.x = mScale.x < 0.f? mScale.x : mScale.x * (-1.f);
   }
 }

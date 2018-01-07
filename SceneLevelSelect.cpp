@@ -46,8 +46,8 @@ void SceneLevelSelect::initGui() {
   mGui = Game::instance().getResource().layout("level-select.xml");
 }
 
-void SceneLevelSelect::updateGui() {
-  Scene::updateGui();
+void SceneLevelSelect::updateGui(int deltaTime) {
+  Scene::updateGui(deltaTime);
 
   glm::vec2 position = mGui->getSprite("level" + std::to_string(mCurrentSelected + 1))->getPosition();
   mGui->getSprite("level-selector")->setPosition(position);

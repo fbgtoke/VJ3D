@@ -11,6 +11,14 @@ void Gui::init() {
   setNumberOfLayers(0);
 }
 
+void Gui::update(int deltaTime) {
+  for (unsigned int i = 0; i < mLayers.size(); ++i) {
+    for (Sprite* sprite : mLayers[i]) {
+      sprite->update(deltaTime);
+    }
+  }
+}
+
 void Gui::render() {
   glm::mat4 PM = getProjectionMatrix();
   glm::mat4 VM = getViewMatrix();

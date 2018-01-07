@@ -68,6 +68,10 @@ Obstacle* LevelGenerator::generateObstacle(Level* level, const glm::vec3& positi
   case 15:
     obstacle = LevelGenerator::generateSpawner(level, value);
     break;
+  case 16:
+    obstacle = new Obstacle(Obstacle::Bottle);
+    obstacle->init();
+    break;
   default:
     obstacle = nullptr;
     break;

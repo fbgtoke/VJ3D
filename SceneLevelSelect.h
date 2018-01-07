@@ -19,7 +19,7 @@ private:
   void nextOption();
 
   void initGui() override;
-  void updateGui() override;
+  void updateGui(int deltaTime) override;
 };
 
 #endif // SCENE_LEVEL_SELECT_INCLUDE

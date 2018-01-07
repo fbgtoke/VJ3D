@@ -10,6 +10,7 @@ public:
     Stump,
     Stone,
     Bonus,
+    Bottle,
     Carriage,
     Horse,
     Boat,

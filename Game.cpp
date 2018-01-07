@@ -70,6 +70,12 @@ void Game::setBackgroundMusic(const std::string& name, float volume) {
 		mBackgroundMusic = music;
 		mBackgroundMusic->play();
     mBackgroundMusic->setVolume(100.f);
+    mBackgroundMusic->setPitch(1.f);
     mBackgroundMusic->setLoop(true);
 	}
+}
+
+void Game::setBackgroundMusicPitch(float pitch) {
+	if (mBackgroundMusic != nullptr)
+		mBackgroundMusic->setPitch(pitch);
 }

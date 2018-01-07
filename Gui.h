@@ -11,6 +11,7 @@ public:
   ~Gui();
 
   void init();
+  void update(int deltaTime);
   void render();
   void clear();
 

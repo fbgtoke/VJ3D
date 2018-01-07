@@ -20,9 +20,18 @@ void Sprite::init() {
 
   mModel.init();
   mModel.setMesh(Game::instance().getResource().mesh("plane.obj"));
+
+  mCurrentTime = 0;
+}
+
+void Sprite::update(int deltaTime) {
+  mCurrentTime += deltaTime;
 }
 
 void Sprite::render() {
+  mShader->setUniform2f("resolution", SCREEN_WIDTH, SCREEN_HEIGHT);
+  mShader->setUniform1i("time", mCurrentTime);
+
   glm::vec3 offset;
   offset.x = abs(mModel.getScale().x) * 0.5f;
   offset.y = abs(mModel.getScale().y) * 0.5f;

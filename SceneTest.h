@@ -51,7 +51,7 @@ private:
   DepthBuffer mDepthbuffer;
 
   void initGui() override;
-  void updateGui() override;
+  void updateGui(int deltaTime) override;
   void renderGui() override;
 
   enum State {
