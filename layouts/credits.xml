@@ -76,35 +76,41 @@
     <value>SPECIAL THANKS:</value>
   </text>
   <sprite>
-    <position>350 550</position>
+    <position>250 550</position>
     <size>272 72</size>
     <texture>textures/soundresource.png</texture>
   </sprite>
   <sprite>
-    <position>700 550</position>
+    <position>550 550</position>
     <size>272 72</size>
     <texture>textures/spriteresource.png</texture>
   </sprite>
   <text>
-    <position>350 650</position>
+    <position>850 520</position>
+    <size>18</size>
+    <color>0.9 0.9 0.9</color>
+    <value>And also:</value>
+  </text>
+  <text>
+    <position>920 550</position>
     <size>18</size>
     <color>0.5 0.5 0.5</color>
     <value>-Antonio Chica</value>
   </text>
   <text>
-    <position>350 680</position>
+    <position>920 580</position>
     <size>18</size>
     <color>0.5 0.5 0.5</color>
     <value>-Joan Fons</value>
   </text>
   <text>
-    <position>700 650</position>
+    <position>920 610</position>
     <size>18</size>
     <color>0.5 0.5 0.5</color>
     <value>-Jesus Alonso</value>
   </text>
   <text>
-    <position>700 680</position>
+    <position>920 640</position>
     <size>18</size>
     <color>0.5 0.5 0.5</color>
     <value>-Victor Anton</value>
