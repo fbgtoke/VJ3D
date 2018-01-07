@@ -9,7 +9,6 @@ uniform vec3 lightColor;
 in vec3 normalFrag;
 in vec2 texcoordFrag;
 in vec4 shadowCoord;
-in vec4 vertexWorld;
 
 layout(location = 0) out vec4 outColor;
 

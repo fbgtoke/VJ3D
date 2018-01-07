@@ -29,6 +29,9 @@ void Model::beforeRender() {
   
   glm::mat4 TG = getTransform();
   glUniformMatrix4fv(2, 1, GL_FALSE, glm::value_ptr(TG));
+
+  glm::mat3 rotationMatrix = glm::transpose(glm::inverse(glm::mat3(TG)));
+  glUniformMatrix3fv(3, 1, GL_FALSE, glm::value_ptr(rotationMatrix));
 }
 
 void Model::render() {
