@@ -23,20 +23,20 @@
 
 <layer>
   <text>
-    <position>0 0</position>
+    <position>0 20</position>
     <size>24</size>
     <color>0.2 0.2 0.2</color>
     <value>Score: </value>
   </text>
   <text>
-    <position>144 0</position>
+    <position>144 20</position>
     <size>24</size>
     <color>0.0 0.6 0.8</color>
     <name>score-text</name>
   </text>
   <sprite>
-    <position>250 0</position>
-    <size>32 32</size>
+    <position>240 20</position>
+    <size>24 24</size>
     <texture>sheriff.png</texture>
   </sprite> 
 </layer>
