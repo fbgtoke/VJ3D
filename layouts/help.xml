@@ -1,4 +1,4 @@
-<gui layers=3>
+<gui layers=4>
 
 <layer>
   <sprite>
@@ -80,6 +80,15 @@
     <size>24</size>
     <color>0.8 0.8 0.8</color>
     <value>GET TO THE END OF THE LEVEL TO WIN</value>
+  </text>
+</layer>
+
+<layer>
+  <text>
+    <position>450 200</position>
+    <size>24</size>
+    <color>0.8 0.8 0.8</color>
+    <value>SURPRISE :-)</value>
   </text>
 </layer>
 

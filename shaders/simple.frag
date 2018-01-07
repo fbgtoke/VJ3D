@@ -13,6 +13,9 @@ void main() {
   float cosTheta = clamp(dot(normalFrag, -lightDir), 0, 1);
   vec4 texcolor = texture(tex, texcoordFrag);
 
+  if (texcolor.w < 0.5)
+    discard;
+    
   vec4 color = texcolor * cosTheta;
 
 	outColor = color;

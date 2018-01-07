@@ -5,6 +5,7 @@
     <position>0 0</position>
     <size>1280 720</size>
     <texture>textures/menu.png</texture>
+    <name>background</name>
   </sprite>
 </layer>
 

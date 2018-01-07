@@ -40,6 +40,7 @@ public:
   void getAdjacentTiles(glm::vec3 v[3][3]) const;
 
   bool isDrunk() const;
+  void playJumpSound();
 
 private:
   float kTol;
@@ -65,7 +66,6 @@ private:
   int kMinJumpsChangeSound;
   int kMaxJumpsChangeSound;
   int mJumpsChangeSound;
-  void playJumpSound();
 
   bool mDrunk;
   int kDrunkCountdownMax;

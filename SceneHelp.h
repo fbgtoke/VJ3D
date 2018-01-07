@@ -4,7 +4,6 @@
 #include "utils.h"
 #include "Scene.h"
 #include "Model.h"
-#include "Sun.h"
 #include "Camera.h"
 #include "Player.h"
 
@@ -22,14 +21,14 @@ public:
   glm::mat4 getViewMatrix() const override;
 
 private:
-  Sun mSun;
   Camera mCamera;
 
-  std::vector<Model*> mModels[3];
+  std::vector<Model*> mModels[4];
   int mCountdown;
   void initLayer0();
   void initLayer1();
   void initLayer2();
+  void initLayer3();
 
   void updateLayer0(int deltaTime);
 

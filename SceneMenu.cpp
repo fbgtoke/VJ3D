@@ -14,21 +14,6 @@ SceneMenu::~SceneMenu() {
 void SceneMenu::init() {
 	Scene::init();
 
-	float FOV = (float)M_PI/3.f;
-	float ar = (float)SCREEN_WIDTH/(float)SCREEN_HEIGHT;
-	float znear = 0.1f;
-	float zfar  = 10000.f;
-	mProjectionMatrix = glm::perspective(FOV, ar, znear, zfar);
-
-  VRP = glm::vec3(3, -1, -1) * TILE_SIZE;
-  OBS = glm::vec3(3, -1, 5) * TILE_SIZE;
-  mViewMatrix = glm::lookAt(OBS, VRP, UP);
-
-  kLightDirection.x = Game::instance().getResource().Float("menulightDir_x");
-  kLightDirection.y = Game::instance().getResource().Float("menulightDir_y");
-  kLightDirection.z = Game::instance().getResource().Float("menulightDir_z");
-  kLightDirection = glm::normalize(kLightDirection);
-
   mCurrentOption = NEW_GAME;
   
   mOptions.push_back(Model::create("newgame.obj", "palette.png"));
@@ -104,7 +89,7 @@ void SceneMenu::update(int deltaTime) {
 
 void SceneMenu::render() {
   Scene::render();
-  
+
   for (int i = 0; i < NUM_OPTIONS; ++i)
     mOptions[i]->render();
 }
@@ -125,4 +110,30 @@ void SceneMenu::nextOption() {
     mCurrentOption = static_cast<MenuOption>(mCurrentOption + 1);
 
   Game::instance().getScene()->playSoundEffect("cursorMove.ogg");
+}
+
+glm::vec3 SceneMenu::getLightDirection() const { return glm::vec3(-.5f, -1.f, -.5f); }
+
+glm::mat4 SceneMenu::getProjectionMatrix() const {
+  return glm::ortho(
+    0.f, 0.125f * SCREEN_WIDTH,
+    0.f, 0.125f * SCREEN_HEIGHT,
+    0.f,
+    100.f
+  );
+}
+
+glm::mat4 SceneMenu::getViewMatrix() const {
+  return glm::lookAt(
+    glm::vec3(TILE_SIZE * -5.f, TILE_SIZE * -4.f, 10.f),
+    glm::vec3(TILE_SIZE * -5.f, TILE_SIZE * -4.f, -10.f),
+    UP
+  );
+}
+
+void SceneMenu::initGui() {
+  Scene::initGui();
+
+  mGui = Game::instance().getResource().layout("menu.xml");
+  mGui->getSprite("background")->move(IN * 1000.f);
 }

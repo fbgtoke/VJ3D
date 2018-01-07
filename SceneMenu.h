@@ -28,6 +28,12 @@ private:
   void prevOption();
   void nextOption();
   void selectOption();
+
+  glm::vec3 getLightDirection() const override;
+  glm::mat4 getProjectionMatrix() const override;
+  glm::mat4 getViewMatrix() const override;
+
+  void initGui() override;
 };
 
 #endif // _SCENE_MENU_INCLUDE

@@ -206,6 +206,9 @@ void SceneTest::checkPlayerInput() {
     else if (direction == OUT) removeScore(kScorePerTile);
     else removeScore(kScorePerSideWalk);
   }
+
+  if (jumping && stumpInTarget)
+    mPlayer->playJumpSound();
 }
 
 void SceneTest::checkPlayerOutOfBounds() {

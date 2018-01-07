@@ -5,7 +5,7 @@ SceneHelp::SceneHelp()
   : Scene(Scene::SCENE_HELP) {}
 
 SceneHelp::~SceneHelp() {
-  for (int i = 0; i < 3; ++i) {
+  for (int i = 0; i < 4; ++i) {
     for (Model* model : mModels[i])
       delete model;
     mModels[i].clear();
@@ -20,13 +20,11 @@ void SceneHelp::init() {
   initLayer0();
   initLayer1();
   initLayer2();
+  initLayer3();
 
   mCamera.init();
   mCamera.follow(mModels[0][2]);
   mCamera.move(OUT * 3.f * TILE_SIZE + LEFT * 1.f * TILE_SIZE);
-
-  mSun.init();
-  mSun.setCurrentTime((float)M_PI * 0.75f);
 
   mCurrentLayer = 0;
 }
@@ -137,6 +135,15 @@ void SceneHelp::initLayer2() {
   mModels[2].push_back(goal);
 }
 
+void SceneHelp::initLayer3() {
+  Model* bottle = new Model();
+  bottle->init();
+  bottle->setMesh(Game::instance().getResource().mesh("bonus2.obj"));
+  bottle->setTexture(Game::instance().getResource().texture("palette.png"));
+  bottle->setPositionInTiles(glm::vec3(0.f, 0.f, 2.f));
+  mModels[3].push_back(bottle);
+}
+
 void SceneHelp::updateLayer0(int deltaTime) {
   Player* cowboy = dynamic_cast<Player*>(mModels[0][mModels[0].size() - 1]);
 
@@ -218,7 +225,7 @@ void SceneHelp::update(int deltaTime) {
     Game::instance().changeScene(Scene::SCENE_MENU);
 
   if (InputManager::getAction(InputManager::Accept)) {
-    if (mCurrentLayer < 2)
+    if (mCurrentLayer < 3)
       nextLayer();
     else
       Game::instance().changeScene(Scene::SCENE_MENU);
@@ -248,11 +255,12 @@ void SceneHelp::initGui() {
   mGui->showLayer(0);
   mGui->hideLayer(1);
   mGui->hideLayer(2);
+  mGui->hideLayer(3);
 }
 
 void SceneHelp::nextLayer() {
   mGui->hideLayer(mCurrentLayer);
 
-  mCurrentLayer = (mCurrentLayer + 1)%3;
+  mCurrentLayer = (mCurrentLayer + 1)%4;
   mGui->showLayer(mCurrentLayer);
 }

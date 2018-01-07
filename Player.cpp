@@ -223,7 +223,7 @@ void Player::onCollision(Model* model) {
       mDrunk = true;
       mDrunkCountdown = kDrunkCountdownMax;
       obstacle->destroy();
-      Game::instance().getScene()->playSoundEffect("bonus.ogg");
+      Game::instance().getScene()->playSoundEffect("drink.ogg");
       break;
     default:
       break;
