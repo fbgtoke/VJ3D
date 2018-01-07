@@ -17,7 +17,7 @@ void SceneTest::init() {
 	Scene::init();
   InputManager::enableTouchControls(true);
 
-  mLevel.loadFromFile("levels/" + mLevelName + "/");
+  mLevel.loadFromFile(mLevelName);
   
   initPlayer();
   mCamera.init();
@@ -355,6 +355,7 @@ void SceneTest::changeState(SceneTest::State state) {
     break;
   case SceneTest::Dead:
     mCamera.setMoving(false);
+    Game::instance().setBackgroundMusicPitch(1.f);
     Game::instance().getScene()->playSoundEffect("youLose.ogg");
     mGui->showLayer(2);
     mGui->getSprite("scene-frame")->setShader(Game::instance().getResource().shader("post"));
@@ -363,6 +364,7 @@ void SceneTest::changeState(SceneTest::State state) {
     mGui->getSprite("scene-frame")->setShader(Game::instance().getResource().shader("sprite"));
     Game::instance().setBackgroundMusicPitch(1.f);
     Game::instance().getScene()->playSoundEffect("youWon.ogg");
+    mLevel.updateHighscore();
     break;
   }
 

@@ -13,6 +13,7 @@ void Level::loadFromFile(const std::string& filename) {
 void Level::init(const std::string& name) {
   mName = name;
   mTilemap.init();
+  readHighscores(mName, mHighscores);
 }
 
 void Level::update(int deltaTime) {
@@ -113,28 +114,38 @@ void Level::setName(const std::string& name) { mName = name; }
 
 std::string Level::getName() const { return mName; }
 
-void Level::readHighscores() {
-  std::ifstream stream("levels/" + mName + "/highscores.txt");
+void Level::readHighscores(const std::string& name, std::vector<unsigned int>& v) {
+  v.clear();
+
+  std::ifstream stream("levels/" + name + "/highscores.txt");
 
   if (stream.is_open()) {
     unsigned int score;
     while (stream >> score) {
-      mHighscores.push_back(score);
+      v.push_back(score);
     }
     stream.close();
   } else {
-    std::cout << "Could not find highscores for level " << mName << std::endl;
-    mHighscores = std::vector<unsigned int>(3, 0);
+    std::cout << "Could not find highscores for level " << name << std::endl;
+    v = std::vector<unsigned int>(3, 0);
   }
 }
 
 void Level::saveHighscores() const {
-  std::ofstream stream("levels/" + mName + "/highsocres.txt", ios::trunc);
+  std::ofstream stream("levels/" + mName + "/highscores.txt", ios::trunc);
 
   for (unsigned int score : mHighscores)
     stream << score << std::endl;
 
   stream.close();
+}
+
+void Level::updateHighscore() {
+  mHighscores.push_back(Game::instance().getResource().Int("score"));
+  std::sort(mHighscores.rbegin(), mHighscores.rend());
+  mHighscores.resize(3);
+
+  saveHighscores();
 }
 
 std::vector<unsigned int> Level::getHighscores() const { return mHighscores; }

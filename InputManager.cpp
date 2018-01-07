@@ -31,17 +31,29 @@ void InputManager::update() {
 bool InputManager::getAction(InputManager::Action action) {
   switch (action) {
   case InputManager::Left:
-    return getKeyPressed('a') || (mTouchControlsEnabled && getMouseButtonPressed() && mouseIsInQuarter(2));
+    return
+      getKeyPressed('a') ||
+      getKeyPressed('A') ||
+      (mTouchControlsEnabled && getMouseButtonPressed() && mouseIsInQuarter(2));
   case InputManager::Right:
-    return getKeyPressed('d') || (mTouchControlsEnabled && getMouseButtonPressed() && mouseIsInQuarter(0));
+    return
+      getKeyPressed('d') ||
+      getKeyPressed('D') ||
+      (mTouchControlsEnabled && getMouseButtonPressed() && mouseIsInQuarter(0));
   case InputManager::Up:
-    return getKeyPressed('w') || (mTouchControlsEnabled && getMouseButtonPressed() && mouseIsInQuarter(1));
+    return
+      getKeyPressed('w') ||
+      getKeyPressed('W') ||
+      (mTouchControlsEnabled && getMouseButtonPressed() && mouseIsInQuarter(1));
   case InputManager::Down:
-    return getKeyPressed('s') || (mTouchControlsEnabled && getMouseButtonPressed() && mouseIsInQuarter(3));
+    return
+      getKeyPressed('s') ||
+      getKeyPressed('S') ||
+      (mTouchControlsEnabled && getMouseButtonPressed() && mouseIsInQuarter(3));
   case InputManager::Accept:
-    return getKeyPressed('z');
+    return getKeyPressed('z') || getKeyPressed('Z');
   case InputManager::Cancel:
-    return getKeyPressed('x');
+    return getKeyPressed('x') || getKeyPressed('X');
   case InputManager::Close:
     return getKeyPressed(27);
   }

@@ -33,8 +33,9 @@ public:
   void setName(const std::string& name);
   std::string getName() const;
 
-  void readHighscores();
+  static void readHighscores(const std::string& name, std::vector<unsigned int>& v);
   void saveHighscores() const;
+  void updateHighscore();
   std::vector<unsigned int> getHighscores() const;
 
 private:

@@ -51,6 +51,13 @@ void SceneLevelSelect::updateGui(int deltaTime) {
 
   glm::vec2 position = mGui->getSprite("level" + std::to_string(mCurrentSelected + 1))->getPosition();
   mGui->getSprite("level-selector")->setPosition(position);
+
+  std::string levelName = "level" + std::to_string(mCurrentSelected + 1);
+  std::vector<unsigned int> scores;
+  Level::readHighscores(levelName, scores);
+  mGui->getText("score-1st")->setString(std::to_string(scores[0]));
+  mGui->getText("score-2nd")->setString(std::to_string(scores[1]));
+  mGui->getText("score-3rd")->setString(std::to_string(scores[2]));
 }
 
 void SceneLevelSelect::prevOption() {
