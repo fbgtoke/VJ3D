@@ -4,6 +4,9 @@
 #include "utils.h"
 #include "Scene.h"
 #include "Model.h"
+#include "Sun.h"
+#include "Camera.h"
+#include "Player.h"
 
 class SceneHelp : public Scene {
 public:
@@ -14,7 +17,20 @@ public:
   void update(int deltaTime) override;
   void render() override;
 
+  glm::vec3 getLightDirection() const override;
+  glm::mat4 getProjectionMatrix() const override;
+  glm::mat4 getViewMatrix() const override;
+
 private:
+  Sun mSun;
+  Camera mCamera;
+
+  std::vector<Model*> mModels[3];
+  int mCountdown;
+  void initLayer0();
+  void updateLayer0(int deltaTime);
+  void renderLayer0();
+
   void initGui() override;
 
   unsigned int mCurrentLayer;

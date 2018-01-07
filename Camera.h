@@ -14,6 +14,7 @@ public:
 
   void setMoving(bool moving);
   void follow(const Model* model);
+  void move(const glm::vec3& direction);
 
   bool outOfView(const Model* model) const;
 

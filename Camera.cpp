@@ -51,6 +51,11 @@ void Camera::follow(const Model* model) {
   }
 }
 
+void Camera::move(const glm::vec3& direction) {
+  OBS += direction;
+  VRP += direction;
+}
+
 bool Camera::outOfView(const Model* model) const {
   glm::vec4 homoPosition(model->getCenter(), 1.0f);
   glm::vec4 projectedPosition =
