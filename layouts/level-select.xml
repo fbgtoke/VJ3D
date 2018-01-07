@@ -49,7 +49,7 @@
   <sprite>
     <position>750 250</position>
     <size>128 128</size>
-    <texture>levels/level3/thumbnail.png</texture>
+    <texture>levels/level4/thumbnail.png</texture>
     <name>level4</name>
   </sprite>
   <text>
