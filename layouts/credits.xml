@@ -1,4 +1,4 @@
-<gui layers=5>
+<gui layers=6>
 
 <layer>
   <text>
@@ -80,6 +80,14 @@
     <position>800 600</position>
     <size>272 72</size>
     <texture>textures/spriteresource.png</texture>
+  </sprite>
+</layer>
+
+<layer>
+  <sprite>
+    <position>0 0</position>
+    <size>1280 720</size>
+    <texture>textures/menu.png</texture>
   </sprite>
 </layer>
 
