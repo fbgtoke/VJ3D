@@ -41,8 +41,10 @@ void SceneTest::init() {
 void SceneTest::update(int deltaTime) {
   Scene::update(deltaTime);
 
-  if (InputManager::getAction(InputManager::Close)) // Escape
+  if (InputManager::getAction(InputManager::Close)) {
     Game::instance().changeScene(Scene::SCENE_LEVEL_SELECT);
+    Game::instance().getBufferedScene()->receiveString("level-name", mLevel.getName());
+  }
 
   if (mLevelName == "") {
     std::cout << "No level selected!" << std::endl;
@@ -79,12 +81,16 @@ void SceneTest::update(int deltaTime) {
       changeState(SceneTest::Dead);
     break;
   case SceneTest::Dead:
-    if (InputManager::getAction(InputManager::Accept))
+    if (InputManager::getAction(InputManager::Accept)) {
       Game::instance().changeScene(Scene::SCENE_LEVEL_SELECT);
+      Game::instance().getBufferedScene()->receiveString("level-name", mLevel.getName());
+    }
     break;
   case SceneTest::Win:
-    if (mSoundEffects.empty())
+    if (mSoundEffects.empty()) {
       Game::instance().changeScene(Scene::SCENE_LEVEL_SELECT);
+      Game::instance().getBufferedScene()->receiveString("level-name", mLevel.getName());
+    }
   }
 }
 

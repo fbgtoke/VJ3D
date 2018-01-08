@@ -2,7 +2,7 @@
 #include "Game.h"
 
 SceneLevelSelect::SceneLevelSelect()
-  : Scene(Scene::SCENE_LEVEL_SELECT) {}
+  : Scene(Scene::SCENE_LEVEL_SELECT), mLevelName("") {}
 
 SceneLevelSelect::~SceneLevelSelect() {}
 
@@ -13,6 +13,11 @@ void SceneLevelSelect::init() {
   mOptionSelected = false;
 
   Game::instance().setBackgroundMusic("menu.ogg", 100.f);
+
+  if (mLevelName == "level1") mCurrentSelected = 0;
+  if (mLevelName == "level2") mCurrentSelected = 1;
+  if (mLevelName == "level3") mCurrentSelected = 2;
+  if (mLevelName == "level4") mCurrentSelected = 3;
 }
 
 void SceneLevelSelect::update(int deltaTime) {
@@ -38,6 +43,11 @@ void SceneLevelSelect::update(int deltaTime) {
     if (InputManager::getAction(InputManager::Right))
       nextOption();
   }
+}
+
+void SceneLevelSelect::receiveString(const std::string& tag, const std::string str) {
+  if (tag == "level-name")
+    mLevelName = str;
 }
 
 void SceneLevelSelect::initGui() {

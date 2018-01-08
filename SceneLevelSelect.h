@@ -12,7 +12,11 @@ public:
   void init() override;
   void update(int deltaTime) override;
 
+  void receiveString(const std::string& tag, const std::string str) override;
+
 private:
+  std::string mLevelName;
+
   unsigned int mCurrentSelected;
   bool mOptionSelected;
   void prevOption();

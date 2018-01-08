@@ -50,6 +50,10 @@ void ObstacleBonus::pick() {
   mCurrentCycle = 0;
   
   setRotationSpeed(glm::vec3(0.f, kRotationSpeedFast, 0.f));
+
+  int score = Game::instance().getResource().Int("score");
+  int scorePerBonus = Game::instance().getResource().Int("scorePerBonus");
+  Game::instance().getResource().setInt("score", score + scorePerBonus);
 }
 
 bool ObstacleBonus::picked() const { return mState != ObstacleBonus::Idle; }
