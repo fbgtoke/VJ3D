@@ -13,7 +13,7 @@ int drunkCountdownMax 10000
 ##### Score #####
 int scorePerTile 10
 int scorePerSideWalk 1
-int scorePerBonus 20
+int scorePerBonus 30
 
 ##### Obstacles #####
 int PeriodCarriageSlow 4000 // Tiempo entre uno y otro

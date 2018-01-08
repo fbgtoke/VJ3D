@@ -116,7 +116,7 @@ void Level::readHighscores(const std::string& name, std::vector<unsigned int>& v
     }
     stream.close();
   } else {
-    std::cout << "Could not find highscores for level " << name << std::endl;
+    //std::cout << "Could not find highscores for level " << name << std::endl;
     v = std::vector<unsigned int>(3, 0);
   }
 }
